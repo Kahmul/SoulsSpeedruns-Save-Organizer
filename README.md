@@ -10,6 +10,10 @@ The SpeedSouls - Save Organizer is a tool designed to manage savefiles for Dark 
 
 - Java JRE 8 or higher
 
+## Download
+
+[Latest Release](https://github.com/Kahmul/SpeedSouls-Save-Organizer/releases)
+
 
 ## Getting Started
 
@@ -51,6 +55,12 @@ In order to make savefiles with the Save Organizer you have to first set it up a
 
 
 ## Planned Features
+
+- 'Replace Savefile'-functionality
+- Fix various UI issues
+- Allow savefiles to be stored on a different directory
+- Cut/Paste functionality
+- Dragging and dropping multiple saves at once
 
 
 ## Troubleshooting
