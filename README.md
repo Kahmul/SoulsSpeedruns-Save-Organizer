@@ -4,7 +4,17 @@ The SpeedSouls - Save Organizer is a tool designed to manage savefiles for Dark 
 
 ## Features
 
+<center><img src="https://github.com/Kahmul/SpeedSouls-Save-Organizer/blob/master/docs/images/SpeedSoulsFeatures.png"/></center>
 
+    1: Choose your game.
+    2: Choose one of your profiles. You can create these via (3).
+    3: Opens the profile configuration menu. Also allows you to set the directory that contains the game's savefile for each game.
+    4: List of all the savefiles of your selected profile. Create folders to arrange your savefiles. Read-only savefiles are marked with an icon.
+    5: Creates a copy of the game's current savefile and adds it to the save list (4), either by inserting it into your currently selected folder or just by adding to the end of the list.
+    6: Copies the currently selected savefile from the savefile list (4) over the game's current savefile.
+    7: Progressbar indicating the load process started by (6).
+    8: Button to switch your current gamefile to read-only and back. Greyed out if your gamefile is not read-only.
+    9: Opens a context menu with settings and a link to this page.
 
 ## Requirements
 
