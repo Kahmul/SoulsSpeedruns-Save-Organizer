@@ -4,7 +4,7 @@ The SpeedSouls - Save Organizer is a tool designed to manage savefiles for Dark 
 
 ## Features
 
-<center><img src="https://github.com/Kahmul/SpeedSouls-Save-Organizer/blob/master/docs/images/SpeedSoulsFeatures.png"/></center>
+<center><img src="https://github.com/Kahmul/SpeedSouls-Save-Organizer/blob/master/docs/images/SaveOrganizerFeatures.png"/></center>
 
     1: Choose your game.
     2: Choose one of your profiles. You can create these via (3).
