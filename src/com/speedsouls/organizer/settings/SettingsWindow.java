@@ -39,8 +39,8 @@ public class SettingsWindow extends JDialog
 	{
 		super(null, "Settings", Dialog.ModalityType.APPLICATION_MODAL);
 
-		initProperties();
 		initLayout();
+		initProperties();
 
 		setVisible(true);
 	}
@@ -51,11 +51,11 @@ public class SettingsWindow extends JDialog
 	 */
 	private void initProperties()
 	{
+		pack();
+		setResizable(false);
 		OrganizerManager.getKeyboardHook().unregisterHook();
 		setIconImage(OrganizerManager.speedsoulsIcon);
-		setSize(400, 275);
-		setLocationRelativeTo(null);
-		setResizable(false);
+		setLocationRelativeTo(OrganizerManager.getMainWindow());
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
 		addMouseListener(new MouseAdapter() {
 
