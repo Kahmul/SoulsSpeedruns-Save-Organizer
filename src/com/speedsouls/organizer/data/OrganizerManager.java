@@ -961,7 +961,7 @@ public class OrganizerManager
 	 */
 	public static boolean containsIllegals(String toExamine)
 	{
-		String[] arr = toExamine.split("[~#@*+%{}<>\\[\\]|\"\\_^]", 2);
+		String[] arr = toExamine.split("[~#@*%{}<>\\[\\]|\"\\_^]", 2);
 		return arr.length > 1;
 	}
 
