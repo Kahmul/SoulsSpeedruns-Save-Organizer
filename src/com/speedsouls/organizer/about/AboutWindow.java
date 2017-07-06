@@ -34,8 +34,8 @@ public class AboutWindow extends JDialog
 	{
 		super(null, "About SpeedSouls - Save Organizer", Dialog.ModalityType.APPLICATION_MODAL);
 
-		initProperties();
 		initLayout();
+		initProperties();
 
 		setVisible(true);
 	}
@@ -46,10 +46,10 @@ public class AboutWindow extends JDialog
 	 */
 	private void initProperties()
 	{
-		setIconImage(OrganizerManager.speedsoulsIcon);
-		setSize(330, 140);
-		setLocationRelativeTo(null);
+		pack();
 		setResizable(false);
+		setIconImage(OrganizerManager.speedsoulsIcon);
+		setLocationRelativeTo(OrganizerManager.getMainWindow());
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
 	}
 

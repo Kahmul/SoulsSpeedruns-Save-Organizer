@@ -43,6 +43,31 @@ public class AboutPanel extends JPanel
 		JLabel versionNumberLabel = new JLabel(OrganizerManager.VERSION);
 
 		JLabel developerLabel = new JLabel("Developed by:");
+		JLabel developerLink = createDevLink();
+		JLabel githubLink = createGitHubLink();
+
+		// Horizontal
+		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+
+		hGroup.addGroup(layout.createParallelGroup(Alignment.TRAILING).addComponent(versionLabel).addComponent(versionNumberLabel)
+				.addComponent(developerLabel).addComponent(developerLink).addComponent(githubLink));
+
+		layout.setHorizontalGroup(hGroup);
+
+		// Vertical
+		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+
+		vGroup.addComponent(versionLabel).addComponent(versionNumberLabel).addComponent(developerLabel).addComponent(developerLink)
+				.addComponent(githubLink);
+
+		layout.setVerticalGroup(vGroup);
+
+		setLayout(layout);
+	}
+
+
+	private JLabel createDevLink()
+	{
 		JLabel developerNameLabel = new JLabel("<html><body><a href=\"\">Kahmul78</a></body></html>");
 		developerNameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		developerNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -60,23 +85,30 @@ public class AboutPanel extends JPanel
 				}
 			}
 		});
+		return developerNameLabel;
+	}
 
-		// Horizontal
-		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGroup(layout.createParallelGroup(Alignment.TRAILING).addComponent(versionLabel).addComponent(versionNumberLabel)
-				.addComponent(developerLabel).addComponent(developerNameLabel));
+	private JLabel createGitHubLink()
+	{
+		JLabel githubLabel = new JLabel("<html><body><a href=\"\">GitHub Repository</a></body></html>");
+		githubLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		githubLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		githubLabel.addMouseListener(new MouseAdapter() {
 
-		layout.setHorizontalGroup(hGroup);
-
-		// Vertical
-		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
-
-		vGroup.addComponent(versionLabel).addComponent(versionNumberLabel).addComponent(developerLabel).addComponent(developerNameLabel);
-
-		layout.setVerticalGroup(vGroup);
-
-		setLayout(layout);
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				try
+				{
+					Desktop.getDesktop().browse(new URI("www.github.com/Kahmul/SpeedSouls-Save-Organizer"));
+				}
+				catch (Exception ex)
+				{
+				}
+			}
+		});
+		return githubLabel;
 	}
 
 }

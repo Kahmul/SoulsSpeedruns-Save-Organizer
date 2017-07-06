@@ -687,6 +687,15 @@ public class OrganizerManager
 
 
 	/**
+	 * @return the main window
+	 */
+	public static OrganizerWindow getMainWindow()
+	{
+		return mainWindow;
+	}
+
+
+	/**
 	 * Fires a searchRequested event.
 	 * 
 	 * @param input the search input
