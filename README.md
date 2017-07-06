@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Kahmul/SpeedSouls-Save-Organizer.svg?branch=master)](https://travis-ci.org/Kahmul/SpeedSouls-Save-Organizer)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0f60ad59931c4b6e9dc237286a386e36)](https://www.codacy.com/app/kahmul78/SpeedSouls-Save-Organizer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kahmul/SpeedSouls-Save-Organizer&amp;utm_campaign=Badge_Grade)
 
 # <img src="https://github.com/Kahmul/SpeedSouls-Save-Organizer/blob/master/src/com/speedsouls/organizer/resources/SpeedSoulsIcon.png"/> SpeedSouls - Save Organizer
