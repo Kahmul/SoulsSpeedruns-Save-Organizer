@@ -193,7 +193,7 @@ public class OrganizerManager
 	private static void importProfiles(Game game)
 	{
 		String gameDirectoryPath = prefs.get(game.getAbbreviation() + "Path", "ERROR");
-		if (gameDirectoryPath.equals("ERROR"))
+		if ("ERROR".equals(gameDirectoryPath))
 			return;
 		File gameDirectory = new File(gameDirectoryPath);
 		if (!gameDirectory.exists())

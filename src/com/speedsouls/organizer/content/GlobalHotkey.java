@@ -114,7 +114,7 @@ public enum GlobalHotkey
 	public String getKeyCode()
 	{
 		String storedCode = OrganizerManager.getStoredHotkeyCode(this);
-		return storedCode.equals("") ? keyCode : storedCode;
+		return "".equals(storedCode) ? keyCode : storedCode;
 
 	}
 

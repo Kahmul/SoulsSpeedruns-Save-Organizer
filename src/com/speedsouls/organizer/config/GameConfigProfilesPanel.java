@@ -47,7 +47,7 @@ public class GameConfigProfilesPanel extends JPanel
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		listPane.setMinimumSize(new Dimension(100, 130));
 
-		JPanel optionsPanel = createOptionsPanel(game, profileList);
+		JPanel optionsPanel = createOptionsPanel(profileList);
 
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
@@ -86,7 +86,7 @@ public class GameConfigProfilesPanel extends JPanel
 	 * 
 	 * @return the panel containing the buttons
 	 */
-	private JPanel createOptionsPanel(Game game, ProfileList profileList)
+	private JPanel createOptionsPanel(ProfileList profileList)
 	{
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(4, 1));

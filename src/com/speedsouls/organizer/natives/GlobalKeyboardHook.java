@@ -29,6 +29,11 @@ public class GlobalKeyboardHook implements NativeKeyListener
 
 	private boolean hotkeysEnabled = false;
 
+	// Current modification keys being held
+	List<String> mods = new ArrayList<>();
+
+	String tempKey = "";
+
 
 	/**
 	 * Registers a global hotkey hook.
@@ -98,17 +103,13 @@ public class GlobalKeyboardHook implements NativeKeyListener
 	}
 
 
-	List<String> mods = new ArrayList<>();
-	String tempKey = "";
-
-
 	@Override
 	public void nativeKeyReleased(NativeKeyEvent e)
 	{
 		String keyText = NativeKeyEvent.getKeyText(e.getKeyCode());
 		if (keyText.contains("Shift") || keyText.contains("Alt") || keyText.contains("Control"))
 		{
-			if (tempKey.equals(""))
+			if ("".equals(tempKey))
 			{
 				if (mods.size() == 0)
 					return;
