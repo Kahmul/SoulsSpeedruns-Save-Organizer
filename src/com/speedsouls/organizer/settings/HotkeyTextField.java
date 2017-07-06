@@ -125,7 +125,7 @@ public class HotkeyTextField extends JTextField
 				int keyCode = e.getKeyCode();
 				if (keyCode == KeyEvent.VK_SHIFT || keyCode == KeyEvent.VK_CONTROL || keyCode == KeyEvent.VK_ALT)
 				{
-					if (getText().equals("Set Hotkey..."))
+					if ("Set Hotkey...".equals(getText()))
 					{
 						tempKey = "";
 						for (int i = 0; i < mods.size(); i++)

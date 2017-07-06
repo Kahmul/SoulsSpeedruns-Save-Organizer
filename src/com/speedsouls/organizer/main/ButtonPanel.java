@@ -55,7 +55,7 @@ public class ButtonPanel extends JPanel
 
 		progressBar = createProgressBar();
 		JButton importButton = createImportButton();
-		JButton loadButton = createLoadButton(readOnlyButton);
+		JButton loadButton = createLoadButton();
 		SettingsButton settingsButton = new SettingsButton();
 
 		Component glue = Box.createHorizontalGlue();
@@ -131,7 +131,7 @@ public class ButtonPanel extends JPanel
 	 * @param readOnlyButton the read-only button of this panel
 	 * @return the load button
 	 */
-	private JButton createLoadButton(ReadOnlyButton readOnlyButton)
+	private JButton createLoadButton()
 	{
 		JButton loadButton = new JButton("Load selected savefile");
 		loadButton.addActionListener(event -> {

@@ -30,9 +30,9 @@ public class GlobalKeyboardHook implements NativeKeyListener
 	private boolean hotkeysEnabled = false;
 
 	// Current modification keys being held
-	List<String> mods = new ArrayList<>();
+	private List<String> mods = new ArrayList<>();
 
-	String tempKey = "";
+	private String tempKey = "";
 
 
 	/**
