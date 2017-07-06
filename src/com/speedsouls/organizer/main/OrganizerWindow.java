@@ -4,7 +4,6 @@ package com.speedsouls.organizer.main;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -45,30 +44,11 @@ public class OrganizerWindow extends JFrame
 	{
 		super("SpeedSouls - Save Organizer");
 
-		initData();
 		initProperties();
 		initLayout();
 		initListeners();
 
 		setVisible(true);
-	}
-
-
-	/**
-	 * Calls the manager to initialize the data.
-	 */
-	private void initData()
-	{
-		try
-		{
-			OrganizerManager.initialize();
-		}
-		catch (IOException e)
-		{
-			JOptionPane.showMessageDialog(this, "Error when trying to initialize the data. Could not start the Save Organizer.",
-					"Error occured", JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
-		}
 	}
 
 

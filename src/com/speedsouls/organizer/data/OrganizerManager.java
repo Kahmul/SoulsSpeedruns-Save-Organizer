@@ -86,6 +86,20 @@ public class OrganizerManager
 
 	private static OrganizerWindow mainWindow;
 
+	static
+	{
+		try
+		{
+			initialize();
+		}
+		catch (IOException e)
+		{
+			JOptionPane.showMessageDialog(null, "Error when trying to initialize the data. Could not start the Save Organizer.",
+					"Error occured", JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
+	}
+
 
 	/**
 	 * Initializes the data. Required to be called before using any other methods of this class.
