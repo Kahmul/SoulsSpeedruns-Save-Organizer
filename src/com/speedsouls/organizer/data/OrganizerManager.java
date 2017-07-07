@@ -32,6 +32,9 @@ import com.speedsouls.organizer.listeners.SortingListener;
 import com.speedsouls.organizer.main.OrganizerWindow;
 import com.speedsouls.organizer.natives.GlobalKeyboardHook;
 
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
+
 
 /**
  * OrganizerManager.
@@ -128,6 +131,8 @@ public class OrganizerManager
 		readOnlyIconSmall = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIconSmall.png"));
 		readOnlyIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIconMedium.png"));
 		settingsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SettingsIcon.png"));
+
+		IconFontSwing.register(FontAwesome.getIconFont());
 	}
 
 

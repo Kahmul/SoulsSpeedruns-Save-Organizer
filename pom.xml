@@ -16,6 +16,11 @@
 			<artifactId>jiconfont-swing</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.jiconfont</groupId>
+			<artifactId>jiconfont-font_awesome</artifactId>
+			<version>4.7.0.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
