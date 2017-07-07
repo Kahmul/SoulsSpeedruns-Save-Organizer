@@ -1,6 +1,7 @@
 package com.speedsouls.organizer.components;
 
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Point;
 import java.io.File;
@@ -15,6 +16,10 @@ import javax.swing.KeyStroke;
 import com.speedsouls.organizer.content.Save;
 import com.speedsouls.organizer.content.SortingCategory;
 import com.speedsouls.organizer.data.OrganizerManager;
+
+import jiconfont.icons.Elusive;
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -101,6 +106,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createRemoveItem(SaveList saveList)
 	{
 		JMenuItem itemRemove = new JMenuItem("Remove");
+		itemRemove.setIcon(IconFontSwing.buildIcon(FontAwesome.TRASH, 18, Color.GRAY));
 		itemRemove.setAccelerator(KeyStroke.getKeyStroke("DELETE"));
 		itemRemove.addActionListener(event -> {
 			saveList.askToDeleteSaves(saveList.getSelectedValuesList());
@@ -117,6 +123,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createEditItem(SaveList saveList)
 	{
 		JMenuItem itemEdit = new JMenuItem("Rename");
+		itemEdit.setIcon(IconFontSwing.buildIcon(Elusive.EDIT, 15, Color.GRAY));
 		itemEdit.setAccelerator(KeyStroke.getKeyStroke("F2"));
 		itemEdit.addActionListener(event -> {
 			saveList.askToEditSave(saveList.getSelectedValue());

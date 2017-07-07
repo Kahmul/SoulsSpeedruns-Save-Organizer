@@ -4,6 +4,7 @@ package com.speedsouls.organizer.about;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
@@ -44,9 +45,11 @@ public class AboutPanel extends JPanel
 		layout.setAutoCreateContainerGaps(true);
 
 		JLabel versionLabel = new JLabel("Version:");
+		versionLabel.setFont(getFont().deriveFont(Font.BOLD));
 		JLabel versionNumberLabel = new JLabel(OrganizerManager.VERSION);
 
 		JLabel developerLabel = new JLabel("Developed by:");
+		developerLabel.setFont(getFont().deriveFont(Font.BOLD));
 		JLabel developerLink = createDevLink();
 		JLabel githubLink = createGitHubLink();
 
