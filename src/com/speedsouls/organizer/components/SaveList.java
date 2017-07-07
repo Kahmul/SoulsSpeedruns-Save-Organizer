@@ -461,35 +461,42 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
 		String newName = (String) JOptionPane.showInputDialog(getParent(), (save.isDirectory() ? "Folder name: " : "Save name: "),
 				"Edit " + save.getName(), JOptionPane.QUESTION_MESSAGE, null, null, save.getName());
-		if (newName == null || newName.length() < 1)
-		{
-			OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
-			return;
-		}
+		boolean nameValidation = validateNewName(save, newName);
+		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		if (nameValidation)
+			OrganizerManager.renameSave(save, newName);
+	}
+
+
+	/**
+	 * Validates the new name given to a savefile.
+	 * 
+	 * @param save the savefile
+	 * @param newName the new name
+	 * @return whether the new name is valid
+	 */
+	private boolean validateNewName(Save save, String newName)
+	{
+		if (newName == null)
+			return false;
 		newName = newName.trim();
-		if (save.getName().equals(newName))
-		{
-			OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
-			return;
-		}
+		if (newName.length() < 1 || newName.equals(save.getName()))
+			return false;
 		if (OrganizerManager.containsIllegals(newName))
 		{
 			JOptionPane.showMessageDialog(getParent(),
-					"Illegal characters (~, #, @, *, %, {, }, <, >, [, ], |, “, ”, \\, _, ^) are not allowed!", "Error occured",
-					JOptionPane.ERROR_MESSAGE);
-			OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
-			return;
+					"Illegal characters (~, #, @, *, %, {, }, <, >, [, ], |, “, ”, \\, _, ^) are not allowed!", "Warning",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
 		}
 		// if the name exists and the renaming is not a re-capitalization then don't allow renaming
 		File newSaveDir = new File(save.getFile().getParentFile() + File.separator + newName);
 		if (newSaveDir.exists() && !save.getName().equalsIgnoreCase(newName))
 		{
-			JOptionPane.showMessageDialog(getParent(), "This name already exists!", "Error occured", JOptionPane.ERROR_MESSAGE);
-			OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
-			return;
+			JOptionPane.showMessageDialog(getParent(), "This name already exists!", "Warning", JOptionPane.WARNING_MESSAGE);
+			return false;
 		}
-		OrganizerManager.renameSave(save, newName);
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		return true;
 	}
 
 
