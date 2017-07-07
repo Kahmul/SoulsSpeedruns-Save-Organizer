@@ -1,6 +1,7 @@
 package com.speedsouls.organizer.about;
 
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
@@ -14,6 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.speedsouls.organizer.data.OrganizerManager;
+
+import jiconfont.icons.Elusive;
+import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -69,6 +73,7 @@ public class AboutPanel extends JPanel
 	private JLabel createDevLink()
 	{
 		JLabel developerNameLabel = new JLabel("<html><body><a href=\"\">Kahmul78</a></body></html>");
+		developerNameLabel.setIcon(IconFontSwing.buildIcon(Elusive.TWITTER, 20, new Color(64, 153, 255)));
 		developerNameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		developerNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		developerNameLabel.addMouseListener(new MouseAdapter() {
@@ -92,6 +97,7 @@ public class AboutPanel extends JPanel
 	private JLabel createGitHubLink()
 	{
 		JLabel githubLabel = new JLabel("<html><body><a href=\"\">GitHub Repository</a></body></html>");
+		githubLabel.setIcon(IconFontSwing.buildIcon(Elusive.GITHUB, 20));
 		githubLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		githubLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		githubLabel.addMouseListener(new MouseAdapter() {

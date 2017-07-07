@@ -32,6 +32,7 @@ import com.speedsouls.organizer.listeners.SortingListener;
 import com.speedsouls.organizer.main.OrganizerWindow;
 import com.speedsouls.organizer.natives.GlobalKeyboardHook;
 
+import jiconfont.icons.Elusive;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
@@ -133,6 +134,7 @@ public class OrganizerManager
 		settingsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SettingsIcon.png"));
 
 		IconFontSwing.register(FontAwesome.getIconFont());
+		IconFontSwing.register(Elusive.getIconFont());
 	}
 
 

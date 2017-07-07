@@ -1,6 +1,7 @@
 package com.speedsouls.organizer.components;
 
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Point;
@@ -28,7 +29,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileSystemView;
 
 import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.content.Profile;
@@ -41,6 +41,9 @@ import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
 import com.speedsouls.organizer.listeners.SearchListener;
 import com.speedsouls.organizer.listeners.SortingListener;
+
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -525,7 +528,11 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 		if (save.isDirectory())
 		{
 			label.setFont(getFont().deriveFont(Font.BOLD));
-			label.setIcon(FileSystemView.getFileSystemView().getSystemIcon(save.getFile()));
+			// label.setIcon(FileSystemView.getFileSystemView().getSystemIcon(save.getFile()));
+			if (save.isCollapsed())
+				label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER, 15, new Color(218, 165, 32)));
+			else
+				label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, 15, new Color(218, 165, 32)));
 		}
 		if (save.isReadOnly())
 			label.setIcon(new ImageIcon(OrganizerManager.readOnlyIconSmall));
