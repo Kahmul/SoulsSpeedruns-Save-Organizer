@@ -144,7 +144,6 @@ public class GlobalKeyboardHook implements NativeKeyListener
 	private void executeKeyEvent(NativeKeyEvent e)
 	{
 		String keyText = getKeyText(e);
-		System.out.println("KeyText: " + keyText);
 		for (GlobalHotkey hotkey : GlobalHotkey.values())
 		{
 			if (!hotkeysEnabled && hotkey != GlobalHotkey.GLOBAL_HOTKEY_TOGGLE)

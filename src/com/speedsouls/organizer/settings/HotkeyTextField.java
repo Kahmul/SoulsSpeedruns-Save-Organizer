@@ -33,7 +33,7 @@ public class HotkeyTextField extends JTextField implements FocusListener, KeyLis
 	/**
 	 * Creates a textfield for a hotkey.
 	 * 
-	 * @param hotkeythe hotkey to create this textfield for
+	 * @param hotkey the hotkey to create this textfield for
 	 */
 	protected HotkeyTextField(GlobalHotkey hotkey)
 	{
