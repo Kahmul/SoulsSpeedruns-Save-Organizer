@@ -5,9 +5,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.JTextField;
 
@@ -22,12 +19,14 @@ import com.speedsouls.organizer.content.GlobalHotkey;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 4 Jun 2016
  */
-public class HotkeyTextField extends JTextField
+public class HotkeyTextField extends JTextField implements FocusListener, KeyListener
 {
 
 	private static final long serialVersionUID = 154973469277989728L;
 
-	private String tempKey;
+	private static final String WAITING_FOR_INPUT_TEXT = "Set Hotkey...";
+
+	private String currentKey;
 	private GlobalHotkey hotkey;
 
 
@@ -40,113 +39,12 @@ public class HotkeyTextField extends JTextField
 	{
 		super(hotkey.getKeyCode());
 		this.hotkey = hotkey;
-		tempKey = getText();
+		currentKey = getText();
 
-		addListeners();
+		addFocusListener(this);
+		addKeyListener(this);
 		setHorizontalAlignment(JTextField.CENTER);
 		setEditable(false);
-	}
-
-
-	/**
-	 * Adds the necessary listeners to the textfield.
-	 */
-	private void addListeners()
-	{
-		addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e)
-			{
-				setText(tempKey);
-			}
-
-
-			@Override
-			public void focusGained(FocusEvent e)
-			{
-				setText("Set Hotkey...");
-			}
-		});
-
-		List<String> mods = new ArrayList<>();
-
-		addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e)
-			{
-			}
-
-
-			@Override
-			public void keyPressed(KeyEvent e)
-			{
-				int keyCode = e.getKeyCode();
-				if (keyCode == KeyEvent.VK_ESCAPE)
-				{
-					tempKey = "None";
-					setText("None");
-					getParent().requestFocusInWindow();
-					return;
-
-				}
-				Collections.sort(mods);
-				if (keyCode == KeyEvent.VK_SHIFT)
-				{
-					if (!mods.contains("Shift"))
-						mods.add("Shift");
-					return;
-				}
-				if (keyCode == KeyEvent.VK_CONTROL)
-				{
-					if (!mods.contains("Control"))
-						mods.add("Control");
-					return;
-				}
-				if (keyCode == KeyEvent.VK_ALT)
-				{
-					if (!mods.contains("Alt"))
-						mods.add("Alt");
-					return;
-				}
-				tempKey = "";
-				for (int i = 0; i < mods.size(); i++)
-					tempKey += mods.get(i) + " + ";
-
-				tempKey += KeyEvent.getKeyText(keyCode).replaceAll("NumPad-", "NumPad ");
-				setText(tempKey);
-			}
-
-
-			@Override
-			public void keyReleased(KeyEvent e)
-			{
-				int keyCode = e.getKeyCode();
-				if (keyCode == KeyEvent.VK_SHIFT || keyCode == KeyEvent.VK_CONTROL || keyCode == KeyEvent.VK_ALT)
-				{
-					if ("Set Hotkey...".equals(getText()))
-					{
-						tempKey = "";
-						for (int i = 0; i < mods.size(); i++)
-						{
-							tempKey += mods.get(i);
-							if (i < mods.size() - 1)
-								tempKey += " + ";
-						}
-						setText(tempKey);
-					}
-				}
-				if (keyCode == KeyEvent.VK_SHIFT)
-					mods.remove("Shift");
-				if (keyCode == KeyEvent.VK_CONTROL)
-					mods.remove("Control");
-				if (keyCode == KeyEvent.VK_ALT)
-					mods.remove("Alt");
-				if (mods.size() == 0)
-					getParent().requestFocusInWindow();
-			}
-		});
 	}
 
 
@@ -164,7 +62,78 @@ public class HotkeyTextField extends JTextField
 	 */
 	protected void saveChangesToHotkey()
 	{
-		hotkey.setKeyCode(tempKey);
+		hotkey.setKeyCode(currentKey);
+	}
+
+
+	@Override
+	public void focusGained(FocusEvent e)
+	{
+		setText(WAITING_FOR_INPUT_TEXT);
+	}
+
+
+	@Override
+	public void focusLost(FocusEvent e)
+	{
+		setText(currentKey);
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent e)
+	{
+	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+		int keyCode = e.getKeyCode();
+		if (keyCode == KeyEvent.VK_ESCAPE)
+		{
+			currentKey = "None";
+			setText("None");
+			getParent().requestFocusInWindow();
+			return;
+
+		}
+		if (keyCode == KeyEvent.VK_SHIFT || keyCode == KeyEvent.VK_CONTROL || keyCode == KeyEvent.VK_ALT)
+			return;
+		updateKey(e);
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+		int keyCode = e.getKeyCode();
+		if (keyCode == KeyEvent.VK_SHIFT || keyCode == KeyEvent.VK_CONTROL || keyCode == KeyEvent.VK_ALT)
+		{
+			// if only modifier keys have been pressed so far and one is released, use them for the keycode
+			if (WAITING_FOR_INPUT_TEXT.equals(getText()))
+				updateKey(e);
+		}
+		getParent().requestFocusInWindow();
+	}
+
+
+	/**
+	 * Updates the hotkey of this hotkey field with the given KeyEvent.
+	 * 
+	 * @param e the KeyEvent
+	 */
+	private void updateKey(KeyEvent e)
+	{
+		String modifiers = KeyEvent.getKeyModifiersText(e.getModifiers());
+		modifiers = modifiers.replaceAll("\\+", " \\+ ");
+		modifiers = modifiers.length() > 0 ? modifiers + " + " : modifiers;
+
+		String keyText = KeyEvent.getKeyText(e.getKeyCode());
+		keyText = keyText.replaceAll("NumPad-", "NumPad ");
+
+		setText(modifiers + keyText);
+		currentKey = getText();
 	}
 
 }

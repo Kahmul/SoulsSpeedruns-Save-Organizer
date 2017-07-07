@@ -1,9 +1,7 @@
 package com.speedsouls.organizer.natives;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,10 +27,8 @@ public class GlobalKeyboardHook implements NativeKeyListener
 
 	private boolean hotkeysEnabled = false;
 
-	// Current modification keys being held
-	private List<String> mods = new ArrayList<>();
-
-	private String tempKey = "";
+	// if a modifier key is released, this is used to decide whether the modifier was tied to a previous key combo or not
+	private boolean keyComboWasExecuted = false;
 
 
 	/**
@@ -104,96 +100,100 @@ public class GlobalKeyboardHook implements NativeKeyListener
 
 
 	@Override
-	public void nativeKeyReleased(NativeKeyEvent e)
+	public void nativeKeyTyped(NativeKeyEvent e)
 	{
-		String keyText = NativeKeyEvent.getKeyText(e.getKeyCode());
-		if (keyText.contains("Shift") || keyText.contains("Alt") || keyText.contains("Control"))
-		{
-			if ("".equals(tempKey))
-			{
-				if (mods.size() == 0)
-					return;
-				for (int i = 0; i < mods.size(); i++)
-				{
-					tempKey += mods.get(i);
-					if (i < mods.size() - 1)
-						tempKey += " + ";
-				}
-				mods.clear();
-				for (GlobalHotkey hotkey : GlobalHotkey.values())
-				{
-					if (!hotkeysEnabled && hotkey != GlobalHotkey.GLOBAL_HOTKEY_TOGGLE)
-						continue;
-					if (tempKey.equals(hotkey.getKeyCode()))
-					{
-						hotkey.action();
-						break;
-					}
-				}
-			}
-		}
-		if (keyText.contains("Shift"))
-			mods.remove("Shift");
-		if (keyText.contains("Control"))
-			mods.remove("Control");
-		if (keyText.contains("Alt"))
-			mods.remove("Alt");
-		if (mods.size() == 0)
-			tempKey = "";
-
 	}
 
 
 	@Override
 	public void nativeKeyPressed(NativeKeyEvent e)
 	{
-		if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals("F1") && mods.size() == 0 && hotkeysEnabled)
+		keyComboWasExecuted = false;
+		int keyCode = e.getKeyCode();
+		if (keyCode == NativeKeyEvent.VC_F1 && e.getModifiers() == 0 && hotkeysEnabled)
 		{
 			OrganizerManager.openWebPage();
 			return;
 		}
-		if (NativeKeyEvent.getKeyText(e.getKeyCode()).contains("Shift"))
-		{
-			if (!mods.contains("Shift"))
-				mods.add("Shift");
-			Collections.sort(mods);
+		if (keyCode == NativeKeyEvent.VC_SHIFT_L || keyCode == NativeKeyEvent.VC_SHIFT_R || keyCode == NativeKeyEvent.VC_CONTROL_L
+				|| keyCode == NativeKeyEvent.VC_CONTROL_R || keyCode == NativeKeyEvent.VC_ALT_L || keyCode == NativeKeyEvent.VC_ALT_R)
 			return;
-		}
-		if (NativeKeyEvent.getKeyText(e.getKeyCode()).contains("Control"))
-		{
-			if (!mods.contains("Control"))
-				mods.add("Control");
-			Collections.sort(mods);
-			return;
-		}
-		if (NativeKeyEvent.getKeyText(e.getKeyCode()).contains("Alt"))
-		{
-			if (!mods.contains("Alt"))
-				mods.add("Alt");
-			Collections.sort(mods);
-			return;
-		}
-		tempKey = "";
-		for (int i = 0; i < mods.size(); i++)
-			tempKey += mods.get(i) + " + ";
-		tempKey += NativeKeyEvent.getKeyText(e.getKeyCode());
+		executeKeyEvent(e);
+	}
 
+
+	@Override
+	public void nativeKeyReleased(NativeKeyEvent e)
+	{
+		int keyCode = e.getKeyCode();
+		if (keyCode == NativeKeyEvent.VC_SHIFT_L || keyCode == NativeKeyEvent.VC_SHIFT_R || keyCode == NativeKeyEvent.VC_CONTROL_L
+				|| keyCode == NativeKeyEvent.VC_CONTROL_R || keyCode == NativeKeyEvent.VC_ALT_L || keyCode == NativeKeyEvent.VC_ALT_R)
+		{
+			// if only modifiers have been held so far and one is released, then execute the action
+			if (!keyComboWasExecuted)
+				executeKeyEvent(e);
+		}
+	}
+
+
+	/**
+	 * Executes the action of the hotkey with the same key code as the given KeyEvent.
+	 * 
+	 * @param e the KeyEvent
+	 */
+	private void executeKeyEvent(NativeKeyEvent e)
+	{
+		String keyText = getKeyText(e);
+		System.out.println("KeyText: " + keyText);
 		for (GlobalHotkey hotkey : GlobalHotkey.values())
 		{
 			if (!hotkeysEnabled && hotkey != GlobalHotkey.GLOBAL_HOTKEY_TOGGLE)
 				continue;
-			if (tempKey.equals(hotkey.getKeyCode()))
+			if (keyText.equals(hotkey.getKeyCode()))
 			{
 				hotkey.action();
+				keyComboWasExecuted = true;
 				break;
 			}
 		}
 	}
 
 
-	@Override
-	public void nativeKeyTyped(NativeKeyEvent e)
+	/**
+	 * Gets the key combination text from the KeyEvent.
+	 * 
+	 * @param e the KeyEvent
+	 * @return the combined text of all pressed keys
+	 */
+	private String getKeyText(NativeKeyEvent e)
 	{
+		String modifiers = NativeKeyEvent.getModifiersText(e.getModifiers());
+		modifiers = modifiers.replaceAll("\\+", " \\+ ");
+		modifiers = modifiers.length() > 0 ? modifiers + " + " : modifiers;
+
+		String keyText = "";
+
+		// NativeKeyEvent has different keytexts than Java for modifiers, so need to standardize them
+		switch (e.getKeyCode())
+		{
+		case NativeKeyEvent.VC_SHIFT_L:
+		case NativeKeyEvent.VC_SHIFT_R:
+			keyText = KeyEvent.getKeyText(KeyEvent.VK_SHIFT);
+			break;
+		case NativeKeyEvent.VC_CONTROL_L:
+		case NativeKeyEvent.VC_CONTROL_R:
+			keyText = KeyEvent.getKeyText(KeyEvent.VK_CONTROL);
+			break;
+		case NativeKeyEvent.VC_ALT_L:
+		case NativeKeyEvent.VC_ALT_R:
+			keyText = KeyEvent.getKeyText(KeyEvent.VK_ALT);
+			break;
+		default:
+			keyText = NativeKeyEvent.getKeyText(e.getKeyCode());
+			break;
+		}
+
+		return modifiers + keyText;
 	}
 
 }
