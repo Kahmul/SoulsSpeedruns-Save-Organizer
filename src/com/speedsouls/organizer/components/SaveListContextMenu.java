@@ -6,14 +6,15 @@ import java.awt.Desktop;
 import java.awt.Point;
 import java.io.File;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
+import com.speedsouls.organizer.content.Folder;
 import com.speedsouls.organizer.content.Save;
+import com.speedsouls.organizer.content.SaveListEntry;
 import com.speedsouls.organizer.content.SortingCategory;
 import com.speedsouls.organizer.data.OrganizerManager;
 
@@ -72,7 +73,7 @@ public class SaveListContextMenu extends JPopupMenu
 			saveList.setSelectedIndex(index);
 			itemEdit.setEnabled(true);
 			itemRemove.setEnabled(true);
-			itemReadOnly.setEnabled(!saveList.getSelectedValue().isDirectory());
+			itemReadOnly.setEnabled(saveList.getSelectedValue() instanceof Save);
 			itemReadOnly.setSelected(!saveList.getSelectedValue().getFile().canWrite());
 			return;
 		}
@@ -109,7 +110,7 @@ public class SaveListContextMenu extends JPopupMenu
 		itemRemove.setIcon(IconFontSwing.buildIcon(FontAwesome.TRASH, 18, Color.GRAY));
 		itemRemove.setAccelerator(KeyStroke.getKeyStroke("DELETE"));
 		itemRemove.addActionListener(event -> {
-			saveList.askToDeleteSaves(saveList.getSelectedValuesList());
+			saveList.askToDeleteEntries(saveList.getSelectedValuesList());
 		});
 		return itemRemove;
 	}
@@ -126,7 +127,7 @@ public class SaveListContextMenu extends JPopupMenu
 		itemEdit.setIcon(IconFontSwing.buildIcon(Elusive.EDIT, 15, Color.GRAY));
 		itemEdit.setAccelerator(KeyStroke.getKeyStroke("F2"));
 		itemEdit.addActionListener(event -> {
-			saveList.askToEditSave(saveList.getSelectedValue());
+			saveList.askToEditEntry(saveList.getSelectedValue());
 		});
 		return itemEdit;
 	}
@@ -143,20 +144,7 @@ public class SaveListContextMenu extends JPopupMenu
 		itemReadOnly.addActionListener(event -> {
 			saveList.getSelectedValue().getFile().setWritable(!itemReadOnly.isSelected());
 			if (OrganizerManager.getSelectedSortingCategory() == SortingCategory.READ_ONLY)
-			{
-				File file = saveList.getSelectedValue().getFile();
-				saveList.sort();
-				DefaultListModel<Save> model = (DefaultListModel<Save>) saveList.getModel();
-				for (int i = 0; i < model.size(); i++)
-				{
-					if (model.getElementAt(i).getFile().equals(file))
-					{
-						saveList.setSelectedIndex(i);
-						saveList.ensureIndexIsVisible(i);
-						return;
-					}
-				}
-			}
+				saveList.sortEntries();
 			saveList.repaint();
 		});
 		return itemReadOnly;
@@ -170,15 +158,18 @@ public class SaveListContextMenu extends JPopupMenu
 	{
 		JMenuItem itemOpenInExplorer = new JMenuItem("Open Folder In Explorer");
 		itemOpenInExplorer.addActionListener(event -> {
-			Save selectedSave = saveList.getSelectedValue();
-			File selectedFile = OrganizerManager.getSelectedProfile().getDirectory();
-			if (selectedSave != null)
-				selectedFile = saveList.getSelectedValue().getFile();
-			if (!selectedFile.isDirectory())
-				selectedFile = selectedFile.getParentFile();
+			SaveListEntry entry = saveList.getSelectedValue();
+			File dirToOpen = OrganizerManager.getSelectedProfile().getRoot().getFile(); // default folder to open
+			if (entry != null)
+			{
+				if (entry instanceof Folder)
+					dirToOpen = entry.getFile();
+				else
+					dirToOpen = entry.getParent().getFile();
+			}
 			try
 			{
-				Desktop.getDesktop().open(selectedFile);
+				Desktop.getDesktop().open(dirToOpen);
 			}
 			catch (Exception e)
 			{

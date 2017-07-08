@@ -2,6 +2,7 @@ package com.speedsouls.organizer.listeners;
 
 
 import com.speedsouls.organizer.content.Save;
+import com.speedsouls.organizer.content.SaveListEntry;
 
 
 /**
@@ -20,16 +21,15 @@ public interface SaveListener
 	 * 
 	 * @param save the save that was selected
 	 */
-	public void saveSelected(Save save);
+	public void entrySelected(SaveListEntry entry);
 
 
 	/**
-	 * Called when a save was renamed.
+	 * Called when a save is imported or a folder is created.
 	 * 
-	 * @param save the save that was renamed
-	 * @param newName the new name of the save
+	 * @param entry the entry that was created
 	 */
-	public void saveRenamed(Save save, String newName);
+	public void entryCreated(SaveListEntry entry);
 
 
 	/**

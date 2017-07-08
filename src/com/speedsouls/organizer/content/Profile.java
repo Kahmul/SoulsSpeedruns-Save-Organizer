@@ -2,6 +2,7 @@ package com.speedsouls.organizer.content;
 
 
 import java.io.File;
+import java.util.Collections;
 
 
 /**
@@ -12,11 +13,11 @@ import java.io.File;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 27 Sep 2015
  */
-public class Profile
+public class Profile implements Comparable<Profile>
 {
 
-	private String name;
 	private Game game;
+	private Folder root;
 
 
 	/**
@@ -27,8 +28,9 @@ public class Profile
 	 */
 	public Profile(String name, Game game)
 	{
-		this.name = name;
 		this.game = game;
+		if (name != null && name.length() > 0)
+			root = new Folder(null, new File(game.getDirectory() + File.separator + name));
 	}
 
 
@@ -37,16 +39,9 @@ public class Profile
 	 */
 	public String getName()
 	{
-		return name;
-	}
-
-
-	/**
-	 * @param name the new name of this profile.
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
+		if (root != null)
+			return root.getName();
+		return "";
 	}
 
 
@@ -60,22 +55,42 @@ public class Profile
 
 
 	/**
-	 * @param game the game to use this profile for.
+	 * The root folder containing all folders and savestates for this profile.
+	 * 
+	 * @return the root folder
 	 */
-	public void setGame(Game game)
+	public Folder getRoot()
 	{
-		this.game = game;
+		return root;
 	}
 
 
 	/**
-	 * Returns the directory associated with this profile.
+	 * Renames the profile to the given name.
 	 * 
-	 * @return the directory of this profile
+	 * @param name the new name of this profile
 	 */
-	public File getDirectory()
+	public void rename(String name)
 	{
-		return new File(game.getDirectory() + File.separator + getName());
+		root.rename(name);
+		Collections.sort(game.getProfiles());
+	}
+
+
+	/**
+	 * Deletes this profile and all of its associated savefiles and folders.
+	 */
+	public void delete()
+	{
+		game.removeProfile(this);
+		root.delete();
+	}
+
+
+	@Override
+	public int compareTo(Profile profile)
+	{
+		return getName().compareToIgnoreCase(profile.getName());
 	}
 
 }

@@ -3,7 +3,6 @@ package com.speedsouls.organizer.listeners;
 
 import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.content.Profile;
-import com.speedsouls.organizer.content.Save;
 
 
 /**
@@ -39,23 +38,5 @@ public interface ProfileListener
 	 * @param game the game that was switched to
 	 */
 	public void changedToGame(Game game);
-
-
-	/**
-	 * Called when the given save is added to the given profile.
-	 * 
-	 * @param save the added save
-	 * @param profile the profile that the save was added to
-	 */
-	public void addedToProfile(Save save, Profile profile);
-
-
-	/**
-	 * Called when the given save is removed from the given profile.
-	 * 
-	 * @param save the removed save
-	 * @param profile the profile that the save was removed from
-	 */
-	public void removedFromProfile(Save save, Profile profile);
 
 }

@@ -2,6 +2,8 @@ package com.speedsouls.organizer.content;
 
 
 import java.io.File;
+import java.util.Collections;
+import java.util.LinkedList;
 
 
 /**
@@ -24,6 +26,7 @@ public enum Game
 	private String abbr;
 	private String saveName;
 	private File directory;
+	private LinkedList<Profile> profiles;
 
 
 	/**
@@ -38,6 +41,7 @@ public enum Game
 		this.caption = caption;
 		this.abbr = abbr;
 		this.saveName = saveName;
+		profiles = new LinkedList<>();
 	}
 
 
@@ -82,7 +86,17 @@ public enum Game
 	public void setDirectory(File file)
 	{
 		if (file.isDirectory())
+		{
 			directory = file;
+			File[] files = file.listFiles();
+			for (File dir : files)
+			{
+				if (dir.isDirectory())
+				{
+					addProfile(new Profile(dir.getName(), this));
+				}
+			}
+		}
 	}
 
 
@@ -105,6 +119,35 @@ public enum Game
 	public String getSaveName()
 	{
 		return saveName;
+	}
+
+
+	/**
+	 * @return the profiles
+	 */
+	public LinkedList<Profile> getProfiles()
+	{
+		return profiles;
+	}
+
+
+	/**
+	 * @param profile
+	 */
+	public void addProfile(Profile profile)
+	{
+		profiles.add(profile);
+		Collections.sort(profiles);
+	}
+
+
+	/**
+	 * @param profile
+	 */
+	public void removeProfile(Profile profile)
+	{
+		profiles.remove(profile);
+		Collections.sort(profiles);
 	}
 
 }

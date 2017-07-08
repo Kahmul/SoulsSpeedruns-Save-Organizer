@@ -10,9 +10,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.prefs.Preferences;
 
 import javax.imageio.ImageIO;
@@ -20,10 +18,12 @@ import javax.swing.JOptionPane;
 
 import org.jnativehook.NativeHookException;
 
+import com.speedsouls.organizer.content.Folder;
 import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.content.GlobalHotkey;
 import com.speedsouls.organizer.content.Profile;
 import com.speedsouls.organizer.content.Save;
+import com.speedsouls.organizer.content.SaveListEntry;
 import com.speedsouls.organizer.content.SortingCategory;
 import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
@@ -79,14 +79,12 @@ public class OrganizerManager
 	public static Image readOnlyIconSmall;
 	public static Image settingsIcon;
 
-	private static Map<Game, List<Profile>> profiles;
-
 	private static List<ProfileListener> profileListeners;
 	private static List<SaveListener> saveListeners;
 	private static List<SearchListener> searchListeners;
 	private static List<SortingListener> sortingListeners;
 
-	private static Save selectedSave;
+	private static SaveListEntry selectedEntry;
 
 	private static OrganizerWindow mainWindow;
 
@@ -183,7 +181,6 @@ public class OrganizerManager
 	 */
 	private static void mapGamesWithProfiles()
 	{
-		profiles = new HashMap<>();
 		if (prefs == null)
 			return;
 		Game[] games = Game.values();
@@ -220,15 +217,6 @@ public class OrganizerManager
 	 */
 	public static void updateProfiles(Game game)
 	{
-		File[] profileFiles = game.getDirectory().listFiles();
-		List<Profile> profileList = new ArrayList<>();
-		for (int i = 0; i < profileFiles.length; i++)
-		{
-			if (!profileFiles[i].isDirectory())
-				continue;
-			profileList.add(new Profile(profileFiles[i].getName(), game));
-		}
-		profiles.put(game, profileList);
 		fireProfilesUpdatedEvent(game);
 	}
 
@@ -242,18 +230,6 @@ public class OrganizerManager
 	{
 		prefs.put(game.getAbbreviation() + "Path", game.getDirectory().getPath());
 		importProfiles(game);
-	}
-
-
-	/**
-	 * Returns the existing profiles for this game.
-	 * 
-	 * @param game the game to get the profiles for
-	 * @return a list of all profiles for the given game
-	 */
-	public static List<Profile> getProfiles(Game game)
-	{
-		return profiles.get(game) != null ? profiles.get(game) : new ArrayList<Profile>();
 	}
 
 
@@ -330,25 +306,25 @@ public class OrganizerManager
 
 
 	/**
-	 * Sets the currently selected save in the SaveList.
+	 * Sets the currently selected entry in the SaveList.
 	 * 
-	 * @param save the selected save
+	 * @param entry the selected entry
 	 */
-	public static void setSelectedSave(Save save)
+	public static void setSelectedEntry(SaveListEntry entry)
 	{
-		selectedSave = save;
-		fireSaveSelectedEvent(save);
+		selectedEntry = entry;
+		fireEntrySelectedEvent(entry);
 	}
 
 
 	/**
-	 * Returns the currently selected save in the SaveList.
+	 * Returns the currently selected entry in the SaveList.
 	 * 
-	 * @return the save selected in the SaveList
+	 * @return the entry selected in the SaveList
 	 */
-	public static Save getSelectedSave()
+	public static SaveListEntry getSelectedEntry()
 	{
-		return selectedSave;
+		return selectedEntry;
 	}
 
 
@@ -381,12 +357,13 @@ public class OrganizerManager
 	{
 		String profileName = prefs.get(PREFS_KEY_SELECTED_PROFILE, "");
 		Game game = getSelectedGame();
-		List<Profile> profiles = getProfiles(game);
+		List<Profile> profiles = game.getProfiles();
 		for (Profile profile : profiles)
 		{
 			if (profile.getName().equals(profileName))
 				return profile;
 		}
+		// if a profile with the saved name doesn't exist, return either the first existing one, or an empty one.
 		return profiles.size() > 0 ? profiles.get(0) : new Profile("", game);
 	}
 
@@ -420,87 +397,63 @@ public class OrganizerManager
 
 
 	/**
-	 * Imports the given file as a save into the given profile.
-	 * 
-	 * @param save the save to import
-	 * @param profile the profile to import the save into
+	 * Imports a new savefile.
 	 */
-	public static void importAsSave(File file, Profile profile)
+	public static void importSavefile()
 	{
-		File dir = profile.getDirectory();
-		if (!dir.exists())
-			return;
-		if (selectedSave != null)
-			dir = selectedSave.getFile();
-		if (!dir.isDirectory())
-			dir = dir.getParentFile();
-		File newFile = new File(dir.getPath() + File.separator + file.getName());
-		for (int i = 0; newFile.exists(); i++)
+		SaveListEntry parent = getSelectedEntry();
+		if (parent instanceof Save)
+			parent = parent.getParent();
+		File saveFile = createFileForNewSave((Folder) parent);
+		Save newSave = new Save((Folder) parent, saveFile);
+		parent.addChild(newSave);
+		fireEntryCreatedEvent(newSave);
+	}
+
+
+	public static void createFolder(String name)
+	{
+		SaveListEntry parent = getSelectedEntry();
+		if (parent == null)
+			parent = getSelectedProfile().getRoot();
+		if (parent instanceof Save)
+			parent = parent.getParent();
+		File dir = new File(parent.getFile().getPath() + File.separator + name);
+		if (dir.exists())
 		{
-			newFile = new File(dir.getPath() + File.separator + file.getName() + "_" + i);
+			JOptionPane.showMessageDialog(mainWindow, "This folder already exists!", "Error occured", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
+		dir.mkdirs();
+		Folder newFolder = new Folder((Folder) parent, dir);
+		parent.addChild(newFolder);
+		fireEntryCreatedEvent(newFolder);
+	}
+
+
+	/**
+	 * Creates the File object and the actual file in the file system for a new save in the given parent folder.
+	 * 
+	 * @param parent the parent of the new save
+	 * @return the file object
+	 */
+	private static File createFileForNewSave(Folder parent)
+	{
+		String parentPath = parent.getFile().getPath();
+		String name = getSelectedGame().getSaveName();
+		File newFile = new File(parentPath + File.separator + name);
+		for (int i = 0; newFile.exists(); i++)
+			newFile = new File(parentPath + File.separator + name + "_" + i);
 		try
 		{
-			Files.copy(file.toPath(), newFile.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
-			fireAddedToProfileEvent(new Save(newFile), profile);
+			Files.copy(getSelectedGame().getSaveFile().toPath(), newFile.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
 		}
 		catch (IOException e)
 		{
 			JOptionPane.showMessageDialog(mainWindow, "Error when trying to import the savefile!", "Error occured",
 					JOptionPane.ERROR_MESSAGE);
 		}
-	}
-
-
-	/**
-	 * Creates a folder with the given name in the given profile.
-	 * 
-	 * @param name the name of the folder
-	 * @param profile the profile that the folder should be added to
-	 */
-	public static void createFolder(String name, Profile profile)
-	{
-		File dir = profile.getDirectory();
-		if (!dir.exists())
-			return;
-		if (selectedSave != null)
-			dir = selectedSave.getFile();
-		if (!dir.isDirectory())
-			dir = dir.getParentFile();
-		File folder = new File(dir.getPath() + File.separator + name);
-		if (folder.exists())
-		{
-			JOptionPane.showMessageDialog(mainWindow, "This folder already exists!", "Error occured", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		folder.mkdirs();
-		fireAddedToProfileEvent(new Save(folder), profile);
-	}
-
-
-	/**
-	 * Removes the given save from the given profile.
-	 * 
-	 * @param save the save to remove
-	 * @param profile the profile to remove the save from
-	 */
-	public static void removeSave(Save save, Profile profile)
-	{
-		fireRemovedFromProfileEvent(save, profile);
-		deleteDirectory(save.getFile());
-	}
-
-
-	/**
-	 * Renames the given save to the given name.
-	 * 
-	 * @param save the save to rename
-	 * @param newName the new name of the save
-	 */
-	public static void renameSave(Save save, String newName)
-	{
-		save.getFile().renameTo(new File(save.getFile().getParentFile() + File.separator + newName));
-		fireSaveRenamedEvent(save, newName);
+		return newFile;
 	}
 
 
@@ -511,7 +464,7 @@ public class OrganizerManager
 	 */
 	public static void loadSave(Save save)
 	{
-		if (save == null || save.isDirectory())
+		if (save == null)
 			return;
 		fireSaveLoadStartedEvent(save);
 		Game game = getSelectedGame();
@@ -745,31 +698,15 @@ public class OrganizerManager
 
 
 	/**
-	 * Fires an addedToProfile event.
+	 * Fires an entryCreated event.
 	 * 
-	 * @param save the save that was added
-	 * @param profile the profile the save was added to
+	 * @param entry the entry that was created
 	 */
-	public static void fireAddedToProfileEvent(Save save, Profile profile)
+	public static void fireEntryCreatedEvent(SaveListEntry entry)
 	{
-		for (ProfileListener profileListener : profileListeners)
+		for (SaveListener saveListener : saveListeners)
 		{
-			profileListener.addedToProfile(save, profile);
-		}
-	}
-
-
-	/**
-	 * Fires a removedFromProfile event.
-	 * 
-	 * @param save the save that was removed
-	 * @param profile the profile the save was removed from
-	 */
-	public static void fireRemovedFromProfileEvent(Save save, Profile profile)
-	{
-		for (ProfileListener profileListener : profileListeners)
-		{
-			profileListener.removedFromProfile(save, profile);
+			saveListener.entryCreated(entry);
 		}
 	}
 
@@ -803,30 +740,15 @@ public class OrganizerManager
 
 
 	/**
-	 * Fires a saveSelected event.
+	 * Fires an entrySelected event.
 	 * 
-	 * @param save the save that was selected
+	 * @param entry the entry that was selected
 	 */
-	public static void fireSaveSelectedEvent(Save save)
+	public static void fireEntrySelectedEvent(SaveListEntry entry)
 	{
 		for (SaveListener listener : saveListeners)
 		{
-			listener.saveSelected(save);
-		}
-	}
-
-
-	/**
-	 * Fires a saveRenamed event.
-	 * 
-	 * @param save the save that was renamed
-	 * @param newName the new name given to the save
-	 */
-	public static void fireSaveRenamedEvent(Save save, String newName)
-	{
-		for (SaveListener listener : saveListeners)
-		{
-			listener.saveRenamed(save, newName);
+			listener.entrySelected(entry);
 		}
 	}
 
@@ -964,11 +886,11 @@ public class OrganizerManager
 	 * Checks the given string for illegal characters.
 	 * 
 	 * @param toExamine the string to examine
-	 * @return True if the string contains illegal characters. False otherwise.
+	 * @return true if the string contains illegal characters. False otherwise.
 	 */
 	public static boolean containsIllegals(String toExamine)
 	{
-		String[] arr = toExamine.split("[~#@*%{}<>\\[\\]|\"\\_^]", 2);
+		String[] arr = toExamine.split("[~#@*%{}<>\\[\\]|\"\\^]", 2);
 		return arr.length > 1;
 	}
 

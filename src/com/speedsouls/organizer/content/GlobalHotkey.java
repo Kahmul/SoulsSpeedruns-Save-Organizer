@@ -21,7 +21,8 @@ public enum GlobalHotkey
 		@Override
 		public void action()
 		{
-			OrganizerManager.loadSave(OrganizerManager.getSelectedSave());
+			if (OrganizerManager.getSelectedEntry() instanceof Save)
+				OrganizerManager.loadSave((Save) OrganizerManager.getSelectedEntry());
 		}
 
 

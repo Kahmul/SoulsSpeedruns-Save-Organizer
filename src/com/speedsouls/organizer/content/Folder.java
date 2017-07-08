@@ -1,0 +1,119 @@
+package com.speedsouls.organizer.content;
+
+
+import java.awt.Color;
+import java.awt.Font;
+import java.io.File;
+import java.util.Collections;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+
+import com.speedsouls.organizer.data.OrganizerManager;
+
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
+
+
+/**
+ * Folder class.
+ * <p>
+ * Represents the folders in the SaveList.
+ *
+ * @author Kahmul (www.twitch.tv/kahmul78)
+ * @date 7 Jul 2017
+ */
+public class Folder extends SaveListEntry
+{
+
+	private boolean isClosed = true;
+	private static Color color = new Color(218, 165, 32);
+	private static final int ICON_SIZE = 15;
+
+
+	/**
+	 * @param parent
+	 */
+	public Folder(Folder parent, File file)
+	{
+		super(parent, file);
+		File[] files = file.listFiles();
+		for (File currentFile : files)
+		{
+			if (currentFile.isDirectory())
+			{
+				addChild(new Folder(this, currentFile));
+				continue;
+			}
+			addChild(new Save(this, currentFile));
+		}
+		Collections.sort(getChildren());
+	}
+
+
+	/**
+	 * @return whether the folder is closed or not
+	 */
+	public boolean isClosed()
+	{
+		return isClosed;
+	}
+
+
+	/**
+	 * @param isClosed set the folder state closed or opened
+	 */
+	public void setClosed(boolean isClosed)
+	{
+		this.isClosed = isClosed;
+	}
+
+
+	/*
+	 * @see com.speedsouls.organizer.content.SaveListEntry#rename(java.lang.String)
+	 */
+	@Override
+	public void rename(String newName)
+	{
+		getFile().renameTo(new File(getParent().getFile() + File.separator + newName));
+		setFile(new File(getParent().getFile() + File.separator + newName));
+	}
+
+
+	/*
+	 * @see com.speedsouls.organizer.content.SaveListEntry#delete()
+	 */
+	@Override
+	public void delete()
+	{
+		if (getParent() != null)
+			getParent().removeChild(this);
+		OrganizerManager.deleteDirectory(getFile());
+	}
+
+
+	/*
+	 * @see com.speedsouls.organizer.content.SaveListEntry#render(javax.swing.JLabel)
+	 */
+	@Override
+	public void render(JLabel label)
+	{
+		label.setText(getFile().getName());
+		label.setFont(label.getFont().deriveFont(Font.BOLD));
+		label.setBorder(BorderFactory.createEmptyBorder(1, 3 + getIndent(), 0, 1));
+		if (isClosed())
+			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER, ICON_SIZE, color));
+		else
+			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, ICON_SIZE, color));
+	}
+
+
+	@Override
+	public int compareTo(SaveListEntry entry)
+	{
+		if (entry instanceof Save)
+			return -1;
+		return OrganizerManager.getSelectedSortingCategory().compare(this, entry);
+	}
+
+}

@@ -13,7 +13,6 @@ import javax.swing.ListCellRenderer;
 
 import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.content.Profile;
-import com.speedsouls.organizer.content.Save;
 import com.speedsouls.organizer.data.OrganizerManager;
 import com.speedsouls.organizer.listeners.ProfileListener;
 
@@ -60,19 +59,15 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRend
 	private void fillWith(Game game)
 	{
 		removeAllItems();
-		List<Profile> profiles = OrganizerManager.getProfiles(game);
+		List<Profile> profiles = game.getProfiles();
 		for (Profile profile : profiles)
 		{
 			addItem(profile);
 			if (OrganizerManager.getSelectedProfile() == profile)
-			{
 				setSelectedItem(profile);
-			}
 		}
 		if (profiles.size() == 0)
-		{
 			OrganizerManager.switchToProfile(new Profile("", game));
-		}
 	}
 
 
@@ -84,9 +79,7 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRend
 	public void setGame(Game game)
 	{
 		if (game != null)
-		{
 			fillWith(game);
-		}
 	}
 
 
@@ -117,18 +110,6 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRend
 
 	@Override
 	public void changedToGame(Game game)
-	{
-	}
-
-
-	@Override
-	public void addedToProfile(Save save, Profile profile)
-	{
-	}
-
-
-	@Override
-	public void removedFromProfile(Save save, Profile profile)
 	{
 	}
 

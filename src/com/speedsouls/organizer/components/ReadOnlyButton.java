@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.content.Profile;
 import com.speedsouls.organizer.content.Save;
+import com.speedsouls.organizer.content.SaveListEntry;
 import com.speedsouls.organizer.data.OrganizerManager;
 import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
@@ -152,25 +153,13 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 
 
 	@Override
-	public void addedToProfile(Save save, Profile profile)
+	public void entrySelected(SaveListEntry entry)
 	{
 	}
 
 
 	@Override
-	public void removedFromProfile(Save save, Profile profile)
-	{
-	}
-
-
-	@Override
-	public void saveSelected(Save save)
-	{
-	}
-
-
-	@Override
-	public void saveRenamed(Save save, String newName)
+	public void entryCreated(SaveListEntry entry)
 	{
 	}
 

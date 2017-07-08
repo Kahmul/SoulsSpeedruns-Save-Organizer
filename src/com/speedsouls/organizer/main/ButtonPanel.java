@@ -1,6 +1,7 @@
 package com.speedsouls.organizer.main;
 
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.Timer;
@@ -17,12 +18,17 @@ import javax.swing.JProgressBar;
 
 import com.speedsouls.organizer.components.ReadOnlyButton;
 import com.speedsouls.organizer.components.SettingsButton;
+import com.speedsouls.organizer.content.Folder;
 import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.content.Profile;
 import com.speedsouls.organizer.content.Save;
+import com.speedsouls.organizer.content.SaveListEntry;
 import com.speedsouls.organizer.data.OrganizerManager;
 import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
+
+import jiconfont.icons.Elusive;
+import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -112,10 +118,9 @@ public class ButtonPanel extends JPanel
 		JButton importButton = new JButton("Import current savefile");
 		importButton.addActionListener(event -> {
 			Profile profile = OrganizerManager.getSelectedProfile();
-			if (profile.getDirectory().exists())
+			if (profile.getRoot().getFile().exists())
 			{
-				Game game = OrganizerManager.getSelectedGame();
-				OrganizerManager.importAsSave(game.getSaveFile(), profile);
+				OrganizerManager.importSavefile();
 				return;
 			}
 			JOptionPane.showMessageDialog(null, "Create a profile before trying to import a savefile!", "Error occured",
@@ -134,11 +139,12 @@ public class ButtonPanel extends JPanel
 	private JButton createLoadButton()
 	{
 		JButton loadButton = new JButton("Load selected savefile");
+		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, Color.GREEN));
 		loadButton.addActionListener(event -> {
-			Save save = OrganizerManager.getSelectedSave();
-			if (save.isDirectory())
+			SaveListEntry entry = OrganizerManager.getSelectedEntry();
+			if (entry instanceof Folder)
 				return;
-			OrganizerManager.loadSave(save);
+			OrganizerManager.loadSave((Save) entry);
 		});
 		loadButton.setEnabled(false);
 		return loadButton;
@@ -155,11 +161,11 @@ public class ButtonPanel extends JPanel
 		OrganizerManager.addSaveListener(new SaveListener() {
 
 			@Override
-			public void saveSelected(Save save)
+			public void entrySelected(SaveListEntry entry)
 			{
-				if (save != null)
+				if (entry != null)
 				{
-					loadButton.setEnabled(!save.isDirectory());
+					loadButton.setEnabled(entry instanceof Save);
 					return;
 				}
 				loadButton.setEnabled(false);
@@ -167,7 +173,7 @@ public class ButtonPanel extends JPanel
 
 
 			@Override
-			public void saveRenamed(Save save, String newName)
+			public void entryCreated(SaveListEntry entry)
 			{
 			}
 
@@ -199,6 +205,7 @@ public class ButtonPanel extends JPanel
 			public void gameFileWritableStateChanged(boolean writable)
 			{
 			}
+
 		});
 
 		OrganizerManager.addProfileListener(new ProfileListener() {
@@ -222,17 +229,6 @@ public class ButtonPanel extends JPanel
 				loadButton.setEnabled(false);
 			}
 
-
-			@Override
-			public void addedToProfile(Save save, Profile profile)
-			{
-			}
-
-
-			@Override
-			public void removedFromProfile(Save save, Profile profile)
-			{
-			}
 		});
 	}
 }

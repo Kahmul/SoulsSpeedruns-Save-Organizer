@@ -19,7 +19,6 @@ import javax.swing.ListSelectionModel;
 
 import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.content.Profile;
-import com.speedsouls.organizer.content.Save;
 import com.speedsouls.organizer.data.OrganizerManager;
 import com.speedsouls.organizer.listeners.ProfileListener;
 
@@ -57,7 +56,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 		OrganizerManager.addProfileListener(this);
 
 		setModel(new DefaultListModel<>());
-		fillWith(OrganizerManager.getProfiles(game));
+		fillWith(game.getProfiles());
 	}
 
 
@@ -68,12 +67,14 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 	 */
 	public void fillWith(List<Profile> profileList)
 	{
+		Profile selectedProfile = getSelectedValue();
 		DefaultListModel<Profile> model = (DefaultListModel<Profile>) getModel();
 		model.removeAllElements();
-		for (int i = 0; i < profileList.size(); i++)
-		{
-			model.add(i, profileList.get(i));
-		}
+		for (Profile profile : profileList)
+			model.addElement(profile);
+		int selectedIndex = model.indexOf(selectedProfile);
+		if (selectedIndex != -1)
+			setSelectedIndex(selectedIndex);
 	}
 
 
@@ -105,30 +106,103 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
 		String name = JOptionPane.showInputDialog(getParent(), "Profile name: ", "Create Profile", JOptionPane.QUESTION_MESSAGE);
-		if (name == null || name.length() < 1)
-		{
-			OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
-			return;
-		}
-		name = name.trim();
-		Profile profile = new Profile(name, game);
-		File profileFile = profile.getDirectory();
-		if (profileFile.exists())
-		{
-			JOptionPane.showMessageDialog(getParent(), "This profile already exists!", "Error occured", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		try
-		{
-			profileFile.mkdirs();
-			OrganizerManager.updateProfiles(game);
-		}
-		catch (Exception e)
-		{
-			JOptionPane.showMessageDialog(getParent(), "Error occured when trying to create the profile!", "Error occured",
-					JOptionPane.ERROR_MESSAGE);
-		}
+		boolean nameValidation = validateNameForNewProfile(name);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		if (nameValidation)
+		{
+			try
+			{
+				createNewProfile(name);
+			}
+			catch (Exception e)
+			{
+				JOptionPane.showMessageDialog(getParent(), "Error occured when trying to create the profile!", "Error occured",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+
+	/**
+	 * Creates a new profile with the given name.
+	 * 
+	 * @param name the name of the profile
+	 */
+	private void createNewProfile(String name)
+	{
+		new File(game.getSaveFile() + File.separator + name).mkdirs();
+		Profile newProfile = new Profile(name, game);
+		game.addProfile(newProfile);
+		OrganizerManager.updateProfiles(game);
+	}
+
+
+	/**
+	 * Validates the potential name for a new profile.
+	 * 
+	 * @param name the name
+	 * @return whether the name is valid
+	 */
+	private boolean validateNameForNewProfile(String name)
+	{
+		if (name == null)
+			return false;
+		name = name.trim();
+		if (name.length() < 1)
+			return false;
+		if (OrganizerManager.containsIllegals(name))
+		{
+			JOptionPane.showMessageDialog(getParent(), "Illegal characters (~, @, *, %, {, }, <, >, [, ], |, “, ”, \\, ^) are not allowed!",
+					"Warning", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		File newSaveDir = new File(game.getSaveFile() + File.separator + name);
+		if (newSaveDir.exists())
+		{
+			JOptionPane.showMessageDialog(getParent(), "This profile already exists!", "Warning", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
+	 * Asks to delete the given list of profiles.
+	 * 
+	 * @param profiles the list of profiles
+	 */
+	public void askToDeleteProfiles(List<Profile> profiles)
+	{
+		if (profiles == null)
+			return;
+		int confirm = -1;
+		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
+		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
+		if (profiles.size() == 1)
+			confirm = JOptionPane.showConfirmDialog(getParent(),
+					"Do you really want to delete '" + profiles.get(0).getName() + "' and all of its contents?", "Delete",
+					JOptionPane.YES_NO_OPTION);
+		else if (profiles.size() > 1)
+			confirm = JOptionPane.showConfirmDialog(getParent(), "Do you really want to delete all your selected profiles?", "Delete",
+					JOptionPane.YES_NO_OPTION);
+		if (confirm == 0)
+			deleteProfiles(profiles);
+		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+	}
+
+
+	/**
+	 * Deletes the given list of profiles.
+	 * 
+	 * @param profiles the profiles to delete
+	 */
+	private void deleteProfiles(List<Profile> profiles)
+	{
+		for (Profile profile : profiles)
+		{
+			profile.delete();
+			OrganizerManager.updateProfiles(profile.getGame());
+		}
 	}
 
 
@@ -145,42 +219,54 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
 		String newProfileName = (String) JOptionPane.showInputDialog(getParent(), "Profile name: ", "Edit " + profile.getName(),
 				JOptionPane.QUESTION_MESSAGE, null, null, profile.getName());
-		if (newProfileName == null || newProfileName.length() < 1)
-		{
-			OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
-			return;
-		}
-		newProfileName = newProfileName.trim();
-		File newProfileDir = new File(profile.getDirectory().getParentFile() + File.separator + newProfileName);
-		profile.getDirectory().renameTo(newProfileDir);
-		OrganizerManager.updateProfiles(profile.getGame());
+		boolean nameValidation = validateNewName(profile, newProfileName);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		if (nameValidation)
+			renameProfile(profile, newProfileName);
 	}
 
 
 	/**
-	 * Asks to delete the given list of profiles
+	 * Renames the profile with the given name and sorts the list afterwards.
 	 * 
-	 * @param profiles the list of profiles
+	 * @param profile the profile to rename
+	 * @param newName the new name
 	 */
-	public void askToDeleteProfiles(List<Profile> profiles)
+	private void renameProfile(Profile profile, String newName)
 	{
-		int confirm = -1;
-		if (profiles.size() == 1)
-			confirm = JOptionPane.showConfirmDialog(getParent(),
-					"Do you really want to delete '" + profiles.get(0).getName() + "' and all of its contents?", "Delete",
-					JOptionPane.YES_NO_OPTION);
-		else if (profiles.size() > 1)
-			confirm = JOptionPane.showConfirmDialog(getParent(), "Do you really want to delete all your selected profiles?", "Delete",
-					JOptionPane.YES_NO_OPTION);
-		if (confirm == 0)
+		profile.rename(newName);
+		OrganizerManager.updateProfiles(game);
+	}
+
+
+	/**
+	 * Validates the new name given to a profile.
+	 * 
+	 * @param profile the profile
+	 * @param newName the new name
+	 * @return whether the new name is valid
+	 */
+	private boolean validateNewName(Profile profile, String newName)
+	{
+		if (newName == null)
+			return false;
+		newName = newName.trim();
+		if (newName.length() < 1 || newName.equals(profile.getName()))
+			return false;
+		if (OrganizerManager.containsIllegals(newName))
 		{
-			for (Profile profile : profiles)
-			{
-				OrganizerManager.deleteDirectory(profile.getDirectory());
-				OrganizerManager.updateProfiles(profile.getGame());
-			}
+			JOptionPane.showMessageDialog(getParent(), "Illegal characters (~, @, *, %, {, }, <, >, [, ], |, “, ”, \\, ^) are not allowed!",
+					"Warning", JOptionPane.WARNING_MESSAGE);
+			return false;
 		}
+		// if the name exists and the renaming is not a re-capitalization then don't allow renaming
+		File newSaveDir = new File(game.getSaveFile() + File.separator + newName);
+		if (newSaveDir.exists() && !profile.getName().equalsIgnoreCase(newName))
+		{
+			JOptionPane.showMessageDialog(getParent(), "This name already exists!", "Warning", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 
 
@@ -203,7 +289,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 	{
 		if (this.game != game)
 			return;
-		fillWith(OrganizerManager.getProfiles(game));
+		fillWith(game.getProfiles());
 	}
 
 
@@ -215,18 +301,6 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 
 	@Override
 	public void changedToGame(Game game)
-	{
-	}
-
-
-	@Override
-	public void addedToProfile(Save save, Profile profile)
-	{
-	}
-
-
-	@Override
-	public void removedFromProfile(Save save, Profile profile)
 	{
 	}
 

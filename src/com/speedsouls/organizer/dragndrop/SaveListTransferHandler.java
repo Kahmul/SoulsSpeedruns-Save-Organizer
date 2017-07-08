@@ -1,21 +1,19 @@
 package com.speedsouls.organizer.dragndrop;
 
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.TransferHandler;
 
 import com.speedsouls.organizer.components.SaveList;
-import com.speedsouls.organizer.content.Save;
+import com.speedsouls.organizer.content.Folder;
+import com.speedsouls.organizer.content.SaveListEntry;
 import com.speedsouls.organizer.data.OrganizerManager;
 
 
@@ -46,7 +44,7 @@ public class SaveListTransferHandler extends TransferHandler
 
 	public boolean canImport(TransferHandler.TransferSupport support)
 	{
-		if (!support.isDataFlavorSupported(Save.SAVE_FLAVOR))
+		if (!support.isDataFlavorSupported(SaveListEntry.ENTRY_FLAVOR))
 			return false;
 		JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
 
@@ -55,29 +53,13 @@ public class SaveListTransferHandler extends TransferHandler
 			return false;
 		try
 		{
-			Save save = (Save) support.getTransferable().getTransferData(Save.SAVE_FLAVOR);
-			File parentFile;
-			if (!saveList.getCellBounds(index, index).contains(dl.getDropPoint()))
-			{
-				parentFile = OrganizerManager.getSelectedProfile().getDirectory();
-				saveList.setDropMode(DropMode.INSERT);
-			}
-			else
-			{
-				parentFile = saveList.getModel().getElementAt(index).getFile();
-				saveList.setDropMode(DropMode.ON);
-				if (!parentFile.isDirectory())
-				{
-					parentFile = parentFile.getParentFile();
-					saveList.setDropMode(DropMode.INSERT);
-				}
-			}
-			if (parentFile.equals(save.getFile()))
+			SaveListEntry entry = (SaveListEntry) support.getTransferable().getTransferData(SaveListEntry.ENTRY_FLAVOR);
+			SaveListEntry newParentFolder = findNewParentFolderFromDropLocation(dl);
+			if (entry.equals(newParentFolder))
 				return false;
-			Save parentSave = saveList.getSaveByFile(parentFile);
-			if (parentSave != null && parentSave.isSubContentOf(save))
+			if (entry.getParent().equals(newParentFolder))
 				return false;
-			if (parentFile.equals(save.getFile().getParentFile()))
+			if (newParentFolder.getParent().equals(entry))
 				return false;
 			support.setShowDropLocation(true);
 		}
@@ -95,37 +77,23 @@ public class SaveListTransferHandler extends TransferHandler
 			return false;
 		try
 		{
-			Save save = (Save) support.getTransferable().getTransferData(Save.SAVE_FLAVOR);
+			SaveListEntry entry = (SaveListEntry) support.getTransferable().getTransferData(SaveListEntry.ENTRY_FLAVOR);
 
 			JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
-			File parentFile = findParentFileFromDropLocation(dl);
+			Folder newParentFolder = findNewParentFolderFromDropLocation(dl);
 
-			Path newPath = Paths.get(parentFile.getPath()).resolve(save.getName());
+			Path newPath = Paths.get(newParentFolder.getFile().getPath()).resolve(entry.getName());
 			if (newPath.toFile().exists())
 			{
 				if (JOptionPane.showConfirmDialog(saveList.getParent(),
-						save.getName() + " already exists in that directory. Do you want to overwrite?", "Confirmation",
+						entry.getName() + " already exists in that directory. Do you want to overwrite?", "Confirmation",
 						JOptionPane.YES_NO_OPTION) != 0)
 					return false;
 			}
-			DefaultListModel<Save> model = (DefaultListModel<Save>) saveList.getModel();
-			boolean wasCollapsed = save.isCollapsed();
-			List<Save> subFolders = null;
-			if (!wasCollapsed)
-			{
-				subFolders = saveList.findOpenSubFolders(save);
-				saveList.closeDirectory(save);
-			}
-			File saveFile = Files.move(Paths.get(save.getFile().getPath()), newPath, StandardCopyOption.REPLACE_EXISTING).toFile();
-
-			model.removeElement(save);
-			saveList.sort();
-			Save newDir = saveList.getSaveByFile(parentFile);
-			if (newDir != null && newDir.isCollapsed())
-				saveList.openDirectory(newDir);
-			if (!wasCollapsed)
-				reopenClosedSubFolders(model, subFolders, saveFile);
-			saveList.setSelectedValue(saveList.getSaveByFile(saveFile), true);
+			Files.move(Paths.get(entry.getFile().getPath()), newPath, StandardCopyOption.REPLACE_EXISTING);
+			entry.attachToNewParent(newParentFolder);
+			saveList.update();
+			saveList.setSelectedValue(entry, true);
 		}
 		catch (Exception e)
 		{
@@ -137,49 +105,31 @@ public class SaveListTransferHandler extends TransferHandler
 
 
 	/**
-	 * Reopens the in the reordering process closed subfolders.
+	 * Finds the new parent folder at the given location in the list.
 	 * 
-	 * @param model savelist model
-	 * @param subFolders the subfolders that were closed
-	 * @param saveFile the parent save of the subfolders
+	 * @param dl the droplocation
+	 * @return the parent folder
 	 */
-	private void reopenClosedSubFolders(DefaultListModel<Save> model, List<Save> subFolders, File saveFile)
+	private Folder findNewParentFolderFromDropLocation(JList.DropLocation dl)
 	{
-		Save newSave = saveList.getSaveByFile(saveFile);
-		saveList.openDirectory(newSave);
-		for (Save subFolder : subFolders)
-		{
-			for (int i = model.indexOf(newSave); i < model.size(); i++)
-			{
-				if (model.getElementAt(i).getName().equals(subFolder.getFile().getName()))
-				{
-					saveList.openDirectory(model.getElementAt(i));
-					break;
-				}
-			}
-		}
-	}
-
-
-	/**
-	 * Finds the parent file to the given location in the list.
-	 * 
-	 * @param dl the location
-	 * @return the parent file
-	 */
-	private File findParentFileFromDropLocation(JList.DropLocation dl)
-	{
-		File parentFile;
 		int index = saveList.locationToIndex(dl.getDropPoint());
+		SaveListEntry newParentFolder;
 		if (!saveList.getCellBounds(index, index).contains(dl.getDropPoint()))
-			parentFile = OrganizerManager.getSelectedProfile().getDirectory();
+		{
+			newParentFolder = OrganizerManager.getSelectedProfile().getRoot();
+			saveList.setDropMode(DropMode.INSERT);
+		}
 		else
 		{
-			parentFile = saveList.getModel().getElementAt(index).getFile();
-			if (!parentFile.isDirectory())
-				parentFile = parentFile.getParentFile();
+			newParentFolder = saveList.getModel().getElementAt(index);
+			saveList.setDropMode(DropMode.ON);
+			if (!(saveList.getModel().getElementAt(index) instanceof Folder))
+			{
+				newParentFolder = newParentFolder.getParent();
+				saveList.setDropMode(DropMode.INSERT);
+			}
 		}
-		return parentFile;
+		return (Folder) newParentFolder;
 	}
 
 }

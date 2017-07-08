@@ -24,7 +24,7 @@ public enum SortingCategory
 	{
 
 		@Override
-		public int compare(Save s1, Save s2)
+		public int compare(SaveListEntry s1, SaveListEntry s2)
 		{
 			return s1.getFile().getName().compareToIgnoreCase(s2.getName());
 		}
@@ -33,7 +33,7 @@ public enum SortingCategory
 	{
 
 		@Override
-		public int compare(Save s1, Save s2)
+		public int compare(SaveListEntry s1, SaveListEntry s2)
 		{
 			try
 			{
@@ -57,7 +57,7 @@ public enum SortingCategory
 	{
 
 		@Override
-		public int compare(Save s1, Save s2)
+		public int compare(SaveListEntry s1, SaveListEntry s2)
 		{
 			boolean s1ReadOnly = !s1.getFile().canWrite();
 			boolean s2ReadOnly = !s2.getFile().canWrite();
@@ -90,6 +90,6 @@ public enum SortingCategory
 	}
 
 
-	public abstract int compare(Save s1, Save s2);
+	public abstract int compare(SaveListEntry s1, SaveListEntry s2);
 
 }

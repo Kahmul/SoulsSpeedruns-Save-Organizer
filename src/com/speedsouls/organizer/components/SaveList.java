@@ -1,26 +1,19 @@
 package com.speedsouls.organizer.components;
 
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -30,9 +23,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.speedsouls.organizer.content.Folder;
 import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.content.Profile;
 import com.speedsouls.organizer.content.Save;
+import com.speedsouls.organizer.content.SaveListEntry;
 import com.speedsouls.organizer.content.SortingCategory;
 import com.speedsouls.organizer.data.OrganizerManager;
 import com.speedsouls.organizer.dragndrop.SaveListDragListener;
@@ -41,9 +36,6 @@ import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
 import com.speedsouls.organizer.listeners.SearchListener;
 import com.speedsouls.organizer.listeners.SortingListener;
-
-import jiconfont.icons.FontAwesome;
-import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -54,8 +46,8 @@ import jiconfont.swing.IconFontSwing;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 26 Sep 2015
  */
-public class SaveList extends JList<Save> implements ListCellRenderer<Save>, ListSelectionListener, ProfileListener, SaveListener,
-		SearchListener, SortingListener, MouseListener, KeyListener
+public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<SaveListEntry>, ListSelectionListener, ProfileListener,
+		SaveListener, SearchListener, SortingListener, MouseListener, KeyListener
 {
 
 	private static final long serialVersionUID = 4832551527054891457L;
@@ -91,188 +83,96 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 		OrganizerManager.addSortingListener(this);
 
 		setModel(new DefaultListModel<>());
-		fillWith(OrganizerManager.getSelectedProfile());
+		fillWith(OrganizerManager.getSelectedProfile(), null);
 	}
 
 
 	/**
-	 * Fills the list with the given profile.
+	 * Updates this list to show any changes made, e.g. an entry was drag'n'dropped.
+	 */
+	public void update()
+	{
+		fillWith(OrganizerManager.getSelectedProfile(), null);
+		repaint();
+	}
+
+
+	/**
+	 * Fills the list with the given profile. If a search term is given, only saves/folders that contain the term will be added.
 	 * 
 	 * @param profile the profile to fill this list with
+	 * @param searchTerm the search term
 	 */
-	private void fillWith(Profile profile)
+	private void fillWith(Profile profile, String searchTerm)
 	{
-		File profileDir = profile.getDirectory();
-		fillWith(profileDir.listFiles());
+		DefaultListModel<SaveListEntry> model = (DefaultListModel<SaveListEntry>) getModel();
+		model.removeAllElements();
+		addChildrenToList(profile.getRoot(), searchTerm);
 	}
 
 
 	/**
-	 * Fills the list with the given files.
+	 * Adds all the children of the given folder and its open subFolders to the list. If a search term is given, only
+	 * saves/folders that contain the term will be added.
 	 * 
-	 * @param files the files to fill this list with
+	 * @param folder
+	 * @param searchTerm
 	 */
-	private void fillWith(File[] files)
+	private void addChildrenToList(Folder folder, String searchTerm)
 	{
-		if (files == null)
-		{
-			fillWith(new LinkedList<File>());
+		DefaultListModel<SaveListEntry> model = (DefaultListModel<SaveListEntry>) getModel();
+		if (folder == null)
 			return;
-		}
-		fillWith(new LinkedList<File>(Arrays.asList(files)));
-	}
-
-
-	/**
-	 * Fills the list with the given files.
-	 * 
-	 * @param files the files to fill this list with
-	 */
-	private void fillWith(List<File> files)
-	{
-		if (files != null)
+		for (SaveListEntry entry : folder.getChildren())
 		{
-			Save selectedSave = getSelectedValue();
-			DefaultListModel<Save> model = (DefaultListModel<Save>) getModel();
-			model.removeAllElements();
-			LinkedList<Save> elements = new LinkedList<>();
-			for (File file : files)
-				elements.add(new Save(file));
-			Collections.sort(elements);
-			elements = sortSavesByFolders(elements);
-			for (Save save : elements)
-				model.addElement(save);
-			if (selectedSave != null)
+			if (searchTerm != null && searchTerm.length() > 0)
 			{
-				for (int i = 0; i < model.size(); i++)
-				{
-					if (model.getElementAt(i).getFile().equals(selectedSave.getFile()))
-					{
-						setSelectedIndex(i);
-						return;
-					}
-				}
+				if (entry.getName().contains(searchTerm))
+					model.addElement(entry);
+				continue;
+			}
+			model.addElement(entry);
+			if (entry instanceof Folder)
+			{
+				Folder subFolder = (Folder) entry;
+				if (!subFolder.isClosed())
+					addChildrenToList(subFolder, searchTerm);
 			}
 		}
 	}
 
 
 	/**
-	 * Sorts the save list by the currently chosen sorting category.
+	 * Sorts all entries in the list according to the current sorting method.
 	 */
-	public void sort()
+	public void sortEntries()
 	{
-		DefaultListModel<Save> model = (DefaultListModel<Save>) getModel();
-
-		Save selectedSave = getSelectedValue();
-		// need to keep track of open directories to close them before sorting and opening them again afterwards
-		List<Save> closedDirectories = new LinkedList<>();
-		for (int i = model.size() - 1; i >= 0; i--)
+		SaveListEntry selectedEntry = OrganizerManager.getSelectedEntry();
+		Profile currentProfile = OrganizerManager.getSelectedProfile();
+		currentProfile.getRoot().sort();
+		fillWith(currentProfile, null);
+		int selectedIndex = ((DefaultListModel<SaveListEntry>) getModel()).indexOf(selectedEntry);
+		if (selectedIndex != -1)
 		{
-			Save save = model.getElementAt(i);
-			if (!save.isCollapsed())
-				closedDirectories.add(save);
-		}
-		for (Save save : closedDirectories)
-			closeDirectory(save);
-
-		fillWith(OrganizerManager.getSelectedProfile());
-
-		for (int i = closedDirectories.size() - 1; i >= 0; i--)
-		{
-			for (int j = 0; j < model.size(); j++)
-			{
-				if (closedDirectories.get(i).getFile().equals(model.getElementAt(j).getFile()))
-				{
-					File[] files = closedDirectories.get(i).getFile().listFiles();
-					if (files != null && files.length > 0)
-						openDirectory(model.getElementAt(j));
-				}
-			}
-		}
-		if (selectedSave != null)
-		{
-			for (int i = 0; i < model.size(); i++)
-			{
-				if (model.getElementAt(i).getFile().equals(selectedSave.getFile()))
-				{
-					setSelectedIndex(i);
-					return;
-				}
-			}
+			setSelectedIndex(selectedIndex);
+			ensureIndexIsVisible(selectedIndex);
 		}
 	}
 
 
 	/**
-	 * Returns the given file array as a list object, sorted by folders first.
-	 * 
-	 * @param files the files to sort
-	 * @return the sorted list
-	 */
-	private List<File> sortByFolders(File[] files)
-	{
-		if (files != null)
-			return sortByFolders(new LinkedList<File>(Arrays.asList(files)));
-		return null;
-	}
-
-
-	/**
-	 * Sorts the given file list by folders first.
-	 * 
-	 * @param files the list to sort
-	 * @return the sorted list
-	 */
-	private List<File> sortByFolders(LinkedList<File> files)
-	{
-		List<File> folders = new ArrayList<>();
-		for (File file : files)
-		{
-			if (file.isDirectory())
-				folders.add(file);
-		}
-		for (File file : folders)
-		{
-			files.remove(file);
-		}
-		List<File> sortedFiles = folders;
-		sortedFiles.addAll(files);
-		return sortedFiles;
-	}
-
-
-	private LinkedList<Save> sortSavesByFolders(LinkedList<Save> saves)
-	{
-		LinkedList<Save> folders = new LinkedList<>();
-		for (Save save : saves)
-		{
-			if (save.isDirectory())
-				folders.add(save);
-		}
-		for (Save file : folders)
-		{
-			saves.remove(file);
-		}
-		LinkedList<Save> sortedFiles = folders;
-		sortedFiles.addAll(saves);
-		return sortedFiles;
-	}
-
-
-	/**
-	 * Opens the save if it is a directory and inserts its sub-contents below it in the list.
+	 * Opens the entry if it is a folder and inserts its children below it in the list.
 	 * 
 	 * @param save the save to open
 	 */
-	public void openDirectory(Save save)
+	public void openDirectory(SaveListEntry entry)
 	{
-		if (save == null || !save.isCollapsed())
+		if (entry instanceof Save)
 			return;
-		LinkedList<Save> subContents = new LinkedList<>();
-		for (File file : save.getFile().listFiles())
-			subContents.add(new Save(file));
-		if (subContents.size() == 0)
+		Folder folder = (Folder) entry;
+		if (!folder.isClosed() || folder.equals(OrganizerManager.getSelectedProfile().getRoot()))
+			return;
+		if (entry.getChildren().size() == 0)
 		{
 			boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 			OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
@@ -280,112 +180,35 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 			OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 			return;
 		}
-		Collections.sort(subContents);
-		subContents = sortSavesByFolders(subContents);
-		DefaultListModel<Save> model = (DefaultListModel<Save>) getModel();
-		int startIndex = model.indexOf(save) + 1;
-		for (int i = 0; i < subContents.size(); i++)
+		DefaultListModel<SaveListEntry> model = (DefaultListModel<SaveListEntry>) getModel();
+		int startIndex = model.indexOf(entry) + 1;
+		for (int i = 0; i < entry.getChildren().size(); i++)
 		{
-			model.add(startIndex + i, subContents.get(i));
+			model.add(startIndex + i, entry.getChildren().get(i));
 		}
-		save.setIsCollapsed(false);
+		((Folder) entry).setClosed(false);
 	}
 
 
 	/**
-	 * Closes the save if it is a directory and removes its sub-contents displayed in the list.
+	 * Closes the entry if it is a folder and removes its children displayed in the list.
 	 * 
 	 * @param save the save to close
 	 */
-	public void closeDirectory(Save save)
+	public void closeDirectory(SaveListEntry entry)
 	{
-		if (save == null || save.isCollapsed())
+		if (entry instanceof Save)
 			return;
-		DefaultListModel<Save> model = (DefaultListModel<Save>) getModel();
-		File[] subContents = save.getFile().listFiles();
-		if (subContents == null)
+		if (((Folder) entry).isClosed())
 			return;
-		for (File file : subContents)
+		DefaultListModel<SaveListEntry> model = (DefaultListModel<SaveListEntry>) getModel();
+		for (int i = 0; i < entry.getChildren().size(); i++)
 		{
-			for (int i = 0; i < model.size(); i++)
-			{
-				Save tmp = model.getElementAt(i);
-				if (tmp.getFile().equals(file))
-				{
-					if (tmp.isDirectory())
-						closeDirectory(tmp);
-					model.removeElementAt(i);
-					break;
-				}
-			}
+			if (entry.getChildren().get(i).getChildren().size() > 0)
+				closeDirectory(entry.getChildren().get(i));
+			model.removeElement(entry.getChildren().get(i));
 		}
-		save.setIsCollapsed(true);
-	}
-
-
-	/**
-	 * Finds the save associated with the given file.
-	 * 
-	 * @param file the file to try to find the save for
-	 * @return the save that is associated with the file. Null if not found
-	 */
-	public Save getSaveByFile(File file)
-	{
-		DefaultListModel<Save> model = (DefaultListModel<Save>) getModel();
-		for (int i = 0; i < model.size(); i++)
-		{
-			if (model.getElementAt(i).getFile().equals(file))
-				return model.getElementAt(i);
-		}
-		return null;
-	}
-
-
-	/**
-	 * Finds any open sub folders of the given save.
-	 * 
-	 * @param save
-	 * @return a list of all open sub folders
-	 */
-	public List<Save> findOpenSubFolders(Save save)
-	{
-		List<Save> subFolders = new ArrayList<Save>();
-		DefaultListModel<Save> model = (DefaultListModel<Save>) getModel();
-		for (int i = 0; i < model.size(); i++)
-		{
-			Save subSave = model.getElementAt(i);
-			if (!subSave.isCollapsed())
-			{
-				if (subSave.isSubContentOf(save))
-					subFolders.add(subSave);
-			}
-		}
-		return subFolders;
-	}
-
-
-	/**
-	 * Renames the sub-contents of the given save when its being renamed.
-	 * 
-	 * @param save the save to rename the sub-contents of
-	 * @param newName the new name of the save
-	 */
-	private void renameFolder(Save save, String newName)
-	{
-		DefaultListModel<Save> model = (DefaultListModel<Save>) getModel();
-		for (int i = 0; i < model.size(); i++)
-		{
-			Save tmp = model.getElementAt(i);
-			if (tmp.getFile().getParentFile().equals(save.getFile()))
-			{
-				if (tmp.isDirectory() && !tmp.isCollapsed())
-				{
-					renameFolder(tmp, tmp.getName());
-				}
-				tmp.setFile(new File(save.getFile().getParentFile() + File.separator + newName + File.separator + tmp.getName()));
-			}
-
-		}
+		((Folder) entry).setClosed(true);
 	}
 
 
@@ -394,107 +217,160 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 	 */
 	public void askToCreateFolder()
 	{
-		Profile profile = OrganizerManager.getSelectedProfile();
-		if (profile == null || profile.getName().equals(""))
-			return;
 		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
 		String name = JOptionPane.showInputDialog(getParent(), "Folder name: ", "Create Folder", JOptionPane.QUESTION_MESSAGE);
-		if (name == null || name.length() < 1)
-		{
-			OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
-			return;
-		}
-		name = name.trim();
-		try
-		{
-			OrganizerManager.createFolder(name, profile);
-		}
-		catch (Exception e)
-		{
-			JOptionPane.showMessageDialog(getParent(), "Error occured when trying to create the folder!", "Error occured",
-					JOptionPane.ERROR_MESSAGE);
-		}
+		boolean nameValidation = validateNameForNewFolder(name);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		if (nameValidation)
+		{
+			try
+			{
+				OrganizerManager.createFolder(name.trim());
+			}
+			catch (Exception e)
+			{
+				JOptionPane.showMessageDialog(getParent(), "Error occured when trying to create the folder!", "Error occured",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 
 
 	/**
-	 * Asks to delete the given list of saves.
+	 * Validates the potential name for a new folder.
 	 * 
-	 * @param saves the saves to delete
+	 * @param name the name
+	 * @return whether the name is valid
 	 */
-	public void askToDeleteSaves(List<Save> saves)
+	private boolean validateNameForNewFolder(String name)
 	{
-		if (saves == null)
+		if (name == null)
+			return false;
+		name = name.trim();
+		if (name.length() < 1)
+			return false;
+		if (OrganizerManager.containsIllegals(name))
+		{
+			JOptionPane.showMessageDialog(getParent(), "Illegal characters (~, @, *, %, {, }, <, >, [, ], |, “, ”, \\, ^) are not allowed!",
+					"Warning", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		SaveListEntry parent = getSelectedValue();
+		if (parent == null)
+			parent = OrganizerManager.getSelectedProfile().getRoot();
+		if (parent instanceof Save)
+			parent = parent.getParent();
+		File newSaveDir = new File(parent.getFile() + File.separator + name);
+		if (newSaveDir.exists())
+		{
+			JOptionPane.showMessageDialog(getParent(), "This folder already exists!", "Warning", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
+	 * Asks to delete the given list of entries.
+	 * 
+	 * @param entries the entries to delete
+	 */
+	public void askToDeleteEntries(List<SaveListEntry> entries)
+	{
+		if (entries == null)
 			return;
 		int confirm = -1;
 		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
-		if (saves.size() == 1)
+		if (entries.size() == 1)
 			confirm = JOptionPane.showConfirmDialog(getParent(),
-					"Do you really want to delete '" + saves.get(0).getName() + "'"
-							+ (saves.get(0).isDirectory() ? " and all of its contents?" : "?"),
-					"Delete " + saves.get(0).getName(), JOptionPane.YES_NO_OPTION);
-		else if (saves.size() > 1)
+					"Do you really want to delete '" + entries.get(0).getName() + "'"
+							+ (entries.get(0) instanceof Folder ? " and all of its contents?" : "?"),
+					"Delete " + entries.get(0).getName(), JOptionPane.YES_NO_OPTION);
+		else if (entries.size() > 1)
 			confirm = JOptionPane.showConfirmDialog(getParent(),
 					"Do you really want to delete all your selected files and their sub-contents, if any?", "Delete",
 					JOptionPane.YES_NO_OPTION);
 		if (confirm == 0)
-		{
-			for (Save save : saves)
-			{
-				OrganizerManager.removeSave(save, OrganizerManager.getSelectedProfile());
-			}
-		}
+			deleteEntries(entries);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 	}
 
 
 	/**
-	 * Asks to edit the given save.
+	 * Deletes the given entries from the list and their associated files.
 	 * 
-	 * @param save the save to edit
+	 * @param entries the entries to delete
 	 */
-	public void askToEditSave(Save save)
+	private void deleteEntries(List<SaveListEntry> entries)
 	{
-		if (save == null)
+		DefaultListModel<SaveListEntry> model = (DefaultListModel<SaveListEntry>) getModel();
+		for (SaveListEntry entry : entries)
+		{
+			closeDirectory(entry);
+			model.removeElement(entry);
+			entry.delete();
+		}
+	}
+
+
+	/**
+	 * Asks to edit the given entry.
+	 * 
+	 * @param entry the entry to edit
+	 */
+	public void askToEditEntry(SaveListEntry entry)
+	{
+		if (entry == null)
 			return;
 		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
-		String newName = (String) JOptionPane.showInputDialog(getParent(), (save.isDirectory() ? "Folder name: " : "Save name: "),
-				"Edit " + save.getName(), JOptionPane.QUESTION_MESSAGE, null, null, save.getName());
-		boolean nameValidation = validateNewName(save, newName);
+		String newName = (String) JOptionPane.showInputDialog(getParent(), (entry instanceof Folder ? "Folder name: " : "Save name: "),
+				"Edit " + entry.getName(), JOptionPane.QUESTION_MESSAGE, null, null, entry.getName());
+		boolean nameValidation = validateNewName(entry, newName);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 		if (nameValidation)
-			OrganizerManager.renameSave(save, newName);
+			renameEntry(entry, newName);
 	}
 
 
 	/**
-	 * Validates the new name given to a savefile.
+	 * Renames the entry with the given name and sorts the list afterwards.
 	 * 
-	 * @param save the savefile
+	 * @param entry the entry to rename
+	 * @param newName the new name
+	 */
+	private void renameEntry(SaveListEntry entry, String newName)
+	{
+		entry.rename(newName);
+		sortEntries();
+	}
+
+
+	/**
+	 * Validates the new name given to an entry.
+	 * 
+	 * @param entry the savefile
 	 * @param newName the new name
 	 * @return whether the new name is valid
 	 */
-	private boolean validateNewName(Save save, String newName)
+	private boolean validateNewName(SaveListEntry entry, String newName)
 	{
 		if (newName == null)
 			return false;
 		newName = newName.trim();
-		if (newName.length() < 1 || newName.equals(save.getName()))
+		if (newName.length() < 1 || newName.equals(entry.getName()))
 			return false;
 		if (OrganizerManager.containsIllegals(newName))
 		{
-			JOptionPane.showMessageDialog(getParent(),
-					"Illegal characters (~, #, @, *, %, {, }, <, >, [, ], |, “, ”, \\, _, ^) are not allowed!", "Warning",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(getParent(), "Illegal characters (~, @, *, %, {, }, <, >, [, ], |, “, ”, \\, ^) are not allowed!",
+					"Warning", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		// if the name exists and the renaming is not a re-capitalization then don't allow renaming
-		File newSaveDir = new File(save.getFile().getParentFile() + File.separator + newName);
-		if (newSaveDir.exists() && !save.getName().equalsIgnoreCase(newName))
+		File newSaveDir = new File(entry.getFile().getParentFile() + File.separator + newName);
+		if (newSaveDir.exists() && !entry.getName().equalsIgnoreCase(newName))
 		{
 			JOptionPane.showMessageDialog(getParent(), "This name already exists!", "Warning", JOptionPane.WARNING_MESSAGE);
 			return false;
@@ -519,24 +395,11 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends Save> list, Save save, int index, boolean isSelected,
+	public Component getListCellRendererComponent(JList<? extends SaveListEntry> list, SaveListEntry entry, int index, boolean isSelected,
 			boolean cellHasFocus)
 	{
-		JLabel label = (JLabel) new DefaultListCellRenderer().getListCellRendererComponent(list, save, index, isSelected, cellHasFocus);
-		label.setText(save.getName());
-		label.setBorder(BorderFactory.createEmptyBorder(1, 3 + save.getIndent(), 0, 1));
-		if (save.isDirectory())
-		{
-			label.setFont(getFont().deriveFont(Font.BOLD));
-			// label.setIcon(FileSystemView.getFileSystemView().getSystemIcon(save.getFile()));
-			if (save.isCollapsed())
-				label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER, 15, new Color(218, 165, 32)));
-			else
-				label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, 15, new Color(218, 165, 32)));
-		}
-		if (save.isReadOnly())
-			label.setIcon(new ImageIcon(OrganizerManager.readOnlyIconSmall));
-
+		JLabel label = (JLabel) new DefaultListCellRenderer().getListCellRendererComponent(list, entry, index, isSelected, cellHasFocus);
+		entry.render(label);
 		return label;
 	}
 
@@ -544,7 +407,7 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 	@Override
 	public void valueChanged(ListSelectionEvent e)
 	{
-		OrganizerManager.setSelectedSave(getSelectedValue());
+		OrganizerManager.setSelectedEntry(getSelectedValue());
 	}
 
 
@@ -557,7 +420,9 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 	@Override
 	public void changedToProfile(Profile profile)
 	{
-		fillWith(profile);
+		if (profile.getRoot() != null)
+			profile.getRoot().sort();
+		fillWith(profile, null);
 	}
 
 
@@ -567,79 +432,23 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 	}
 
 
+	/*
+	 * @see com.speedsouls.organizer.listeners.SaveListener#saveImported(com.speedsouls.organizer.content.Save)
+	 */
 	@Override
-	public void addedToProfile(Save save, Profile profile)
+	public void entryCreated(SaveListEntry entry)
 	{
-		File file = save.getFile();
-		DefaultListModel<Save> model = (DefaultListModel<Save>) getModel();
-		File parentFile = file.getParentFile();
-		for (int i = 0; i < model.size(); i++)
-		{
-			Save parentSave = model.getElementAt(i);
-			if (!parentSave.isDirectory())
-				continue;
-			if (parentSave.getFile().equals(parentFile))
-			{
-				if (parentSave.isCollapsed())
-				{
-					openDirectory(parentSave);
-					return;
-				}
-				int index = model.indexOf(parentSave) + parentSave.getFile().listFiles().length;
-				model.add(index, save);
-				break;
-			}
-		}
-		if (!model.contains(save))
-			model.addElement(save);
-		sort();
-		for (int i = 0; i < model.size(); i++)
-		{
-			if (model.getElementAt(i).getFile().equals(file))
-			{
-				setSelectedIndex(i);
-				ensureIndexIsVisible(i);
-				requestFocusInWindow();
-				return;
-			}
-		}
+		entry.getParent().setClosed(false);
+		sortEntries();
+		int newIndex = ((DefaultListModel<SaveListEntry>) getModel()).indexOf(entry);
+		setSelectedIndex(newIndex);
+		requestFocusInWindow();
 	}
 
 
 	@Override
-	public void removedFromProfile(Save save, Profile profile)
+	public void entrySelected(SaveListEntry entry)
 	{
-		DefaultListModel<Save> model = (DefaultListModel<Save>) getModel();
-		if (!save.isCollapsed())
-			closeDirectory(save);
-		model.removeElement(save);
-	}
-
-
-	@Override
-	public void saveSelected(Save save)
-	{
-	}
-
-
-	@Override
-	public void saveRenamed(Save save, String newName)
-	{
-		renameFolder(save, newName);
-		save.setFile(new File(save.getFile().getParentFile() + File.separator + newName));
-		save.setName(newName);
-		File file = save.getFile();
-		sort();
-		DefaultListModel<Save> model = (DefaultListModel<Save>) getModel();
-		for (int i = 0; i < model.size(); i++)
-		{
-			if (model.getElementAt(i).getFile().equals(file))
-			{
-				setSelectedIndex(i);
-				ensureIndexIsVisible(i);
-				return;
-			}
-		}
 	}
 
 
@@ -671,20 +480,10 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 			{
 				if (input == null || input.equals("") || input.equals(SearchBar.DEFAULT_TEXT))
 				{
-					fillWith(OrganizerManager.getSelectedProfile());
+					fillWith(OrganizerManager.getSelectedProfile(), null);
 					return;
 				}
-				File profileDir = OrganizerManager.getSelectedProfile().getDirectory();
-				List<File> saves = sortByFolders(profileDir.listFiles());
-				List<File> savesToRemove = new ArrayList<>();
-				for (File file : saves)
-				{
-					if (!OrganizerManager.containsFileWithName(file, input))
-						savesToRemove.add(file);
-				}
-				for (File file : savesToRemove)
-					saves.remove(file);
-				fillWith(saves);
+				fillWith(OrganizerManager.getSelectedProfile(), input);
 			}
 		});
 	}
@@ -698,7 +497,7 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 			@Override
 			public void run()
 			{
-				sort();
+				sortEntries();
 			}
 
 		});
@@ -710,13 +509,12 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 	{
 		if (e.getClickCount() < 2)
 			return;
-		Save save = getSelectedValue();
-		if (save == null || !save.isDirectory())
-			return;
-		if (save.isCollapsed())
-			openDirectory(save);
-		else
-			closeDirectory(save);
+		SaveListEntry entry = getSelectedValue();
+		if (entry instanceof Folder)
+			if (((Folder) entry).isClosed())
+				openDirectory(entry);
+			else
+				closeDirectory(entry);
 	}
 
 
@@ -756,9 +554,9 @@ public class SaveList extends JList<Save> implements ListCellRenderer<Save>, Lis
 	public void keyReleased(KeyEvent e)
 	{
 		if (e.getKeyCode() == KeyEvent.VK_F2)
-			askToEditSave(getSelectedValue());
+			askToEditEntry(getSelectedValue());
 		else if (e.getKeyCode() == KeyEvent.VK_DELETE)
-			askToDeleteSaves(getSelectedValuesList());
+			askToDeleteEntries(getSelectedValuesList());
 	}
 
 
