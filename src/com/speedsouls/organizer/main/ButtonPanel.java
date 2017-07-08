@@ -28,6 +28,7 @@ import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
 
 import jiconfont.icons.Elusive;
+import jiconfont.icons.Iconic;
 import jiconfont.swing.IconFontSwing;
 
 
@@ -115,7 +116,8 @@ public class ButtonPanel extends JPanel
 	 */
 	private JButton createImportButton()
 	{
-		JButton importButton = new JButton("Import current savefile");
+		JButton importButton = new JButton("Import Savestate");
+		importButton.setIcon(IconFontSwing.buildIcon(Iconic.CURVED_ARROW, 16));
 		importButton.addActionListener(event -> {
 			Profile profile = OrganizerManager.getSelectedProfile();
 			if (profile.getRoot().getFile().exists())
@@ -138,8 +140,8 @@ public class ButtonPanel extends JPanel
 	 */
 	private JButton createLoadButton()
 	{
-		JButton loadButton = new JButton("Load selected savefile");
-		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, Color.GREEN));
+		JButton loadButton = new JButton("Load Savestate");
+		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, new Color(50, 205, 50)));
 		loadButton.addActionListener(event -> {
 			SaveListEntry entry = OrganizerManager.getSelectedEntry();
 			if (entry instanceof Folder)
