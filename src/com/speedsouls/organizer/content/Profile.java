@@ -17,7 +17,7 @@ public class Profile implements Comparable<Profile>
 {
 
 	private Game game;
-	private Folder root;
+	private RootFolder root;
 
 
 	/**
@@ -30,7 +30,7 @@ public class Profile implements Comparable<Profile>
 	{
 		this.game = game;
 		if (name != null && name.length() > 0)
-			root = new Folder(null, new File(game.getDirectory() + File.separator + name));
+			root = new RootFolder(new File(game.getDirectory() + File.separator + name));
 	}
 
 

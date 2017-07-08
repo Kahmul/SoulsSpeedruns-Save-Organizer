@@ -75,8 +75,14 @@ public class Folder extends SaveListEntry
 	@Override
 	public void rename(String newName)
 	{
-		getFile().renameTo(new File(getParent().getFile() + File.separator + newName));
-		setFile(new File(getParent().getFile() + File.separator + newName));
+		File newFile = new File(getParent().getFile() + File.separator + newName);
+		getFile().renameTo(newFile);
+		setFile(newFile);
+		for (SaveListEntry entry : getChildren())
+		{
+			// call rename on all children with the same name to update the path with the new parent
+			entry.rename(entry.getName());
+		}
 	}
 
 
@@ -86,8 +92,7 @@ public class Folder extends SaveListEntry
 	@Override
 	public void delete()
 	{
-		if (getParent() != null)
-			getParent().removeChild(this);
+		getParent().removeChild(this);
 		OrganizerManager.deleteDirectory(getFile());
 	}
 
