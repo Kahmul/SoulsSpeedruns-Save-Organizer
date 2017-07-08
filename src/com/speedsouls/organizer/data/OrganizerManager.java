@@ -33,6 +33,7 @@ import com.speedsouls.organizer.main.OrganizerWindow;
 import com.speedsouls.organizer.natives.GlobalKeyboardHook;
 
 import jiconfont.icons.Elusive;
+import jiconfont.icons.Entypo;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
@@ -133,6 +134,7 @@ public class OrganizerManager
 
 		IconFontSwing.register(FontAwesome.getIconFont());
 		IconFontSwing.register(Elusive.getIconFont());
+		IconFontSwing.register(Entypo.getIconFont());
 	}
 
 

@@ -19,6 +19,7 @@ import com.speedsouls.organizer.content.SortingCategory;
 import com.speedsouls.organizer.data.OrganizerManager;
 
 import jiconfont.icons.Elusive;
+import jiconfont.icons.Entypo;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
@@ -157,6 +158,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createOpenInExplorerItem(SaveList saveList)
 	{
 		JMenuItem itemOpenInExplorer = new JMenuItem("Open Folder In Explorer");
+		itemOpenInExplorer.setIcon(IconFontSwing.buildIcon(Entypo.EXPORT, 15, Color.GRAY));
 		itemOpenInExplorer.addActionListener(event -> {
 			SaveListEntry entry = saveList.getSelectedValue();
 			File dirToOpen = OrganizerManager.getSelectedProfile().getRoot().getFile(); // default folder to open
