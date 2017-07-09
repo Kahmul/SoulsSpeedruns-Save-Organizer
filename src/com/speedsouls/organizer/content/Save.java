@@ -31,9 +31,6 @@ public class Save extends SaveListEntry
 	}
 
 
-	/*
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
 	@Override
 	public int compareTo(SaveListEntry entry)
 	{
@@ -43,9 +40,6 @@ public class Save extends SaveListEntry
 	}
 
 
-	/*
-	 * @see com.speedsouls.organizer.content.SaveListEntry#rename(java.lang.String)
-	 */
 	@Override
 	public void rename(String newName)
 	{
@@ -54,9 +48,6 @@ public class Save extends SaveListEntry
 	}
 
 
-	/*
-	 * @see com.speedsouls.organizer.content.SaveListEntry#render(javax.swing.JLabel)
-	 */
 	@Override
 	public void render(JLabel label)
 	{
@@ -67,9 +58,6 @@ public class Save extends SaveListEntry
 	}
 
 
-	/*
-	 * @see com.speedsouls.organizer.content.SaveListEntry#delete()
-	 */
 	@Override
 	public void delete()
 	{

@@ -20,7 +20,7 @@ import com.speedsouls.organizer.data.OrganizerManager;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.Entypo;
-import jiconfont.icons.FontAwesome;
+import jiconfont.icons.Iconic;
 import jiconfont.swing.IconFontSwing;
 
 
@@ -109,7 +109,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createRemoveItem(SaveList saveList)
 	{
 		JMenuItem itemRemove = new JMenuItem("Delete");
-		itemRemove.setIcon(IconFontSwing.buildIcon(FontAwesome.TRASH, 18, Color.GRAY));
+		itemRemove.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 18, Color.RED));
 		itemRemove.setAccelerator(KeyStroke.getKeyStroke("DELETE"));
 		itemRemove.addActionListener(event -> {
 			saveList.askToDeleteEntries(saveList.getSelectedValuesList());

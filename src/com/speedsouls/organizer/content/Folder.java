@@ -27,7 +27,7 @@ public class Folder extends SaveListEntry
 {
 
 	private boolean isClosed = true;
-	private static Color color = new Color(218, 165, 32);
+	private static Color color = new Color(248, 217, 14);
 	private static final int ICON_SIZE = 15;
 
 
@@ -69,9 +69,6 @@ public class Folder extends SaveListEntry
 	}
 
 
-	/*
-	 * @see com.speedsouls.organizer.content.SaveListEntry#rename(java.lang.String)
-	 */
 	@Override
 	public void rename(String newName)
 	{
@@ -86,9 +83,6 @@ public class Folder extends SaveListEntry
 	}
 
 
-	/*
-	 * @see com.speedsouls.organizer.content.SaveListEntry#delete()
-	 */
 	@Override
 	public void delete()
 	{
@@ -97,9 +91,6 @@ public class Folder extends SaveListEntry
 	}
 
 
-	/*
-	 * @see com.speedsouls.organizer.content.SaveListEntry#render(javax.swing.JLabel)
-	 */
 	@Override
 	public void render(JLabel label)
 	{
