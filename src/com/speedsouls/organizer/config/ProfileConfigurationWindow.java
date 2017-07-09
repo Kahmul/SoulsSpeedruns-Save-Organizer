@@ -65,7 +65,10 @@ public class ProfileConfigurationWindow extends JDialog
 		Game[] games = Game.values();
 		for (Game game : games)
 		{
-			tabbedPane.add(new GameConfigPanel(game), game.getCaption());
+			GameConfigPanel panel = new GameConfigPanel(game);
+			tabbedPane.add(panel, game.getCaption());
+			if (OrganizerManager.getSelectedGame().equals(game))
+				tabbedPane.setSelectedComponent(panel);
 		}
 		guiPanel.add(tabbedPane);
 
