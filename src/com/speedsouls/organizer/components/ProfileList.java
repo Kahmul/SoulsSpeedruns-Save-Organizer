@@ -133,7 +133,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 		new File(game.getSaveFile() + File.separator + name).mkdirs();
 		Profile newProfile = new Profile(name, game);
 		game.addProfile(newProfile);
-		OrganizerManager.updateProfiles(game);
+		fillWith(game.getProfiles());
 	}
 
 
@@ -198,11 +198,14 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 	 */
 	private void deleteProfiles(List<Profile> profiles)
 	{
+		DefaultListModel<Profile> model = (DefaultListModel<Profile>) getModel();
 		for (Profile profile : profiles)
 		{
 			profile.delete();
-			OrganizerManager.updateProfiles(profile.getGame());
+			model.removeElement(profile);
+			OrganizerManager.fireProfileDeletedEvent(profile);
 		}
+		repaint();
 	}
 
 
@@ -235,7 +238,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 	private void renameProfile(Profile profile, String newName)
 	{
 		profile.rename(newName);
-		OrganizerManager.updateProfiles(game);
+		repaint();
 	}
 
 
@@ -285,11 +288,8 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 
 
 	@Override
-	public void profilesUpdated(Game game)
+	public void profileDeleted(Profile profile)
 	{
-		if (this.game != game)
-			return;
-		fillWith(game.getProfiles());
 	}
 
 

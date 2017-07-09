@@ -17,11 +17,11 @@ public interface ProfileListener
 {
 
 	/**
-	 * Called when the profiles for this game are updated.
+	 * Called when a profile has been deleted
 	 * 
-	 * @param game the game the profiles were updated for
+	 * @param profile the deleted profile
 	 */
-	public void profilesUpdated(Game game);
+	public void profileDeleted(Profile profile);
 
 
 	/**

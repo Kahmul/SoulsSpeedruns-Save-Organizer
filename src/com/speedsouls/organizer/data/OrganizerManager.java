@@ -212,18 +212,6 @@ public class OrganizerManager
 			return;
 		}
 		game.setDirectory(gameDirectory);
-		updateProfiles(game);
-	}
-
-
-	/**
-	 * Updates the profile list for this game.
-	 * 
-	 * @param game the game to update the profiles for.
-	 */
-	public static void updateProfiles(Game game)
-	{
-		fireProfilesUpdatedEvent(game);
 	}
 
 
@@ -398,7 +386,6 @@ public class OrganizerManager
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		updateProfiles(game);
 	}
 
 
@@ -690,15 +677,15 @@ public class OrganizerManager
 
 
 	/**
-	 * Fires a profilesUpdated event.
+	 * Fires a profileDeleted event.
 	 * 
-	 * @param game the game that the profiles were updated for
+	 * @param profile the deleted profile
 	 */
-	public static void fireProfilesUpdatedEvent(Game game)
+	public static void fireProfileDeletedEvent(Profile profile)
 	{
 		for (ProfileListener listener : profileListeners)
 		{
-			listener.profilesUpdated(game);
+			listener.profileDeleted(profile);
 		}
 	}
 

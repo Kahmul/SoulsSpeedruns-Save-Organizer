@@ -63,7 +63,7 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRend
 		for (Profile profile : profiles)
 		{
 			addItem(profile);
-			if (OrganizerManager.getSelectedProfile() == profile)
+			if (OrganizerManager.getSelectedProfile().equals(profile))
 				setSelectedItem(profile);
 		}
 		if (profiles.size() == 0)
@@ -95,10 +95,13 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRend
 
 
 	@Override
-	public void profilesUpdated(Game game)
+	public void profileDeleted(Profile profile)
 	{
-		if (OrganizerManager.getSelectedGame() == game)
-			fillWith(game);
+		if (OrganizerManager.getSelectedGame().equals(profile.getGame()))
+		{
+			repaint();
+			removeItem(profile);
+		}
 	}
 
 

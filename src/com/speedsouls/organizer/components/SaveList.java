@@ -412,7 +412,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 
 	@Override
-	public void profilesUpdated(Game game)
+	public void profileDeleted(Profile profile)
 	{
 	}
 
@@ -461,6 +461,9 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	@Override
 	public void saveLoadFinished(Save save)
 	{
+		int newIndex = ((DefaultListModel<SaveListEntry>) getModel()).indexOf(save);
+		setSelectedIndex(newIndex);
+		requestFocusInWindow();
 	}
 
 
