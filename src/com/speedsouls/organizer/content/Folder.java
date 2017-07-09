@@ -27,7 +27,7 @@ public class Folder extends SaveListEntry
 {
 
 	private boolean isClosed = true;
-	private static Color color = new Color(248, 217, 14);
+	private static Color color = new Color(251, 208, 108);
 	private static final int ICON_SIZE = 15;
 
 
@@ -66,6 +66,15 @@ public class Folder extends SaveListEntry
 	public void setClosed(boolean isClosed)
 	{
 		this.isClosed = isClosed;
+	}
+
+
+	@Override
+	public void removeChild(SaveListEntry entry)
+	{
+		super.removeChild(entry);
+		if (getChildren().size() == 0)
+			setClosed(true);
 	}
 
 
