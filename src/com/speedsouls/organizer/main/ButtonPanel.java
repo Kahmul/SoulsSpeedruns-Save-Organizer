@@ -63,6 +63,7 @@ public class ButtonPanel extends JPanel
 		progressBar = createProgressBar();
 		JButton importButton = createImportButton();
 		JButton loadButton = createLoadButton();
+		JButton replaceButton = createReplaceButton();
 		SettingsButton settingsButton = new SettingsButton();
 
 		Component glue = Box.createHorizontalGlue();
@@ -73,6 +74,7 @@ public class ButtonPanel extends JPanel
 		hGroup.addGroup(layout.createParallelGroup().addComponent(importButton));
 
 		hGroup.addGroup(layout.createParallelGroup().addComponent(loadButton));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(replaceButton));
 		hGroup.addGroup(layout.createParallelGroup().addComponent(progressBar));
 		hGroup.addGap(10);
 		hGroup.addGroup(layout.createParallelGroup().addComponent(readOnlyButton));
@@ -84,15 +86,16 @@ public class ButtonPanel extends JPanel
 		// Vertical
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
-		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(importButton).addComponent(loadButton)
-				.addComponent(progressBar).addComponent(readOnlyButton).addComponent(glue).addComponent(settingsButton));
+		vGroup.addGroup(
+				layout.createParallelGroup(Alignment.CENTER).addComponent(importButton).addComponent(loadButton).addComponent(replaceButton)
+						.addComponent(progressBar).addComponent(readOnlyButton).addComponent(glue).addComponent(settingsButton));
 		vGroup.addGap(10);
 
 		layout.setVerticalGroup(vGroup);
 
 		setLayout(layout);
 
-		addLoadButtonListeners(loadButton);
+		addButtonListeners(loadButton, replaceButton);
 	}
 
 
@@ -120,13 +123,13 @@ public class ButtonPanel extends JPanel
 		importButton.setIcon(IconFontSwing.buildIcon(Iconic.CURVED_ARROW, 16, new Color(30, 144, 255)));
 		importButton.addActionListener(event -> {
 			Profile profile = OrganizerManager.getSelectedProfile();
-			if (profile.getRoot().getFile().exists())
+			if (profile.getRoot() != null)
 			{
 				OrganizerManager.importSavefile();
 				return;
 			}
-			JOptionPane.showMessageDialog(null, "Create a profile before trying to import a savefile!", "Error occured",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Create a profile before trying to import a savefile!", "Warning",
+					JOptionPane.WARNING_MESSAGE);
 		});
 		return importButton;
 	}
@@ -141,7 +144,7 @@ public class ButtonPanel extends JPanel
 	private JButton createLoadButton()
 	{
 		JButton loadButton = new JButton("Load Savestate");
-		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, new Color(50, 205, 50)));
+		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, new Color(50, 205, 50)));
 		loadButton.addActionListener(event -> {
 			SaveListEntry entry = OrganizerManager.getSelectedEntry();
 			if (entry instanceof Folder)
@@ -154,11 +157,25 @@ public class ButtonPanel extends JPanel
 
 
 	/**
-	 * Adds the listeners to enable/disable the load button.
+	 * @return
+	 */
+	private JButton createReplaceButton()
+	{
+		JButton replaceButton = new JButton("Replace Savestate");
+		replaceButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, new Color(255, 165, 0)));
+		replaceButton.addActionListener(event -> {
+		});
+		replaceButton.setEnabled(false);
+		return replaceButton;
+	}
+
+
+	/**
+	 * Adds the listeners to enable/disable the load and replace button
 	 * 
 	 * @param loadButton the load button
 	 */
-	private void addLoadButtonListeners(JButton loadButton)
+	private void addButtonListeners(JButton loadButton, JButton replaceButton)
 	{
 		OrganizerManager.addSaveListener(new SaveListener() {
 
@@ -168,9 +185,11 @@ public class ButtonPanel extends JPanel
 				if (entry != null)
 				{
 					loadButton.setEnabled(entry instanceof Save);
+					replaceButton.setEnabled(entry instanceof Save);
 					return;
 				}
 				loadButton.setEnabled(false);
+				replaceButton.setEnabled(false);
 			}
 
 
@@ -213,7 +232,7 @@ public class ButtonPanel extends JPanel
 		OrganizerManager.addProfileListener(new ProfileListener() {
 
 			@Override
-			public void profilesUpdated(Game game)
+			public void profileDeleted(Profile profile)
 			{
 			}
 
