@@ -93,6 +93,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createAddItem(SaveList saveList)
 	{
 		JMenuItem itemAdd = new JMenuItem("Add Folder");
+		itemAdd.setIcon(IconFontSwing.buildIcon(Elusive.PLUS_SIGN, 15, new Color(50, 205, 50)));
 		itemAdd.addActionListener(event -> {
 			saveList.askToCreateFolder();
 		});
@@ -107,7 +108,7 @@ public class SaveListContextMenu extends JPopupMenu
 	 */
 	private JMenuItem createRemoveItem(SaveList saveList)
 	{
-		JMenuItem itemRemove = new JMenuItem("Remove");
+		JMenuItem itemRemove = new JMenuItem("Delete");
 		itemRemove.setIcon(IconFontSwing.buildIcon(FontAwesome.TRASH, 18, Color.GRAY));
 		itemRemove.setAccelerator(KeyStroke.getKeyStroke("DELETE"));
 		itemRemove.addActionListener(event -> {
@@ -125,7 +126,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createEditItem(SaveList saveList)
 	{
 		JMenuItem itemEdit = new JMenuItem("Rename");
-		itemEdit.setIcon(IconFontSwing.buildIcon(Elusive.EDIT, 15, Color.GRAY));
+		itemEdit.setIcon(IconFontSwing.buildIcon(Elusive.EDIT, 15, new Color(255, 165, 0)));
 		itemEdit.setAccelerator(KeyStroke.getKeyStroke("F2"));
 		itemEdit.addActionListener(event -> {
 			saveList.askToEditEntry(saveList.getSelectedValue());
@@ -158,7 +159,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createOpenInExplorerItem(SaveList saveList)
 	{
 		JMenuItem itemOpenInExplorer = new JMenuItem("Open Folder In Explorer");
-		itemOpenInExplorer.setIcon(IconFontSwing.buildIcon(Entypo.EXPORT, 15, Color.GRAY));
+		itemOpenInExplorer.setIcon(IconFontSwing.buildIcon(Entypo.EXPORT, 15, new Color(30, 144, 255)));
 		itemOpenInExplorer.addActionListener(event -> {
 			SaveListEntry entry = saveList.getSelectedValue();
 			File dirToOpen = OrganizerManager.getSelectedProfile().getRoot().getFile(); // default folder to open

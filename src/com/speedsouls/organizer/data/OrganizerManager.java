@@ -36,6 +36,7 @@ import jiconfont.icons.Elusive;
 import jiconfont.icons.Entypo;
 import jiconfont.icons.FontAwesome;
 import jiconfont.icons.Iconic;
+import jiconfont.icons.Typicons;
 import jiconfont.swing.IconFontSwing;
 
 
@@ -51,7 +52,7 @@ import jiconfont.swing.IconFontSwing;
 public class OrganizerManager
 {
 
-	public static final String VERSION = "1.3.1";
+	public static final String VERSION = "1.4";
 	public static final String WEB_PAGE_URL = "www.speedsouls.com/SpeedSouls_-_Save_Organizer";
 
 	private static final String RESOURCE_PATH = "/com/speedsouls/organizer/resources/";
@@ -137,6 +138,7 @@ public class OrganizerManager
 		IconFontSwing.register(Elusive.getIconFont());
 		IconFontSwing.register(Entypo.getIconFont());
 		IconFontSwing.register(Iconic.getIconFont());
+		IconFontSwing.register(Typicons.getIconFont());
 	}
 
 
