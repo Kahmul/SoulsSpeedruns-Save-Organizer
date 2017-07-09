@@ -165,7 +165,7 @@ public class ButtonPanel extends JPanel
 		replaceButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, new Color(255, 165, 0)));
 		replaceButton.addActionListener(event -> {
 			Save selectedSave = (Save) OrganizerManager.getSelectedEntry();
-			int confirm = JOptionPane.showConfirmDialog(getParent(), "Do you really want to delete '" + selectedSave.getName() + "'?",
+			int confirm = JOptionPane.showConfirmDialog(getParent(), "Do you really want to replace '" + selectedSave.getName() + "'?",
 					"Replace " + selectedSave.getName(), JOptionPane.YES_NO_OPTION);
 			if (confirm != 0)
 				return;
