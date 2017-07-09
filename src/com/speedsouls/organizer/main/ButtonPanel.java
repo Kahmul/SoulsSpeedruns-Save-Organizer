@@ -125,7 +125,7 @@ public class ButtonPanel extends JPanel
 			Profile profile = OrganizerManager.getSelectedProfile();
 			if (profile.getRoot() != null)
 			{
-				OrganizerManager.importSavefile();
+				OrganizerManager.importSavefile(null);
 				return;
 			}
 			JOptionPane.showMessageDialog(null, "Create a profile before trying to import a savefile!", "Warning",
@@ -164,6 +164,12 @@ public class ButtonPanel extends JPanel
 		JButton replaceButton = new JButton("Replace Savestate");
 		replaceButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, new Color(255, 165, 0)));
 		replaceButton.addActionListener(event -> {
+			Save selectedSave = (Save) OrganizerManager.getSelectedEntry();
+			int confirm = JOptionPane.showConfirmDialog(getParent(), "Do you really want to delete '" + selectedSave.getName() + "'?",
+					"Replace " + selectedSave.getName(), JOptionPane.YES_NO_OPTION);
+			if (confirm != 0)
+				return;
+			OrganizerManager.importAndReplaceSavefile(selectedSave);
 		});
 		replaceButton.setEnabled(false);
 		return replaceButton;

@@ -390,17 +390,38 @@ public class OrganizerManager
 
 
 	/**
-	 * Imports a new savefile.
+	 * Imports a new savefile. If a parent is given, it will be imported into that folder. Otherwise the parent will be determined
+	 * based on the selection in the save list.
+	 * 
+	 * @param parentFolder the folder to import the savefile into
+	 * @return the imported save
 	 */
-	public static void importSavefile()
+	public static Save importSavefile(Folder parentFolder)
 	{
 		SaveListEntry parent = getSelectedEntry();
 		if (parent instanceof Save)
 			parent = parent.getParent();
+		if (parentFolder != null)
+			parent = parentFolder;
 		File saveFile = createFileForNewSave((Folder) parent);
 		Save newSave = new Save((Folder) parent, saveFile);
 		parent.addChild(newSave);
 		fireEntryCreatedEvent(newSave);
+		return newSave;
+	}
+
+
+	/**
+	 * Imports a new savefile and replaces an existing one in the list.
+	 * 
+	 * @param saveToReplace the save to be replaced by the imported one
+	 */
+	public static void importAndReplaceSavefile(Save saveToReplace)
+	{
+		Folder parent = saveToReplace.getParent();
+		String name = saveToReplace.getName();
+		saveToReplace.delete();
+		importSavefile(parent).rename(name);
 	}
 
 
