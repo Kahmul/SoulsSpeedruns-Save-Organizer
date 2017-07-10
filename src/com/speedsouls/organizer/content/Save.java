@@ -22,8 +22,10 @@ public class Save extends SaveListEntry
 {
 
 	/**
-	 * @param parent
-	 * @param file
+	 * Creates a new Save instance.
+	 * 
+	 * @param parent the parent folder
+	 * @param file the associated file
 	 */
 	public Save(Folder parent, File file)
 	{

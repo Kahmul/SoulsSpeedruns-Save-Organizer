@@ -32,7 +32,10 @@ public class Folder extends SaveListEntry
 
 
 	/**
-	 * @param parent
+	 * Creates a new Folder instance.
+	 * 
+	 * @param parent the parent folder
+	 * @param file the associated file
 	 */
 	public Folder(Folder parent, File file)
 	{

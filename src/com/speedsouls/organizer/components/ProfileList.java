@@ -153,7 +153,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 			return false;
 		if (OrganizerManager.containsIllegals(name))
 		{
-			JOptionPane.showMessageDialog(getParent(), "Illegal characters (~, @, *, %, {, }, <, >, [, ], |, “, ”, \\, ^) are not allowed!",
+			JOptionPane.showMessageDialog(getParent(), "Illegal characters (" + OrganizerManager.ILLEGAL_CHARACTERS + ") are not allowed!",
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
@@ -259,7 +259,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 			return false;
 		if (OrganizerManager.containsIllegals(newName))
 		{
-			JOptionPane.showMessageDialog(getParent(), "Illegal characters (~, @, *, %, {, }, <, >, [, ], |, “, ”, \\, ^) are not allowed!",
+			JOptionPane.showMessageDialog(getParent(), "Illegal characters (" + OrganizerManager.ILLEGAL_CHARACTERS + ") are not allowed!",
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
