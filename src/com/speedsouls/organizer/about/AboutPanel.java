@@ -86,7 +86,7 @@ public class AboutPanel extends JPanel
 			{
 				try
 				{
-					Desktop.getDesktop().browse(new URI("www.twitter.com/Kahmul78"));
+					Desktop.getDesktop().browse(new URI(OrganizerManager.TWITTER_URL));
 				}
 				catch (Exception ex)
 				{
@@ -110,7 +110,7 @@ public class AboutPanel extends JPanel
 			{
 				try
 				{
-					Desktop.getDesktop().browse(new URI("www.github.com/Kahmul/SpeedSouls-Save-Organizer"));
+					Desktop.getDesktop().browse(new URI(OrganizerManager.GITHUB_REPO_URL));
 				}
 				catch (Exception ex)
 				{

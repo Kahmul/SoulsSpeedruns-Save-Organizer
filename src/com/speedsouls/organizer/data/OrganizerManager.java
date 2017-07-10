@@ -4,9 +4,15 @@ package com.speedsouls.organizer.data;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URI;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -17,6 +23,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import org.jnativehook.NativeHookException;
+import org.json.JSONObject;
 
 import com.speedsouls.organizer.content.Folder;
 import com.speedsouls.organizer.content.Game;
@@ -53,7 +60,11 @@ public class OrganizerManager
 {
 
 	public static final String VERSION = "1.4";
+
 	public static final String WEB_PAGE_URL = "www.speedsouls.com/SpeedSouls_-_Save_Organizer";
+	public static final String GITHUB_REPO_URL = "www.github.com/Kahmul/SpeedSouls-Save-Organizer";
+	public static final String TWITTER_URL = "www.twitter.com/Kahmul78";
+	public static final String LATEST_RELEASE_URL = "https://api.github.com/repos/Kahmul/SpeedSouls-Save-Organizer/releases/latest";
 
 	private static final String RESOURCE_PATH = "/com/speedsouls/organizer/resources/";
 	private static final String PREFERENCES_PATH = "/com/speedsouls/organizer/prefs";
@@ -925,6 +936,86 @@ public class OrganizerManager
 	{
 		String[] arr = toExamine.split(ILLEGAL_CHARACTERS_REGEX, 2);
 		return arr.length > 1;
+	}
+
+
+	/**
+	 * Checks whether the local Save Organizer version is outdated compared to the latest GitHub release.
+	 * 
+	 * @return whether the local version is outdated
+	 */
+	public static boolean isVersionOutdated()
+	{
+		String[] vals1 = VERSION.split("\\.");
+		String[] vals2 = getLatestReleaseVersion().split("\\.");
+		int i = 0;
+		// set index to first non-equal ordinal or length of shortest version string
+		while (i < vals1.length && i < vals2.length && vals1[i].equals(vals2[i]))
+		{
+			i++;
+		}
+		// compare first non-equal ordinal number
+		if (i < vals1.length && i < vals2.length)
+		{
+			int diff = Integer.valueOf(vals1[i]).compareTo(Integer.valueOf(vals2[i]));
+			return Integer.signum(diff) == -1;
+		}
+		// the strings are equal or one string is a substring of the other
+		// e.g. "1.2.3" = "1.2.3" or "1.2.3" < "1.2.3.4"
+		return Integer.signum(vals1.length - vals2.length) == -1;
+	}
+
+
+	/**
+	 * Checks the latest release on GitHub and returns it.
+	 * 
+	 * @return latest release version on GitHub
+	 */
+	public static String getLatestReleaseVersion()
+	{
+		try (InputStream is = new URL(LATEST_RELEASE_URL).openStream())
+		{
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+			String jsonText = readAll(rd);
+			JSONObject json = new JSONObject(jsonText);
+			return json.getString("tag_name").substring(2);
+		}
+		catch (Exception e)
+		{
+		}
+		return "0.0";
+	}
+
+
+	/**
+	 * Builds the download URL based on the latest release version.
+	 * 
+	 * @return the download URL for the latest release
+	 */
+	private static String getLatestReleaseDownloadURL()
+	{
+		String latestVersion = getLatestReleaseVersion();
+		return "https://github.com/Kahmul/SpeedSouls-Save-Organizer/releases/download/v." + latestVersion + "SpeedSouls.-.Save.Organizer."
+				+ latestVersion + ".zip";
+	}
+
+
+	/**
+	 * Reads all the input from a Reader and returns it in a single String.
+	 * 
+	 * @param rd the reader
+	 * @return the input
+	 * @throws IOException
+	 */
+	private static String readAll(Reader rd) throws IOException
+	{
+		StringBuilder sb = new StringBuilder();
+		int cp;
+		while ((cp = rd.read()) != -1)
+		{
+			sb.append((char) cp);
+		}
+		return sb.toString();
 	}
 
 }
