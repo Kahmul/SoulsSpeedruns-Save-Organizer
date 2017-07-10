@@ -127,7 +127,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		{
 			if (searchTerm != null && searchTerm.length() > 0)
 			{
-				if (entry.getName().contains(searchTerm))
+				if (entry.matchesSearchTerm(searchTerm))
 					model.addElement(entry);
 				continue;
 			}

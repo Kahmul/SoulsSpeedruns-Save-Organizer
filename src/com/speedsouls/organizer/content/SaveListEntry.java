@@ -154,6 +154,25 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 
 
 	/**
+	 * Returns true if either this entry or one of its children have the given searchTerm in their name.
+	 * 
+	 * @param searchTerm the term to search for
+	 * @return whether this entry or one of its children matches the given term
+	 */
+	public boolean matchesSearchTerm(String searchTerm)
+	{
+		if (getName().toLowerCase().contains(searchTerm.toLowerCase()))
+			return true;
+		for (SaveListEntry entry : children)
+		{
+			if (entry.matchesSearchTerm(searchTerm))
+				return true;
+		}
+		return false;
+	}
+
+
+	/**
 	 * Renames the given entry.
 	 * 
 	 * @param newName the new name
