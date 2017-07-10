@@ -28,9 +28,6 @@ public class RootFolder extends Folder
 	}
 
 
-	/*
-	 * @see com.speedsouls.organizer.content.SaveListEntry#rename(java.lang.String)
-	 */
 	@Override
 	public void rename(String newName)
 	{
@@ -45,9 +42,6 @@ public class RootFolder extends Folder
 	}
 
 
-	/*
-	 * @see com.speedsouls.organizer.content.SaveListEntry#delete()
-	 */
 	@Override
 	public void delete()
 	{

@@ -4,6 +4,8 @@ package com.speedsouls.organizer.content;
 import java.io.File;
 import java.util.Collections;
 
+import com.speedsouls.organizer.data.OrganizerManager;
+
 
 /**
  * Profile class.
@@ -72,7 +74,10 @@ public class Profile implements Comparable<Profile>
 	 */
 	public void rename(String name)
 	{
+		boolean updateSelectedProfile = this.equals(OrganizerManager.getSelectedProfile());
 		root.rename(name);
+		if (updateSelectedProfile)
+			OrganizerManager.switchToProfile(this); // update the name of the stored selected profile
 		Collections.sort(game.getProfiles());
 	}
 

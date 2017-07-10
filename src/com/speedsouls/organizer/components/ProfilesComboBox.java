@@ -108,6 +108,10 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRend
 	@Override
 	public void changedToProfile(Profile profile)
 	{
+		// updates the combobox UI when a profile is edited that is currently selected in the organizer, as changing the name
+		// requires calling switchToProfile() to update the stored selected profile. As a result, this method is called as well,
+		// so the combobox is repainted.
+		repaint();
 	}
 
 
