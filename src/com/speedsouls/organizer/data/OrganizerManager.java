@@ -406,6 +406,8 @@ public class OrganizerManager
 			parent = parent.getParent();
 		if (parentFolder != null)
 			parent = parentFolder;
+		if (parent == null)
+			parent = getSelectedProfile().getRoot();
 		File saveFile = createFileForNewSave((Folder) parent);
 		Save newSave = new Save((Folder) parent, saveFile);
 		parent.addChild(newSave);
@@ -456,7 +458,7 @@ public class OrganizerManager
 	 */
 	private static File createFileForNewSave(Folder parent)
 	{
-		String parentPath = parent.getFile().getPath();
+		String parentPath = parent != null ? parent.getFile().getPath() : getSelectedProfile().getRoot().getFile().getPath();
 		String name = getSelectedGame().getSaveName();
 		File newFile = new File(parentPath + File.separator + name);
 		for (int i = 0; newFile.exists(); i++)
