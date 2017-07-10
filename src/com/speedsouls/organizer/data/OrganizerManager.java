@@ -712,6 +712,20 @@ public class OrganizerManager
 
 
 	/**
+	 * Fires a profileCreated event.
+	 * 
+	 * @param profile the created profile
+	 */
+	public static void fireProfileCreatedEvent(Profile profile)
+	{
+		for (ProfileListener listener : profileListeners)
+		{
+			listener.profileCreated(profile);
+		}
+	}
+
+
+	/**
 	 * Fires an entryCreated event.
 	 * 
 	 * @param entry the entry that was created

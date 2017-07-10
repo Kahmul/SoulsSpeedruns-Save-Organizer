@@ -99,9 +99,18 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRend
 	{
 		if (OrganizerManager.getSelectedGame().equals(profile.getGame()))
 		{
-			repaint();
 			removeItem(profile);
+			// if the currently chosen profile is deleted, another one gets auto selected, without the Manager being updated. So
+			// switchToProfile() is called to update it. This also indirectly calls repaint().
+			OrganizerManager.switchToProfile((Profile) getSelectedItem());
 		}
+	}
+
+
+	@Override
+	public void profileCreated(Profile profile)
+	{
+		fillWith(OrganizerManager.getSelectedGame());
 	}
 
 

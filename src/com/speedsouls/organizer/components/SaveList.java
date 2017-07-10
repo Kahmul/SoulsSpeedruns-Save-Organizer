@@ -418,6 +418,12 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 
 	@Override
+	public void profileCreated(Profile profile)
+	{
+	}
+
+
+	@Override
 	public void changedToProfile(Profile profile)
 	{
 		if (profile.getRoot() != null)

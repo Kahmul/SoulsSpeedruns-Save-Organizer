@@ -244,6 +244,12 @@ public class ButtonPanel extends JPanel
 
 
 			@Override
+			public void profileCreated(Profile profile)
+			{
+			}
+
+
+			@Override
 			public void changedToProfile(Profile profile)
 			{
 				loadButton.setEnabled(false);

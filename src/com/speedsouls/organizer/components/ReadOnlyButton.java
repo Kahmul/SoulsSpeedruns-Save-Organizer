@@ -140,6 +140,12 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 
 
 	@Override
+	public void profileCreated(Profile profile)
+	{
+	}
+
+
+	@Override
 	public void changedToProfile(Profile profile)
 	{
 	}

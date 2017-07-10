@@ -130,10 +130,11 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 	 */
 	private void createNewProfile(String name)
 	{
-		new File(game.getSaveFile() + File.separator + name).mkdirs();
+		new File(game.getDirectory() + File.separator + name).mkdirs();
 		Profile newProfile = new Profile(name, game);
 		game.addProfile(newProfile);
 		fillWith(game.getProfiles());
+		OrganizerManager.fireProfileCreatedEvent(newProfile);
 	}
 
 
@@ -156,7 +157,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		File newSaveDir = new File(game.getSaveFile() + File.separator + name);
+		File newSaveDir = new File(game.getDirectory() + File.separator + name);
 		if (newSaveDir.exists())
 		{
 			JOptionPane.showMessageDialog(getParent(), "This profile already exists!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -289,6 +290,12 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 
 	@Override
 	public void profileDeleted(Profile profile)
+	{
+	}
+
+
+	@Override
+	public void profileCreated(Profile profile)
 	{
 	}
 

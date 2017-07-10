@@ -17,11 +17,19 @@ public interface ProfileListener
 {
 
 	/**
-	 * Called when a profile has been deleted
+	 * Called when a profile has been deleted.
 	 * 
 	 * @param profile the deleted profile
 	 */
 	public void profileDeleted(Profile profile);
+
+
+	/**
+	 * Called when a profile has been created.
+	 * 
+	 * @param profile the created profile
+	 */
+	public void profileCreated(Profile profile);
 
 
 	/**
