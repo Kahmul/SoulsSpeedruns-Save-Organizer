@@ -344,7 +344,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	private void renameEntry(SaveListEntry entry, String newName)
 	{
 		entry.rename(newName);
-		sortEntries();
+		OrganizerManager.fireEntryRenamedEvent(entry);
 	}
 
 
@@ -438,9 +438,6 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	}
 
 
-	/*
-	 * @see com.speedsouls.organizer.listeners.SaveListener#saveImported(com.speedsouls.organizer.content.Save)
-	 */
 	@Override
 	public void entryCreated(SaveListEntry entry)
 	{
@@ -449,6 +446,13 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		int newIndex = ((DefaultListModel<SaveListEntry>) getModel()).indexOf(entry);
 		setSelectedIndex(newIndex);
 		requestFocusInWindow();
+	}
+
+
+	@Override
+	public void entryRenamed(SaveListEntry entry)
+	{
+		sortEntries();
 	}
 
 

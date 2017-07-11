@@ -206,6 +206,12 @@ public class ButtonPanel extends JPanel
 
 
 			@Override
+			public void entryRenamed(SaveListEntry entry)
+			{
+			}
+
+
+			@Override
 			public void saveLoadStarted(Save save)
 			{
 				progressBar.setIndeterminate(true);

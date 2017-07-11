@@ -437,7 +437,9 @@ public class OrganizerManager
 		Folder parent = saveToReplace.getParent();
 		String name = saveToReplace.getName();
 		saveToReplace.delete();
-		importSavefile(parent).rename(name);
+		Save importedSave = importSavefile(parent);
+		importedSave.rename(name);
+		fireEntryRenamedEvent(importedSave);
 	}
 
 
@@ -751,6 +753,20 @@ public class OrganizerManager
 		for (SaveListener saveListener : saveListeners)
 		{
 			saveListener.entryCreated(entry);
+		}
+	}
+
+
+	/**
+	 * Fires an entryRenamed event.
+	 * 
+	 * @param entry the entry that was renamed
+	 */
+	public static void fireEntryRenamedEvent(SaveListEntry entry)
+	{
+		for (SaveListener saveListener : saveListeners)
+		{
+			saveListener.entryRenamed(entry);
 		}
 	}
 

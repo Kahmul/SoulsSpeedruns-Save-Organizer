@@ -104,7 +104,6 @@ public class OrganizerWindow extends JFrame
 			@Override
 			public void windowOpened(WindowEvent e)
 			{
-				System.out.println(OrganizerManager.getLatestReleaseVersion());
 				if (OrganizerManager.isVersionOutdated())
 					JOptionPane.showMessageDialog(null,
 							"A new version is available! Open the 'About' window via the settings button in the bottom right and open the GitHub Repository to get the latest release.",

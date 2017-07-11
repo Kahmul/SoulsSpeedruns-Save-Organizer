@@ -33,6 +33,14 @@ public interface SaveListener
 
 
 	/**
+	 * Called when an entry is renamed.
+	 * 
+	 * @param entry the entry that was renamed
+	 */
+	public void entryRenamed(SaveListEntry entry);
+
+
+	/**
 	 * Called when the load process of a save has been started.
 	 * 
 	 * @param save the save that is loaded
