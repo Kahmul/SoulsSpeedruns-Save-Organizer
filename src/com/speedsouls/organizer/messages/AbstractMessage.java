@@ -34,6 +34,10 @@ public abstract class AbstractMessage extends JPanel
 	private float fadeInOutRate = 0.1f;
 	private boolean fadingOut = false;
 
+	public static final AbstractMessage IMPORT = new SuccessfulImportMessage();
+	public static final AbstractMessage LOAD = new SuccessfulLoadMessage();
+	public static final AbstractMessage REPLACE = new SuccessfulReplaceMessage();
+
 
 	protected AbstractMessage()
 	{
@@ -69,6 +73,7 @@ public abstract class AbstractMessage extends JPanel
 			{
 				alpha = 0.0f;
 				getParent().setVisible(false);
+				fadingOut = false;
 				return;
 			}
 			repaint();
@@ -111,6 +116,13 @@ public abstract class AbstractMessage extends JPanel
 	protected void fadeOut()
 	{
 		fadingOut = true;
+		repaint();
+	}
+
+
+	protected void fadeIn()
+	{
+		fadingOut = false;
 		repaint();
 	}
 

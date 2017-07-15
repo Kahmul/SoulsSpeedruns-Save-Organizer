@@ -64,6 +64,13 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 	}
 
 
+	public void fadeIn()
+	{
+		setVisible(true);
+		message.fadeIn();
+	}
+
+
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{

@@ -38,7 +38,7 @@ import com.speedsouls.organizer.listeners.SaveListener;
 import com.speedsouls.organizer.listeners.SearchListener;
 import com.speedsouls.organizer.listeners.SortingListener;
 import com.speedsouls.organizer.main.OrganizerWindow;
-import com.speedsouls.organizer.messages.SuccessfulLoadMessage;
+import com.speedsouls.organizer.messages.AbstractMessage;
 import com.speedsouls.organizer.messages.UndecoratedMessageDialog;
 import com.speedsouls.organizer.natives.GlobalKeyboardHook;
 
@@ -433,6 +433,7 @@ public class OrganizerManager
 		Save newSave = new Save((Folder) parent, saveFile);
 		parent.addChild(newSave);
 		fireEntryCreatedEvent(newSave);
+		getMainWindow().displayMessageDialog(new UndecoratedMessageDialog(AbstractMessage.IMPORT));
 		return newSave;
 	}
 
@@ -447,9 +448,12 @@ public class OrganizerManager
 		Folder parent = saveToReplace.getParent();
 		String name = saveToReplace.getName();
 		saveToReplace.delete();
-		Save importedSave = importSavefile(parent);
-		importedSave.rename(name);
-		fireEntryRenamedEvent(importedSave);
+		File saveFile = createFileForNewSave((Folder) parent);
+		Save newSave = new Save(parent, saveFile);
+		newSave.rename(name);
+		parent.addChild(newSave);
+		fireEntryCreatedEvent(newSave);
+		getMainWindow().displayMessageDialog(new UndecoratedMessageDialog(AbstractMessage.REPLACE));
 	}
 
 
@@ -518,7 +522,7 @@ public class OrganizerManager
 			gameFile.setWritable(true);
 			saveFile.setWritable(true);
 			Files.copy(saveFile.toPath(), gameFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			getMainWindow().displayMessageDialog(new UndecoratedMessageDialog(new SuccessfulLoadMessage()));
+			getMainWindow().displayMessageDialog(new UndecoratedMessageDialog(AbstractMessage.LOAD));
 		}
 		catch (Exception e)
 		{

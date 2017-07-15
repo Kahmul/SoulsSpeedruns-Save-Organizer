@@ -134,11 +134,17 @@ public class OrganizerWindow extends JFrame
 	 */
 	public void displayMessageDialog(UndecoratedMessageDialog dialog)
 	{
-		if (currentDialog != null && currentDialog.isVisible())
+		if (currentDialog != null)
 			currentDialog.fadeOut();
 		currentDialog = dialog;
 		if (currentDialog != null)
-			currentDialog.setVisible(true);
+			currentDialog.fadeIn();
+	}
+
+
+	public UndecoratedMessageDialog getCurrentDialog()
+	{
+		return currentDialog;
 	}
 
 }
