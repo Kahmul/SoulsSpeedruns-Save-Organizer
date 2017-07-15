@@ -83,8 +83,8 @@ public class OrganizerManager
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY = "hotkeyReadOnly";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_TOGGLE = "hotkeyToggle";
 
-	public static final String ILLEGAL_CHARACTERS = "~, @, *, %, {, }, <, >, [, ], |, “, ”, \\, ^";
-	private static final String ILLEGAL_CHARACTERS_REGEX = "[~#@*%{}<>\\[\\]|\"\\^]";
+	public static final String ILLEGAL_CHARACTERS = "~, @, *, %, {, }, <, >, [, ], |, “, ”, \\, /, ^";
+	private static final String ILLEGAL_CHARACTERS_REGEX = "[~#@*%{}<>\\[\\]|\"\\^\\\\\\/]";
 
 	private static Preferences prefs;
 
