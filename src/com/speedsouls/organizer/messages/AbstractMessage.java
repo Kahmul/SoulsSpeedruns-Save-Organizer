@@ -146,9 +146,9 @@ public abstract class AbstractMessage extends JPanel
 
 
 	/**
-	 * Displays the messageon screen.
+	 * Displays the message on screen.
 	 */
-	public void display()
+	private void display()
 	{
 		fadingOut = false;
 		fadeOutTimer.schedule(new TimerTask() {
@@ -162,6 +162,17 @@ public abstract class AbstractMessage extends JPanel
 		if (alpha > 0.0f)
 			return;
 		new UndecoratedMessageDialog(this).fadeIn();
+	}
+
+
+	/**
+	 * Display the given message on screen.
+	 * 
+	 * @param message the message to display
+	 */
+	public static void display(AbstractMessage message)
+	{
+		message.display();
 	}
 
 

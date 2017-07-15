@@ -36,31 +36,25 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 	public UndecoratedMessageDialog(AbstractMessage message)
 	{
 		super(OrganizerManager.getMainWindow());
+
 		this.message = message;
 		Window parentWindow = OrganizerManager.getMainWindow();
 		setSize(parentWindow.getWidth() / 2, parentWindow.getHeight() / 10);
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
 		setUndecorated(true);
 		setBackground(new Color(0, 0, 0, 0));
-
 		add(message);
 
 		WindowListener wl = new WindowAdapter() {
 
 			public void windowDeactivated(WindowEvent e)
 			{
-				fadeOut();
+				message.fadeOut();
 			}
 		};
 
 		addWindowListener(wl);
 		addMouseListener(this);
-	}
-
-
-	protected void fadeOut()
-	{
-		message.fadeOut();
 	}
 
 
@@ -93,7 +87,7 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		fadeOut();
+		message.fadeOut();
 	}
 
 

@@ -443,7 +443,7 @@ public class OrganizerManager
 		newSave.rename(name);
 		parent.addChild(newSave);
 		fireEntryCreatedEvent(newSave);
-		AbstractMessage.SUCCESSFUL_REPLACE.display();
+		AbstractMessage.display(AbstractMessage.SUCCESSFUL_REPLACE);
 	}
 
 
@@ -512,7 +512,7 @@ public class OrganizerManager
 			gameFile.setWritable(true);
 			saveFile.setWritable(true);
 			Files.copy(saveFile.toPath(), gameFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			AbstractMessage.SUCCESSFUL_LOAD.display();
+			AbstractMessage.display(AbstractMessage.SUCCESSFUL_LOAD);
 		}
 		catch (Exception e)
 		{
