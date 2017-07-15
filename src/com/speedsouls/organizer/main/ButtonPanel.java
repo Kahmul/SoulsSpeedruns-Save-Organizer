@@ -3,9 +3,6 @@ package com.speedsouls.organizer.main;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.Box;
 import javax.swing.GroupLayout;
@@ -14,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 
 import com.speedsouls.organizer.components.ReadOnlyButton;
 import com.speedsouls.organizer.components.SettingsButton;
@@ -45,7 +41,6 @@ public class ButtonPanel extends JPanel
 
 	private static final long serialVersionUID = 4450835782973692167L;
 	private ReadOnlyButton readOnlyButton;
-	private JProgressBar progressBar;
 
 
 	/**
@@ -60,7 +55,6 @@ public class ButtonPanel extends JPanel
 		readOnlyButton = new ReadOnlyButton(OrganizerManager.getSelectedGame().getSaveFile(),
 				new ImageIcon(OrganizerManager.readOnlyIconMedium));
 
-		progressBar = createProgressBar();
 		JButton importButton = createImportButton();
 		JButton loadButton = createLoadButton();
 		JButton replaceButton = createReplaceButton();
@@ -75,7 +69,6 @@ public class ButtonPanel extends JPanel
 
 		hGroup.addGroup(layout.createParallelGroup().addComponent(loadButton));
 		hGroup.addGroup(layout.createParallelGroup().addComponent(replaceButton));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(progressBar));
 		hGroup.addGap(10);
 		hGroup.addGroup(layout.createParallelGroup().addComponent(readOnlyButton));
 		hGroup.addGroup(layout.createParallelGroup().addComponent(glue));
@@ -86,9 +79,8 @@ public class ButtonPanel extends JPanel
 		// Vertical
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
-		vGroup.addGroup(
-				layout.createParallelGroup(Alignment.CENTER).addComponent(importButton).addComponent(loadButton).addComponent(replaceButton)
-						.addComponent(progressBar).addComponent(readOnlyButton).addComponent(glue).addComponent(settingsButton));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(importButton).addComponent(loadButton)
+				.addComponent(replaceButton).addComponent(readOnlyButton).addComponent(glue).addComponent(settingsButton));
 		vGroup.addGap(10);
 
 		layout.setVerticalGroup(vGroup);
@@ -96,19 +88,6 @@ public class ButtonPanel extends JPanel
 		setLayout(layout);
 
 		addButtonListeners(loadButton, replaceButton);
-	}
-
-
-	/**
-	 * Creates the progressbar next to the load button.
-	 * 
-	 * @return the progressbar
-	 */
-	private JProgressBar createProgressBar()
-	{
-		JProgressBar progressBar = new JProgressBar();
-		progressBar.setMaximumSize(new Dimension(50, 15));
-		return progressBar;
 	}
 
 
@@ -214,23 +193,12 @@ public class ButtonPanel extends JPanel
 			@Override
 			public void saveLoadStarted(Save save)
 			{
-				progressBar.setIndeterminate(true);
 			}
 
 
 			@Override
 			public void saveLoadFinished(Save save)
 			{
-				readOnlyButton.setFile(OrganizerManager.getSelectedGame().getSaveFile());
-				Timer timer = new Timer();
-				timer.schedule(new TimerTask() {
-
-					@Override
-					public void run()
-					{
-						progressBar.setIndeterminate(false);
-					}
-				}, 200);
 			}
 
 
