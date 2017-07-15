@@ -9,7 +9,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import com.speedsouls.organizer.data.OrganizerManager;
 import com.speedsouls.organizer.messages.UndecoratedMessageDialog;
@@ -31,7 +30,6 @@ public class OrganizerWindow extends JFrame
 	private static final int MIN_WIDTH = 500;
 	private static final int MIN_HEIGHT = 400;
 
-	private static final int PROGRESSBAR_CYCLE_TIME = 450;
 	private static final boolean IS_RESIZABLE = true;
 
 	private UndecoratedMessageDialog currentDialog;
@@ -60,15 +58,6 @@ public class OrganizerWindow extends JFrame
 	 */
 	private void initProperties()
 	{
-		try
-		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			UIManager.put("ProgressBar.cycleTime", new Integer(PROGRESSBAR_CYCLE_TIME));
-		}
-		catch (Exception e)
-		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error occured", JOptionPane.ERROR_MESSAGE);
-		}
 		setIconImage(OrganizerManager.speedsoulsIcon);
 		setResizable(IS_RESIZABLE);
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
