@@ -8,6 +8,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.Icon;
 import javax.swing.JPanel;
@@ -33,10 +35,11 @@ public abstract class AbstractMessage extends JPanel
 	private float alpha = 0.0f;
 	private float fadeInOutRate = 0.15f;
 	private boolean fadingOut = false;
+	private Timer fadeOutTimer = new Timer();
 
-	public static final AbstractMessage IMPORT = new SuccessfulImportMessage();
-	public static final AbstractMessage LOAD = new SuccessfulLoadMessage();
-	public static final AbstractMessage REPLACE = new SuccessfulReplaceMessage();
+	public static final AbstractMessage SUCCESSFUL_IMPORT = new SuccessfulImportMessage();
+	public static final AbstractMessage SUCCESSFUL_LOAD = new SuccessfulLoadMessage();
+	public static final AbstractMessage SUCCESSFUL_REPLACE = new SuccessfulReplaceMessage();
 
 
 	protected AbstractMessage()
@@ -124,6 +127,23 @@ public abstract class AbstractMessage extends JPanel
 	{
 		fadingOut = false;
 		repaint();
+	}
+
+
+	public void display()
+	{
+		fadingOut = false;
+		fadeOutTimer.schedule(new TimerTask() {
+
+			@Override
+			public void run()
+			{
+				fadeOut();
+			}
+		}, 3000);
+		if (alpha > 0.0f)
+			return;
+		new UndecoratedMessageDialog(this).fadeIn();
 	}
 
 

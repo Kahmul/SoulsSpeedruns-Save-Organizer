@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import com.speedsouls.organizer.data.OrganizerManager;
-import com.speedsouls.organizer.messages.UndecoratedMessageDialog;
+import com.speedsouls.organizer.messages.AbstractMessage;
 
 
 /**
@@ -28,12 +28,12 @@ public class OrganizerWindow extends JFrame
 
 	private static final long serialVersionUID = -410330356532830410L;
 
-	private static final int MIN_WIDTH = 500;
-	private static final int MIN_HEIGHT = 400;
+	private static final int MIN_WIDTH = 700;
+	private static final int MIN_HEIGHT = 550;
 
 	private static final boolean IS_RESIZABLE = true;
 
-	private UndecoratedMessageDialog currentDialog;
+	private AbstractMessage currentMessage;
 
 
 	public static void main(String[] args)
@@ -122,27 +122,6 @@ public class OrganizerWindow extends JFrame
 				System.exit(0);
 			}
 		});
-	}
-
-
-	/**
-	 * Displays the given message dialog and removes the existing one.
-	 * 
-	 * @param dialog
-	 */
-	public void displayMessageDialog(UndecoratedMessageDialog dialog)
-	{
-		if (currentDialog != null)
-			currentDialog.fadeOut();
-		currentDialog = dialog;
-		if (currentDialog != null)
-			currentDialog.fadeIn();
-	}
-
-
-	public UndecoratedMessageDialog getCurrentDialog()
-	{
-		return currentDialog;
 	}
 
 }
