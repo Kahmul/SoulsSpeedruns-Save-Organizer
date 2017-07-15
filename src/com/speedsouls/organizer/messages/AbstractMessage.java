@@ -31,7 +31,7 @@ public abstract class AbstractMessage extends JPanel
 
 	private static final Font FONT = new Font("Calibri", Font.BOLD, 17);
 	private float alpha = 0.0f;
-	private float fadeInOutRate = 0.1f;
+	private float fadeInOutRate = 0.15f;
 	private boolean fadingOut = false;
 
 	public static final AbstractMessage IMPORT = new SuccessfulImportMessage();

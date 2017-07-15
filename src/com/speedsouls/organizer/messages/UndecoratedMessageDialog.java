@@ -8,6 +8,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JDialog;
 
@@ -49,7 +51,8 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 
 			public void windowDeactivated(WindowEvent e)
 			{
-				OrganizerManager.getMainWindow().displayMessageDialog(null);
+				if (isVisible())
+					OrganizerManager.getMainWindow().displayMessageDialog(null);
 			}
 		};
 
@@ -68,6 +71,16 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 	{
 		setVisible(true);
 		message.fadeIn();
+		Timer timeOut = new Timer();
+		timeOut.schedule(new TimerTask() {
+
+			@Override
+			public void run()
+			{
+				if (isVisible())
+					OrganizerManager.getMainWindow().displayMessageDialog(null);
+			}
+		}, 3000);
 	}
 
 
@@ -93,7 +106,8 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		OrganizerManager.getMainWindow().displayMessageDialog(null);
+		if (isVisible())
+			OrganizerManager.getMainWindow().displayMessageDialog(null);
 	}
 
 
