@@ -8,9 +8,9 @@ import jiconfont.icons.Elusive;
 
 
 /**
- * Short description.
+ * SuccessfulReplaceMessage.
  * <p>
- * Long description.
+ * AbstractMessage class implementation for a Replace message.
  *
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 15 Jul 2017
@@ -23,6 +23,12 @@ public class SuccessfulReplaceMessage extends AbstractMessage
 	private static final String MESSAGE = "REPLACE SUCCESSFUL";
 	private static final IconCode ICON = Elusive.REFRESH;
 	private static final Color COLOR = new Color(255, 165, 0);
+
+
+	protected SuccessfulReplaceMessage()
+	{
+		super();
+	}
 
 
 	@Override

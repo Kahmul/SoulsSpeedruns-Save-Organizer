@@ -424,7 +424,6 @@ public class OrganizerManager
 		Save newSave = new Save((Folder) parent, saveFile);
 		parent.addChild(newSave);
 		fireEntryCreatedEvent(newSave);
-		// getMainWindow().displayMessageDialog(new UndecoratedMessageDialog(AbstractMessage.IMPORT));
 		return newSave;
 	}
 

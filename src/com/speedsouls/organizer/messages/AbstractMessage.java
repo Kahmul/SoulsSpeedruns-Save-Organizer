@@ -19,9 +19,9 @@ import jiconfont.swing.IconFontSwing;
 
 
 /**
- * Short description.
+ * AbstractMessage.
  * <p>
- * Long description.
+ * The abstract superclass for all message implementations.
  *
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 15 Jul 2017
@@ -32,6 +32,8 @@ public abstract class AbstractMessage extends JPanel
 	private static final long serialVersionUID = -7470202821259477366L;
 
 	private static final Font FONT = new Font("Calibri", Font.BOLD, 17);
+	private static final int TIME_OUT = 3000;
+
 	private float alpha = 0.0f;
 	private float fadeInOutRate = 0.15f;
 	private boolean fadingOut = false;
@@ -67,6 +69,9 @@ public abstract class AbstractMessage extends JPanel
 	}
 
 
+	/**
+	 * Adjusts the alpha value depending on whether the message is in fade-in or fade-out mode.
+	 */
 	private void fadeInOut()
 	{
 		if (fadingOut)
@@ -95,7 +100,9 @@ public abstract class AbstractMessage extends JPanel
 
 
 	/**
-	 * @param g
+	 * Draws the icon associated with this message.
+	 * 
+	 * @param g the graphics to draw on
 	 */
 	private void drawIcon(Graphics g)
 	{
@@ -105,7 +112,9 @@ public abstract class AbstractMessage extends JPanel
 
 
 	/**
-	 * @param g
+	 * Draws the text associated with this message.
+	 * 
+	 * @param g the graphics to draw on
 	 */
 	private void drawMessage(Graphics g)
 	{
@@ -116,6 +125,9 @@ public abstract class AbstractMessage extends JPanel
 	}
 
 
+	/**
+	 * Starts the fade-out.
+	 */
 	protected void fadeOut()
 	{
 		fadingOut = true;
@@ -123,6 +135,9 @@ public abstract class AbstractMessage extends JPanel
 	}
 
 
+	/**
+	 * Starts the fade-in.
+	 */
 	protected void fadeIn()
 	{
 		fadingOut = false;
@@ -130,6 +145,9 @@ public abstract class AbstractMessage extends JPanel
 	}
 
 
+	/**
+	 * Displays the messageon screen.
+	 */
 	public void display()
 	{
 		fadingOut = false;
@@ -140,7 +158,7 @@ public abstract class AbstractMessage extends JPanel
 			{
 				fadeOut();
 			}
-		}, 3000);
+		}, TIME_OUT);
 		if (alpha > 0.0f)
 			return;
 		new UndecoratedMessageDialog(this).fadeIn();
@@ -148,19 +166,25 @@ public abstract class AbstractMessage extends JPanel
 
 
 	/**
-	 * @return
+	 * The text associated with this message.
+	 * 
+	 * @return the text
 	 */
 	protected abstract String getMessage();
 
 
 	/**
-	 * @return
+	 * The icon associated with this message.
+	 * 
+	 * @return the icon
 	 */
 	protected abstract IconCode getIcon();
 
 
 	/**
-	 * @return
+	 * The color associated with this message.
+	 * 
+	 * @return the color
 	 */
 	protected abstract Color getColor();
 

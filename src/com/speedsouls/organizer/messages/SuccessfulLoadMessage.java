@@ -8,9 +8,9 @@ import jiconfont.icons.FontAwesome;
 
 
 /**
- * Short description.
+ * SuccessfulLoadMessage.
  * <p>
- * Long description.
+ * AbstractMessage class implementation for a Load message.
  *
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 15 Jul 2017
@@ -23,6 +23,12 @@ public class SuccessfulLoadMessage extends AbstractMessage
 	private static final String MESSAGE = "LOAD SUCCESSFUL";
 	private static final IconCode ICON = FontAwesome.CHECK;
 	private static final Color COLOR = new Color(50, 205, 50);
+
+
+	protected SuccessfulLoadMessage()
+	{
+		super();
+	}
 
 
 	@Override

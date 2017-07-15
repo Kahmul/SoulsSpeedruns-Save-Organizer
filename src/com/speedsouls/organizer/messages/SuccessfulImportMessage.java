@@ -8,9 +8,9 @@ import jiconfont.icons.Iconic;
 
 
 /**
- * Short description.
+ * SuccessfulImportMessage.
  * <p>
- * Long description.
+ * AbstractMessage class implementation for an Import message.
  *
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 15 Jul 2017
@@ -23,6 +23,12 @@ public class SuccessfulImportMessage extends AbstractMessage
 	private static final String MESSAGE = "IMPORT SUCCESSFUL";
 	private static final IconCode ICON = Iconic.CURVED_ARROW;
 	private static final Color COLOR = new Color(30, 144, 255);
+
+
+	protected SuccessfulImportMessage()
+	{
+		super();
+	}
 
 
 	@Override
