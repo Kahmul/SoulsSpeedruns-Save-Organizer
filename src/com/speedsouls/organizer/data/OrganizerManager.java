@@ -3,6 +3,7 @@ package com.speedsouls.organizer.data;
 
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,6 +38,8 @@ import com.speedsouls.organizer.listeners.SaveListener;
 import com.speedsouls.organizer.listeners.SearchListener;
 import com.speedsouls.organizer.listeners.SortingListener;
 import com.speedsouls.organizer.main.OrganizerWindow;
+import com.speedsouls.organizer.messages.SuccessfulLoadMessage;
+import com.speedsouls.organizer.messages.UndecoratedMessageDialog;
 import com.speedsouls.organizer.natives.GlobalKeyboardHook;
 
 import jiconfont.icons.Elusive;
@@ -110,6 +113,13 @@ public class OrganizerManager
 		try
 		{
 			initialize();
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			String[] fonts = ge.getAvailableFontFamilyNames();
+			for (String string : fonts)
+			{
+				System.out.println(string);
+			}
+
 		}
 		catch (IOException e)
 		{
@@ -508,6 +518,7 @@ public class OrganizerManager
 			gameFile.setWritable(true);
 			saveFile.setWritable(true);
 			Files.copy(saveFile.toPath(), gameFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			getMainWindow().displayMessageDialog(new UndecoratedMessageDialog(new SuccessfulLoadMessage()));
 		}
 		catch (Exception e)
 		{

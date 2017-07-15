@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.messages.UndecoratedMessageDialog;
 
 
 /**
@@ -32,6 +33,8 @@ public class OrganizerWindow extends JFrame
 
 	private static final int PROGRESSBAR_CYCLE_TIME = 450;
 	private static final boolean IS_RESIZABLE = true;
+
+	private UndecoratedMessageDialog currentDialog;
 
 
 	public static void main(String[] args)
@@ -121,6 +124,21 @@ public class OrganizerWindow extends JFrame
 				System.exit(0);
 			}
 		});
+	}
+
+
+	/**
+	 * Displays the given message dialog and removes the existing one.
+	 * 
+	 * @param dialog
+	 */
+	public void displayMessageDialog(UndecoratedMessageDialog dialog)
+	{
+		if (currentDialog != null && currentDialog.isVisible())
+			currentDialog.fadeOut();
+		currentDialog = dialog;
+		if (currentDialog != null)
+			currentDialog.setVisible(true);
 	}
 
 }

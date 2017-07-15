@@ -27,6 +27,8 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 
 	private static final long serialVersionUID = 2647400160686831681L;
 
+	private AbstractMessage message;
+
 
 	/**
 	 * @param message the message to be shown
@@ -34,6 +36,7 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 	public UndecoratedMessageDialog(AbstractMessage message)
 	{
 		super(OrganizerManager.getMainWindow());
+		this.message = message;
 		Window parentWindow = OrganizerManager.getMainWindow();
 		setSize(parentWindow.getWidth() / 3, parentWindow.getHeight() / 10);
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
@@ -46,13 +49,18 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 
 			public void windowDeactivated(WindowEvent e)
 			{
-				e.getWindow().setVisible(false);
+				OrganizerManager.getMainWindow().displayMessageDialog(null);
 			}
 		};
 
 		addWindowListener(wl);
 		addMouseListener(this);
-		setVisible(true);
+	}
+
+
+	public void fadeOut()
+	{
+		message.fadeOut();
 	}
 
 
@@ -78,7 +86,7 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		setVisible(false);
+		OrganizerManager.getMainWindow().displayMessageDialog(null);
 	}
 
 
