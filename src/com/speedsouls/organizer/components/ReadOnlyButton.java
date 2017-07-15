@@ -185,7 +185,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void saveLoadFinished(Save save)
 	{
-
+		setEnabled(!save.getFile().canWrite());
 	}
 
 

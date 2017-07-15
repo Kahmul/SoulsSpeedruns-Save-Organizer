@@ -40,7 +40,6 @@ public class ButtonPanel extends JPanel
 {
 
 	private static final long serialVersionUID = 4450835782973692167L;
-	private ReadOnlyButton readOnlyButton;
 
 
 	/**
@@ -52,7 +51,7 @@ public class ButtonPanel extends JPanel
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		readOnlyButton = new ReadOnlyButton(OrganizerManager.getSelectedGame().getSaveFile(),
+		ReadOnlyButton readOnlyButton = new ReadOnlyButton(OrganizerManager.getSelectedGame().getSaveFile(),
 				new ImageIcon(OrganizerManager.readOnlyIconMedium));
 
 		JButton importButton = createImportButton();
