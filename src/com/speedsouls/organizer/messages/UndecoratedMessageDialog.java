@@ -33,7 +33,7 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 	/**
 	 * @param message the message to be shown
 	 */
-	public UndecoratedMessageDialog(AbstractMessage message)
+	protected UndecoratedMessageDialog(AbstractMessage message)
 	{
 		super(OrganizerManager.getMainWindow());
 
@@ -58,6 +58,9 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 	}
 
 
+	/**
+	 * Starts the fade-in of the message.
+	 */
 	protected void fadeIn()
 	{
 		setVisible(true);

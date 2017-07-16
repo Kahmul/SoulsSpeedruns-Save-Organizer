@@ -34,14 +34,16 @@ public abstract class AbstractMessage extends JPanel
 	private static final Font FONT = new Font("Calibri", Font.BOLD, 17);
 	private static final int TIME_OUT = 3000;
 
-	private float alpha = 0.0f;
-	private float fadeInOutRate = 0.15f;
-	private boolean fadingOut = false;
-	private Timer fadeOutTimer = new Timer();
-
 	public static final AbstractMessage SUCCESSFUL_IMPORT = new SuccessfulImportMessage();
 	public static final AbstractMessage SUCCESSFUL_LOAD = new SuccessfulLoadMessage();
 	public static final AbstractMessage SUCCESSFUL_REPLACE = new SuccessfulReplaceMessage();
+
+	private float alpha = 0.0f;
+	private float fadeInOutRate = 0.15f;
+
+	private boolean fadingOut = false;
+
+	private Timer fadeOutTimer = new Timer();
 
 
 	protected AbstractMessage()
@@ -85,17 +87,15 @@ public abstract class AbstractMessage extends JPanel
 				return;
 			}
 			repaint();
+			return;
 		}
-		else
+		alpha += fadeInOutRate;
+		if (alpha >= 1.0f)
 		{
-			alpha += fadeInOutRate;
-			if (alpha >= 1.0f)
-			{
-				alpha = 1.0f;
-				return;
-			}
-			repaint();
+			alpha = 1.0f;
+			return;
 		}
+		repaint();
 	}
 
 
@@ -126,7 +126,7 @@ public abstract class AbstractMessage extends JPanel
 
 
 	/**
-	 * Starts the fade-out.
+	 * Starts the fade-out. Is the fade-out complete, the parent dialog is set invisible.
 	 */
 	protected void fadeOut()
 	{

@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import com.speedsouls.organizer.data.OrganizerManager;
-import com.speedsouls.organizer.messages.AbstractMessage;
 
 
 /**
@@ -32,8 +31,6 @@ public class OrganizerWindow extends JFrame
 	private static final int MIN_HEIGHT = 550;
 
 	private static final boolean IS_RESIZABLE = true;
-
-	private AbstractMessage currentMessage;
 
 
 	public static void main(String[] args)
