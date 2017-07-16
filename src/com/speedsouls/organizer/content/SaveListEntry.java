@@ -71,7 +71,7 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 	 * 
 	 * @param file the new file
 	 */
-	protected void setFile(File file)
+	public void setFile(File file)
 	{
 		this.file = file;
 	}
@@ -150,6 +150,43 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 	{
 		parent.removeChild(this);
 		newParent.addChild(this);
+		parent = newParent;
+	}
+
+
+	/**
+	 * Returns whether this instance or any of its children are a parent of the given entry.
+	 * 
+	 * @param entry the entry to check
+	 * @return whether this entry or any of its children are a parent of the given entry
+	 */
+	public boolean isParentOf(SaveListEntry entry)
+	{
+		if (this.equals(entry.getParent()))
+			return true;
+		for (SaveListEntry child : children)
+		{
+			if (child.isParentOf(entry))
+				return true;
+		}
+		return false;
+	}
+
+
+	/**
+	 * Returns the immediate child (no sub-child) of this entry with the given name.
+	 * 
+	 * @param name the name of the child
+	 * @return the child with the given name, or null if none is found
+	 */
+	public SaveListEntry getChildByName(String name)
+	{
+		for (SaveListEntry child : children)
+		{
+			if (child.getName().equals(name))
+				return child;
+		}
+		return null;
 	}
 
 

@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -42,6 +43,7 @@ public class SaveListTransferHandler extends TransferHandler
 	}
 
 
+	@Override
 	public boolean canImport(TransferHandler.TransferSupport support)
 	{
 		if (!support.isDataFlavorSupported(SaveListEntry.ENTRY_FLAVOR))
@@ -57,9 +59,9 @@ public class SaveListTransferHandler extends TransferHandler
 			SaveListEntry newParentFolder = findNewParentFolderFromDropLocation(dl);
 			if (entry.equals(newParentFolder))
 				return false;
-			if (entry.getParent().equals(newParentFolder))
+			if (entry.isParentOf(newParentFolder))
 				return false;
-			if (newParentFolder.getParent().equals(entry))
+			if (entry.getParent().equals(newParentFolder))
 				return false;
 			support.setShowDropLocation(true);
 		}
@@ -71,6 +73,7 @@ public class SaveListTransferHandler extends TransferHandler
 	}
 
 
+	@Override
 	public boolean importData(TransferHandler.TransferSupport support)
 	{
 		if (!canImport(support))
@@ -89,10 +92,13 @@ public class SaveListTransferHandler extends TransferHandler
 						entry.getName() + " already exists in that directory. Do you want to overwrite?", "Confirmation",
 						JOptionPane.YES_NO_OPTION) != 0)
 					return false;
+				SaveListEntry existingEntry = newParentFolder.getChildByName(entry.getName());
+				((DefaultListModel<SaveListEntry>) saveList.getModel()).removeElement(existingEntry);
+				existingEntry.delete();
 			}
-			Files.move(Paths.get(entry.getFile().getPath()), newPath, StandardCopyOption.REPLACE_EXISTING);
+			entry.setFile(Files.move(Paths.get(entry.getFile().getPath()), newPath, StandardCopyOption.REPLACE_EXISTING).toFile());
 			entry.attachToNewParent(newParentFolder);
-			saveList.update();
+			saveList.sortEntries();
 			saveList.setSelectedValue(entry, true);
 		}
 		catch (Exception e)

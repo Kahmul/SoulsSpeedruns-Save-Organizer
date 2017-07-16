@@ -88,16 +88,6 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 
 	/**
-	 * Updates this list to show any changes made, e.g. an entry was drag'n'dropped.
-	 */
-	public void update()
-	{
-		fillWith(OrganizerManager.getSelectedProfile(), null);
-		repaint();
-	}
-
-
-	/**
 	 * Fills the list with the given profile. If a search term is given, only saves/folders that contain the term will be added.
 	 * 
 	 * @param profile the profile to fill this list with
