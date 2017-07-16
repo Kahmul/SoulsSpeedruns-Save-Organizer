@@ -27,7 +27,7 @@ public class Folder extends SaveListEntry
 {
 
 	private boolean isClosed = true;
-	private static Color color = new Color(251, 208, 108);
+	private static final Color ICON_COLOR = new Color(251, 208, 108);
 	private static final int ICON_SIZE = 15;
 
 
@@ -118,9 +118,9 @@ public class Folder extends SaveListEntry
 		label.setFont(label.getFont().deriveFont(Font.BOLD));
 		label.setBorder(BorderFactory.createEmptyBorder(1, 3 + getIndent(), 0, 1));
 		if (isClosed())
-			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER, ICON_SIZE, color));
+			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER, ICON_SIZE, ICON_COLOR));
 		else
-			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, ICON_SIZE, color));
+			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, ICON_SIZE, ICON_COLOR));
 	}
 
 

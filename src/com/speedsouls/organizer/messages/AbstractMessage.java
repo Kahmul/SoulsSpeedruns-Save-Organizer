@@ -146,7 +146,7 @@ public abstract class AbstractMessage extends JPanel
 
 
 	/**
-	 * Displays the message on screen.
+	 * Starts the fade-in of the message, stops any ongoing fade-out, and resets the fade-out timer.
 	 */
 	private void display()
 	{
