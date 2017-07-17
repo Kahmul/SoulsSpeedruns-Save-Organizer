@@ -98,6 +98,7 @@ public class SaveListTransferHandler extends TransferHandler
 			}
 			entry.setFile(Files.move(Paths.get(entry.getFile().getPath()), newPath, StandardCopyOption.REPLACE_EXISTING).toFile());
 			entry.attachToNewParent(newParentFolder);
+			newParentFolder.setClosed(false);
 			saveList.sortEntries();
 			saveList.setSelectedValue(entry, true);
 		}

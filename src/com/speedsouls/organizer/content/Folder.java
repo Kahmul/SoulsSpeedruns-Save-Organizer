@@ -73,14 +73,6 @@ public class Folder extends SaveListEntry
 
 
 	@Override
-	public void addChild(SaveListEntry entry)
-	{
-		super.addChild(entry);
-		setClosed(false);
-	}
-
-
-	@Override
 	public void removeChild(SaveListEntry entry)
 	{
 		super.removeChild(entry);
