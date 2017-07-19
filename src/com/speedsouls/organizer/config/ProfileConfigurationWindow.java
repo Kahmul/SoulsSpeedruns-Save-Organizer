@@ -33,8 +33,8 @@ public class ProfileConfigurationWindow extends JDialog
 	{
 		super(OrganizerManager.getMainWindow(), "Profile Configuration", Dialog.ModalityType.APPLICATION_MODAL);
 
-		initProperties();
 		initLayout();
+		initProperties();
 
 		setVisible(true);
 	}
@@ -45,10 +45,10 @@ public class ProfileConfigurationWindow extends JDialog
 	 */
 	private void initProperties()
 	{
-		setIconImage(OrganizerManager.speedsoulsIcon);
-		setSize(400, 300);
-		setLocationRelativeTo(null);
+		pack();
 		setResizable(false);
+		setLocationRelativeTo(null);
+		setIconImage(OrganizerManager.speedsoulsIcon);
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
 	}
 
@@ -73,7 +73,6 @@ public class ProfileConfigurationWindow extends JDialog
 		guiPanel.add(tabbedPane);
 
 		add(guiPanel);
-		pack();
 	}
 
 }
