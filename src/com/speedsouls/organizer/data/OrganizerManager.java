@@ -68,7 +68,8 @@ public class OrganizerManager
 	public static final String WEB_PAGE_URL = "www.speedsouls.com/SpeedSouls_-_Save_Organizer";
 	public static final String GITHUB_REPO_URL = "www.github.com/Kahmul/SpeedSouls-Save-Organizer";
 	public static final String TWITTER_URL = "www.twitter.com/Kahmul78";
-	public static final String LATEST_RELEASE_URL = "api.github.com/repos/Kahmul/SpeedSouls-Save-Organizer/releases/latest";
+	public static final String LATEST_RELEASE_JSON_URL = "https://api.github.com/repos/Kahmul/SpeedSouls-Save-Organizer/releases/latest";
+	public static final String LATEST_RELEASE_URL = "https://github.com/Kahmul/SpeedSouls-Save-Organizer/releases";
 
 	/**
 	 * Constants for paths to preferences and resources.
@@ -565,6 +566,22 @@ public class OrganizerManager
 		try
 		{
 			Desktop.getDesktop().browse(new URI(WEB_PAGE_URL));
+		}
+		catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(mainWindow, e.getMessage(), "Error occured", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+
+	/**
+	 * Opens the GitHub latest release page.
+	 */
+	public static void openLatestReleasePage()
+	{
+		try
+		{
+			Desktop.getDesktop().browse(new URI(LATEST_RELEASE_URL));
 		}
 		catch (Exception e)
 		{
@@ -1079,7 +1096,7 @@ public class OrganizerManager
 	 */
 	private static JSONObject getLatestReleaseJSON()
 	{
-		try (InputStream is = new URL(LATEST_RELEASE_URL).openStream())
+		try (InputStream is = new URL(LATEST_RELEASE_JSON_URL).openStream())
 		{
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 			String jsonText = readAll(rd);

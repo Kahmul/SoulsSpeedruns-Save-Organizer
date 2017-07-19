@@ -14,9 +14,9 @@ import com.speedsouls.organizer.data.OrganizerManager;
 
 
 /**
- * Short description.
+ * AboutWindow.
  * <p>
- * Long description.
+ * Small window showing links to Twitter and GitHub, as well as the current version.
  *
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 4 Jun 2016
