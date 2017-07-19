@@ -51,7 +51,7 @@ public class ButtonPanel extends JPanel
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		ReadOnlyButton readOnlyButton = new ReadOnlyButton(OrganizerManager.getSelectedGame().getSaveFile(),
+		ReadOnlyButton readOnlyButton = new ReadOnlyButton(OrganizerManager.getSelectedGame().getSaveFileLocation(),
 				new ImageIcon(OrganizerManager.readOnlyIconMedium));
 
 		JButton importButton = createImportButton();
@@ -106,8 +106,9 @@ public class ButtonPanel extends JPanel
 				OrganizerManager.importSavefile(null);
 				return;
 			}
-			JOptionPane.showMessageDialog(null, "Create a profile before trying to import a savefile!", "Warning",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Create a profile before trying to import a savefile! You can do this in the profile configuration settings.",
+					"Warning", JOptionPane.WARNING_MESSAGE);
 		});
 		return importButton;
 	}
@@ -218,6 +219,12 @@ public class ButtonPanel extends JPanel
 
 			@Override
 			public void profileCreated(Profile profile)
+			{
+			}
+
+
+			@Override
+			public void profileDirectoryChanged(Game game)
 			{
 			}
 

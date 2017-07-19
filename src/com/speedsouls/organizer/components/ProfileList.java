@@ -264,7 +264,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 			return false;
 		}
 		// if the name exists and the renaming is not a re-capitalization then don't allow renaming
-		File newSaveDir = new File(game.getSaveFile() + File.separator + newName);
+		File newSaveDir = new File(game.getDirectory() + File.separator + newName);
 		if (newSaveDir.exists() && !profile.getName().equalsIgnoreCase(newName))
 		{
 			JOptionPane.showMessageDialog(getParent(), "This name already exists!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -297,6 +297,14 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 	@Override
 	public void profileCreated(Profile profile)
 	{
+	}
+
+
+	@Override
+	public void profileDirectoryChanged(Game game)
+	{
+		if (this.game.equals(game))
+			fillWith(game.getProfiles());
 	}
 
 

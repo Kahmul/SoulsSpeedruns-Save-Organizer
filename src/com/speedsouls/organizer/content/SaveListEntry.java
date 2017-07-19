@@ -95,8 +95,6 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 	 */
 	protected int getIndent()
 	{
-		if (parent == null)
-			System.out.println("");
 		if (parent.equals(OrganizerManager.getSelectedProfile().getRoot()))
 			return 0;
 		return parent.getIndent() + 20;

@@ -146,6 +146,12 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 
 
 	@Override
+	public void profileDirectoryChanged(Game game)
+	{
+	}
+
+
+	@Override
 	public void changedToProfile(Profile profile)
 	{
 	}
@@ -154,7 +160,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void changedToGame(Game game)
 	{
-		setFile(game.getSaveFile());
+		setFile(game.getSaveFileLocation());
 	}
 
 

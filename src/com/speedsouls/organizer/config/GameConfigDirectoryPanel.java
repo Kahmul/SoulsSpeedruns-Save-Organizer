@@ -41,32 +41,92 @@ public class GameConfigDirectoryPanel extends JPanel
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
+		File saveFile = game.getSaveFileLocation();
 		File gameDir = game.getDirectory();
 
-		JLabel directoryLabel = new JLabel("Directory:");
-		JTextField directoryField = new JTextField(gameDir != null ? gameDir.getPath() : "");
-		JButton browseButton = createBrowseButton(directoryField, game);
+		JLabel saveFileLabel = new JLabel("Location of Savefile:");
+		JLabel directoryLabel = new JLabel("Profiles Directory:");
 
+		JTextField saveFileField = new JTextField(saveFile != null ? saveFile.getPath() : "");
+		JTextField directoryField = new JTextField(gameDir != null ? gameDir.getPath() : "");
+
+		JButton saveFileBrowseButton = createSaveFileBrowseButton(saveFileField, directoryField, game);
+		JButton directoryBrowseButton = createDirectoryBrowseButton(directoryField, game);
+
+		saveFileField.setEditable(false);
 		directoryField.setEditable(false);
 
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGroup(layout.createParallelGroup().addComponent(directoryLabel).addComponent(directoryField));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(browseButton));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(saveFileLabel).addComponent(saveFileField).addComponent(directoryLabel)
+				.addComponent(directoryField));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(saveFileBrowseButton).addComponent(directoryBrowseButton));
 
 		layout.setHorizontalGroup(hGroup);
 
 		// Vertical
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(saveFileLabel));
+
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(saveFileField).addComponent(saveFileBrowseButton));
+
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(directoryLabel));
 
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(directoryField).addComponent(browseButton));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(directoryField).addComponent(directoryBrowseButton));
 
 		layout.setVerticalGroup(vGroup);
 
 		setLayout(layout);
+	}
+
+
+	/**
+	 * @param saveFileField
+	 * @param game
+	 * @return
+	 */
+	private JButton createSaveFileBrowseButton(JTextField saveFileField, JTextField directoryField, Game game)
+	{
+		JButton browseButton = new JButton("Browse");
+
+		browseButton.addActionListener(event -> {
+			JFileChooser fc = new JFileChooser(saveFileField.getText());
+			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			int val = fc.showOpenDialog(null);
+			if (val == JFileChooser.APPROVE_OPTION)
+			{
+				File selectedSavefile = fc.getSelectedFile();
+				if (selectedSavefile == null || !selectedSavefile.exists())
+				{
+					JOptionPane.showMessageDialog(null, "This file doesn't exist!", "Error occured", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (selectedSavefile.getName().equalsIgnoreCase(game.getSaveName()))
+				{
+					game.setSaveFileLocation(selectedSavefile);
+					saveFileField.setText(selectedSavefile.getPath());
+					int confirm = JOptionPane.showConfirmDialog(getParent(),
+							"Do you wish to use the directory of this savefile to store the profiles for this game?"
+									+ " You can choose an alternative directory if you wish.",
+							"Choosing Savefile", JOptionPane.YES_NO_OPTION);
+					if (confirm == 0)
+					{
+						directoryField.setText(selectedSavefile.getParentFile().getPath());
+						game.setDirectory(selectedSavefile.getParentFile());
+						OrganizerManager.saveProperties(game);
+						OrganizerManager.fireProfileDirectoryChangedEvent(game);
+						return;
+					}
+					OrganizerManager.saveProperties(game);
+					return;
+				}
+				JOptionPane.showMessageDialog(null, "Filename needs to be '" + game.getSaveName() + "'!", "Error occured",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		return browseButton;
 	}
 
 
@@ -77,32 +137,32 @@ public class GameConfigDirectoryPanel extends JPanel
 	 * @param game the game associated with this panel
 	 * @return the browse button
 	 */
-	private JButton createBrowseButton(JTextField directoryField, Game game)
+	private JButton createDirectoryBrowseButton(JTextField directoryField, Game game)
 	{
 		JButton browseButton = new JButton("Browse");
 
 		browseButton.addActionListener(event -> {
+			if (game.getSaveFileLocation() == null)
+			{
+				JOptionPane.showMessageDialog(null, "Choose a savefile location first before deciding on a profile directory!", "Warning",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
 			JFileChooser fc = new JFileChooser(directoryField.getText());
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int val = fc.showOpenDialog(null);
 			if (val == JFileChooser.APPROVE_OPTION)
 			{
 				File selectedDir = fc.getSelectedFile();
-				if (selectedDir == null)
-					return;
-				File[] files = selectedDir.listFiles();
-				for (int i = 0; i < files.length; i++)
+				if (selectedDir == null || !selectedDir.exists())
 				{
-					if (files[i].getName().equalsIgnoreCase(game.getSaveName()))
-					{
-						directoryField.setText(selectedDir.getPath());
-						game.setDirectory(selectedDir);
-						OrganizerManager.saveProperties(game);
-						return;
-					}
+					JOptionPane.showMessageDialog(null, "This directory doesn't exist!", "Error occured", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
-				JOptionPane.showMessageDialog(null, "This directory does not contain '" + game.getSaveName() + "'!", "Error occured",
-						JOptionPane.ERROR_MESSAGE);
+				directoryField.setText(selectedDir.getPath());
+				game.setDirectory(selectedDir);
+				OrganizerManager.saveProperties(game);
+				OrganizerManager.fireProfileDirectoryChangedEvent(game);
 			}
 		});
 		return browseButton;

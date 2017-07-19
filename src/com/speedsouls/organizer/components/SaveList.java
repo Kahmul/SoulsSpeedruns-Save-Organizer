@@ -423,6 +423,12 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 
 	@Override
+	public void profileDirectoryChanged(Game game)
+	{
+	}
+
+
+	@Override
 	public void changedToGame(Game game)
 	{
 	}

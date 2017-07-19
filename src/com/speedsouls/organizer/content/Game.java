@@ -26,6 +26,7 @@ public enum Game
 	private String abbr;
 	private String saveName;
 	private File directory;
+	private File saveFile;
 	private LinkedList<Profile> profiles;
 
 
@@ -85,6 +86,7 @@ public enum Game
 	 */
 	public void setDirectory(File file)
 	{
+		profiles.clear();
 		if (file.isDirectory())
 		{
 			directory = file;
@@ -101,13 +103,25 @@ public enum Game
 
 
 	/**
-	 * Returns the file of the game's savestate.
+	 * Returns the location of the game's savestate as a File object.
 	 * 
-	 * @return the file of the game's savestate.
+	 * @return the location of the game's savestate.
 	 */
-	public File getSaveFile()
+	public File getSaveFileLocation()
 	{
-		return new File(getDirectory() + File.separator + getSaveName());
+		return saveFile;
+	}
+
+
+	/**
+	 * Sets the location of the savefile of this game.
+	 * 
+	 * @param saveFile the new location
+	 */
+	public void setSaveFileLocation(File saveFile)
+	{
+		if (saveFile.getName().equals(getSaveName()))
+			this.saveFile = saveFile;
 	}
 
 

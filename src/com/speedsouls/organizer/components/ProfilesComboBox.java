@@ -110,7 +110,16 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRend
 	@Override
 	public void profileCreated(Profile profile)
 	{
-		fillWith(OrganizerManager.getSelectedGame());
+		if (OrganizerManager.getSelectedGame().equals(profile.getGame()))
+			fillWith(OrganizerManager.getSelectedGame());
+	}
+
+
+	@Override
+	public void profileDirectoryChanged(Game game)
+	{
+		if (OrganizerManager.getSelectedGame().equals(game))
+			fillWith(OrganizerManager.getSelectedGame());
 	}
 
 

@@ -62,14 +62,23 @@ public class OrganizerManager
 
 	public static final String VERSION = "1.4";
 
+	/**
+	 * Constants defining various URLs.
+	 */
 	public static final String WEB_PAGE_URL = "www.speedsouls.com/SpeedSouls_-_Save_Organizer";
 	public static final String GITHUB_REPO_URL = "www.github.com/Kahmul/SpeedSouls-Save-Organizer";
 	public static final String TWITTER_URL = "www.twitter.com/Kahmul78";
 	public static final String LATEST_RELEASE_URL = "https://api.github.com/repos/Kahmul/SpeedSouls-Save-Organizer/releases/latest";
 
+	/**
+	 * Constants for paths to preferences and resources.
+	 */
 	private static final String RESOURCE_PATH = "/com/speedsouls/organizer/resources/";
 	private static final String PREFERENCES_PATH = "/com/speedsouls/organizer/prefs";
 
+	/**
+	 * Constants for the keys used to access preferences.
+	 */
 	private static final String PREFS_KEY_WIN_WIDTH = "WindowWidth";
 	private static final String PREFS_KEY_WIN_HEIGHT = "WindowHeight";
 
@@ -83,6 +92,11 @@ public class OrganizerManager
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_LOAD = "hotkeyLoad";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY = "hotkeyReadOnly";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_TOGGLE = "hotkeyToggle";
+
+	public static final String PREFS_MODIFIER_GAME_DIR = "Path";
+	public static final String PREFS_MODIFIER_GAME_SAVEFILE = "Savefile";
+
+	public static final String PREFS_ERROR_ON_RETRIEVE = "ERROR";
 
 	public static final String ILLEGAL_CHARACTERS = "~, @, *, %, {, }, <, >, [, ], |, “, ”, \\, /, ^";
 	private static final String ILLEGAL_CHARACTERS_REGEX = "[~#@*%{}<>\\[\\]|\"\\^\\\\\\/]";
@@ -217,27 +231,34 @@ public class OrganizerManager
 	 */
 	private static void importProfiles(Game game)
 	{
-		String gameDirectoryPath = prefs.get(game.getAbbreviation() + "Path", "ERROR");
-		if ("ERROR".equals(gameDirectoryPath))
+		String gameDirectoryPath = prefs.get(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR, PREFS_ERROR_ON_RETRIEVE);
+		if (PREFS_ERROR_ON_RETRIEVE.equals(gameDirectoryPath))
 			return;
 		File gameDirectory = new File(gameDirectoryPath);
 		if (!gameDirectory.exists())
 		{
-			prefs.remove(game.getAbbreviation() + "Path");
+			prefs.remove(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR);
 			return;
 		}
 		game.setDirectory(gameDirectory);
+		String saveLocationPath = prefs.get(game.getAbbreviation() + PREFS_MODIFIER_GAME_SAVEFILE, PREFS_ERROR_ON_RETRIEVE);
+		if (!PREFS_ERROR_ON_RETRIEVE.equals(saveLocationPath))
+		{
+			game.setSaveFileLocation(new File(saveLocationPath));
+			return;
+		}
 	}
 
 
 	/**
-	 * Saves the properties of this game.
+	 * Saves the properties of this game to the preferences.
 	 * 
 	 * @param game the game to update
 	 */
 	public static void saveProperties(Game game)
 	{
-		prefs.put(game.getAbbreviation() + "Path", game.getDirectory().getPath());
+		prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR, game.getDirectory().getPath());
+		prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_SAVEFILE, game.getSaveFileLocation().getPath());
 		importProfiles(game);
 	}
 
@@ -421,6 +442,8 @@ public class OrganizerManager
 		if (parent == null)
 			parent = getSelectedProfile().getRoot();
 		File saveFile = createFileForNewSave((Folder) parent);
+		if (saveFile == null)
+			return null;
 		Save newSave = new Save((Folder) parent, saveFile);
 		parent.addChild(newSave);
 		fireEntryCreatedEvent(newSave);
@@ -439,6 +462,8 @@ public class OrganizerManager
 		String name = saveToReplace.getName();
 		saveToReplace.delete();
 		File saveFile = createFileForNewSave((Folder) parent);
+		if (saveFile == null)
+			return;
 		Save newSave = new Save(parent, saveFile);
 		newSave.rename(name);
 		parent.addChild(newSave);
@@ -475,6 +500,13 @@ public class OrganizerManager
 	 */
 	private static File createFileForNewSave(Folder parent)
 	{
+		if (getSelectedGame().getSaveFileLocation() == null)
+		{
+			JOptionPane.showMessageDialog(mainWindow,
+					"To import a savefile you need to set the savefile location in the profile configuration settings!", "Error occured",
+					JOptionPane.WARNING_MESSAGE);
+			return null;
+		}
 		String parentPath = parent != null ? parent.getFile().getPath() : getSelectedProfile().getRoot().getFile().getPath();
 		String name = getSelectedGame().getSaveName();
 		File newFile = new File(parentPath + File.separator + name);
@@ -482,7 +514,7 @@ public class OrganizerManager
 			newFile = new File(parentPath + File.separator + name + "_" + i);
 		try
 		{
-			Files.copy(getSelectedGame().getSaveFile().toPath(), newFile.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
+			Files.copy(getSelectedGame().getSaveFileLocation().toPath(), newFile.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
 		}
 		catch (IOException e)
 		{
@@ -504,7 +536,7 @@ public class OrganizerManager
 			return;
 		fireSaveLoadStartedEvent(save);
 		Game game = getSelectedGame();
-		File gameFile = game.getSaveFile();
+		File gameFile = game.getSaveFileLocation();
 		File saveFile = save.getFile();
 		boolean canWriteSaveFile = saveFile.canWrite();
 		try
@@ -592,7 +624,7 @@ public class OrganizerManager
 	 */
 	public static void switchCurrentGameFileWritableState()
 	{
-		File gameFile = getSelectedGame().getSaveFile();
+		File gameFile = getSelectedGame().getSaveFileLocation();
 		gameFile.setWritable(!gameFile.canWrite());
 		fireGameFileWritableStateChangedEvent(gameFile.canWrite());
 	}
@@ -744,6 +776,18 @@ public class OrganizerManager
 		for (ProfileListener listener : profileListeners)
 		{
 			listener.profileCreated(profile);
+		}
+	}
+
+
+	/**
+	 * Fires a profileDirectoryChanged event.
+	 */
+	public static void fireProfileDirectoryChangedEvent(Game game)
+	{
+		for (ProfileListener listener : profileListeners)
+		{
+			listener.profileDirectoryChanged(game);
 		}
 	}
 

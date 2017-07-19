@@ -33,6 +33,12 @@ public interface ProfileListener
 
 
 	/**
+	 * Called when the user changes the profile directory in the config window.
+	 */
+	public void profileDirectoryChanged(Game game);
+
+
+	/**
 	 * Called when the user switches to another profile.
 	 * 
 	 * @param profile the profile that was switched to
