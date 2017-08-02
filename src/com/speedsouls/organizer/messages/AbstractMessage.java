@@ -38,6 +38,8 @@ public abstract class AbstractMessage extends JPanel
 	public static final AbstractMessage SUCCESSFUL_LOAD = new SuccessfulLoadMessage();
 	public static final AbstractMessage SUCCESSFUL_REPLACE = new SuccessfulReplaceMessage();
 
+	private UndecoratedMessageDialog dialog = null;
+
 	private float alpha = 0.0f;
 	private float fadeInOutRate = 0.15f;
 
@@ -82,7 +84,7 @@ public abstract class AbstractMessage extends JPanel
 			if (alpha <= 0.0f)
 			{
 				alpha = 0.0f;
-				getParent().setVisible(false);
+				dialog.setVisible(false);
 				fadingOut = false;
 				return;
 			}
@@ -161,7 +163,8 @@ public abstract class AbstractMessage extends JPanel
 		}, TIME_OUT);
 		if (alpha > 0.0f)
 			return;
-		new UndecoratedMessageDialog(this).fadeIn();
+		dialog = new UndecoratedMessageDialog(this);
+		dialog.fadeIn();
 	}
 
 
@@ -173,6 +176,17 @@ public abstract class AbstractMessage extends JPanel
 	public static void display(AbstractMessage message)
 	{
 		message.display();
+	}
+
+
+	/**
+	 * Clears all displayed messages on the screen.
+	 */
+	public static void clearAllMessages()
+	{
+		SUCCESSFUL_IMPORT.fadeOut();
+		SUCCESSFUL_LOAD.fadeOut();
+		SUCCESSFUL_REPLACE.fadeOut();
 	}
 
 
