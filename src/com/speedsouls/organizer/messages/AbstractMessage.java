@@ -153,6 +153,8 @@ public abstract class AbstractMessage extends JPanel
 	private void display()
 	{
 		fadingOut = false;
+		fadeOutTimer.cancel();
+		fadeOutTimer = new Timer();
 		fadeOutTimer.schedule(new TimerTask() {
 
 			@Override
@@ -175,6 +177,7 @@ public abstract class AbstractMessage extends JPanel
 	 */
 	public static void display(AbstractMessage message)
 	{
+		clearAllMessages();
 		message.display();
 	}
 

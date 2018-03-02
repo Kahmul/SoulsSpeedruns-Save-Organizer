@@ -99,8 +99,8 @@ public class OrganizerManager
 
 	public static final String PREFS_ERROR_ON_RETRIEVE = "ERROR";
 
-	public static final String ILLEGAL_CHARACTERS = "~, @, *, %, {, }, <, >, [, ], |, “, ”, \\, /, ^";
-	private static final String ILLEGAL_CHARACTERS_REGEX = "[~#@*%{}<>\\[\\]|\"\\^\\\\\\/]";
+	public static final String ILLEGAL_CHARACTERS = "~, @, *, {, }, <, >, [, ], |, “, ”, \\, /, ^";
+	private static final String ILLEGAL_CHARACTERS_REGEX = "[~#@*{}<>\\[\\]|\"\\^\\\\\\/]";
 
 	private static Preferences prefs;
 
@@ -141,7 +141,7 @@ public class OrganizerManager
 	 * 
 	 * @throws IOException
 	 */
-	public static void initialize() throws IOException
+	private static void initialize() throws IOException
 	{
 		importImages();
 		initListeners();

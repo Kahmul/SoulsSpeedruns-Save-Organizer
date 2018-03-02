@@ -42,6 +42,7 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 		setSize(parentWindow.getWidth() / 2, parentWindow.getHeight() / 10);
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
 		setUndecorated(true);
+		setAutoRequestFocus(false);
 		setBackground(new Color(0, 0, 0, 0));
 		add(message);
 
