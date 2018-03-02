@@ -447,6 +447,7 @@ public class OrganizerManager
 			return null;
 		Save newSave = new Save((Folder) parent, saveFile);
 		parent.addChild(newSave);
+		AbstractMessage.display(AbstractMessage.SUCCESSFUL_IMPORT);
 		fireEntryCreatedEvent(newSave);
 		return newSave;
 	}

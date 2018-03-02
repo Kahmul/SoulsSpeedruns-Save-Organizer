@@ -34,6 +34,7 @@ public abstract class AbstractMessage extends JPanel
 	private static final Font FONT = new Font("Calibri", Font.BOLD, 17);
 	private static final int TIME_OUT = 2500;
 
+	public static final AbstractMessage SUCCESSFUL_DELETE = new SuccessfulDeleteMessage();
 	public static final AbstractMessage SUCCESSFUL_IMPORT = new SuccessfulImportMessage();
 	public static final AbstractMessage SUCCESSFUL_LOAD = new SuccessfulLoadMessage();
 	public static final AbstractMessage SUCCESSFUL_REPLACE = new SuccessfulReplaceMessage();
@@ -187,6 +188,7 @@ public abstract class AbstractMessage extends JPanel
 	 */
 	public static void clearAllMessages()
 	{
+		SUCCESSFUL_DELETE.fadeOut();
 		SUCCESSFUL_IMPORT.fadeOut();
 		SUCCESSFUL_LOAD.fadeOut();
 		SUCCESSFUL_REPLACE.fadeOut();

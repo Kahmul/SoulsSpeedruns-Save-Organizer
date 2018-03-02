@@ -303,6 +303,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 			model.removeElement(entry);
 			entry.delete();
 		}
+		AbstractMessage.display(AbstractMessage.SUCCESSFUL_DELETE);
 	}
 
 
