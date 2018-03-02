@@ -3,9 +3,10 @@ package com.speedsouls.organizer.update;
 
 import java.awt.Dialog;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -40,6 +41,7 @@ public class NewReleaseWindow extends JDialog
 		initProperties();
 
 		setVisible(true);
+		requestFocus();
 	}
 
 
@@ -48,7 +50,6 @@ public class NewReleaseWindow extends JDialog
 	 */
 	private void initProperties()
 	{
-		pack();
 		setResizable(false);
 		setIconImage(OrganizerManager.speedsoulsIcon);
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
@@ -62,20 +63,23 @@ public class NewReleaseWindow extends JDialog
 	private void initLayout()
 	{
 		JPanel guiPanel = new JPanel();
-		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.PAGE_AXIS));
+		guiPanel.setLayout(new GridBagLayout());
 		guiPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 50, 0));
-		contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 20, 5));
 
 		contentPanel.add(new NewReleasePanel());
 		contentPanel.add(new JLabel(new ImageIcon(OrganizerManager.speedsoulsIconMedium)));
 
-		guiPanel.add(contentPanel);
-		guiPanel.add(createNewDownloadButton());
+		GridBagConstraints constraints = new GridBagConstraints();
+		guiPanel.add(contentPanel, constraints);
+		constraints.gridy = 1;
+		guiPanel.add(createNewDownloadButton(), constraints);
 
 		add(guiPanel);
+		pack();
 	}
 
 

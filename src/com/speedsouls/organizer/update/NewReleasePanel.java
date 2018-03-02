@@ -37,8 +37,10 @@ public class NewReleasePanel extends JPanel
 		JLabel newReleaseLabel = new JLabel("New Release Version:");
 		JLabel versionLabel = new JLabel(OrganizerManager.getLatestReleaseVersion());
 		JLabel changelogLabel = new JLabel("Changelog:");
-		JLabel newReleaseDescriptionLabel = new JLabel(
-				String.format("<html><div WIDTH=%d>%s</div><html>", 200, OrganizerManager.getLatestReleaseDescription()));
+
+		String description = OrganizerManager.getLatestReleaseDescription().replaceAll("\\R", "<br>");
+
+		JLabel newReleaseDescriptionLabel = new JLabel(String.format("<html><div WIDTH=%d>%s</div></html>", 200, description));
 
 		newReleaseLabel.setFont(getFont().deriveFont(Font.BOLD));
 		changelogLabel.setFont(getFont().deriveFont(Font.BOLD));
