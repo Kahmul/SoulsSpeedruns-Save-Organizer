@@ -36,6 +36,7 @@ import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
 import com.speedsouls.organizer.listeners.SearchListener;
 import com.speedsouls.organizer.listeners.SortingListener;
+import com.speedsouls.organizer.messages.AbstractMessage;
 
 
 /**
@@ -516,6 +517,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
+		AbstractMessage.clearAllMessages();
 		if (e.getClickCount() < 2)
 			return;
 		SaveListEntry entry = getSelectedValue();

@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import com.speedsouls.organizer.data.OrganizerManager;
-import com.speedsouls.organizer.messages.AbstractMessage;
 import com.speedsouls.organizer.update.NewReleaseWindow;
 
 
@@ -104,7 +103,6 @@ public class OrganizerWindow extends JFrame
 			@Override
 			public void windowGainedFocus(WindowEvent e)
 			{
-				AbstractMessage.clearAllMessages();
 			}
 
 
