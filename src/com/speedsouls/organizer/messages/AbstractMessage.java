@@ -32,7 +32,7 @@ public abstract class AbstractMessage extends JPanel
 	private static final long serialVersionUID = -7470202821259477366L;
 
 	private static final Font FONT = new Font("Calibri", Font.BOLD, 17);
-	private static final int TIME_OUT = 3000;
+	private static final int TIME_OUT = 2500;
 
 	public static final AbstractMessage SUCCESSFUL_IMPORT = new SuccessfulImportMessage();
 	public static final AbstractMessage SUCCESSFUL_LOAD = new SuccessfulLoadMessage();
