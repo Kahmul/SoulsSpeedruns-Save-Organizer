@@ -4,7 +4,7 @@ package com.speedsouls.organizer.messages;
 import java.awt.Color;
 
 import jiconfont.IconCode;
-import jiconfont.icons.FontAwesome;
+import jiconfont.icons.Elusive;
 
 
 /**
@@ -21,7 +21,7 @@ public class SuccessfulLoadMessage extends AbstractMessage
 	private static final long serialVersionUID = 7321956095930505656L;
 
 	private static final String MESSAGE = "LOAD SUCCESSFUL";
-	private static final IconCode ICON = FontAwesome.CHECK;
+	private static final IconCode ICON = Elusive.REPEAT;
 	private static final Color COLOR = new Color(50, 205, 50);
 
 

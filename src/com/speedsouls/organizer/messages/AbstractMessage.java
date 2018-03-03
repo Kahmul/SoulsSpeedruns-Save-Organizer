@@ -39,6 +39,9 @@ public abstract class AbstractMessage extends JPanel
 	public static final AbstractMessage SUCCESSFUL_LOAD = new SuccessfulLoadMessage();
 	public static final AbstractMessage SUCCESSFUL_REPLACE = new SuccessfulReplaceMessage();
 
+	// used to prevent fadeout when redisplaying a currently displayed message
+	private static AbstractMessage currentMessage;
+
 	private UndecoratedMessageDialog dialog = null;
 
 	private float alpha = 0.0f;
@@ -64,6 +67,7 @@ public abstract class AbstractMessage extends JPanel
 		// set the opacity
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC, alpha));
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		g.setColor(getColor());
 		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
@@ -133,6 +137,8 @@ public abstract class AbstractMessage extends JPanel
 	 */
 	protected void fadeOut()
 	{
+		if (this.equals(currentMessage))
+			return;
 		fadingOut = true;
 		repaint();
 	}
@@ -178,7 +184,11 @@ public abstract class AbstractMessage extends JPanel
 	 */
 	public static void display(AbstractMessage message)
 	{
-		clearAllMessages();
+		currentMessage = message;
+		SUCCESSFUL_DELETE.fadeOut();
+		SUCCESSFUL_IMPORT.fadeOut();
+		SUCCESSFUL_LOAD.fadeOut();
+		SUCCESSFUL_REPLACE.fadeOut();
 		message.display();
 	}
 
@@ -188,6 +198,7 @@ public abstract class AbstractMessage extends JPanel
 	 */
 	public static void clearAllMessages()
 	{
+		currentMessage = null;
 		SUCCESSFUL_DELETE.fadeOut();
 		SUCCESSFUL_IMPORT.fadeOut();
 		SUCCESSFUL_LOAD.fadeOut();
