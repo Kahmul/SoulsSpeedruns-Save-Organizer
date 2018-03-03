@@ -248,6 +248,11 @@ public class OrganizerManager
 			game.setSaveFileLocation(new File(saveLocationPath));
 			return;
 		}
+		// If the user used an old version, then a savefile location might not have been explicitly specified.
+		// In that case, use the profile directory + saveName as the savefile location
+		File defaultSaveFileLocation = new File(gameDirectoryPath + File.separator + game.getSaveName());
+		if (defaultSaveFileLocation.exists())
+			game.setSaveFileLocation(defaultSaveFileLocation);
 	}
 
 
