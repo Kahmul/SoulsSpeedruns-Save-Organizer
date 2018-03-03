@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.config;
+package com.speedsouls.organizer.profileconfig;
 
 
 import java.awt.Dimension;
@@ -11,8 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import com.speedsouls.organizer.components.ProfileList;
-import com.speedsouls.organizer.content.Game;
+import com.speedsouls.organizer.games.Game;
 
 
 /**

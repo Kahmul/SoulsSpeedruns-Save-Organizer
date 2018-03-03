@@ -25,20 +25,20 @@ import javax.swing.JOptionPane;
 import org.jnativehook.NativeHookException;
 import org.json.JSONObject;
 
-import com.speedsouls.organizer.content.Folder;
-import com.speedsouls.organizer.content.Game;
-import com.speedsouls.organizer.content.GlobalHotkey;
-import com.speedsouls.organizer.content.Profile;
-import com.speedsouls.organizer.content.Save;
-import com.speedsouls.organizer.content.SaveListEntry;
-import com.speedsouls.organizer.content.SortingCategory;
+import com.speedsouls.organizer.games.Game;
+import com.speedsouls.organizer.hotkeys.GlobalHotkey;
+import com.speedsouls.organizer.hotkeys.GlobalKeyboardHook;
 import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
 import com.speedsouls.organizer.listeners.SearchListener;
 import com.speedsouls.organizer.listeners.SortingListener;
 import com.speedsouls.organizer.main.OrganizerWindow;
 import com.speedsouls.organizer.messages.AbstractMessage;
-import com.speedsouls.organizer.natives.GlobalKeyboardHook;
+import com.speedsouls.organizer.profileconfig.Profile;
+import com.speedsouls.organizer.savelist.Folder;
+import com.speedsouls.organizer.savelist.Save;
+import com.speedsouls.organizer.savelist.SaveListEntry;
+import com.speedsouls.organizer.savelist.SortingCategory;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.Entypo;

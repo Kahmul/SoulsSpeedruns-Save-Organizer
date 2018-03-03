@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.components;
+package com.speedsouls.organizer.savelist;
 
 
 import java.awt.event.MouseEvent;
@@ -8,13 +8,11 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import com.speedsouls.organizer.content.Game;
-import com.speedsouls.organizer.content.Profile;
-import com.speedsouls.organizer.content.Save;
-import com.speedsouls.organizer.content.SaveListEntry;
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.games.Game;
 import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
+import com.speedsouls.organizer.profileconfig.Profile;
 
 
 /**

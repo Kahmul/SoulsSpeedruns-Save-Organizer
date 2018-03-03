@@ -10,8 +10,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.speedsouls.organizer.components.SearchBar;
-import com.speedsouls.organizer.components.SortingComboBox;
+import com.speedsouls.organizer.savelist.SearchBar;
+import com.speedsouls.organizer.savelist.SortingComboBox;
 
 
 /**

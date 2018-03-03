@@ -12,16 +12,16 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.speedsouls.organizer.components.ReadOnlyButton;
-import com.speedsouls.organizer.components.SettingsButton;
-import com.speedsouls.organizer.content.Folder;
-import com.speedsouls.organizer.content.Game;
-import com.speedsouls.organizer.content.Profile;
-import com.speedsouls.organizer.content.Save;
-import com.speedsouls.organizer.content.SaveListEntry;
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.games.Game;
 import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
+import com.speedsouls.organizer.profileconfig.Profile;
+import com.speedsouls.organizer.savelist.Folder;
+import com.speedsouls.organizer.savelist.ReadOnlyButton;
+import com.speedsouls.organizer.savelist.Save;
+import com.speedsouls.organizer.savelist.SaveListEntry;
+import com.speedsouls.organizer.settings.SettingsButton;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.Iconic;

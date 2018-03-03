@@ -1,8 +1,8 @@
 package com.speedsouls.organizer.listeners;
 
 
-import com.speedsouls.organizer.content.Save;
-import com.speedsouls.organizer.content.SaveListEntry;
+import com.speedsouls.organizer.savelist.Save;
+import com.speedsouls.organizer.savelist.SaveListEntry;
 
 
 /**

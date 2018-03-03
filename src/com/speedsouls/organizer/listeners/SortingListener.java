@@ -1,7 +1,7 @@
 package com.speedsouls.organizer.listeners;
 
 
-import com.speedsouls.organizer.content.SortingCategory;
+import com.speedsouls.organizer.savelist.SortingCategory;
 
 
 /**

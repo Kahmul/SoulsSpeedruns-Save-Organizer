@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.components;
+package com.speedsouls.organizer.savelist;
 
 
 import java.awt.Component;
@@ -23,20 +23,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.speedsouls.organizer.content.Folder;
-import com.speedsouls.organizer.content.Game;
-import com.speedsouls.organizer.content.Profile;
-import com.speedsouls.organizer.content.Save;
-import com.speedsouls.organizer.content.SaveListEntry;
-import com.speedsouls.organizer.content.SortingCategory;
 import com.speedsouls.organizer.data.OrganizerManager;
 import com.speedsouls.organizer.dragndrop.SaveListDragListener;
 import com.speedsouls.organizer.dragndrop.SaveListTransferHandler;
+import com.speedsouls.organizer.games.Game;
 import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
 import com.speedsouls.organizer.listeners.SearchListener;
 import com.speedsouls.organizer.listeners.SortingListener;
 import com.speedsouls.organizer.messages.AbstractMessage;
+import com.speedsouls.organizer.profileconfig.Profile;
 
 
 /**

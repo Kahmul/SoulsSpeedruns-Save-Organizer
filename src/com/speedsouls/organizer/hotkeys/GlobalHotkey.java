@@ -1,7 +1,8 @@
-package com.speedsouls.organizer.content;
+package com.speedsouls.organizer.hotkeys;
 
 
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.savelist.Save;
 
 
 /**

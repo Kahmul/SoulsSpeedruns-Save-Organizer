@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JTextField;
 
-import com.speedsouls.organizer.content.GlobalHotkey;
+import com.speedsouls.organizer.hotkeys.GlobalHotkey;
 
 
 /**

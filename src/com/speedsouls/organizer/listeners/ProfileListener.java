@@ -1,8 +1,8 @@
 package com.speedsouls.organizer.listeners;
 
 
-import com.speedsouls.organizer.content.Game;
-import com.speedsouls.organizer.content.Profile;
+import com.speedsouls.organizer.games.Game;
+import com.speedsouls.organizer.profileconfig.Profile;
 
 
 /**

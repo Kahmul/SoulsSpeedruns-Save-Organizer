@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.config;
+package com.speedsouls.organizer.profileconfig;
 
 
 import java.awt.Dialog;
@@ -8,8 +8,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.games.Game;
 
 
 /**

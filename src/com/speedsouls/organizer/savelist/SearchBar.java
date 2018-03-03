@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.components;
+package com.speedsouls.organizer.savelist;
 
 
 import java.awt.event.FocusEvent;

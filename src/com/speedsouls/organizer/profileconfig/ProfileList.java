@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.components;
+package com.speedsouls.organizer.profileconfig;
 
 
 import java.awt.Component;
@@ -17,9 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 
-import com.speedsouls.organizer.content.Game;
-import com.speedsouls.organizer.content.Profile;
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.games.Game;
 import com.speedsouls.organizer.listeners.ProfileListener;
 
 

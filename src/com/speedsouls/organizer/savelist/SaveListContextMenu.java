@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.components;
+package com.speedsouls.organizer.savelist;
 
 
 import java.awt.Color;
@@ -12,10 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
-import com.speedsouls.organizer.content.Folder;
-import com.speedsouls.organizer.content.Save;
-import com.speedsouls.organizer.content.SaveListEntry;
-import com.speedsouls.organizer.content.SortingCategory;
 import com.speedsouls.organizer.data.OrganizerManager;
 
 import jiconfont.icons.Elusive;

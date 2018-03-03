@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.natives;
+package com.speedsouls.organizer.hotkeys;
 
 
 import java.awt.event.KeyEvent;
@@ -10,7 +10,6 @@ import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
-import com.speedsouls.organizer.content.GlobalHotkey;
 import com.speedsouls.organizer.data.OrganizerManager;
 
 

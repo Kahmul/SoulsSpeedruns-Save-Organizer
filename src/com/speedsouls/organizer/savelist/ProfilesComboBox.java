@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.components;
+package com.speedsouls.organizer.savelist;
 
 
 import java.awt.Component;
@@ -11,10 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import com.speedsouls.organizer.content.Game;
-import com.speedsouls.organizer.content.Profile;
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.games.Game;
 import com.speedsouls.organizer.listeners.ProfileListener;
+import com.speedsouls.organizer.profileconfig.Profile;
 
 
 /**

@@ -12,10 +12,10 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.TransferHandler;
 
-import com.speedsouls.organizer.components.SaveList;
-import com.speedsouls.organizer.content.Folder;
-import com.speedsouls.organizer.content.SaveListEntry;
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.savelist.Folder;
+import com.speedsouls.organizer.savelist.SaveList;
+import com.speedsouls.organizer.savelist.SaveListEntry;
 
 
 /**

@@ -1,9 +1,11 @@
-package com.speedsouls.organizer.content;
+package com.speedsouls.organizer.games;
 
 
 import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
+
+import com.speedsouls.organizer.profileconfig.Profile;
 
 
 /**

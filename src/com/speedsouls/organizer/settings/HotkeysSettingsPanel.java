@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import com.speedsouls.organizer.content.GlobalHotkey;
+import com.speedsouls.organizer.hotkeys.GlobalHotkey;
 
 
 /**

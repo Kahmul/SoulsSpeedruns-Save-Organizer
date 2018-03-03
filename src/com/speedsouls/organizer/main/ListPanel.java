@@ -3,11 +3,12 @@ package com.speedsouls.organizer.main;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+import com.speedsouls.organizer.savelist.SaveList;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-
-import com.speedsouls.organizer.components.SaveList;
 
 
 /**

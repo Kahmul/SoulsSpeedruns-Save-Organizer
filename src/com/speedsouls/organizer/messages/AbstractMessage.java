@@ -137,6 +137,7 @@ public abstract class AbstractMessage extends JPanel
 	 */
 	protected void fadeOut()
 	{
+		// don't fadeout the current message
 		if (this.equals(currentMessage))
 			return;
 		fadingOut = true;

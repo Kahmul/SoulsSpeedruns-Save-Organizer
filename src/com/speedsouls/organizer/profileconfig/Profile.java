@@ -1,10 +1,13 @@
-package com.speedsouls.organizer.content;
+package com.speedsouls.organizer.profileconfig;
 
 
 import java.io.File;
 import java.util.Collections;
 
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.games.Game;
+import com.speedsouls.organizer.savelist.Folder;
+import com.speedsouls.organizer.savelist.RootFolder;
 
 
 /**

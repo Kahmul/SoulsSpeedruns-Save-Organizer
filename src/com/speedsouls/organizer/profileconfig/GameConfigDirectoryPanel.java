@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.config;
+package com.speedsouls.organizer.profileconfig;
 
 
 import java.io.File;
@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.games.Game;
 
 
 /**

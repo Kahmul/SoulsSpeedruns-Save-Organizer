@@ -10,7 +10,7 @@ import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
 
-import com.speedsouls.organizer.components.SaveList;
+import com.speedsouls.organizer.savelist.SaveList;
 
 
 /**

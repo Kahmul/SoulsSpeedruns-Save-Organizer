@@ -9,11 +9,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.speedsouls.organizer.components.GamesComboBox;
-import com.speedsouls.organizer.components.ProfilesComboBox;
-import com.speedsouls.organizer.config.ProfileConfigurationWindow;
-import com.speedsouls.organizer.content.Game;
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.games.Game;
+import com.speedsouls.organizer.profileconfig.ProfileConfigurationWindow;
+import com.speedsouls.organizer.savelist.GamesComboBox;
+import com.speedsouls.organizer.savelist.ProfilesComboBox;
 
 
 /**

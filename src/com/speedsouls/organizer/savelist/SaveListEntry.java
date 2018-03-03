@@ -1,4 +1,4 @@
-package com.speedsouls.organizer.content;
+package com.speedsouls.organizer.savelist;
 
 
 import java.awt.datatransfer.DataFlavor;
