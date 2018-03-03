@@ -28,8 +28,8 @@ public class OrganizerWindow extends JFrame
 
 	private static final long serialVersionUID = -410330356532830410L;
 
-	private static final int MIN_WIDTH = 700;
-	private static final int MIN_HEIGHT = 550;
+	private static final int MIN_WIDTH = 550;
+	private static final int MIN_HEIGHT = 450;
 
 	private static final boolean IS_RESIZABLE = true;
 
