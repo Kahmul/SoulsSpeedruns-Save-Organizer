@@ -96,9 +96,9 @@ public class GameConfigProfilesPanel extends JPanel
 		JButton editButton = createEditButton(profileList);
 		JButton deleteButton = createDeleteButton(profileList);
 
-		buttonPanel.add(importButton);
 		buttonPanel.add(newButton);
 		buttonPanel.add(editButton);
+		buttonPanel.add(importButton);
 		buttonPanel.add(deleteButton);
 
 		return buttonPanel;
