@@ -168,7 +168,8 @@ public abstract class AbstractMessage extends JPanel
 			@Override
 			public void run()
 			{
-				fadeOut();
+				fadingOut = true;
+				repaint();
 			}
 		}, TIME_OUT);
 		if (alpha > 0.0f)

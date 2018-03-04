@@ -123,7 +123,7 @@ public class ButtonPanel extends JPanel
 	private JButton createLoadButton()
 	{
 		JButton loadButton = new JButton("Load Savestate");
-		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, new Color(50, 205, 50)));
+		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, new Color(39, 174, 96)));
 		loadButton.addActionListener(event -> {
 			SaveListEntry entry = OrganizerManager.getSelectedEntry();
 			if (entry instanceof Folder)
@@ -141,7 +141,7 @@ public class ButtonPanel extends JPanel
 	private JButton createReplaceButton()
 	{
 		JButton replaceButton = new JButton("Replace Savestate");
-		replaceButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, new Color(255, 165, 0)));
+		replaceButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, new Color(255, 168, 0)));
 		replaceButton.addActionListener(event -> {
 			Save selectedSave = (Save) OrganizerManager.getSelectedEntry();
 			int confirm = JOptionPane.showConfirmDialog(getParent(), "Do you really want to replace '" + selectedSave.getName() + "'?",

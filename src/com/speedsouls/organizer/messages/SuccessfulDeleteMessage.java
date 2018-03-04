@@ -22,7 +22,7 @@ public class SuccessfulDeleteMessage extends AbstractMessage
 
 	private static final String MESSAGE = "DELETE SUCCESSFUL";
 	private static final IconCode ICON = Iconic.CHECK;
-	private static final Color COLOR = Color.RED;
+	private static final Color COLOR = new Color(232, 65, 24);
 
 
 	protected SuccessfulDeleteMessage()

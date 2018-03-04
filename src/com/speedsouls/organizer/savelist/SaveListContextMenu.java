@@ -89,7 +89,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createAddItem(SaveList saveList)
 	{
 		JMenuItem itemAdd = new JMenuItem("Add Folder");
-		itemAdd.setIcon(IconFontSwing.buildIcon(Elusive.PLUS_SIGN, 15, new Color(50, 205, 50)));
+		itemAdd.setIcon(IconFontSwing.buildIcon(Elusive.PLUS_SIGN, 15, new Color(39, 174, 96)));
 		itemAdd.addActionListener(event -> {
 			saveList.askToCreateFolder();
 		});
@@ -105,7 +105,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createRemoveItem(SaveList saveList)
 	{
 		JMenuItem itemRemove = new JMenuItem("Delete");
-		itemRemove.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 18, Color.RED));
+		itemRemove.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 18, new Color(231, 76, 60)));
 		itemRemove.setAccelerator(KeyStroke.getKeyStroke("DELETE"));
 		itemRemove.addActionListener(event -> {
 			saveList.askToDeleteEntries(saveList.getSelectedValuesList());
@@ -122,7 +122,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createEditItem(SaveList saveList)
 	{
 		JMenuItem itemEdit = new JMenuItem("Rename");
-		itemEdit.setIcon(IconFontSwing.buildIcon(Elusive.EDIT, 15, new Color(255, 165, 0)));
+		itemEdit.setIcon(IconFontSwing.buildIcon(Elusive.EDIT, 15, new Color(243, 156, 18)));
 		itemEdit.setAccelerator(KeyStroke.getKeyStroke("F2"));
 		itemEdit.addActionListener(event -> {
 			saveList.askToEditEntry(saveList.getSelectedValue());
