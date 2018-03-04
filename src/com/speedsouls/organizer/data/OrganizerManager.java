@@ -80,6 +80,9 @@ public class OrganizerManager
 	/**
 	 * Constants for the keys used to access preferences.
 	 */
+	private static final String PREFS_KEY_INITIAL_STARTUP = "initStartup";
+	private static final String PREFS_KEY_VERSION = "Version";
+
 	private static final String PREFS_KEY_WIN_WIDTH = "WindowWidth";
 	private static final String PREFS_KEY_WIN_HEIGHT = "WindowHeight";
 
@@ -190,6 +193,19 @@ public class OrganizerManager
 	private static void initPreferenceData()
 	{
 		prefs = Preferences.userRoot().node(PREFERENCES_PATH);
+		prefs.put(PREFS_KEY_VERSION, VERSION);
+
+		// reset global hotkeys if this is the first time the organizer is started to avoid incompatibility with older versions
+		boolean initStartup = prefs.getBoolean(PREFS_KEY_INITIAL_STARTUP, true);
+		if (initStartup)
+		{
+			prefs.putBoolean(PREFS_KEY_INITIAL_STARTUP, false);
+
+			prefs.remove(PREFS_KEY_SETTING_GLOBAL_HOTKEYS);
+			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_LOAD);
+			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY);
+			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_TOGGLE);
+		}
 	}
 
 
