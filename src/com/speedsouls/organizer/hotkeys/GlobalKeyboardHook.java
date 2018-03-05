@@ -10,8 +10,6 @@ import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
-import com.speedsouls.organizer.data.OrganizerManager;
-
 
 /**
  * GlobalKeyboardHook.
@@ -109,11 +107,6 @@ public class GlobalKeyboardHook implements NativeKeyListener
 	{
 		keyComboWasExecuted = false;
 		int keyCode = e.getKeyCode();
-		if (keyCode == NativeKeyEvent.VC_F1 && e.getModifiers() == 0 && hotkeysEnabled)
-		{
-			OrganizerManager.openWebPage();
-			return;
-		}
 		if (keyCode == NativeKeyEvent.VC_SHIFT_L || keyCode == NativeKeyEvent.VC_SHIFT_R || keyCode == NativeKeyEvent.VC_CONTROL_L
 				|| keyCode == NativeKeyEvent.VC_CONTROL_R || keyCode == NativeKeyEvent.VC_ALT_L || keyCode == NativeKeyEvent.VC_ALT_R)
 			return;

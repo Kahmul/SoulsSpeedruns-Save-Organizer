@@ -1,6 +1,8 @@
 package com.speedsouls.organizer.settings;
 
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
@@ -90,6 +92,7 @@ public class SettingsContextMenu extends JPopupMenu implements PopupMenuListener
 	{
 		JMenuItem itemHelp = new JMenuItem("Help");
 		itemHelp.setAccelerator(KeyStroke.getKeyStroke("F1"));
+		itemHelp.setMnemonic(KeyEvent.VK_F1);
 		itemHelp.setToolTipText(OrganizerManager.WEB_PAGE_URL);
 		itemHelp.addActionListener(event -> {
 			OrganizerManager.openWebPage();

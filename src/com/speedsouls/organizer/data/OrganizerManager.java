@@ -199,12 +199,12 @@ public class OrganizerManager
 		boolean initStartup = prefs.getBoolean(PREFS_KEY_INITIAL_STARTUP, true);
 		if (initStartup)
 		{
-			prefs.putBoolean(PREFS_KEY_INITIAL_STARTUP, false);
-
 			prefs.remove(PREFS_KEY_SETTING_GLOBAL_HOTKEYS);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_LOAD);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_TOGGLE);
+
+			prefs.putBoolean(PREFS_KEY_INITIAL_STARTUP, false);
 		}
 	}
 
