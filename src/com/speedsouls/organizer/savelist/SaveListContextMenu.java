@@ -153,7 +153,7 @@ public class SaveListContextMenu extends JPopupMenu
 
 	private JMenuItem createRefreshItem(SaveList saveList)
 	{
-		JMenuItem itemRefresh = new JMenuItem("Refresh From Filesystem");
+		JMenuItem itemRefresh = new JMenuItem("Refresh From File System");
 		itemRefresh.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, new Color(138, 43, 226)));
 		itemRefresh.addActionListener(event -> {
 			saveList.refresh();

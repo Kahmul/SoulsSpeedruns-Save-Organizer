@@ -134,8 +134,17 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	 */
 	public void refresh()
 	{
-		OrganizerManager.refreshProfiles();
-		fillWith(OrganizerManager.getSelectedProfile(), null);
+		try
+		{
+			OrganizerManager.refreshProfiles();
+			fillWith(OrganizerManager.getSelectedProfile(), null);
+		}
+		catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(getParent(), "Error occured when trying to refresh from the file system.", "Error occured",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		AbstractMessage.display(AbstractMessage.SUCCESSFUL_REFRESH);
 	}
 
