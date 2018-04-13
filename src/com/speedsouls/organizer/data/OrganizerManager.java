@@ -273,6 +273,15 @@ public class OrganizerManager
 
 
 	/**
+	 * Refreshes all profiles and games.
+	 */
+	public static void refreshProfiles()
+	{
+		mapGamesWithProfiles();
+	}
+
+
+	/**
 	 * Saves the properties of this game to the preferences.
 	 * 
 	 * @param game the game to update

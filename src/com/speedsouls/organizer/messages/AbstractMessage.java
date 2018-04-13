@@ -38,6 +38,7 @@ public abstract class AbstractMessage extends JPanel
 	public static final AbstractMessage SUCCESSFUL_IMPORT = new SuccessfulImportMessage();
 	public static final AbstractMessage SUCCESSFUL_LOAD = new SuccessfulLoadMessage();
 	public static final AbstractMessage SUCCESSFUL_REPLACE = new SuccessfulReplaceMessage();
+	public static final AbstractMessage SUCCESSFUL_REFRESH = new SuccessfulRefreshMessage();
 
 	// used to prevent fadeout when redisplaying a currently displayed message
 	private static AbstractMessage currentMessage;

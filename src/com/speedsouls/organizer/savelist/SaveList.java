@@ -130,6 +130,17 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 
 	/**
+	 * Refreshes all profiles and the savelist to keep it up to date with the filesystem.
+	 */
+	public void refresh()
+	{
+		OrganizerManager.refreshProfiles();
+		fillWith(OrganizerManager.getSelectedProfile(), null);
+		AbstractMessage.display(AbstractMessage.SUCCESSFUL_REFRESH);
+	}
+
+
+	/**
 	 * Sorts all entries in the list according to the current sorting method.
 	 */
 	public void sortEntries()

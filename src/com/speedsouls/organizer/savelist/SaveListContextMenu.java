@@ -49,12 +49,14 @@ public class SaveListContextMenu extends JPopupMenu
 		JMenuItem itemRemove = createRemoveItem(saveList);
 		JMenuItem itemEdit = createEditItem(saveList);
 		JCheckBoxMenuItem itemReadOnly = createReadOnlyItem(saveList);
+		JMenuItem itemRefresh = createRefreshItem(saveList);
 		JMenuItem itemOpenInExplorer = createOpenInExplorerItem(saveList);
 
 		add(itemAdd);
 		add(itemRemove);
 		add(itemEdit);
 		add(itemReadOnly);
+		add(itemRefresh);
 		add(itemOpenInExplorer);
 
 		show(saveList, x, y);
@@ -146,6 +148,17 @@ public class SaveListContextMenu extends JPopupMenu
 			saveList.repaint();
 		});
 		return itemReadOnly;
+	}
+
+
+	private JMenuItem createRefreshItem(SaveList saveList)
+	{
+		JMenuItem itemRefresh = new JMenuItem("Refresh From Filesystem");
+		itemRefresh.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, new Color(138, 43, 226)));
+		itemRefresh.addActionListener(event -> {
+			saveList.refresh();
+		});
+		return itemRefresh;
 	}
 
 
