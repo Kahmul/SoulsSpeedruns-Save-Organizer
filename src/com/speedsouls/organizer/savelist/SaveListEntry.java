@@ -211,8 +211,18 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 	 * Renames the given entry.
 	 * 
 	 * @param newName the new name
+	 * @return whether the renaming was successful
 	 */
-	public abstract void rename(String newName);
+	public abstract boolean rename(String newName);
+
+
+	/**
+	 * Returns whether this entry can currently be renamed. Relevant to check if the file associated with the entry is currently
+	 * being accessed elsewhere.
+	 * 
+	 * @return whether the entry can be renamed
+	 */
+	public abstract boolean canBeRenamed();
 
 
 	/**

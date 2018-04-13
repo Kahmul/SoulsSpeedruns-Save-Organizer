@@ -2,6 +2,10 @@ package com.speedsouls.organizer.savelist;
 
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
+import javax.swing.JOptionPane;
 
 import com.speedsouls.organizer.data.OrganizerManager;
 
@@ -29,16 +33,30 @@ public class RootFolder extends Folder
 
 
 	@Override
-	public void rename(String newName)
+	public boolean rename(String newName)
 	{
 		File newFile = new File(OrganizerManager.getSelectedGame().getDirectory() + File.separator + newName);
-		getFile().renameTo(newFile);
+		try
+		{
+			// if the same name is given, then only the file variable is supposed to be updated for a new parent
+			if (!getFile().getName().equals((newName)))
+				Files.move(getFile().toPath(), newFile.toPath());
+		}
+		catch (IOException e)
+		{
+			JOptionPane.showMessageDialog(null,
+					"Renaming the entries was not successful. They are possibly being accessed by another program.", "Warning",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
 		setFile(newFile);
 		for (SaveListEntry entry : getChildren())
 		{
 			// call rename on all children with the same name to update the path with the new parent
-			entry.rename(entry.getName());
+			if (!entry.rename(entry.getName()))
+				return false;
 		}
+		return true;
 	}
 
 

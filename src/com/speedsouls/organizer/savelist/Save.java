@@ -2,10 +2,13 @@ package com.speedsouls.organizer.savelist;
 
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import com.speedsouls.organizer.data.OrganizerManager;
 
@@ -43,10 +46,31 @@ public class Save extends SaveListEntry
 
 
 	@Override
-	public void rename(String newName)
+	public boolean rename(String newName)
 	{
-		getFile().renameTo(new File(getParent().getFile() + File.separator + newName));
-		setFile(new File(getParent().getFile() + File.separator + newName));
+		File newFile = new File(getParent().getFile() + File.separator + newName);
+		try
+		{
+			// if the same name is given, then only the file variable is supposed to be updated for a new parent
+			if (!getFile().getName().equals((newName)))
+				Files.move(getFile().toPath(), newFile.toPath());
+		}
+		catch (IOException e)
+		{
+			JOptionPane.showMessageDialog(null,
+					"Renaming the entries was not successful. They are possibly being accessed by another program.", "Warning",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		setFile(newFile);
+		return true;
+	}
+
+
+	@Override
+	public boolean canBeRenamed()
+	{
+		return getFile().canWrite();
 	}
 
 

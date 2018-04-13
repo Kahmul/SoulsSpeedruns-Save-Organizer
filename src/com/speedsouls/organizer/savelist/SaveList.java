@@ -279,6 +279,16 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 			confirm = JOptionPane.showConfirmDialog(getParent(),
 					"Do you really want to delete all your selected files and their sub-contents, if any?", "Delete",
 					JOptionPane.YES_NO_OPTION);
+		for (SaveListEntry saveListEntry : entries)
+		{
+			// if the parent file cannot be written to, then deletion cannot happen
+			if (!saveListEntry.getFile().getParentFile().canWrite())
+			{
+				JOptionPane.showMessageDialog(getParent(), "Couldn't delete files. They are probably being accessed by another program.",
+						"Warning", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+		}
 		if (confirm == 0)
 			deleteEntries(entries);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
@@ -318,6 +328,13 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 				"Edit " + entry.getName(), JOptionPane.QUESTION_MESSAGE, null, null, entry.getName());
 		boolean nameValidation = validateNewName(entry, newName);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		if (!entry.canBeRenamed())
+		{
+			JOptionPane.showMessageDialog(getParent(),
+					"This entry can currently not be renamed. It is probably being accessed by another program.", "Warning",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
 		if (nameValidation)
 			renameEntry(entry, newName);
 	}
@@ -331,8 +348,8 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	 */
 	private void renameEntry(SaveListEntry entry, String newName)
 	{
-		entry.rename(newName);
-		OrganizerManager.fireEntryRenamedEvent(entry);
+		if (entry.rename(newName))
+			OrganizerManager.fireEntryRenamedEvent(entry);
 	}
 
 
