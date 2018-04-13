@@ -4,7 +4,7 @@ package com.speedsouls.organizer.messages;
 import java.awt.Color;
 
 import jiconfont.IconCode;
-import jiconfont.icons.Iconic;
+import jiconfont.icons.FontAwesome;
 
 
 /**
@@ -21,7 +21,7 @@ public class SuccessfulDeleteMessage extends AbstractMessage
 	private static final long serialVersionUID = 3917031603377354547L;
 
 	private static final String MESSAGE = "DELETE SUCCESSFUL";
-	private static final IconCode ICON = Iconic.CHECK;
+	private static final IconCode ICON = FontAwesome.CHECK;
 	private static final Color COLOR = new Color(232, 65, 24);
 
 
