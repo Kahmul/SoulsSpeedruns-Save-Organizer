@@ -1,6 +1,7 @@
 package com.speedsouls.organizer.savelist;
 
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import com.speedsouls.organizer.data.OrganizerManager;
+
+import jiconfont.icons.Iconic;
+import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -81,6 +85,11 @@ public class Save extends SaveListEntry
 		label.setBorder(BorderFactory.createEmptyBorder(1, 3 + getIndent(), 0, 1));
 		if (!getFile().canWrite())
 			label.setIcon(new ImageIcon(OrganizerManager.readOnlyIconSmall));
+		if (!getFile().exists())
+		{
+			label.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 13, Color.RED));
+			label.setToolTipText("File does not exist any longer!");
+		}
 	}
 
 
