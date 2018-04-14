@@ -23,7 +23,7 @@ The SpeedSouls - Save Organizer is a tool designed to manage savefiles for Dark 
 
 **6.** Copies the currently selected savefile from the savefile list (4) over the game's current savefile.
 
-**7.** Progressbar indicating the load process started by (6).
+**7.** Replaces the currently selected savefile with the game's current savefile.
 
 **8.** Button to switch your current gamefile to read-only and back. Greyed out if your gamefile is not read-only.
 
