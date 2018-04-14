@@ -146,6 +146,7 @@ public class Folder extends SaveListEntry
 		if (!getFile().exists())
 		{
 			color = Color.RED;
+			label.setForeground(Color.RED);
 			label.setToolTipText("Directory does not exist any longer!");
 		}
 		if (isClosed())
