@@ -48,6 +48,9 @@ public class OrganizerWindow extends JFrame
 		initLayout();
 		initListeners();
 
+		while (!OrganizerManager.isApplicationReady())
+		{
+		}
 		setVisible(true);
 	}
 

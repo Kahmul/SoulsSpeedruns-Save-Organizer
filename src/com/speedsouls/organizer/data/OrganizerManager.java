@@ -124,6 +124,8 @@ public class OrganizerManager
 
 	private static OrganizerWindow mainWindow;
 
+	private static boolean isReady;
+
 	static
 	{
 		try
@@ -151,6 +153,8 @@ public class OrganizerManager
 		initPreferenceData();
 		initKeyboardHook();
 		mapGamesWithProfiles();
+
+		isReady = true;
 	}
 
 
@@ -269,6 +273,12 @@ public class OrganizerManager
 		File defaultSaveFileLocation = new File(gameDirectoryPath + File.separator + game.getSaveName());
 		if (defaultSaveFileLocation.exists())
 			game.setSaveFileLocation(defaultSaveFileLocation);
+	}
+
+
+	public static boolean isApplicationReady()
+	{
+		return isReady;
 	}
 
 
