@@ -161,8 +161,8 @@ public class OrganizerManager
 	 */
 	private static void importImages() throws IOException
 	{
-		speedsoulsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SpeedSoulsIcon.png"));
-		speedsoulsIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SpeedSoulsIconMedium.png"));
+		speedsoulsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SpeedSoulsFlameSmall.png"));
+		speedsoulsIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SpeedSoulsFlameSmall.png"));
 		readOnlyIconSmall = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIconSmall.png"));
 		readOnlyIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIconMedium.png"));
 		settingsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SettingsIcon.png"));
