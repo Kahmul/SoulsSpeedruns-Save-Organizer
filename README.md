@@ -96,3 +96,7 @@ In order to make savefiles with the Save Organizer you have to first set it up a
         2. Enter "regedit".
         3. Navigate to "HKEY_CURRENT_USER\Software\JavaSoft\Prefs\com\speedsouls\organizer\prefs".
         4. Delete all entries.
+
+## Credits
+
+- DarK for making the intro splash screen for 1.4 onwards.
