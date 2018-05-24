@@ -156,6 +156,8 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	{
 		SaveListEntry selectedEntry = OrganizerManager.getSelectedEntry();
 		Profile currentProfile = OrganizerManager.getSelectedProfile();
+		if (currentProfile.getRoot() == null)
+			return;
 		currentProfile.getRoot().sort();
 		fillWith(currentProfile, null);
 		int selectedIndex = ((DefaultListModel<SaveListEntry>) getModel()).indexOf(selectedEntry);

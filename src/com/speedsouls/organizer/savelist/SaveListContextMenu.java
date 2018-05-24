@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
 import com.speedsouls.organizer.data.OrganizerManager;
+import com.speedsouls.organizer.games.Game;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.Entypo;
@@ -55,7 +56,8 @@ public class SaveListContextMenu extends JPopupMenu
 		add(itemAdd);
 		add(itemRemove);
 		add(itemEdit);
-		add(itemReadOnly);
+		if (!OrganizerManager.getSelectedGame().equals(Game.DARK_SOULS_REMASTERED))
+			add(itemReadOnly);
 		add(itemRefresh);
 		add(itemOpenInExplorer);
 

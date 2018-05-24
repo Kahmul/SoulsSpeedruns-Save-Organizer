@@ -60,7 +60,7 @@ import jiconfont.swing.IconFontSwing;
 public class OrganizerManager
 {
 
-	public static final String VERSION = "1.4";
+	public static final String VERSION = "1.4.1";
 
 	/**
 	 * Constants defining various URLs.
@@ -682,6 +682,8 @@ public class OrganizerManager
 	 */
 	public static void switchCurrentGameFileWritableState()
 	{
+		if (getSelectedGame().equals(Game.DARK_SOULS_REMASTERED))
+			return;
 		File gameFile = getSelectedGame().getSaveFileLocation();
 		gameFile.setWritable(!gameFile.canWrite());
 		fireGameFileWritableStateChangedEvent(gameFile.canWrite());

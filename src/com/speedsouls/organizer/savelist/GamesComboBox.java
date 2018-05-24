@@ -22,7 +22,7 @@ import com.speedsouls.organizer.games.Game;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 29 Sep 2015
  */
-public class GamesComboBox extends JComboBox<Game>implements ListCellRenderer<Game>
+public class GamesComboBox extends JComboBox<Game> implements ListCellRenderer<Game>
 {
 
 	private static final long serialVersionUID = -3428616630686103313L;
@@ -39,6 +39,7 @@ public class GamesComboBox extends JComboBox<Game>implements ListCellRenderer<Ga
 		fillWith(games);
 
 		setRenderer(this);
+		setPrototypeDisplayValue(Game.DARK_SOULS_II_SOTFS);
 		addItemListener(event -> {
 			if (event.getStateChange() == ItemEvent.SELECTED)
 			{
