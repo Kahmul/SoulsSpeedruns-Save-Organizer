@@ -86,7 +86,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 	/**
 	 * Fills the list with the given profile. If a search term is given, only saves/folders that contain the term will be added.
-	 * 
+	 *
 	 * @param profile the profile to fill this list with
 	 * @param searchTerm the search term
 	 */

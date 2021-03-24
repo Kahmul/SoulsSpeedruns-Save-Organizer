@@ -39,7 +39,7 @@ public enum Game
 	 * @param abbr the abbreviation of this game
 	 * @param saveName the name of the game's savefile
 	 */
-	private Game(String caption, String abbr, String saveName)
+	Game(String caption, String abbr, String saveName)
 	{
 		this.caption = caption;
 		this.abbr = abbr;

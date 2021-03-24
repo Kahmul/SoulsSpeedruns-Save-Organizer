@@ -13,120 +13,102 @@ import com.speedsouls.organizer.savelist.Save;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 4 Jun 2016
  */
-public enum GlobalHotkey
-{
+public enum GlobalHotkey {
 
-	LOAD_SAVE("Load Selected Save:", "None")
-	{
-
-		@Override
-		public void action()
-		{
-			if (OrganizerManager.getSelectedEntry() instanceof Save)
-				OrganizerManager.loadSave((Save) OrganizerManager.getSelectedEntry());
-		}
+    LOAD_SAVE("Load Selected Save:", "None") {
+        @Override
+        public void action() {
+            if (OrganizerManager.getSelectedEntry() instanceof Save)
+                OrganizerManager.loadSave((Save) OrganizerManager.getSelectedEntry());
+        }
 
 
-		@Override
-		public String getPrefsKey()
-		{
-			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_LOAD;
-		}
-	},
-	READ_ONLY_TOGGLE("Switch Gamefile To Read-Only:", "None")
-	{
-
-		@Override
-		public void action()
-		{
-			OrganizerManager.switchCurrentGameFileWritableState();
-		}
+        @Override
+        public String getPrefsKey() {
+            return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_LOAD;
+        }
+    },
+    READ_ONLY_TOGGLE("Switch Gamefile To Read-Only:", "None") {
+        @Override
+        public void action() {
+            OrganizerManager.switchCurrentGameFileWritableState();
+        }
 
 
-		@Override
-		public String getPrefsKey()
-		{
-			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY;
-		}
-	},
-	GLOBAL_HOTKEY_TOGGLE("Toggle Global Hotkeys:", "None")
-	{
-
-		@Override
-		public void action()
-		{
-			OrganizerManager.setGlobalHotkeysEnabled(!OrganizerManager.areGlobalHotkeysEnabled());
-		}
+        @Override
+        public String getPrefsKey() {
+            return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY;
+        }
+    },
+    GLOBAL_HOTKEY_TOGGLE("Toggle Global Hotkeys:", "None") {
+        @Override
+        public void action() {
+            OrganizerManager.setGlobalHotkeysEnabled(!OrganizerManager.areGlobalHotkeysEnabled());
+        }
 
 
-		@Override
-		public String getPrefsKey()
-		{
-			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_TOGGLE;
-		}
-	};
+        @Override
+        public String getPrefsKey() {
+            return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_TOGGLE;
+        }
+    };
 
-	private String caption;
-	private String keyCode;
-
-
-	/**
-	 * Creates a new GlobalHotkey constant.
-	 * 
-	 * @param caption the name of the hotkey which is displayed in the settings window
-	 * @param keyCode the associated key code on which the hotkey action will be executed
-	 */
-	private GlobalHotkey(String caption, String keyCode)
-	{
-		setCaption(caption);
-		this.keyCode = keyCode;
-	}
+    private String caption;
+    private String keyCode;
 
 
-	/**
-	 * The action to perform on pressing the hotkey.
-	 */
-	public abstract void action();
+    /**
+     * Creates a new GlobalHotkey constant.
+     *
+     * @param caption the name of the hotkey which is displayed in the settings window
+     * @param keyCode the associated key code on which the hotkey action will be executed
+     */
+    private GlobalHotkey(String caption, String keyCode) {
+        setCaption(caption);
+        this.keyCode = keyCode;
+    }
 
 
-	public abstract String getPrefsKey();
+    /**
+     * The action to perform on pressing the hotkey.
+     */
+    public abstract void action();
 
 
-	/**
-	 * @return the caption
-	 */
-	public String getCaption()
-	{
-		return caption;
-	}
+    public abstract String getPrefsKey();
 
 
-	/**
-	 * @param caption the caption to set
-	 */
-	public void setCaption(String caption)
-	{
-		this.caption = caption;
-	}
+    /**
+     * @return the caption
+     */
+    public String getCaption() {
+        return caption;
+    }
 
 
-	/**
-	 * @return the keyCode
-	 */
-	public String getKeyCode()
-	{
-		String storedCode = OrganizerManager.getStoredHotkeyCode(this);
-		return "".equals(storedCode) ? keyCode : storedCode;
-
-	}
+    /**
+     * @param caption the caption to set
+     */
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
 
 
-	/**
-	 * @param keyCode the keyCode to set
-	 */
-	public void setKeyCode(String keyCode)
-	{
-		this.keyCode = keyCode;
-		OrganizerManager.setStoredHotkeyCode(this, keyCode);
-	}
+    /**
+     * @return the keyCode
+     */
+    public String getKeyCode() {
+        String storedCode = OrganizerManager.getStoredHotkeyCode(this);
+        return "".equals(storedCode) ? keyCode : storedCode;
+
+    }
+
+
+    /**
+     * @param keyCode the keyCode to set
+     */
+    public void setKeyCode(String keyCode) {
+        this.keyCode = keyCode;
+        OrganizerManager.setStoredHotkeyCode(this, keyCode);
+    }
 }

@@ -4,12 +4,7 @@ package com.speedsouls.organizer.data;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -19,9 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import org.apache.commons.io.FileUtils;
 import org.jnativehook.NativeHookException;
 import org.json.JSONObject;
 
@@ -949,9 +946,9 @@ public class OrganizerManager
 
 
 	/**
-	 * Fires a gameFileWritableStateChanged event.
+	 * Fires a fireGameFileWritableStateChangedEvent event.
 	 * 
-	 * @param save the save that was loaded
+	 * @param writeable is this file writable
 	 */
 	public static void fireGameFileWritableStateChangedEvent(boolean writeable)
 	{
@@ -1167,6 +1164,45 @@ public class OrganizerManager
 			sb.append((char) cp);
 		}
 		return sb.toString();
+	}
+
+	public static void copyFile(File file1,Folder parentFolder) throws IOException {
+		int count = 1;
+		File temp = file1;
+		File file2 = parentFolder.getFile();
+		String orginalName = file1.getAbsolutePath();
+		while (exists(temp, file2) && count < 50) {
+			temp = new File(createNewFilePathString(orginalName, count, temp.isDirectory()));
+			count++;
+
+		}
+		if (count >= 50) {
+			throw new IOException("");
+		}
+		if (file1.isDirectory()) {
+			FileUtils.copyDirectory(file1, new File(file2.getPath() + File.separator + temp.getName()));
+
+		} else {
+			Files.copy(file1.toPath(), new File(file2.getPath() + File.separator + temp.getName()).toPath());
+			Save save = new Save(parentFolder,new File(file2.getPath() + File.separator + temp.getName()));
+			parentFolder.addChild(save);
+			fireEntryCreatedEvent(save);
+		}
+	}
+
+	private static String createNewFilePathString(String s, int count,boolean isDirectory){
+		if(isDirectory){
+			return s + "("+count+")";
+		}
+		int i = s.lastIndexOf(".");
+		String[] a =  {s.substring(0, i), s.substring(i)};
+		return a[0]+"("+ count +")"+a[1];
+
+	}
+
+	private static boolean exists(File file1,File file2){
+		String path = file2.getPath() + File.separator + file1.getName();
+		return new File(path).exists();
 	}
 
 }

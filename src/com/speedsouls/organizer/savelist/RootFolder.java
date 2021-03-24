@@ -65,5 +65,4 @@ public class RootFolder extends Folder
 	{
 		OrganizerManager.deleteDirectory(getFile());
 	}
-
 }

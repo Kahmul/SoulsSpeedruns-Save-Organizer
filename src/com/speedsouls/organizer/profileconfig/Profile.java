@@ -21,8 +21,8 @@ import com.speedsouls.organizer.savelist.RootFolder;
 public class Profile implements Comparable<Profile>
 {
 
-	private Game game;
-	private RootFolder root;
+	private final Game game;
+	private  Folder root;
 
 
 	/**

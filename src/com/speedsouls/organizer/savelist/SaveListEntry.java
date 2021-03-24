@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Objects;
 
 import javax.swing.JLabel;
 
@@ -98,8 +99,8 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 		if (parent.equals(OrganizerManager.getSelectedProfile().getRoot()))
 			return 0;
 		return parent.getIndent() + 20;
-	}
 
+	}
 
 	/**
 	 * @return the children
@@ -261,4 +262,12 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 		return flavor.equals(ENTRY_FLAVOR);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof SaveListEntry)) return false;
+		SaveListEntry that = (SaveListEntry) o;
+		return Objects.equals(parent, that.parent) &&
+				Objects.equals(file, that.file);
+	}
 }

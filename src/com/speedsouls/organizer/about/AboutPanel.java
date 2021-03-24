@@ -90,6 +90,7 @@ public class AboutPanel extends JPanel
 				}
 				catch (Exception ex)
 				{
+					// no log
 				}
 			}
 		});
@@ -114,6 +115,7 @@ public class AboutPanel extends JPanel
 				}
 				catch (Exception ex)
 				{
+					// not logging
 				}
 			}
 		});
