@@ -320,8 +320,8 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 
 
 	@Override
-	public void keyPressed(KeyEvent e)
-	{
+	public void keyPressed(KeyEvent e) {
+
 	}
 
 

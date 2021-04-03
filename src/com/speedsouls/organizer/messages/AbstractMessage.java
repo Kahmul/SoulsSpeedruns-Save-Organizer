@@ -39,6 +39,8 @@ public abstract class AbstractMessage extends JPanel
 	public static final AbstractMessage SUCCESSFUL_LOAD = new SuccessfulLoadMessage();
 	public static final AbstractMessage SUCCESSFUL_REPLACE = new SuccessfulReplaceMessage();
 	public static final AbstractMessage SUCCESSFUL_REFRESH = new SuccessfulRefreshMessage();
+	public static final AbstractMessage SUCCESSFUL_COPY = new SuccessfulCopyMessage();
+	public static final AbstractMessage SUCCESSFUL_PASTE = new SuccessfulPasteMessage();
 
 	// used to prevent fadeout when redisplaying a currently displayed message
 	private static AbstractMessage currentMessage;
@@ -114,8 +116,8 @@ public abstract class AbstractMessage extends JPanel
 	 */
 	private void drawIcon(Graphics g)
 	{
-		Icon icon = IconFontSwing.buildIcon(getIcon(), 30, getColor());
-		icon.paintIcon(null, g, getWidth() / 6 - icon.getIconWidth() / 2, getHeight() / 2 - icon.getIconHeight() / 2);
+			Icon icon = IconFontSwing.buildIcon(getIcon(), 30, getColor());
+			icon.paintIcon(null, g, getWidth() / 6 - icon.getIconWidth() / 2, getHeight() / 2 - icon.getIconHeight() / 2);
 	}
 
 

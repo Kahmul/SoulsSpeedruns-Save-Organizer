@@ -94,6 +94,16 @@ public class Profile implements Comparable<Profile>
 		root.delete();
 	}
 
+	/**
+	 * Refresh the profile
+	 */
+	public void refresh() {
+		if (root != null) {
+			//force rebuilding of root folder to pick up new files
+			root = new RootFolder(new File(game.getDirectory() + File.separator + root.getName()));
+		}
+	}
+
 
 	@Override
 	public int compareTo(Profile profile)

@@ -103,7 +103,7 @@ public class ButtonPanel extends JPanel
 			Profile profile = OrganizerManager.getSelectedProfile();
 			if (profile.getRoot() != null)
 			{
-				OrganizerManager.importSavefile(null);
+				OrganizerManager.importSaveFile(null);
 				return;
 			}
 			JOptionPane.showMessageDialog(null,
@@ -148,7 +148,7 @@ public class ButtonPanel extends JPanel
 					"Replace " + selectedSave.getName(), JOptionPane.YES_NO_OPTION);
 			if (confirm != 0)
 				return;
-			OrganizerManager.importAndReplaceSavefile(selectedSave);
+			OrganizerManager.importAndReplaceSaveFile(selectedSave);
 		});
 		replaceButton.setEnabled(false);
 		return replaceButton;

@@ -3,9 +3,8 @@ package com.speedsouls.organizer.savelist;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -78,6 +77,7 @@ public class SaveListContextMenu extends JPopupMenu
 			saveList.setSelectedIndex(index);
 			itemEdit.setEnabled(true);
 			itemRemove.setEnabled(true);
+			enablePaste(paste,saveList);
 			itemReadOnly.setEnabled(saveList.getSelectedValue() instanceof Save);
 			itemReadOnly.setSelected(!saveList.getSelectedValue().getFile().canWrite());
 			return;
@@ -85,39 +85,39 @@ public class SaveListContextMenu extends JPopupMenu
 		itemEdit.setEnabled(false);
 		itemRemove.setEnabled(false);
 		itemReadOnly.setEnabled(false);
+		createCopy.setEnabled(false);
+
+		enablePaste(paste,saveList);
+	}
+
+	private void enablePaste(JMenuItem paste,SaveList saveList) {
+		try {
+			ArrayList<File> fileList = (ArrayList<File>) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.javaFileListFlavor);
+			paste.setEnabled((fileList != null && !fileList.isEmpty() && (saveList.getSelectedValue() == null || saveList.getSelectedValue() !=null &&  saveList.getSelectedValue() instanceof Folder)));
+		} catch (Exception e) {
+			paste.setEnabled(false);
+		}
 	}
 
 	private JMenuItem cretePasteItem(SaveList saveList) {
-		JMenuItem itemAdd = new JMenuItem("PasteItem");
-		itemAdd.setIcon(IconFontSwing.buildIcon(Elusive.FIRE, 15, new Color(39, 174, 96)));
+		JMenuItem itemAdd = new JMenuItem("Paste Item(s)");
+		itemAdd.setIcon(IconFontSwing.buildIcon(Elusive.BRUSH, 15, new Color(39, 73, 174)));
+		itemAdd.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,KeyEvent.CTRL_DOWN_MASK));
 		itemAdd.addActionListener(event -> {
-
-			Folder dirToOpen = OrganizerManager.getSelectedProfile().getRoot();
-			Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-			Transferable transferable = c.getContents(null);
-			try {
-			ArrayList<File> fileList = (ArrayList<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
-			for(File file: fileList){
-				OrganizerManager.copyFile(file,dirToOpen);
-			}
-			} catch (UnsupportedFlavorException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			saveList.askToPasteFiles();
 		});
 
 		return itemAdd;
 	}
 
 	private JMenuItem createCopy(SaveList saveList) {
-		JMenuItem itemAdd = new JMenuItem("copy");
-		itemAdd.setIcon(IconFontSwing.buildIcon(Elusive.FIRE, 15, new Color(39, 174, 96)));
-		itemAdd.addActionListener(event -> {
-			Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-			c.setContents(new MyTransfer(saveList),MyTransfer.clipboardOwner);
+		JMenuItem copy = new JMenuItem("Copy");
+		copy.setIcon(IconFontSwing.buildIcon(Elusive.PLUS_SIGN, 15, new Color(174, 172, 39)));
+		copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,KeyEvent.CTRL_DOWN_MASK));
+		copy.addActionListener(event -> {
+			saveList.copyFiles();
 		});
-		return itemAdd;
+		return copy;
 	}
 
 	/**
@@ -229,35 +229,6 @@ public class SaveListContextMenu extends JPopupMenu
 		return itemOpenInExplorer;
 	}
 
-	private static class MyTransfer implements Transferable {
 
-		protected static final ClipboardOwner clipboardOwner = new ClipboardOwner() {
-			@Override
-			public void lostOwnership(Clipboard clipboard, Transferable contents) {
-
-			}
-		};
-
-		private final ArrayList arrayList = new ArrayList();
-
-		private MyTransfer(SaveList saveList) {
-			arrayList.add(saveList.getSelectedValue().getFile());
-		}
-
-		@Override
-		public DataFlavor[] getTransferDataFlavors() {
-			return new DataFlavor[]{DataFlavor.javaFileListFlavor};
-		}
-
-		@Override
-		public boolean isDataFlavorSupported(DataFlavor flavor) {
-			return DataFlavor.javaFileListFlavor.equals(flavor);
-		}
-
-		@Override
-		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-			return arrayList;
-		}
-	}
 
 }
