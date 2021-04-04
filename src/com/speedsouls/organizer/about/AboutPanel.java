@@ -90,7 +90,6 @@ public class AboutPanel extends JPanel
 				}
 				catch (Exception ex)
 				{
-
 				}
 			}
 		});
@@ -115,7 +114,6 @@ public class AboutPanel extends JPanel
 				}
 				catch (Exception ex)
 				{
-
 				}
 			}
 		});
