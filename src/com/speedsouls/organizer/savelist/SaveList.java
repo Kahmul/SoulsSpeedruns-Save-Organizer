@@ -191,7 +191,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	/**
 	 * Opens the entry if it is a folder and inserts its children below it in the list.
 	 * 
-	 * @param save the save to open
+	 * @param entry the save to open
 	 */
 	public void openDirectory(SaveListEntry entry)
 	{
@@ -221,7 +221,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	/**
 	 * Closes the entry if it is a folder and removes its children displayed in the list.
 	 * 
-	 * @param save the save to close
+	 * @param entry the save to close
 	 */
 	public void closeDirectory(SaveListEntry entry)
 	{
@@ -443,9 +443,9 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 		try {
 			Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-			FileTransferable fileTransferable = new FileTransferable(this);
-			if(!fileTransferable.arrayList.isEmpty()) {
-				c.setContents(fileTransferable, FileTransferable.clipboardOwner);
+			SaveListFileTransferable saveListFileTransferable = new SaveListFileTransferable(this);
+			if(!saveListFileTransferable.arrayList.isEmpty()) {
+				c.setContents(saveListFileTransferable, SaveListFileTransferable.clipboardOwner);
 				AbstractMessage.display(AbstractMessage.SUCCESSFUL_COPY);
 			}
 
@@ -467,8 +467,8 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 			ArrayList<File> fileList = (ArrayList<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
 			if (!fileList.isEmpty() && wouldNotCauseInfiniteLoop(dirToOpen,fileList)) {
 				int confirm = JOptionPane.showConfirmDialog(getParent(),
-						"Paste " + fileList.size() + " file(s) into "
-								+ dirToOpen.getName() + "?", "Paste Items", JOptionPane.YES_NO_OPTION);
+						"Paste " + fileList.size() + " file(s) into '"
+								+ dirToOpen.getName() + "' ?", "Paste Items", JOptionPane.YES_NO_OPTION);
 				if (confirm == 0) {
 					for (File file : fileList) {
 						OrganizerManager.copyFile(file, dirToOpen);
@@ -476,6 +476,10 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 					}
 					AbstractMessage.display(AbstractMessage.SUCCESSFUL_PASTE);
 					silentRefresh();
+					setSelectedValue(dirToOpen,true);
+					if(dirToOpen != OrganizerManager.getSelectedProfile().getRoot()){
+						openDirectory(dirToOpen); // not sure why this doesn't re-open the directory
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -483,6 +487,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		}
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 	}
+
 
 	private boolean wouldNotCauseInfiniteLoop(Folder dirToOpen, ArrayList<File> fileList) {
 		for(File file: fileList){
@@ -494,6 +499,14 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		return true;
 	}
 
+	/**
+	 * This method is used to be sure that the source is not a child of the destination.
+	 * This would cause an infinite loop with the current {@link OrganizerManager#copyDirectory(File, File)}
+	 * because the src would always have new files as they were copied over so it would never break out the loop
+	 * @param dest file trying to paste to
+	 * @param src file being pasted from
+	 * @return if source is a parent of the destination
+	 */
 	private boolean isSourceAParentOfDest(Folder dest, File src) {
 		boolean answer;
 		if (dest.getParent() != null) {
@@ -709,7 +722,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	{
 	}
 
-	private static class FileTransferable implements Transferable {
+	private static class SaveListFileTransferable implements Transferable {
 
 		protected static final ClipboardOwner clipboardOwner = (clipboard, contents) -> {
 
@@ -717,7 +730,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 		private final ArrayList<File> arrayList = new ArrayList<>();
 
-		private FileTransferable(SaveList saveList) {
+		private SaveListFileTransferable(SaveList saveList) {
 			for(SaveListEntry saveListEntry :saveList.getSelectedValuesList()){
 				arrayList.add(saveListEntry.getFile());
 			}

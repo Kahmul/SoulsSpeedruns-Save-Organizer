@@ -100,24 +100,24 @@ public class SaveListContextMenu extends JPopupMenu
 	}
 
 	private JMenuItem cretePasteItem(SaveList saveList) {
-		JMenuItem itemAdd = new JMenuItem("Paste Item(s)");
-		itemAdd.setIcon(IconFontSwing.buildIcon(Elusive.BRUSH, 15, new Color(39, 73, 174)));
-		itemAdd.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,KeyEvent.CTRL_DOWN_MASK));
-		itemAdd.addActionListener(event -> {
+		JMenuItem itemPaste = new JMenuItem("Paste Item(s)");
+		itemPaste.setIcon(IconFontSwing.buildIcon(Elusive.BRUSH, 15, new Color(39, 73, 174)));
+		itemPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,KeyEvent.CTRL_DOWN_MASK));
+		itemPaste.addActionListener(event -> {
 			saveList.askToPasteFiles();
 		});
 
-		return itemAdd;
+		return itemPaste;
 	}
 
 	private JMenuItem createCopy(SaveList saveList) {
-		JMenuItem copy = new JMenuItem("Copy");
-		copy.setIcon(IconFontSwing.buildIcon(Elusive.PLUS_SIGN, 15, new Color(174, 172, 39)));
-		copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,KeyEvent.CTRL_DOWN_MASK));
-		copy.addActionListener(event -> {
+		JMenuItem itemCopy = new JMenuItem("Copy");
+		itemCopy.setIcon(IconFontSwing.buildIcon(Elusive.PLUS_SIGN, 15, new Color(174, 172, 39)));
+		itemCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,KeyEvent.CTRL_DOWN_MASK));
+		itemCopy.addActionListener(event -> {
 			saveList.copyFiles();
 		});
-		return copy;
+		return itemCopy;
 	}
 
 	/**
@@ -228,7 +228,5 @@ public class SaveListContextMenu extends JPopupMenu
 		});
 		return itemOpenInExplorer;
 	}
-
-
 
 }

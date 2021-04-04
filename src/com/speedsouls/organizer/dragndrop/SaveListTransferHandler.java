@@ -46,23 +46,23 @@ public class SaveListTransferHandler extends TransferHandler
 	@Override
 	public boolean canImport(TransferHandler.TransferSupport support)
 	{
-		if (!support.isDataFlavorSupported(SaveListEntry.ENTRY_FLAVOR)) {
+		if (!support.isDataFlavorSupported(SaveListEntry.ENTRY_FLAVOR))
 			return false;
-		}
 		JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
 
 		int index = saveList.locationToIndex(dl.getDropPoint());
-		if (index == -1) {
+		if (index == -1)
 			return false;
-		}
 		try
 		{
 			SaveListEntry entry = (SaveListEntry) support.getTransferable().getTransferData(SaveListEntry.ENTRY_FLAVOR);
 			SaveListEntry newParentFolder = findNewParentFolderFromDropLocation(dl);
-			if ((entry.equals(newParentFolder)) || (entry.isParentOf(newParentFolder)) || (entry.getParent().equals(newParentFolder))) {
+			if (entry.equals(newParentFolder))
 				return false;
-			}
-
+			if (entry.isParentOf(newParentFolder))
+				return false;
+			if (entry.getParent().equals(newParentFolder))
+				return false;
 			support.setShowDropLocation(true);
 		}
 		catch (Exception e)

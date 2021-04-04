@@ -22,7 +22,7 @@ public class Profile implements Comparable<Profile>
 {
 
 	private final Game game;
-	private  Folder root;
+	private  RootFolder root;
 
 
 	/**

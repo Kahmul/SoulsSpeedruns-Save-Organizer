@@ -15,12 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 
-import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import com.speedsouls.organizer.messages.Messages;
-import org.apache.commons.io.FileUtils;
 import org.jnativehook.NativeHookException;
 import org.json.JSONObject;
 

@@ -264,6 +264,7 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 
 	@Override
 	public boolean equals(Object o) {
+		//equals is needed so when root folders are compared after refresh from file system the profiles can load properly
 		if (this == o) return true;
 		if (!(o instanceof SaveListEntry)) return false;
 		SaveListEntry that = (SaveListEntry) o;

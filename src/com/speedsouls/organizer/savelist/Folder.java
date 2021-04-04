@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collections;
-import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -164,4 +163,5 @@ public class Folder extends SaveListEntry
 			return -1;
 		return OrganizerManager.getSelectedSortingCategory().compare(this, entry);
 	}
+
 }
