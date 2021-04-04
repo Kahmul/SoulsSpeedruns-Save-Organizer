@@ -486,12 +486,25 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 	private boolean wouldNotCauseInfiniteLoop(Folder dirToOpen, ArrayList<File> fileList) {
 		for(File file: fileList){
-			if(file.equals(dirToOpen.getFile())){
+			if(isSourceAParentOfDest(dirToOpen,file)){
 				JOptionPane.showMessageDialog(null, "Cannot paste files into themselves! Please select a different folder to paste your files", "Error occurred", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private boolean isSourceAParentOfDest(Folder dest, File src) {
+		boolean answer;
+		if (dest.getParent() != null) {
+			if (src.equals(dest.getFile())) {
+				return true;
+			}
+			answer = isSourceAParentOfDest(dest.getParent(),src);
+			return answer;
+		}
+		return false;
+
 	}
 
 

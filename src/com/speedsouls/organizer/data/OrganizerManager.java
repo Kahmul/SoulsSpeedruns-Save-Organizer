@@ -1197,7 +1197,7 @@ public class OrganizerManager
 			return;
 		}
 		if (src.isDirectory()) {
-			FileUtils.copyDirectory(src, new File(destFile.getPath() + File.separator + temp.getName()));
+			copyDirectory(src, new File(destFile.getPath() + File.separator + temp.getName()));
 
 		} else {
 			Files.copy(src.toPath(), new File(destFile.getPath() + File.separator + temp.getName()).toPath());
