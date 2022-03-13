@@ -23,6 +23,7 @@ public enum Game
 	DARK_SOULS_REMASTERED("Dark Souls Remastered", "DSR", "DRAKS0005.sl2"),
 	DARK_SOULS_II("Dark Souls II", "DS2", "DARKSII0000.sl2"),
 	DARK_SOULS_II_SOTFS("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2"),
+	ELDEN RING("ELDEN RING", "ER", "ER0000.sl2"),
 	DARK_SOULS_III("Dark Souls III", "DS3", "DS30000.sl2");
 
 	private String caption;
