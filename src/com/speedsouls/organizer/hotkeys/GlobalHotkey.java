@@ -49,6 +49,38 @@ public enum GlobalHotkey
 			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY;
 		}
 	},
+	PREV_SAVE_TOGGLE("Highlight previous savefile:", "None")
+	{
+
+		@Override
+		public void action()
+		{
+			OrganizerManager.navigateToPrevious();
+		}
+
+
+		@Override
+		public String getPrefsKey()
+		{
+			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_PREV_SAVE;
+		}
+	},
+	NEXT_SAVE_TOGGLE("Highlight next savefile:", "None")
+	{
+
+		@Override
+		public void action()
+		{
+			OrganizerManager.navigateToNext();
+		}
+
+
+		@Override
+		public String getPrefsKey()
+		{
+			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_NEXT_SAVE;
+		}
+	},
 	GLOBAL_HOTKEY_TOGGLE("Toggle Global Hotkeys:", "None")
 	{
 

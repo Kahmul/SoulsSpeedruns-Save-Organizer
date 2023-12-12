@@ -27,6 +27,7 @@ import com.speedsouls.organizer.data.OrganizerManager;
 import com.speedsouls.organizer.dragndrop.SaveListDragListener;
 import com.speedsouls.organizer.dragndrop.SaveListTransferHandler;
 import com.speedsouls.organizer.games.Game;
+import com.speedsouls.organizer.listeners.NavigationListener;
 import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
 import com.speedsouls.organizer.listeners.SearchListener;
@@ -44,7 +45,7 @@ import com.speedsouls.organizer.profileconfig.Profile;
  * @date 26 Sep 2015
  */
 public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<SaveListEntry>, ListSelectionListener, ProfileListener,
-		SaveListener, SearchListener, SortingListener, MouseListener, KeyListener
+		SaveListener, SearchListener, SortingListener, MouseListener, KeyListener, NavigationListener
 {
 
 	private static final long serialVersionUID = 4832551527054891457L;
@@ -78,6 +79,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		OrganizerManager.addSaveListener(this);
 		OrganizerManager.addSearchListener(this);
 		OrganizerManager.addSortingListener(this);
+		OrganizerManager.addNavigationListener(this);
 
 		setModel(new DefaultListModel<>());
 		fillWith(OrganizerManager.getSelectedProfile(), null);
@@ -156,6 +158,8 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	{
 		SaveListEntry selectedEntry = OrganizerManager.getSelectedEntry();
 		Profile currentProfile = OrganizerManager.getSelectedProfile();
+		if (currentProfile.getRoot() == null)
+			return;
 		currentProfile.getRoot().sort();
 		fillWith(currentProfile, null);
 		int selectedIndex = ((DefaultListModel<SaveListEntry>) getModel()).indexOf(selectedEntry);
@@ -608,6 +612,16 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	@Override
 	public void keyTyped(KeyEvent e)
 	{
+	}
+
+	@Override
+	public void navigatedToPrevious() {
+		setSelectedIndex(Math.max(0, getSelectedIndex() - 1));
+	}
+
+	@Override
+	public void navigatedToNext() {
+		setSelectedIndex(Math.min(getModel().getSize(), getSelectedIndex() + 1));
 	}
 
 }

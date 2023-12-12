@@ -44,6 +44,9 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		addMouseListener(this);
 		OrganizerManager.addProfileListener(this);
 		OrganizerManager.addSaveListener(this);
+
+		if (OrganizerManager.getSelectedGame().equals(Game.DARK_SOULS_REMASTERED))
+			setVisible(false);
 	}
 
 
@@ -82,7 +85,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	 */
 	public void doClick()
 	{
-		if (file == null || !file.exists())
+		if (file == null || !file.exists() || OrganizerManager.getSelectedGame().equals(Game.DARK_SOULS_REMASTERED))
 			return;
 		setEnabled(!isEnabled());
 		file.setWritable(!isEnabled());
@@ -159,6 +162,10 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	public void changedToGame(Game game)
 	{
 		setFile(game.getSaveFileLocation());
+		if (game.equals(Game.DARK_SOULS_REMASTERED))
+			setVisible(false);
+		else
+			setVisible(true);
 	}
 
 

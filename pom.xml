@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SpeedSouls</groupId>
 	<artifactId>SaveOrganizer</artifactId>
-	<version>1.4-SNAPSHOT</version>
+	<version>1.4.1-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
@@ -87,6 +87,43 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.akathist.maven.plugins.launch4j</groupId>
+				<artifactId>launch4j-maven-plugin</artifactId>
+				<version>1.7.23</version>
+				<executions>
+					<execution>
+						<id>l4j-gui</id>
+						<phase>package</phase>
+						<goals><goal>launch4j</goal></goals>
+						<configuration>
+							<headerType>gui</headerType>
+							<outfile>target/${project.name}.exe</outfile>
+							<icon>src/com/speedsouls/organizer/resources/SpeedSoulsIcon.ico</icon>
+							<jar>target/${project.name}-${project.version}-jar-with-dependencies.jar</jar>
+							<errTitle>${project.name}</errTitle>
+							<classPath>
+								<mainClass>com.speedsouls.organizer.main.OrganizerWindow</mainClass>
+							</classPath>
+							<jre>
+								<minVersion>1.8</minVersion>
+							</jre>
+							<versionInfo>
+								<fileVersion>1.4.1.0</fileVersion>
+								<txtFileVersion>1.4.1.0</txtFileVersion>
+								<fileDescription>${project.name}</fileDescription>
+								<copyright>N/A</copyright>
+								<productVersion>1.4.1.0</productVersion>
+								<txtProductVersion>1.4.1.0</txtProductVersion>
+								<productName>${project.name}</productName>
+								<internalName>${project.name}</internalName>
+								<originalFilename>${project.name}.exe</originalFilename>
+							</versionInfo>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

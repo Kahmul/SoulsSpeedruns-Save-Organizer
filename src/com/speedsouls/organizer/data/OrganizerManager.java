@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import com.speedsouls.organizer.games.Game;
 import com.speedsouls.organizer.hotkeys.GlobalHotkey;
 import com.speedsouls.organizer.hotkeys.GlobalKeyboardHook;
+import com.speedsouls.organizer.listeners.NavigationListener;
 import com.speedsouls.organizer.listeners.ProfileListener;
 import com.speedsouls.organizer.listeners.SaveListener;
 import com.speedsouls.organizer.listeners.SearchListener;
@@ -60,7 +61,7 @@ import jiconfont.swing.IconFontSwing;
 public class OrganizerManager
 {
 
-	public static final String VERSION = "1.4";
+	public static final String VERSION = "1.4.1";
 
 	/**
 	 * Constants defining various URLs.
@@ -95,6 +96,8 @@ public class OrganizerManager
 
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_LOAD = "hotkeyLoad";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY = "hotkeyReadOnly";
+	public static final String PREFS_KEY_GLOBAL_HOTKEY_PREV_SAVE = "hotkeyPrevSave";
+	public static final String PREFS_KEY_GLOBAL_HOTKEY_NEXT_SAVE = "hotkeyNextSave";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_TOGGLE = "hotkeyToggle";
 
 	public static final String PREFS_MODIFIER_GAME_DIR = "Path";
@@ -102,7 +105,7 @@ public class OrganizerManager
 
 	public static final String PREFS_ERROR_ON_RETRIEVE = "ERROR";
 
-	public static final String ILLEGAL_CHARACTERS = "~, @, *, {, }, <, >, [, ], |, “, ”, \\, /, ^";
+	public static final String ILLEGAL_CHARACTERS = "~, @, *, {, }, <, >, [, ], |, \u201C, \u201D, \\, /, ^";
 	private static final String ILLEGAL_CHARACTERS_REGEX = "[~#@*{}<>\\[\\]|\"\\^\\\\\\/]";
 
 	private static Preferences prefs;
@@ -119,6 +122,7 @@ public class OrganizerManager
 	private static List<SaveListener> saveListeners;
 	private static List<SearchListener> searchListeners;
 	private static List<SortingListener> sortingListeners;
+	private static List<NavigationListener> navigationListeners;
 
 	private static SaveListEntry selectedEntry;
 
@@ -188,6 +192,7 @@ public class OrganizerManager
 		saveListeners = new ArrayList<>();
 		searchListeners = new ArrayList<>();
 		sortingListeners = new ArrayList<>();
+		navigationListeners = new ArrayList<>();
 	}
 
 
@@ -206,6 +211,8 @@ public class OrganizerManager
 			prefs.remove(PREFS_KEY_SETTING_GLOBAL_HOTKEYS);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_LOAD);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY);
+			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_PREV_SAVE);
+			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_NEXT_SAVE);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_TOGGLE);
 
 			prefs.putBoolean(PREFS_KEY_INITIAL_STARTUP, false);
@@ -349,6 +356,18 @@ public class OrganizerManager
 	{
 		if (listener != null)
 			sortingListeners.add(listener);
+	}
+
+
+	/**
+	 * Adds a navigation listener to send events to.
+	 * 
+	 * @param listener the listener to add
+	 */
+	public static void addNavigationListener(NavigationListener listener)
+	{
+		if (listener != null)
+			navigationListeners.add(listener);
 	}
 
 
@@ -682,9 +701,33 @@ public class OrganizerManager
 	 */
 	public static void switchCurrentGameFileWritableState()
 	{
+		if (getSelectedGame().equals(Game.DARK_SOULS_REMASTERED))
+			return;
 		File gameFile = getSelectedGame().getSaveFileLocation();
 		gameFile.setWritable(!gameFile.canWrite());
 		fireGameFileWritableStateChangedEvent(gameFile.canWrite());
+	}
+
+
+	/**
+	 * Navigates upwards in the savefile list
+	 */
+	public static void navigateToPrevious()
+	{
+		for(NavigationListener listener : navigationListeners) {
+			listener.navigatedToPrevious();
+		}
+	}
+
+
+	/**
+	 * Navigates downwards in the savefile list
+	 */
+	public static void navigateToNext()
+	{
+		for(NavigationListener listener : navigationListeners) {
+			listener.navigatedToNext();
+		}
 	}
 
 
