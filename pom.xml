@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SoulsSpeedruns</groupId>
-	<artifactId>SaveOrganizer</artifactId>
+	<artifactId>SaveOrganizer1</artifactId>
 	<version>1.4.1-SNAPSHOT</version>
 
 	<dependencies>
@@ -103,7 +103,7 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<outfile>target/${project.name}.exe</outfile>
-							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo64.ico</icon>
+							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo32.ico</icon>
 							<jar>target/${project.name}-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
 							<classPath>

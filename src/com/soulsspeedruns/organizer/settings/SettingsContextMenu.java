@@ -1,8 +1,11 @@
 package com.soulsspeedruns.organizer.settings;
 
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
@@ -11,6 +14,9 @@ import javax.swing.event.PopupMenuListener;
 
 import com.soulsspeedruns.organizer.about.AboutWindow;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
+
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -21,12 +27,10 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 31 May 2016
  */
-public class SettingsContextMenu extends JPopupMenu implements PopupMenuListener
+public class SettingsContextMenu extends JPopupMenu
 {
 
 	private static final long serialVersionUID = -4476965394382053981L;
-
-	private SettingsButton button;
 
 
 	/**
@@ -34,11 +38,9 @@ public class SettingsContextMenu extends JPopupMenu implements PopupMenuListener
 	 * 
 	 * @param button the button to associate this context menu with
 	 */
-	public SettingsContextMenu(SettingsButton button)
+	public SettingsContextMenu(JButton button)
 	{
 		super();
-
-		this.button = button;
 
 		JMenuItem itemSettings = createSettingsItem();
 		JMenuItem itemAbout = createAboutItem();
@@ -48,10 +50,7 @@ public class SettingsContextMenu extends JPopupMenu implements PopupMenuListener
 		add(itemAbout);
 		add(itemHelp);
 
-		addPopupMenuListener(this);
-
 		show(button, button.getWidth() / 2, button.getHeight() / 2);
-		button.setIsPressed(true);
 	}
 
 
@@ -62,7 +61,7 @@ public class SettingsContextMenu extends JPopupMenu implements PopupMenuListener
 	 */
 	private JMenuItem createSettingsItem()
 	{
-		JMenuItem itemSettings = new JMenuItem("Settings");
+		JMenuItem itemSettings = new JMenuItem("Settings", IconFontSwing.buildIcon(FontAwesome.COG, 17, Color.GRAY));
 		itemSettings.addActionListener(event -> {
 			new SettingsWindow();
 		});
@@ -77,7 +76,7 @@ public class SettingsContextMenu extends JPopupMenu implements PopupMenuListener
 	 */
 	private JMenuItem createAboutItem()
 	{
-		JMenuItem itemAbout = new JMenuItem("About");
+		JMenuItem itemAbout = new JMenuItem("About", new ImageIcon(OrganizerManager.soulsspeedrunsIconSmall));
 		itemAbout.addActionListener(event -> new AboutWindow());
 		return itemAbout;
 	}
@@ -98,25 +97,6 @@ public class SettingsContextMenu extends JPopupMenu implements PopupMenuListener
 			OrganizerManager.openWebPage();
 		});
 		return itemHelp;
-	}
-
-
-	@Override
-	public void popupMenuCanceled(PopupMenuEvent e)
-	{
-	}
-
-
-	@Override
-	public void popupMenuWillBecomeInvisible(PopupMenuEvent e)
-	{
-		button.setIsPressed(false);
-	}
-
-
-	@Override
-	public void popupMenuWillBecomeVisible(PopupMenuEvent e)
-	{
 	}
 
 }

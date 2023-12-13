@@ -13,7 +13,7 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 
 /**
- * SettingsButton.
+ * SettingsButton. **deprecated/unused**
  * <p>
  * Opens a context menu for settings changes and other things.
  *
@@ -56,7 +56,7 @@ public class SettingsButton extends JLabel implements MouseListener
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		new SettingsContextMenu(this);
+//		new SettingsContextMenu(this);
 	}
 
 

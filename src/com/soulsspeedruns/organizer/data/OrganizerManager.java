@@ -68,7 +68,7 @@ public class OrganizerManager
 	/**
 	 * Constants defining various URLs.
 	 */
-	public static final String WEB_PAGE_URL = "www.soulsspeedruns.com/SoulsSpeedruns_-_Save_Organizer";
+	public static final String WEB_PAGE_URL = "www.github.com/Kahmul/SoulsSpeedruns-Save-Organizer";
 	public static final String GITHUB_REPO_URL = "www.github.com/Kahmul/SoulsSpeedruns-Save-Organizer";
 	public static final String TWITTER_URL = "www.twitter.com/Kahmul78";
 	public static final String LATEST_RELEASE_JSON_URL = "https://api.github.com/repos/Kahmul/SoulsSpeedruns-Save-Organizer/releases/latest";
@@ -117,6 +117,7 @@ public class OrganizerManager
 	private static GlobalKeyboardHook keyboardHook;
 
 	public static Image soulsspeedrunsIcon;
+	public static Image soulsspeedrunsIconSmall;
 	public static Image soulsspeedrunsIconMedium;
 	public static Image readOnlyIconMedium;
 	public static Image readOnlyIconSmall;
@@ -174,6 +175,7 @@ public class OrganizerManager
 	private static void importImages() throws IOException
 	{
 		soulsspeedrunsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo32.png"));
+		soulsspeedrunsIconSmall = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo16.png"));
 		soulsspeedrunsIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo100.png"));
 		readOnlyIconSmall = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIconSmall.png"));
 		readOnlyIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIconMedium.png"));

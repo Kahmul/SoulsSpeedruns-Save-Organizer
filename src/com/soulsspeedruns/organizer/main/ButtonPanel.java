@@ -22,8 +22,10 @@ import com.soulsspeedruns.organizer.savelist.ReadOnlyButton;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 import com.soulsspeedruns.organizer.settings.SettingsButton;
+import com.soulsspeedruns.organizer.settings.SettingsContextMenu;
 
 import jiconfont.icons.Elusive;
+import jiconfont.icons.FontAwesome;
 import jiconfont.icons.Iconic;
 import jiconfont.swing.IconFontSwing;
 
@@ -57,7 +59,8 @@ public class ButtonPanel extends JPanel
 		JButton importButton = createImportButton();
 		JButton loadButton = createLoadButton();
 		JButton replaceButton = createReplaceButton();
-		SettingsButton settingsButton = new SettingsButton();
+		JButton settingsButton = createSettingsButton();
+//		SettingsButton settingsButton = new SettingsButton();
 
 		Component glue = Box.createHorizontalGlue();
 
@@ -91,7 +94,7 @@ public class ButtonPanel extends JPanel
 
 
 	/**
-	 * Creates the 'Import current savefile' button.
+	 * Creates the 'Import Savestate' button.
 	 * 
 	 * @return the import button
 	 */
@@ -115,7 +118,7 @@ public class ButtonPanel extends JPanel
 
 
 	/**
-	 * Creates the 'Load selected savefile' button.
+	 * Creates the 'Load Savestate' button.
 	 * 
 	 * @param readOnlyButton the read-only button of this panel
 	 * @return the load button
@@ -136,7 +139,9 @@ public class ButtonPanel extends JPanel
 
 
 	/**
-	 * @return
+	 * Creates the 'Replace Savestate' button.
+	 * 
+	 * @return the replace button
 	 */
 	private JButton createReplaceButton()
 	{
@@ -152,6 +157,20 @@ public class ButtonPanel extends JPanel
 		});
 		replaceButton.setEnabled(false);
 		return replaceButton;
+	}
+	
+	/**
+	 * Creates the settings button.
+	 * 
+	 * @return the settings button
+	 */
+	private JButton createSettingsButton()
+	{
+		JButton settingsButton = new JButton(IconFontSwing.buildIcon(FontAwesome.COG, 17, Color.GRAY));
+		settingsButton.addActionListener(event -> {
+			new SettingsContextMenu(settingsButton);
+		});
+		return settingsButton;
 	}
 
 
