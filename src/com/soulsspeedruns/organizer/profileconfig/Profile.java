@@ -21,7 +21,7 @@ import com.soulsspeedruns.organizer.savelist.RootFolder;
 public class Profile implements Comparable<Profile>
 {
 
-	private Game game;
+	private final Game game;
 	private RootFolder root;
 
 

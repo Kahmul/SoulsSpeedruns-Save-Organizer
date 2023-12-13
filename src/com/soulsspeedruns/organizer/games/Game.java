@@ -28,9 +28,9 @@ public enum Game
 	SEKIRO_SHADOWS_DIE_TWICE("Sekiro", "SSDT", "S0000.sl2"),
 	ELDEN_RING("Elden Ring", "ER", "ER0000.sl2");
 
-	private String caption;
-	private String abbr;
-	private String saveName;
+	private final String caption;
+	private final String abbr;
+	private final String saveName;
 	private File directory;
 	private File saveFile;
 	private List<Profile> profiles;

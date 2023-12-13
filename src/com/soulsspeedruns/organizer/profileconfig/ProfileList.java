@@ -90,7 +90,32 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 		int val = fc.showOpenDialog(getParent());
 		if (val == JFileChooser.APPROVE_OPTION)
 		{
-			OrganizerManager.importAsProfiles(fc.getSelectedFiles(), game);
+			File[] files = fc.getSelectedFiles();
+			
+			for (File file : files)
+			{
+				try
+				{
+					if (!file.isDirectory())
+						continue;
+					
+					File dest = new File(game.getDirectory() + File.separator + file.getName());
+					if(file.getPath().equals(dest.getPath())) // Profile already exists
+						continue;
+					
+					OrganizerManager.copyDirectory(file, dest);
+					Profile newProfile = new Profile(file.getName(), game);
+					game.addProfile(newProfile);
+					OrganizerManager.fireProfileCreatedEvent(newProfile);
+				}
+				catch (Exception e)
+				{
+					JOptionPane.showMessageDialog(OrganizerManager.getMainWindow(), "Error when trying to import the profiles!", "Error occurred",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			
+			fillWith(game.getProfiles());
 		}
 	}
 

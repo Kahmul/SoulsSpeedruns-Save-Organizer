@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SoulsSpeedruns</groupId>
-	<artifactId>SaveOrganizer1</artifactId>
-	<version>1.4.1-SNAPSHOT</version>
+	<artifactId>SoulsSpeedrunsSaveOrganizer</artifactId>
+	<version>1.5-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>

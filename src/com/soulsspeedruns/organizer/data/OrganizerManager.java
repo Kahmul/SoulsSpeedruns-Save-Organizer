@@ -63,7 +63,7 @@ import jiconfont.swing.IconFontSwing;
 public class OrganizerManager
 {
 
-	public static final String VERSION = "1.4.1";
+	public static final String VERSION = "1.5";
 
 	/**
 	 * Constants defining various URLs.
@@ -478,33 +478,6 @@ public class OrganizerManager
 		}
 		// if a profile with the saved name doesn't exist, return either the first existing one, or an empty one.
 		return profiles.size() > 0 ? profiles.get(0) : new Profile("", game);
-	}
-
-
-	/**
-	 * Imports the given directories as profiles into the given game.
-	 * 
-	 * @param files the files to import as profiles
-	 * @param game the game the profiles will be imported into
-	 */
-	public static void importAsProfiles(File[] files, Game game)
-	{
-		if (files == null)
-			return;
-		for (File file : files)
-		{
-			try
-			{
-				if (!file.isDirectory())
-					continue;
-				copyDirectory(file, new File(game.getDirectory() + File.separator + file.getName()));
-			}
-			catch (Exception e)
-			{
-				JOptionPane.showMessageDialog(mainWindow, "Error when trying to import the profiles!", "Error occurred",
-						JOptionPane.ERROR_MESSAGE);
-			}
-		}
 	}
 
 
@@ -1088,6 +1061,14 @@ public class OrganizerManager
 	 */
 	public static void copyDirectory(File src, File dest) throws IOException
 	{
+		if(src.getPath().equals(dest.getPath()))
+			return;
+		if(isDirectoryAParentOfChild(src, dest))
+		{
+			JOptionPane.showMessageDialog(mainWindow, "The requested action would result in file recursion!", "Error occurred",
+					JOptionPane.ERROR_MESSAGE);
+			throw new IOException();
+		}
 		if (src.isDirectory())
 		{
 			if (!dest.exists())
@@ -1102,6 +1083,18 @@ public class OrganizerManager
 			return;
 		}
 		Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	}
+	
+	public static boolean isDirectoryAParentOfChild(File possibleParent, File possibleChild)
+	{
+		File parent = possibleChild.getParentFile();
+		while(parent != null)
+		{
+			if(parent.equals(possibleParent))
+				return true;
+			parent = parent.getParentFile();
+		}
+		return false;
 	}
 
 
