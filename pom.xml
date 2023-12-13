@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>SpeedSouls</groupId>
+	<groupId>SoulsSpeedruns</groupId>
 	<artifactId>SaveOrganizer</artifactId>
 	<version>1.4.1-SNAPSHOT</version>
 
@@ -77,7 +77,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>com.speedsouls.organizer.main.OrganizerWindow</mainClass>
+							<mainClass>com.soulsspeedruns.organizer.main.OrganizerWindow</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -94,7 +94,7 @@
 			<plugin>
 				<groupId>com.akathist.maven.plugins.launch4j</groupId>
 				<artifactId>launch4j-maven-plugin</artifactId>
-				<version>1.7.23</version>
+				<version>2.4.1</version>
 				<executions>
 					<execution>
 						<id>l4j-gui</id>
@@ -103,15 +103,22 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<outfile>target/${project.name}.exe</outfile>
-							<icon>src/com/speedsouls/organizer/resources/SpeedSoulsIcon.ico</icon>
+							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo64.ico</icon>
 							<jar>target/${project.name}-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
 							<classPath>
-								<mainClass>com.speedsouls.organizer.main.OrganizerWindow</mainClass>
+								<mainClass>com.soulsspeedruns.organizer.main.OrganizerWindow</mainClass>
 							</classPath>
 							<jre>
+								<path>JRE path (%VAR%)</path>
 								<minVersion>1.8</minVersion>
 							</jre>
+							<splash>
+							    <file>src/com/soulsspeedruns/organizer/resources/Splash_Screen.bmp</file>
+								<waitForWindow>true</waitForWindow>
+							    <timeout>10</timeout>
+								<timeoutErr>true</timeoutErr>
+							  </splash>
 							<versionInfo>
 								<fileVersion>1.4.1.0</fileVersion>
 								<txtFileVersion>1.4.1.0</txtFileVersion>
