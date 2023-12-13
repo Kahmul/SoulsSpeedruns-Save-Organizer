@@ -46,6 +46,7 @@ public class ProfileConfigurationWindow extends JDialog
 	private void initProperties()
 	{
 		pack();
+		setSize(600, this.getHeight());
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setIconImage(OrganizerManager.soulsspeedrunsIcon);
