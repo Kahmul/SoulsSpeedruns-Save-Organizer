@@ -56,7 +56,6 @@ public class Folder extends SaveListEntry
 		Collections.sort(getChildren());
 	}
 
-
 	/**
 	 * @return whether the folder is closed or not
 	 */

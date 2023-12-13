@@ -114,18 +114,16 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 			return;
 		for (SaveListEntry entry : folder.getChildren())
 		{
-			if (searchTerm != null && searchTerm.length() > 0)
+			if (searchTerm == null || (searchTerm.length() > 0 && entry.matchesSearchTerm(searchTerm)))
 			{
-				if (entry.matchesSearchTerm(searchTerm))
-					model.addElement(entry);
-				continue;
-			}
-			model.addElement(entry);
-			if (entry instanceof Folder)
-			{
-				Folder subFolder = (Folder) entry;
-				if (!subFolder.isClosed())
-					addChildrenToList(subFolder, searchTerm);
+				model.addElement(entry);
+				if (entry instanceof Folder)
+				{
+					Folder subFolder = (Folder) entry;
+					if (!subFolder.isClosed())
+						addChildrenToList(subFolder, searchTerm);
+
+				}
 			}
 		}
 	}
@@ -133,12 +131,16 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 	/**
 	 * Refreshes all profiles and the savelist to keep it up to date with the filesystem.
+	 * 
+	 * @param refreshAllProfiles whether to refresh all profiles or just the currently selected one
+	 * @param silent whether to output a message on a successful refresh
 	 */
-	public void refresh()
+	public void refresh(boolean refreshAllProfiles, boolean silent)
 	{
 		try
 		{
-			OrganizerManager.refreshProfiles();
+			if(refreshAllProfiles)
+				OrganizerManager.refreshProfiles();
 			fillWith(OrganizerManager.getSelectedProfile(), null);
 		}
 		catch (Exception e)
@@ -147,7 +149,8 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		AbstractMessage.display(AbstractMessage.SUCCESSFUL_REFRESH);
+		if(!silent)
+			AbstractMessage.display(AbstractMessage.SUCCESSFUL_REFRESH);
 	}
 
 
@@ -187,7 +190,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		{
 			boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 			OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
-			JOptionPane.showMessageDialog(getParent(), "Cannot open a folder with no contents!", "Info", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(getParent(), "Cannot open an empty folder!", "Info", JOptionPane.INFORMATION_MESSAGE);
 			OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 			return;
 		}

@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.swing.JLabel;
@@ -74,7 +75,18 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 	 */
 	public void setFile(File file)
 	{
+		String oldPath = getFile().getPath();
 		this.file = file;
+		
+		// Make sure the files of any children are updated for the new parent path
+		List<SaveListEntry> children = getChildren();
+		for (SaveListEntry child : children)
+		{
+			String childPath = child.getFile().getPath();
+			childPath = childPath.replace(oldPath, getFile().getPath());
+			child.setFile(new File(childPath));
+		}
+
 	}
 
 

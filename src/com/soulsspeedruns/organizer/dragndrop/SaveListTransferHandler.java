@@ -96,7 +96,10 @@ public class SaveListTransferHandler extends TransferHandler
 				((DefaultListModel<SaveListEntry>) saveList.getModel()).removeElement(existingEntry);
 				existingEntry.delete();
 			}
-			entry.setFile(Files.move(Paths.get(entry.getFile().getPath()), newPath, StandardCopyOption.REPLACE_EXISTING).toFile());
+			Path oldPath = Paths.get(entry.getFile().getPath());
+			
+			Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING);
+			entry.setFile(newPath.toFile());
 			entry.attachToNewParent(newParentFolder);
 			newParentFolder.setClosed(false);
 			saveList.sortEntries();
