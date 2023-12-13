@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Objects;
 
 import javax.swing.JLabel;
 
@@ -259,6 +260,16 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 	public boolean isDataFlavorSupported(DataFlavor flavor)
 	{
 		return flavor.equals(ENTRY_FLAVOR);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof SaveListEntry))
+			return false;
+		SaveListEntry entry = (SaveListEntry) o;
+		return Objects.equals(parent, entry.parent) && Objects.equals(file, entry.file);
 	}
 
 }

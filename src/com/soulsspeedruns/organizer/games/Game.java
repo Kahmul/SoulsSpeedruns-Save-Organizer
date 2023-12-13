@@ -3,7 +3,8 @@ package com.soulsspeedruns.organizer.games;
 
 import java.io.File;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.soulsspeedruns.organizer.profileconfig.Profile;
 
@@ -32,7 +33,7 @@ public enum Game
 	private String saveName;
 	private File directory;
 	private File saveFile;
-	private LinkedList<Profile> profiles;
+	private List<Profile> profiles;
 
 
 	/**
@@ -47,7 +48,7 @@ public enum Game
 		this.caption = caption;
 		this.abbr = abbr;
 		this.saveName = saveName;
-		profiles = new LinkedList<>();
+		profiles = new CopyOnWriteArrayList<>();
 	}
 
 
@@ -144,7 +145,7 @@ public enum Game
 	/**
 	 * @return the profiles
 	 */
-	public LinkedList<Profile> getProfiles()
+	public List<Profile> getProfiles()
 	{
 		return profiles;
 	}
