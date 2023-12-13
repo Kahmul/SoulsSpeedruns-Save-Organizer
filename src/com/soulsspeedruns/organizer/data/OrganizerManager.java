@@ -142,7 +142,7 @@ public class OrganizerManager
 		catch (IOException e)
 		{
 			JOptionPane.showMessageDialog(null, "Error when trying to initialize the data. Could not start the Save Organizer.",
-					"Error occured", JOptionPane.ERROR_MESSAGE);
+					"Error occurred", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		}
 	}
@@ -253,7 +253,7 @@ public class OrganizerManager
 		catch (NativeHookException e)
 		{
 			JOptionPane.showMessageDialog(mainWindow, "Error when trying to establish the keyboard hook. Global hotkeys will be disabled.",
-					"Error occured", JOptionPane.ERROR_MESSAGE);
+					"Error occurred", JOptionPane.ERROR_MESSAGE);
 			keyboardHook.setHotkeysEnabled(false);
 		}
 	}
@@ -498,7 +498,7 @@ public class OrganizerManager
 			}
 			catch (Exception e)
 			{
-				JOptionPane.showMessageDialog(mainWindow, "Error when trying to import the profiles!", "Error occured",
+				JOptionPane.showMessageDialog(mainWindow, "Error when trying to import the profiles!", "Error occurred",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -563,7 +563,7 @@ public class OrganizerManager
 		File dir = new File(parent.getFile().getPath() + File.separator + name);
 		if (dir.exists())
 		{
-			JOptionPane.showMessageDialog(mainWindow, "This folder already exists!", "Error occured", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mainWindow, "This folder already exists!", "Error occurred", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		dir.mkdirs();
@@ -584,7 +584,7 @@ public class OrganizerManager
 		if (getSelectedGame().getSaveFileLocation() == null)
 		{
 			JOptionPane.showMessageDialog(mainWindow,
-					"To import a savefile you need to set the savefile location in the profile configuration settings!", "Error occured",
+					"To import a savefile you need to set the savefile location in the profile configuration settings!", "Error occurred",
 					JOptionPane.WARNING_MESSAGE);
 			return null;
 		}
@@ -599,7 +599,7 @@ public class OrganizerManager
 		}
 		catch (IOException e)
 		{
-			JOptionPane.showMessageDialog(mainWindow, "Error when trying to import the savefile!", "Error occured",
+			JOptionPane.showMessageDialog(mainWindow, "Error when trying to import the savefile!", "Error occurred",
 					JOptionPane.ERROR_MESSAGE);
 		}
 		return newFile;
@@ -629,7 +629,7 @@ public class OrganizerManager
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(mainWindow, "Error when trying to load the savefile!", "Error occured",
+			JOptionPane.showMessageDialog(mainWindow, "Error when trying to load the savefile!", "Error occurred",
 					JOptionPane.ERROR_MESSAGE);
 		}
 		gameFile.setWritable(canWriteSaveFile);
@@ -649,7 +649,7 @@ public class OrganizerManager
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(mainWindow, e.getMessage(), "Error occured", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mainWindow, e.getMessage(), "Error occurred", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -665,7 +665,7 @@ public class OrganizerManager
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(mainWindow, e.getMessage(), "Error occured", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mainWindow, e.getMessage(), "Error occurred", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

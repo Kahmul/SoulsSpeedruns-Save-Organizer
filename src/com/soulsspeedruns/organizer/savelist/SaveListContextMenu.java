@@ -187,7 +187,7 @@ public class SaveListContextMenu extends JPopupMenu
 			}
 			catch (Exception e)
 			{
-				JOptionPane.showMessageDialog(null, "Error when trying to open the explorer!", "Error occured", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Error when trying to open the explorer!", "Error occurred", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		return itemOpenInExplorer;

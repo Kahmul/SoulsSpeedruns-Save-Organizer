@@ -143,7 +143,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(getParent(), "Error occured when trying to refresh from the file system.", "Error occured",
+			JOptionPane.showMessageDialog(getParent(), "Error occurred when trying to refresh from the file system.", "Error occurred",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -241,7 +241,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 			}
 			catch (Exception e)
 			{
-				JOptionPane.showMessageDialog(getParent(), "Error occured when trying to create the folder!", "Error occured",
+				JOptionPane.showMessageDialog(getParent(), "Error occurred when trying to create the folder!", "Error occurred",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}

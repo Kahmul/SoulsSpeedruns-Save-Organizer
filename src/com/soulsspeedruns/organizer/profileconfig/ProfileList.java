@@ -115,7 +115,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 			}
 			catch (Exception e)
 			{
-				JOptionPane.showMessageDialog(getParent(), "Error occured when trying to create the profile!", "Error occured",
+				JOptionPane.showMessageDialog(getParent(), "Error occurred when trying to create the profile!", "Error occurred",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}

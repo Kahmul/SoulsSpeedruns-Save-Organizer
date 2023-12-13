@@ -100,7 +100,7 @@ public class GameConfigDirectoryPanel extends JPanel
 				File selectedSavefile = fc.getSelectedFile();
 				if (selectedSavefile == null || !selectedSavefile.exists())
 				{
-					JOptionPane.showMessageDialog(null, "This file doesn't exist!", "Error occured", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "This file doesn't exist!", "Error occurred", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (selectedSavefile.getName().equalsIgnoreCase(game.getSaveName()))
@@ -122,7 +122,7 @@ public class GameConfigDirectoryPanel extends JPanel
 					OrganizerManager.saveProperties(game);
 					return;
 				}
-				JOptionPane.showMessageDialog(null, "Filename needs to be '" + game.getSaveName() + "'!", "Error occured",
+				JOptionPane.showMessageDialog(null, "Filename needs to be '" + game.getSaveName() + "'!", "Error occurred",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		});
@@ -156,7 +156,7 @@ public class GameConfigDirectoryPanel extends JPanel
 				File selectedDir = fc.getSelectedFile();
 				if (selectedDir == null || !selectedDir.exists())
 				{
-					JOptionPane.showMessageDialog(null, "This directory doesn't exist!", "Error occured", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "This directory doesn't exist!", "Error occurred", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				directoryField.setText(selectedDir.getPath());

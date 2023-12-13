@@ -66,7 +66,7 @@ public class OrganizerWindow extends JFrame
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error occured", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error occurred", JOptionPane.ERROR_MESSAGE);
 		}
 		setIconImage(OrganizerManager.soulsspeedrunsIcon);
 		setResizable(IS_RESIZABLE);
