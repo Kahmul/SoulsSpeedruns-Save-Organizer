@@ -9,8 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 
 import com.soulsspeedruns.organizer.about.AboutWindow;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
@@ -20,7 +18,7 @@ import jiconfont.swing.IconFontSwing;
 
 
 /**
- * SettingsContextMenu.
+ * SettingsContextMenu. **deprecated/unused**
  * <p>
  * Context menu that appears when pressing the settings button in the main window.
  *

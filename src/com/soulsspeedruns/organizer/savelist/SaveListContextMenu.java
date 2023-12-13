@@ -16,7 +16,6 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 
 import jiconfont.icons.Elusive;
-import jiconfont.icons.Entypo;
 import jiconfont.icons.Iconic;
 import jiconfont.swing.IconFontSwing;
 

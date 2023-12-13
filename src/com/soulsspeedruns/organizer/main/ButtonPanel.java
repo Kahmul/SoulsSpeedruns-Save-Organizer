@@ -4,12 +4,8 @@ package com.soulsspeedruns.organizer.main;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
 
 import javax.swing.Box;
 import javax.swing.GroupLayout;
@@ -30,7 +26,6 @@ import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.ReadOnlyButton;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
-import com.soulsspeedruns.organizer.settings.SettingsContextMenu;
 import com.soulsspeedruns.organizer.settings.SettingsWindow;
 import com.soulsspeedruns.organizer.update.NewReleaseWindow;
 

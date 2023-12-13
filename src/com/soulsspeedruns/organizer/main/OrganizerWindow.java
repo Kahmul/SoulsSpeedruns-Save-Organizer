@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
-import com.soulsspeedruns.organizer.update.NewReleaseWindow;
 
 
 /**

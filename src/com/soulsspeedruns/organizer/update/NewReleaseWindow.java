@@ -90,7 +90,7 @@ public class NewReleaseWindow extends JDialog
 			OrganizerManager.openLatestReleasePage();
 			setVisible(false);
 		});
-		downloadButton.setToolTipText(OrganizerManager.GITHUB_REPO_RELEASES_URL);
+		downloadButton.setToolTipText(OrganizerManager.LATEST_RELEASE_URL);
 		return downloadButton;
 	}
 }
