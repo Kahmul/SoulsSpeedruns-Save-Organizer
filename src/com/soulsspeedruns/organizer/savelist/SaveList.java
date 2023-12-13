@@ -560,10 +560,17 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 			return;
 		SaveListEntry entry = getSelectedValue();
 		if (entry instanceof Folder)
+		{
 			if (((Folder) entry).isClosed())
 				openDirectory(entry);
 			else
 				closeDirectory(entry);
+		} else if(entry instanceof Save)
+		{
+			if(OrganizerManager.isDoubleClickLoadEnabled())
+				OrganizerManager.loadSave((Save) entry);
+		}
+
 	}
 
 

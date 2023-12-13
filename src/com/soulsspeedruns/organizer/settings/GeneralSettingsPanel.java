@@ -30,6 +30,7 @@ public class GeneralSettingsPanel extends JPanel
 
 	private JCheckBox alwaysOnTopCheckBox;
 	private JCheckBox hotkeysCheckbox;
+	private JCheckBox doubleClickLoadCheckbox;
 
 
 	/**
@@ -48,13 +49,16 @@ public class GeneralSettingsPanel extends JPanel
 
 		JLabel hotkeysLabel = new JLabel("Global Hotkeys:");
 		hotkeysCheckbox = new JCheckBox("", OrganizerManager.areGlobalHotkeysEnabled());
+		
+		JLabel doubleClickLoadLabel = new JLabel("Double Click To Load Savefile:");
+		doubleClickLoadCheckbox = new JCheckBox("", OrganizerManager.isDoubleClickLoadEnabled());
 
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysLabel).addComponent(alwaysOnTopLabel));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysLabel).addComponent(alwaysOnTopLabel).addComponent(doubleClickLoadLabel));
 		hGroup.addGroup(layout.createParallelGroup().addComponent(glue));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysCheckbox).addComponent(alwaysOnTopCheckBox));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysCheckbox).addComponent(alwaysOnTopCheckBox).addComponent(doubleClickLoadCheckbox));
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -64,6 +68,7 @@ public class GeneralSettingsPanel extends JPanel
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(glue));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(alwaysOnTopLabel).addComponent(alwaysOnTopCheckBox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(hotkeysLabel).addComponent(hotkeysCheckbox));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(doubleClickLoadLabel).addComponent(doubleClickLoadCheckbox));
 
 		layout.setVerticalGroup(vGroup);
 
@@ -79,6 +84,7 @@ public class GeneralSettingsPanel extends JPanel
 	{
 		OrganizerManager.setGlobalHotkeysEnabled(hotkeysCheckbox.isSelected());
 		OrganizerManager.setAlwaysOnTop(alwaysOnTopCheckBox.isSelected());
+		OrganizerManager.setDoubleClickLoadEnabled(doubleClickLoadCheckbox.isSelected());
 	}
 
 }

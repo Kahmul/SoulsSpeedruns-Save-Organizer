@@ -89,7 +89,7 @@ public class Save extends SaveListEntry
 		{
 			label.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 13, Color.RED));
 			label.setForeground(Color.RED);
-			label.setToolTipText("File does not exist any longer!");
+			label.setToolTipText("File no longer exists!");
 		}
 	}
 

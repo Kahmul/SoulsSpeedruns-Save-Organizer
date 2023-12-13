@@ -96,6 +96,7 @@ public class OrganizerManager
 
 	private static final String PREFS_KEY_SETTING_ALWAYS_ON_TOP = "alwaysOnTop";
 	private static final String PREFS_KEY_SETTING_GLOBAL_HOTKEYS = "globalHotkeys";
+	private static final String PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD = "doubleClickLoad";
 
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_LOAD = "hotkeyLoad";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY = "hotkeyReadOnly";
@@ -625,6 +626,8 @@ public class OrganizerManager
 			gameFile.setWritable(true);
 			saveFile.setWritable(true);
 			Files.copy(saveFile.toPath(), gameFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			gameFile.setWritable(canWriteSaveFile);
+			saveFile.setWritable(canWriteSaveFile);
 			AbstractMessage.display(AbstractMessage.SUCCESSFUL_LOAD);
 		}
 		catch (Exception e)
@@ -632,8 +635,6 @@ public class OrganizerManager
 			JOptionPane.showMessageDialog(mainWindow, "Error when trying to load the savefile!", "Error occurred",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		gameFile.setWritable(canWriteSaveFile);
-		saveFile.setWritable(canWriteSaveFile);
 		fireSaveLoadFinishedEvent(save);
 	}
 
@@ -713,6 +714,26 @@ public class OrganizerManager
 	public static boolean isAlwaysOnTop()
 	{
 		return prefs.getBoolean(PREFS_KEY_SETTING_ALWAYS_ON_TOP, false);
+	}
+	
+	/**
+	 * Returns whether double click to load is enabled.
+	 * 
+	 * @return whether double click to load is enabled
+	 */
+	public static boolean isDoubleClickLoadEnabled()
+	{
+		return prefs.getBoolean(PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD, false);
+	}
+	
+	/**
+	 * Enables/disables double click to load.
+	 * 
+	 * @param flag True to enable, false to disable
+	 */
+	public static void setDoubleClickLoadEnabled(boolean flag)
+	{
+		prefs.putBoolean(PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD, flag);
 	}
 
 
