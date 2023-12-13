@@ -28,8 +28,8 @@ public class OrganizerWindow extends JFrame
 
 	private static final long serialVersionUID = -410330356532830410L;
 
-	private static final int MIN_WIDTH = 550;
-	private static final int MIN_HEIGHT = 450;
+	private static final int MIN_WIDTH = 750;
+	private static final int MIN_HEIGHT = 650;
 
 	private static final boolean IS_RESIZABLE = true;
 
@@ -112,8 +112,6 @@ public class OrganizerWindow extends JFrame
 			@Override
 			public void windowOpened(WindowEvent e)
 			{
-				if (OrganizerManager.isVersionOutdated())
-					new NewReleaseWindow();
 			}
 
 

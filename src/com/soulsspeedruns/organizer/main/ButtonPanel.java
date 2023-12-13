@@ -3,14 +3,23 @@ package com.soulsspeedruns.organizer.main;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URI;
 
 import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
@@ -21,8 +30,9 @@ import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.ReadOnlyButton;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
-import com.soulsspeedruns.organizer.settings.SettingsButton;
 import com.soulsspeedruns.organizer.settings.SettingsContextMenu;
+import com.soulsspeedruns.organizer.settings.SettingsWindow;
+import com.soulsspeedruns.organizer.update.NewReleaseWindow;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.FontAwesome;
@@ -60,21 +70,29 @@ public class ButtonPanel extends JPanel
 		JButton loadButton = createLoadButton();
 		JButton replaceButton = createReplaceButton();
 		JButton settingsButton = createSettingsButton();
-//		SettingsButton settingsButton = new SettingsButton();
+		JLabel updateLabel = createUpdateLabel();
+		
+		JPanel settingsUpdatePanel = new JPanel();
+		GroupLayout panelLayout = new GroupLayout(settingsUpdatePanel);
+		
+		panelLayout.setHorizontalGroup(panelLayout.createSequentialGroup().addComponent(updateLabel).addGap(10).addComponent(settingsButton));
+		panelLayout.setVerticalGroup(panelLayout.createParallelGroup(Alignment.CENTER).addComponent(updateLabel).addComponent(settingsButton));
+		
+		settingsUpdatePanel.setLayout(panelLayout);
 
 		Component glue = Box.createHorizontalGlue();
 
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGroup(layout.createParallelGroup().addComponent(importButton));
+		hGroup.addComponent(importButton);
 
-		hGroup.addGroup(layout.createParallelGroup().addComponent(loadButton));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(replaceButton));
+		hGroup.addComponent(loadButton);
+		hGroup.addComponent(replaceButton);
 		hGroup.addGap(10);
-		hGroup.addGroup(layout.createParallelGroup().addComponent(readOnlyButton));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(glue));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(settingsButton));
+		hGroup.addComponent(readOnlyButton);
+		hGroup.addComponent(glue);
+		hGroup.addComponent(settingsUpdatePanel);
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -82,7 +100,7 @@ public class ButtonPanel extends JPanel
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
 		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(importButton).addComponent(loadButton)
-				.addComponent(replaceButton).addComponent(readOnlyButton).addComponent(glue).addComponent(settingsButton));
+				.addComponent(replaceButton).addComponent(readOnlyButton).addComponent(glue).addComponent(settingsUpdatePanel));
 		vGroup.addGap(10);
 
 		layout.setVerticalGroup(vGroup);
@@ -159,6 +177,31 @@ public class ButtonPanel extends JPanel
 		return replaceButton;
 	}
 	
+	private JLabel createUpdateLabel()
+	{
+		JLabel updateLabel = new JLabel("<html><body><a href=\"\">Update Available</a></body></html>", SwingConstants.RIGHT);
+		updateLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//		updateLabel.setToolTipText(OrganizerManager.GITHUB_REPO_RELEASES_URL);
+		updateLabel.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				try
+				{
+					new NewReleaseWindow();
+//					Desktop.getDesktop().browse(new URI(OrganizerManager.GITHUB_REPO_RELEASES_URL));
+				}
+				catch (Exception ex)
+				{
+				}
+			}
+		});
+		
+		updateLabel.setVisible(OrganizerManager.isVersionOutdated());
+		return updateLabel;
+	}
+	
 	/**
 	 * Creates the settings button.
 	 * 
@@ -167,9 +210,7 @@ public class ButtonPanel extends JPanel
 	private JButton createSettingsButton()
 	{
 		JButton settingsButton = new JButton(IconFontSwing.buildIcon(FontAwesome.COG, 17, Color.GRAY));
-		settingsButton.addActionListener(event -> {
-			new SettingsContextMenu(settingsButton);
-		});
+		settingsButton.addActionListener(event -> new SettingsWindow());
 		return settingsButton;
 	}
 

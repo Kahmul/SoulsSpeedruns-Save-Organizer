@@ -6,7 +6,12 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
+
+import com.soulsspeedruns.organizer.about.AboutWindow;
+import com.soulsspeedruns.organizer.data.OrganizerManager;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -36,6 +41,8 @@ public class ButtonsSettingsPanel extends JPanel
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
+		
+		JButton aboutButton = createAboutButton();
 		JButton saveButton = createSaveButton(window);
 		JButton cancelButton = createCancelButton(window);
 
@@ -44,7 +51,7 @@ public class ButtonsSettingsPanel extends JPanel
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addComponent(glue).addComponent(saveButton).addComponent(cancelButton);
+		hGroup.addComponent(aboutButton).addComponent(glue).addComponent(saveButton).addComponent(cancelButton);
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -52,11 +59,18 @@ public class ButtonsSettingsPanel extends JPanel
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
 		vGroup.addGroup(
-				layout.createParallelGroup(Alignment.TRAILING).addComponent(glue).addComponent(saveButton).addComponent(cancelButton));
+				layout.createParallelGroup(Alignment.TRAILING).addComponent(aboutButton).addComponent(glue).addComponent(saveButton).addComponent(cancelButton));
 
 		layout.setVerticalGroup(vGroup);
 
 		setLayout(layout);
+	}
+	
+	private JButton createAboutButton()
+	{
+		JButton aboutButton = new JButton("About", new ImageIcon(OrganizerManager.soulsspeedrunsIconSmall));
+		aboutButton.addActionListener(event -> new AboutWindow());
+		return aboutButton;
 	}
 
 

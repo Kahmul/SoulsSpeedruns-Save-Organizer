@@ -85,11 +85,12 @@ public class NewReleaseWindow extends JDialog
 
 	private JButton createNewDownloadButton()
 	{
-		JButton downloadButton = new JButton("Download");
+		JButton downloadButton = new JButton("Go to Releases");
 		downloadButton.addActionListener(e -> {
 			OrganizerManager.openLatestReleasePage();
 			setVisible(false);
 		});
+		downloadButton.setToolTipText(OrganizerManager.GITHUB_REPO_RELEASES_URL);
 		return downloadButton;
 	}
 }
