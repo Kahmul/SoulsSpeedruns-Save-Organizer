@@ -22,7 +22,7 @@ public class FailedLoadMessage extends AbstractMessage
 	
 	private static final String MESSAGE = "LOAD FAILED";
 	private static final IconCode ICON = Iconic.CHECK;
-	private static final Color COLOR = new Color(232, 65, 24);
+	private static final Color COLOR = Color.decode("0xee6a5c");
 
 
 	protected FailedLoadMessage()

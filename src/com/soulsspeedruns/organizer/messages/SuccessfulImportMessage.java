@@ -22,7 +22,7 @@ public class SuccessfulImportMessage extends AbstractMessage
 
 	private static final String MESSAGE = "IMPORT SUCCESSFUL";
 	private static final IconCode ICON = Iconic.CURVED_ARROW;
-	private static final Color COLOR = new Color(30, 144, 255);
+	private static final Color COLOR = Color.decode("0x4aa4fb");
 
 
 	protected SuccessfulImportMessage()
