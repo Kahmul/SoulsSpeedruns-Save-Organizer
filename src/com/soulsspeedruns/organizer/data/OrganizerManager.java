@@ -607,8 +607,9 @@ public class OrganizerManager
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(mainWindow, "Error when trying to load the savefile!", "Error occurred",
-					JOptionPane.ERROR_MESSAGE);
+//			JOptionPane.showMessageDialog(mainWindow, "Error when trying to load the savefile!", "Error occurred",
+//					JOptionPane.ERROR_MESSAGE);
+			AbstractMessage.display(AbstractMessage.FAILED_LOAD);
 		}
 		fireSaveLoadFinishedEvent(save);
 	}
