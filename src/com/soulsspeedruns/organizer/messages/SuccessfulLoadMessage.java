@@ -22,7 +22,7 @@ public class SuccessfulLoadMessage extends AbstractMessage
 
 	private static final String MESSAGE = "LOAD SUCCESSFUL";
 	private static final IconCode ICON = Elusive.REPEAT;
-	private static final Color COLOR = new Color(39, 174, 96);
+	private static final Color COLOR = Color.decode("0x49ad73");
 
 
 	protected SuccessfulLoadMessage()

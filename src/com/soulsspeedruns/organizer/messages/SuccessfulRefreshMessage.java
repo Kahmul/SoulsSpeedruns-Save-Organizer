@@ -22,7 +22,7 @@ public class SuccessfulRefreshMessage extends AbstractMessage
 
 	private static final String MESSAGE = "REFRESH SUCCESSFUL";
 	private static final IconCode ICON = Elusive.REPEAT;
-	private static final Color COLOR = new Color(138, 43, 226);
+	private static final Color COLOR = Color.decode("0x4aa4fb");
 
 
 	protected SuccessfulRefreshMessage()
