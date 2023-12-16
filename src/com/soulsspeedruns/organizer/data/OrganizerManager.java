@@ -1127,6 +1127,47 @@ public class OrganizerManager
 		}
 		return (directory.delete());
 	}
+	
+	
+	
+	/**
+	 * Copy entry into destination Folder object.
+	 * 
+	 * @param entry the entry to copy
+	 * @param dest the Folder object to paste the file into and attach it to
+	 * @param fireCreatedEvent whether to fire a entryCreated event
+	 * @throws IOException
+	 */
+	public static void copyEntry(SaveListEntry entry, Folder dest, boolean fireCreatedEvent) throws IOException
+	{
+		File src = entry.getFile();
+		
+		String parentPath = dest.getFile().getPath();
+		String name = src.getName();
+		
+		File newFile = new File(parentPath + File.separator + name);
+		for (int i = 0; newFile.exists(); i++)
+			newFile = new File(parentPath + File.separator + name + "_" + i);
+		
+		SaveListEntry newEntry;
+		
+		if(src.isDirectory())
+		{
+			copyDirectory(src, newFile);
+			newEntry = new Folder(dest, newFile);
+		}
+		else
+		{
+			Files.copy(src.toPath(), newFile.toPath());
+			newEntry = new Save(dest, newFile);
+		}
+
+		dest.addChild(newEntry);
+		
+		if(fireCreatedEvent)
+			fireEntryCreatedEvent(newEntry);
+		
+	}
 
 
 	/**

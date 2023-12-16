@@ -6,6 +6,9 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,6 +33,8 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 	private Folder parent;
 	private LinkedList<SaveListEntry> children;
 	private File file;
+	
+	private boolean markedForCut;
 
 	public static final DataFlavor ENTRY_FLAVOR = new DataFlavor(SaveListEntry.class, SaveListEntry.class.getSimpleName());
 
@@ -69,7 +74,7 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 
 
 	/**
-	 * Replaces the current file with the given one.
+	 * Replaces the currently associated file with the given one, and updates the associated files for all children.
 	 * 
 	 * @param file the new file
 	 */
@@ -139,6 +144,14 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 	{
 		children.remove(entry);
 	}
+	
+	/**
+	 * Removes all children from this entry.
+	 */
+	public void clearChildren()
+	{
+		children.clear();
+	}
 
 
 	/**
@@ -151,14 +164,21 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 			entry.sort();
 	}
 
-
+	
 	/**
-	 * Attaches this entry and all of its children to a new parent.
+	 * Moves the entry and all of its children, if any, under the new parent folder.
 	 * 
-	 * @param newParent the new parent to attach this entry to
+	 * @param newParent
+	 * @throws IOException 
 	 */
-	public void attachToNewParent(Folder newParent)
+	public void moveToNewParent(Folder newParent) throws IOException
 	{
+		String parentPath = newParent.getFile().getPath();
+		File newFile = new File(parentPath + File.separator + getName());
+		
+		Files.move(Paths.get(getFile().getPath()), Paths.get(newFile.getPath()), StandardCopyOption.REPLACE_EXISTING);
+		setFile(newFile);
+		
 		parent.removeChild(this);
 		newParent.addChild(this);
 		parent = newParent;
@@ -239,6 +259,31 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 
 
 	/**
+	 * Returns whether the entry is marked for a cut operation.
+	 * 
+	 * @return whether the entry is marked for a cut operation
+	 */
+	public boolean isMarkedForCut()
+	{
+		return markedForCut;
+	}
+
+
+	/**
+	 * Marks this entry as part of a cut/paste operation.
+	 * 
+	 * @param markedForCut whether the entry is marked for a cut operation
+	 */
+	public void setMarkedForCut(boolean markedForCut)
+	{
+		this.markedForCut = markedForCut;
+		for (SaveListEntry child : children) {
+			child.setMarkedForCut(markedForCut);
+		}
+	}
+
+
+	/**
 	 * Renders this label according to this entry.
 	 * 
 	 * @param label the label to render
@@ -247,7 +292,7 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 
 
 	/**
-	 * Deletes this entry and the associated file, along with all its subcontents, if any.
+	 * Deletes this entry and the associated file, along with all of its sub-folders and saves, if any.
 	 */
 	public abstract void delete();
 

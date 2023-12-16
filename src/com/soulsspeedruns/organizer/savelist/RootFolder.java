@@ -58,6 +58,11 @@ public class RootFolder extends Folder
 		}
 		return true;
 	}
+	
+	@Override
+	public Folder getParent() {
+		return this;
+	}
 
 
 	@Override

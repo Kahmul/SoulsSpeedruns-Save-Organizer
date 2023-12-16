@@ -145,7 +145,7 @@ public class SaveListContextMenu extends JPopupMenu
 		itemReadOnly.addActionListener(event -> {
 			saveList.getSelectedValue().getFile().setWritable(!itemReadOnly.isSelected());
 			if (OrganizerManager.getSelectedSortingCategory() == SortingCategory.READ_ONLY)
-				saveList.sortEntries();
+				saveList.refreshList();
 			saveList.repaint();
 		});
 		return itemReadOnly;
@@ -157,7 +157,7 @@ public class SaveListContextMenu extends JPopupMenu
 		JMenuItem itemRefresh = new JMenuItem("Refresh From File System");
 		itemRefresh.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 14, Color.decode("0x4aa4fb")));
 		itemRefresh.addActionListener(event -> {
-			saveList.refresh(true, false);
+			saveList.refreshFromFileSystem(false);
 		});
 		return itemRefresh;
 	}

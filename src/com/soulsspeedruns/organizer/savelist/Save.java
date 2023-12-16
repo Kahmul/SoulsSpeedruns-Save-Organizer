@@ -83,6 +83,8 @@ public class Save extends SaveListEntry
 	{
 		label.setText(getFile().getName());
 		label.setBorder(BorderFactory.createEmptyBorder(1, 3 + getIndent(), 0, 1));
+		if(isMarkedForCut())
+			label.setForeground(Color.GRAY);
 		if (!getFile().canWrite())
 			label.setIcon(new ImageIcon(OrganizerManager.readOnlyIconSmall));
 		if (!getFile().exists())

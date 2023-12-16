@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -20,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -52,6 +55,11 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 	private static final int EMPTY_SPACE_AT_BOTTOM = 50;
 
+	private final TransferHandler transferHandler = new SaveListTransferHandler(this);
+	
+	private List<SaveListEntry> copiedEntries = new ArrayList<>();
+	private boolean isCut = false;
+	
 
 	/**
 	 * Creates a new SaveList.
@@ -63,13 +71,13 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		setBorder(BorderFactory.createEmptyBorder(0, 0, EMPTY_SPACE_AT_BOTTOM, 0));
 
 		setCellRenderer(this);
-		setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		setDragEnabled(true);
 		setDropMode(DropMode.INSERT);
 
 		new SaveListDragListener(this);
-		setTransferHandler(new SaveListTransferHandler(this));
+		setTransferHandler(transferHandler);
 
 		addKeyListener(this);
 		addListSelectionListener(this);
@@ -135,12 +143,11 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	 * @param refreshAllProfiles whether to refresh all profiles or just the currently selected one
 	 * @param silent whether to output a message on a successful refresh
 	 */
-	public void refresh(boolean refreshAllProfiles, boolean silent)
+	public void refreshFromFileSystem(boolean silent)
 	{
 		try
 		{
-			if(refreshAllProfiles)
-				OrganizerManager.refreshProfiles();
+			OrganizerManager.refreshProfiles();
 			fillWith(OrganizerManager.getSelectedProfile(), null);
 		}
 		catch (Exception e)
@@ -155,9 +162,9 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 
 	/**
-	 * Sorts all entries in the list according to the current sorting method.
+	 * Refreshes and sorts all entries in the list according to the current sorting method and the current status of Folders and Saves in memory.
 	 */
-	public void sortEntries()
+	public void refreshList()
 	{
 		SaveListEntry selectedEntry = OrganizerManager.getSelectedEntry();
 		Profile currentProfile = OrganizerManager.getSelectedProfile();
@@ -172,12 +179,73 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 			ensureIndexIsVisible(selectedIndex);
 		}
 	}
+	
+	private void copyEntries(boolean isCut)
+	{
+		if(this.isCut && !copiedEntries.isEmpty())
+		{
+			for (SaveListEntry entry : copiedEntries) {
+				entry.setMarkedForCut(false);
+			}
+		}
+		copiedEntries = getSelectedValuesList();
+		List<SaveListEntry> selectedEntries = getSelectedValuesList();
+		for (SaveListEntry entry : getSelectedValuesList())
+		{
+			if(selectedEntries.contains(entry.getParent()))
+				copiedEntries.remove(entry);
+			else
+				entry.setMarkedForCut(isCut);
+		}
+		
+		this.isCut = isCut;
+		repaint();
+	}
+	
+	private void pasteEntries()
+	{	
+		SaveListEntry selectedEntry = getSelectedValue();
+		Profile selectedProfile = OrganizerManager.getSelectedProfile();
+		if(selectedEntry == null)
+			selectedEntry = selectedProfile.getRoot();
+		
+		Folder newParentFolder = getSelectedValue() instanceof Folder ? (Folder) selectedEntry : selectedEntry.getParent();
+
+		for (SaveListEntry entry : copiedEntries)
+		{
+			if (entry.equals(newParentFolder))
+				return;
+			if (entry.isParentOf(newParentFolder))
+				return;
+			if (entry.getParent().equals(newParentFolder) && isCut) // prevent pasting on the same level if it's a cut
+				return;
+		}
+		
+		for (SaveListEntry entry : copiedEntries)
+		{
+			try {
+				OrganizerManager.copyEntry(entry, newParentFolder, false);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(isCut)
+		{
+			deleteEntries(copiedEntries, true);
+			copiedEntries = new ArrayList<>();
+			isCut = false;
+		}
+		
+		newParentFolder.setClosed(false);
+		refreshList();
+	}
 
 
 	/**
 	 * Opens the entry if it is a folder and inserts its children below it in the list.
 	 * 
-	 * @param save the save to open
+	 * @param the entry to open
 	 */
 	public void openDirectory(SaveListEntry entry)
 	{
@@ -207,7 +275,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	/**
 	 * Closes the entry if it is a folder and removes its children displayed in the list.
 	 * 
-	 * @param save the save to close
+	 * @param the entry to open
 	 */
 	public void closeDirectory(SaveListEntry entry)
 	{
@@ -306,18 +374,20 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 			confirm = JOptionPane.showConfirmDialog(getParent(),
 					"Do you really want to delete all your selected files and their sub-contents, if any?", "Delete",
 					JOptionPane.YES_NO_OPTION);
-		for (SaveListEntry saveListEntry : entries)
-		{
-			// if the parent file cannot be written to, then deletion cannot happen
-			if (!saveListEntry.getFile().getParentFile().canWrite())
-			{
-				JOptionPane.showMessageDialog(getParent(), "Couldn't delete files. They are probably being accessed by another program.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-		}
 		if (confirm == 0)
-			deleteEntries(entries);
+		{
+			for (SaveListEntry saveListEntry : entries)
+			{
+				// if the parent file cannot be written to, then deletion cannot happen
+				if (!saveListEntry.getFile().getParentFile().canWrite())
+				{
+					JOptionPane.showMessageDialog(getParent(), "Couldn't delete files. They are probably being accessed by another program.",
+							"Warning", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+			}
+			deleteEntries(entries, false);
+		}
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 	}
 
@@ -327,7 +397,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	 * 
 	 * @param entries the entries to delete
 	 */
-	private void deleteEntries(List<SaveListEntry> entries)
+	private void deleteEntries(List<SaveListEntry> entries, boolean silent)
 	{
 		DefaultListModel<SaveListEntry> model = (DefaultListModel<SaveListEntry>) getModel();
 		for (SaveListEntry entry : entries)
@@ -336,7 +406,8 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 			model.removeElement(entry);
 			entry.delete();
 		}
-		AbstractMessage.display(AbstractMessage.SUCCESSFUL_DELETE);
+		if(!silent)
+			AbstractMessage.display(AbstractMessage.SUCCESSFUL_DELETE);
 	}
 
 
@@ -461,6 +532,11 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		if (profile.getRoot() != null)
 			profile.getRoot().sort();
 		fillWith(profile, null);
+		for (SaveListEntry entry : copiedEntries) {
+			entry.setMarkedForCut(false);
+		}
+		copiedEntries = new ArrayList<>();
+		isCut = false;
 	}
 
 
@@ -480,7 +556,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	public void entryCreated(SaveListEntry entry)
 	{
 		entry.getParent().setClosed(false);
-		sortEntries();
+		refreshList();
 		int newIndex = ((DefaultListModel<SaveListEntry>) getModel()).indexOf(entry);
 		setSelectedIndex(newIndex);
 		requestFocusInWindow();
@@ -490,7 +566,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	@Override
 	public void entryRenamed(SaveListEntry entry)
 	{
-		sortEntries();
+		refreshList();
 	}
 
 
@@ -548,7 +624,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 			@Override
 			public void run()
 			{
-				sortEntries();
+				refreshList();
 			}
 
 		});
@@ -606,6 +682,13 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
+		if(e.getKeyCode() == KeyEvent.VK_C && e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK)
+			copyEntries(false);
+		else if(e.getKeyCode() == KeyEvent.VK_X && e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK)
+			copyEntries(true);
+		else if(e.getKeyCode() == KeyEvent.VK_V && e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK)
+			pasteEntries();
+		
 	}
 
 

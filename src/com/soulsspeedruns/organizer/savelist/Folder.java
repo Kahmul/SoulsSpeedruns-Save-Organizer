@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -35,7 +37,7 @@ public class Folder extends SaveListEntry
 
 
 	/**
-	 * Creates a new Folder instance.
+	 * Creates a new Folder instance. Children in the underlying filesystem are automatically added.
 	 * 
 	 * @param parent the parent folder
 	 * @param file the associated file
@@ -130,8 +132,14 @@ public class Folder extends SaveListEntry
 	@Override
 	public void delete()
 	{
+		List<SaveListEntry> children = new LinkedList<>(getChildren());
+		for (SaveListEntry child : children)
+		{
+			child.delete();
+		}
+		clearChildren();
 		getParent().removeChild(this);
-		OrganizerManager.deleteDirectory(getFile());
+		getFile().delete();
 	}
 
 
@@ -141,6 +149,9 @@ public class Folder extends SaveListEntry
 		label.setText(getFile().getName());
 		label.setFont(label.getFont().deriveFont(Font.BOLD));
 		label.setBorder(BorderFactory.createEmptyBorder(1, 3 + getIndent(), 0, 1));
+		if(isMarkedForCut())
+			label.setForeground(Color.GRAY);
+		
 		Color color = ICON_COLOR;
 		if (!getFile().exists())
 		{
@@ -152,6 +163,8 @@ public class Folder extends SaveListEntry
 			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER, ICON_SIZE, color));
 		else
 			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, ICON_SIZE, color));
+
+			
 	}
 
 

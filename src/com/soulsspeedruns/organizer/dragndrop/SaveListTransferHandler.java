@@ -1,10 +1,8 @@
 package com.soulsspeedruns.organizer.dragndrop;
 
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
@@ -96,13 +94,10 @@ public class SaveListTransferHandler extends TransferHandler
 				((DefaultListModel<SaveListEntry>) saveList.getModel()).removeElement(existingEntry);
 				existingEntry.delete();
 			}
-			Path oldPath = Paths.get(entry.getFile().getPath());
 			
-			Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING);
-			entry.setFile(newPath.toFile());
-			entry.attachToNewParent(newParentFolder);
+			entry.moveToNewParent(newParentFolder);
 			newParentFolder.setClosed(false);
-			saveList.sortEntries();
+			saveList.refreshList();
 			saveList.setSelectedValue(entry, true);
 		}
 		catch (Exception e)
