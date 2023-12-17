@@ -203,7 +203,7 @@ public class SaveListContextMenu extends JPopupMenu
 			for (SaveListEntry entry : saveList.getSelectedValuesList())
 			{
 				if(!(entry instanceof Save))
-					return;
+					continue;
 				File file = entry.getFile();
 				file.setWritable(!itemReadOnly.isSelected());
 			}
