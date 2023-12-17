@@ -104,7 +104,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 				setIcon(writableIconHover);
 			else
 				setIcon(writableIcon);
-			setToolTipText("The game's savefile is writable");
+			setToolTipText("Click to turn on read-only for the game's savefile.");
 		}
 		else
 		{
@@ -112,7 +112,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 				setIcon(readOnlyIconHover);
 			else
 				setIcon(readOnlyIcon);
-			setToolTipText("The game's savefile is currently read-only");
+			setToolTipText("Click to turn off read-only for the game's savefile.");
 		}
 
 	}
