@@ -59,15 +59,15 @@ public class AboutPanel extends JPanel
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
 		hGroup.addGroup(layout.createParallelGroup(Alignment.TRAILING).addComponent(versionLabel).addComponent(versionNumberLabel)
-				.addComponent(developerLabel).addComponent(developerLink).addComponent(githubLink).addComponent(discordLabel));
+				.addComponent(developerLabel).addComponent(discordLabel).addComponent(developerLink).addComponent(githubLink));
 
 		layout.setHorizontalGroup(hGroup);
 
 		// Vertical
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
-		vGroup.addComponent(versionLabel).addComponent(versionNumberLabel).addComponent(developerLabel).addComponent(developerLink)
-				.addComponent(githubLink).addComponent(discordLabel);
+		vGroup.addComponent(versionLabel).addComponent(versionNumberLabel).addComponent(developerLabel).addComponent(discordLabel).addComponent(developerLink)
+				.addComponent(githubLink);
 
 		layout.setVerticalGroup(vGroup);
 
