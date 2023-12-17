@@ -32,28 +32,18 @@ To get started using the save organizer, take the following steps:
 3. Click **Browse** under 'Location of Savefile' and navigate to the game's savefile (e.g. for Dark Souls this would be under "<User>/Documents/NBGI/DarkSouls/DRAKS0005.sl2").
 4. The application will ask you if you wish to store your savefiles in the same directory where the game's savefile is stored. You can either agree or choose a different one under 'Profiles Directory'. If you already have existing profiles on your PC, you should point the organizer to that directory in this step.
 5. Press **New** to create a new profile for your game. Name it whatever you'd like, e.g. the name of the category you wish to run.
-6. After creating the profiles you wished to create, you can close the **Profile Configuration** window.
-7. Back in the main view, you can now choose the game and the profile(s) at the top.
-8. Start creating savefiles by pressing **Import Savestate**, or **Rightclick > Add Folder** to create folders within your profiles.
+6. Once you are done creating your profiles you can close the **Profile Configuration** window.
+7. Back in the main window you can now choose the game and your profile(s) at the top.
+8. Start creating savefiles by pressing **Import Savestate**, or **Rightclick > Add Folder** to create folders within your profiles. Savefiles will be imported into the selected folder.
 
 ## Creating/Loading Savefiles
 
-In order to make savefiles with the Save Organizer you have to first set it up as described in the Getting Started section. Follow these steps once you've done that:
+Due to the how the different FROMSoftware games work, there is a few things to consider when creating and loading savefiles.
 
-1. Make sure you are not currently in-game with any of your characters. That means either in the Main Menu or that the game is closed.
-
-2. If you want to make a savefile in a folder, create one by right-clicking the list and pressing 'Add Folder'. Then select the folder so that the next savefile will be put into it.
-
-3. Press 'Import current savefile' to make a copy of the current game's savefile and put it into the list. If you have a folder or one of its subcontents selected the savefile will be imported into that folder.
-
-4. You have now created a copy of the save with all your characters and their current state. Name it however you like.
-
-5. If you wish to put the savefile into a different folder just select it and drag and drop it into a different folder. You can do this with entire folders as well, it doesn't have to be a single save.
-
-6. If you wish to reload the savefile, simply make sure that you are out of the game with any characters (so either Main Menu or not in the game at all), and press the 'Load selected savefile' button. This will overwrite the game's current savefile with the save you've selected.
-
-7. If you go into the load screen menu now you may notice that the characters will not show the info according to the save you just loaded unless you restart the game. This is simply because the game only checks for that info on start-up. If you load any of the characters though it will now load the correct one.
-
+- All characters are stored in the single savefile the game uses.
+- Generally you want to quit out of the game before creating savefiles. This is not strictly necessary but it makes sure all progress has been saved to the savefile beforehand. Users more familiar with the games may want to simply open/close the start menu and then create a savefile or switch to read-only during gameplay when they know they are about to repeat an upcoming section multiple times.
+- Loading savefiles only works in the main menu. Loading a savefile in the middle of gameplay will do nothing as the game will simply overwrite it again the next time it saves.
+- When loading a savefile in the main menu and look at your characters, you may notice that nothing has changed. This is normal, the game only updates that info when the main menu is reloaded. If you then choose a slot, the corresponding character from the loaded savefile will be nonetheless correctly loaded.
 
 ## Planned Features
 
