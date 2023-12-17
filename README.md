@@ -10,7 +10,7 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 
 - Manage your savefiles for each supported game, loading or creating them with the click of a button.
 - Create profiles for each game to group your savefiles for e.g. speedrun categories. You only see the savefiles assigned to the current profile at any given time.
-- Switch the game's savefile to read-only and back with the click of a button for convenient practice without having to keep loading a savefile (not supported by DS1R).
+- Switch the game's savefile to read-only and back with the click of a button for convenient practice without having to manually reload (not supported by DS1R).
 - Support for global hotkeys.
 - Support for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring.
 
