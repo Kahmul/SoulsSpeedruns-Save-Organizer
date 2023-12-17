@@ -22,7 +22,7 @@ public class SuccessfulReplaceMessage extends AbstractMessage
 
 	private static final String MESSAGE = "REPLACE SUCCESSFUL";
 	private static final IconCode ICON = Elusive.REFRESH;
-	private static final Color COLOR = new Color(255, 168, 0);
+	private static final Color COLOR = Color.decode("0xffb21d");
 
 
 	protected SuccessfulReplaceMessage()
