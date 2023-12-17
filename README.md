@@ -27,7 +27,7 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 
 ## Getting Started
 
-To get started using the save organizer, take the following steps:
+To get started using the save organizer, follow these steps:
 
 1. Start the application, press **Edit Profiles** in the top right.
 2. In the **Profile Configuration** window choose the game you wish to create savefiles for at the top.
