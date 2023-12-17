@@ -1,30 +1,18 @@
-# <img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo32.png"/> SoulsSpeedruns - Save Organizer
+# <img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo32.png" width="28px"/> SoulsSpeedruns - Save Organizer
 
-The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for Dark Souls, Dark Souls II, Dark Souls II: Scholar of the First Sin and Dark Souls III. 
-
-## Functionality
+The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring.
 
 <p align="center">
-    <img src="https://github.com/Kahmul/SpeedSouls-Save-Organizer/blob/master/docs/images/SaveOrganizerFeatures.png"/>
+    <img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/docs/images/OrganizerOverview.png"/>
 </p>
 
-**1.** Choose your game.
+## Features
 
-**2.** Choose one of your profiles. You can create these via (3).
-
-**3.** Opens the profile configuration menu. Also allows you to set the directory that contains the game's savefile for each game.
-
-**4.** List of all the savefiles of your selected profile. Create folders to arrange your savefiles. Read-only savefiles are marked with an icon.
-
-**5.** Creates a copy of the game's current savefile and adds it to the save list (4), either by inserting it into your currently selected folder or just by adding to the end of the list.
-
-**6.** Copies the currently selected savefile from the savefile list (4) over the game's current savefile.
-
-**7.** Replaces the currently selected savefile with the game's current savefile.
-
-**8.** Button to switch your current gamefile to read-only and back. Greyed out if your gamefile is not read-only.
-
-**9.** Opens a context menu with settings and a link to this page.
+- Manage your savefiles for each supported game, loading or creating them with the click of a button.
+- Create profiles for each game to group your savefiles for e.g. speedrun categories. You only see the savefiles assigned to the current profile at any given time.
+- Switch the game's savefile to read-only and back with the click of a button for convenient practice without having to keep loading a savefile (not supported by DS1R).
+- Support for global hotkeys.
+- Support for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring.
 
 ## Requirements
 
@@ -73,12 +61,9 @@ In order to make savefiles with the Save Organizer you have to first set it up a
 7. If you go into the load screen menu now you may notice that the characters will not show the info according to the save you just loaded unless you restart the game. This is simply because the game only checks for that info on start-up. If you load any of the characters though it will now load the correct one.
 
 
-
 ## Planned Features
 
-- Cut/Paste functionality
-- Dragging and dropping multiple saves at once
-
+- None at the moment
 
 ## Troubleshooting
 
@@ -88,9 +73,9 @@ In order to make savefiles with the Save Organizer you have to first set it up a
 
         1. Press Windows + R.
         2. Enter "regedit".
-        3. Navigate to "HKEY_CURRENT_USER\Software\JavaSoft\Prefs\com\speedsouls\organizer\prefs".
+        3. Navigate to "HKEY_CURRENT_USER\Software\JavaSoft\Prefs\com\soulsspeedruns\organizer\prefs".
         4. Delete all entries.
 
 ## Credits
 
-- DarK for making the intro splash screen for 1.4 onwards.
+- johndisandonato for adding the 'select previous/next savefile' hotkeys
