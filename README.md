@@ -14,6 +14,8 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 - Support for global hotkeys.
 - Support for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring.
 
+⚠️ **This application is primarily intended for speedrunners or challenge runners. There is little to no safe-guarding for keeping your savefiles if you modify or delete them. If you wish to use this program for backing up your casual playthroughs, make sure you know what you are doing and ideally make a separate backup of your savefiles elsewhere in case you mess up!** ⚠️
+
 ## Requirements
 
 - Java JRE 8 or higher
@@ -25,41 +27,26 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 
 ## Getting Started
 
-In order to use the program and make savefiles you first have to set it up accordingly. Here is a step by step guide on how to achieve this:
+To get started using the save organizer, follow these steps:
 
-1. Once you started the program, press 'Edit Profiles'.
-
-2. In the window that now opens you have to choose the right tab depending on which game you want to make savefiles for.
-
-3. Click 'Browse' and navigate to the directory where the game stores its savefile (e.g. for Dark Souls this would be "<User>/Documents/NBGI/DarkSouls/<SomeNumbers>").
-
-4. Confirm the directory so that the path shows up in the textfield next to the button.
-
-5. Now press 'New' to create a new profile for your game, name it whatever you'd like.
-
-6. Now you can close the 'Profile Configuration' window.
-
-7. Back in the main menu you can now choose the game and the profile you just set up and start making savefiles.
-
+1. Start the application, press **Edit Profiles** in the top right.
+2. In the **Profile Configuration** window choose the game you wish to create savefiles for at the top.
+3. Click **Browse** under 'Location of Savefile' and navigate to the game's savefile (e.g. for Dark Souls this would be under "<User>/Documents/NBGI/DarkSouls/DRAKS0005.sl2").
+4. The application will ask you if you wish to store your savefiles in the same directory where the game's savefile is stored. You can either agree or choose a different one under 'Profiles Directory'. If you already have existing profiles on your PC, you should point the organizer to that directory in this step.
+5. Press **New** to create a new profile for your game. Name it whatever you'd like, e.g. the name of the category you wish to run.
+6. Once you are done creating your profiles you can close the **Profile Configuration** window.
+7. Back in the main window you can now choose the game and your profile(s) at the top.
+8. Start creating savefiles by pressing **Import Savestate**, or **Rightclick > Add Folder** to create folders within your profiles. Savefiles will be imported into the selected folder.
+9. *(Optional)* Click the cog button in the bottom right to access settings. You can enable global hotkeys there to conveniently work with the organizer during practice.
 
 ## Creating/Loading Savefiles
 
-In order to make savefiles with the Save Organizer you have to first set it up as described in the Getting Started section. Follow these steps once you've done that:
+Due to the how the different FROMSoftware games work, there is a few things to consider when creating and loading savefiles.
 
-1. Make sure you are not currently in-game with any of your characters. That means either in the Main Menu or that the game is closed.
-
-2. If you want to make a savefile in a folder, create one by right-clicking the list and pressing 'Add Folder'. Then select the folder so that the next savefile will be put into it.
-
-3. Press 'Import current savefile' to make a copy of the current game's savefile and put it into the list. If you have a folder or one of its subcontents selected the savefile will be imported into that folder.
-
-4. You have now created a copy of the save with all your characters and their current state. Name it however you like.
-
-5. If you wish to put the savefile into a different folder just select it and drag and drop it into a different folder. You can do this with entire folders as well, it doesn't have to be a single save.
-
-6. If you wish to reload the savefile, simply make sure that you are out of the game with any characters (so either Main Menu or not in the game at all), and press the 'Load selected savefile' button. This will overwrite the game's current savefile with the save you've selected.
-
-7. If you go into the load screen menu now you may notice that the characters will not show the info according to the save you just loaded unless you restart the game. This is simply because the game only checks for that info on start-up. If you load any of the characters though it will now load the correct one.
-
+- All characters are stored in the single savefile the game uses.
+- Generally you want to quit out of the game before creating savefiles. This is not strictly necessary but it makes sure all progress has been saved to the savefile beforehand. Users more familiar with the games may want to force a save by simply opening/closing the start menu. You can then create a savefile during gameplay, or switch to read-only to repeat the upcoming section multiple times without having to quitout an extra time beforehand.
+- Loading savefiles only works in the main menu. Loading a savefile in the middle of gameplay will do nothing as the game will simply overwrite it again the next time it saves.
+- When loading a savefile in the main menu and looking at your characters, you may notice that nothing has changed. This is normal, the game only updates that info when the main menu is reloaded. If you choose a character slot, the corresponding character from the loaded savefile will be nonetheless correctly loaded.
 
 ## Planned Features
 
@@ -68,7 +55,6 @@ In order to make savefiles with the Save Organizer you have to first set it up a
 ## Troubleshooting
 
 - Make sure you use Java JRE 8.
-- Make sure your _JAVA_OPTIONS environment variable is set to proper values.
 - If you have problems starting up the program after you've already been using it there might be conflicting data between the registry entries and the actual data. In this case it might help to remove the registry entries of the Save Organizer (the following steps are for Windows):
 
         1. Press Windows + R.
@@ -78,4 +64,4 @@ In order to make savefiles with the Save Organizer you have to first set it up a
 
 ## Credits
 
-- johndisandonato for adding the 'select previous/next savefile' hotkeys
+- johndisandonato for adding the 'Highlight Previous/Next Savefile' hotkeys
