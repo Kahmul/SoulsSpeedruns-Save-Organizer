@@ -129,7 +129,7 @@ public enum Game
 	 */
 	public void setSaveFileLocation(File saveFile)
 	{
-		if (saveFile.getName().equals(getSaveName()))
+		if (saveFile.getName().equalsIgnoreCase(getSaveName()))
 			this.saveFile = saveFile;
 	}
 
