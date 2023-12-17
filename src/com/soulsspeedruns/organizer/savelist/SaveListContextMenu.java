@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Point;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
@@ -13,7 +14,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
-import com.soulsspeedruns.organizer.games.Game;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.Iconic;
@@ -48,6 +48,9 @@ public class SaveListContextMenu extends JPopupMenu
 		JMenuItem itemAdd = createAddItem(saveList);
 		JMenuItem itemRemove = createRemoveItem(saveList);
 		JMenuItem itemEdit = createEditItem(saveList);
+		JMenuItem itemCopy = createCopyItem(saveList);
+		JMenuItem itemCut = createCutItem(saveList);
+		JMenuItem itemPaste = createPasteItem(saveList);
 		JCheckBoxMenuItem itemReadOnly = createReadOnlyItem(saveList);
 		JMenuItem itemRefresh = createRefreshItem(saveList);
 		JMenuItem itemOpenInExplorer = createOpenInExplorerItem(saveList);
@@ -55,31 +58,51 @@ public class SaveListContextMenu extends JPopupMenu
 		add(itemAdd);
 		add(itemRemove);
 		add(itemEdit);
-		if (!OrganizerManager.getSelectedGame().equals(Game.DARK_SOULS_REMASTERED))
+		add(itemCopy);
+		add(itemCut);
+		add(itemPaste);
+		if (OrganizerManager.getSelectedGame().supportsReadOnly())
 			add(itemReadOnly);
 		add(itemRefresh);
 		add(itemOpenInExplorer);
 
 		show(saveList, x, y);
 
+		itemReadOnly.setEnabled(false);
+		itemPaste.setEnabled(saveList.hasCopiedEntries());
 		if (OrganizerManager.getSelectedProfile().getName().equals(""))
 		{
 			itemAdd.setEnabled(false);
+			itemRefresh.setEnabled(false);
 			itemOpenInExplorer.setEnabled(false);
+			itemPaste.setEnabled(false);
 		}
 		int index = saveList.locationToIndex(new Point(x, y));
 		if (index != -1 && saveList.getCellBounds(index, index).contains(new Point(x, y)))
 		{
-			saveList.setSelectedIndex(index);
+			// need to check the size of the list first before and then assign it to a variable later in the case of a single selection by right-click
+			if(saveList.getSelectedValuesList().size() <= 1)
+				saveList.setSelectedIndex(index);
+			
 			itemEdit.setEnabled(true);
 			itemRemove.setEnabled(true);
-			itemReadOnly.setEnabled(saveList.getSelectedValue() instanceof Save);
-			itemReadOnly.setSelected(!saveList.getSelectedValue().getFile().canWrite());
+
+			itemReadOnly.setSelected(true);
+			
+			List<SaveListEntry> selectedEntries = saveList.getSelectedValuesList();
+			for (SaveListEntry entry : selectedEntries)
+			{
+				if(entry instanceof Save)
+					itemReadOnly.setEnabled(true);
+				if(entry.getFile().canWrite())
+					itemReadOnly.setSelected(false);
+			}
 			return;
 		}
 		itemEdit.setEnabled(false);
+		itemCopy.setEnabled(false);
+		itemCut.setEnabled(false);
 		itemRemove.setEnabled(false);
-		itemReadOnly.setEnabled(false);
 	}
 
 
@@ -131,8 +154,42 @@ public class SaveListContextMenu extends JPopupMenu
 			saveList.askToEditEntry(saveList.getSelectedValue());
 		});
 		return itemEdit;
-	}
+	}	
+	
+	private JMenuItem createCopyItem(SaveList saveList)
+	{
+		JMenuItem itemCopy = new JMenuItem("Copy");
+		itemCopy.setAccelerator(KeyStroke.getKeyStroke("control C"));
+		itemCopy.addActionListener(event -> {
+			saveList.copyEntries(false);
+		});
 
+		return itemCopy;
+	}
+	
+	private JMenuItem createCutItem(SaveList saveList)
+	{
+		JMenuItem itemCut = new JMenuItem("Cut");
+//		itemCut.setIcon(IconFontSwing.buildIcon(FontAwesome.SCISSORS, 17));
+		itemCut.setAccelerator(KeyStroke.getKeyStroke("control X"));
+		itemCut.addActionListener(event -> {
+			saveList.copyEntries(true);
+		});
+
+		return itemCut;
+	}
+	
+	private JMenuItem createPasteItem(SaveList saveList)
+	{
+		JMenuItem itemPaste = new JMenuItem("Paste");
+		itemPaste.setAccelerator(KeyStroke.getKeyStroke("control V"));
+		itemPaste.addActionListener(event -> {
+			saveList.pasteEntries();
+		});
+
+		return itemPaste;
+	}
+	
 
 	/**
 	 * Creates the 'Read-Only' item of the context menu.
@@ -143,7 +200,13 @@ public class SaveListContextMenu extends JPopupMenu
 	{
 		JCheckBoxMenuItem itemReadOnly = new JCheckBoxMenuItem("Read-Only");
 		itemReadOnly.addActionListener(event -> {
-			saveList.getSelectedValue().getFile().setWritable(!itemReadOnly.isSelected());
+			for (SaveListEntry entry : saveList.getSelectedValuesList())
+			{
+				if(!(entry instanceof Save))
+					return;
+				File file = entry.getFile();
+				file.setWritable(!itemReadOnly.isSelected());
+			}
 			if (OrganizerManager.getSelectedSortingCategory() == SortingCategory.READ_ONLY)
 				saveList.refreshList();
 			saveList.repaint();

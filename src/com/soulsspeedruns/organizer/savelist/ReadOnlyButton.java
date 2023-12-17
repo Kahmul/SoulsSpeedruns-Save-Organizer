@@ -29,6 +29,10 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	private static final long serialVersionUID = -4432217286267536787L;
 	private File file;
 
+	private ImageIcon writableIcon = new ImageIcon(OrganizerManager.writableIcon24);
+	private ImageIcon readOnlyIcon = new ImageIcon(OrganizerManager.readOnlyIcon24);
+	private ImageIcon writableIconHover = new ImageIcon(OrganizerManager.writableIcon24Hover);
+	private ImageIcon readOnlyIconHover = new ImageIcon(OrganizerManager.readOnlyIcon24Hover);
 
 	/**
 	 * Creates a new read only button with the given file and image.
@@ -36,17 +40,16 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	 * @param file the file to associate with this button.
 	 * @param img the image to use for this button.
 	 */
-	public ReadOnlyButton(File file, ImageIcon img)
+	public ReadOnlyButton(File file)
 	{
-		super(img);
+		super(new ImageIcon(OrganizerManager.writableIcon24));
 
 		setFile(file);
 		addMouseListener(this);
 		OrganizerManager.addProfileListener(this);
 		OrganizerManager.addSaveListener(this);
 
-		if (OrganizerManager.getSelectedGame().equals(Game.DARK_SOULS_REMASTERED))
-			setVisible(false);
+		setVisible(OrganizerManager.getSelectedGame().supportsReadOnly());
 	}
 
 
@@ -71,12 +74,13 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		if (file == null || !file.exists())
 		{
 			this.file = null;
-			setEnabled(false);
+			setVisible(false);
 			setToolTipText(null);
 			return;
 		}
 		this.file = file;
-		setEnabled(!file.canWrite());
+		setVisible(true);
+		changeImage(file.canWrite(), false);
 	}
 
 
@@ -85,23 +89,33 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	 */
 	public void doClick()
 	{
-		if (file == null || !file.exists() || OrganizerManager.getSelectedGame().equals(Game.DARK_SOULS_REMASTERED))
+		if (file == null || !file.exists() || !OrganizerManager.getSelectedGame().supportsReadOnly())
 			return;
-		setEnabled(!isEnabled());
-		file.setWritable(!isEnabled());
+		boolean isWritable = !file.canWrite();
+		file.setWritable(isWritable);
+		changeImage(isWritable, true);
 	}
-
-
-	@Override
-	public void setEnabled(boolean flag)
+	
+	private void changeImage(boolean isWritable, boolean isHovering)
 	{
-		super.setEnabled(flag);
-		if (flag)
-			setToolTipText("The current gamefile is read-only.");
+		if(isWritable)
+		{			
+			if(isHovering)
+				setIcon(writableIconHover);
+			else
+				setIcon(writableIcon);
+			setToolTipText("The game's savefile is writable");
+		}
 		else
-			setToolTipText("The current gamefile is writable.");
-	}
+		{
+			if(isHovering)
+				setIcon(readOnlyIconHover);
+			else
+				setIcon(readOnlyIcon);
+			setToolTipText("The game's savefile is currently read-only");
+		}
 
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e)
@@ -113,12 +127,14 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void mouseEntered(MouseEvent e)
 	{
+		changeImage(file.canWrite(), true);
 	}
 
 
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
+		changeImage(file.canWrite(), false);
 	}
 
 
@@ -162,7 +178,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	public void changedToGame(Game game)
 	{
 		setFile(game.getSaveFileLocation());
-		if (game.equals(Game.DARK_SOULS_REMASTERED))
+		if (file == null || !file.exists() || !game.supportsReadOnly())
 			setVisible(false);
 		else
 			setVisible(true);
@@ -196,7 +212,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void saveLoadFinished(Save save)
 	{
-		setEnabled(!save.getFile().canWrite());
+		changeImage(save.getFile().canWrite(), false);
 	}
 
 

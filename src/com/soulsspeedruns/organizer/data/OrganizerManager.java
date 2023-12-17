@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
 import org.jnativehook.NativeHookException;
 import org.json.JSONObject;
 
+import com.github.pervoj.jiconfont.FontAwesomeBrands;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.hotkeys.GlobalHotkey;
 import com.soulsspeedruns.organizer.hotkeys.GlobalKeyboardHook;
@@ -44,10 +45,8 @@ import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 import com.soulsspeedruns.organizer.savelist.SortingCategory;
 
 import jiconfont.icons.Elusive;
-import jiconfont.icons.Entypo;
 import jiconfont.icons.FontAwesome;
 import jiconfont.icons.Iconic;
-import jiconfont.icons.Typicons;
 import jiconfont.swing.IconFontSwing;
 
 
@@ -119,8 +118,11 @@ public class OrganizerManager
 	public static Image soulsspeedrunsIcon;
 	public static Image soulsspeedrunsIconSmall;
 	public static Image soulsspeedrunsIconMedium;
-	public static Image readOnlyIconMedium;
-	public static Image readOnlyIconSmall;
+	public static Image readOnlyIcon14;
+	public static Image readOnlyIcon24;
+	public static Image writableIcon24;
+	public static Image readOnlyIcon24Hover;
+	public static Image writableIcon24Hover;
 	public static Image settingsIcon;
 
 	private static List<ProfileListener> profileListeners;
@@ -177,15 +179,20 @@ public class OrganizerManager
 		soulsspeedrunsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo32.png"));
 		soulsspeedrunsIconSmall = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo16.png"));
 		soulsspeedrunsIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo100.png"));
-		readOnlyIconSmall = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIconSmall.png"));
-		readOnlyIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIconMedium.png"));
 		settingsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SettingsIcon.png"));
+		readOnlyIcon14 = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon14.png"));
+		readOnlyIcon24 = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon24.png"));
+		writableIcon24 = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon24.png"));
+		readOnlyIcon24Hover = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon24Hover.png"));
+		writableIcon24Hover = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon24Hover.png"));
 
 		IconFontSwing.register(FontAwesome.getIconFont());
+		IconFontSwing.register(FontAwesomeBrands.getIconFont());
 		IconFontSwing.register(Elusive.getIconFont());
-		IconFontSwing.register(Entypo.getIconFont());
+//		IconFontSwing.register(Entypo.getIconFont());
 		IconFontSwing.register(Iconic.getIconFont());
-		IconFontSwing.register(Typicons.getIconFont());
+//		IconFontSwing.register(Typicons.getIconFont());
+
 	}
 
 
@@ -718,7 +725,7 @@ public class OrganizerManager
 	 */
 	public static void switchCurrentGameFileWritableState()
 	{
-		if (getSelectedGame().equals(Game.DARK_SOULS_REMASTERED))
+		if (!getSelectedGame().supportsReadOnly())
 			return;
 		File gameFile = getSelectedGame().getSaveFileLocation();
 		gameFile.setWritable(!gameFile.canWrite());

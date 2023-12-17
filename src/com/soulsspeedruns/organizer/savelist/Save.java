@@ -86,7 +86,7 @@ public class Save extends SaveListEntry
 		if(isMarkedForCut())
 			label.setForeground(Color.GRAY);
 		if (!getFile().canWrite())
-			label.setIcon(new ImageIcon(OrganizerManager.readOnlyIconSmall));
+			label.setIcon(new ImageIcon(OrganizerManager.readOnlyIcon14));
 		if (!getFile().exists())
 		{
 			label.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 13, Color.RED));

@@ -11,12 +11,12 @@ import java.net.URI;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-
-import com.soulsspeedruns.organizer.data.OrganizerManager;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import com.github.pervoj.jiconfont.FontAwesomeBrands;
+import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 import jiconfont.icons.Elusive;
 import jiconfont.swing.IconFontSwing;
@@ -53,12 +53,13 @@ public class AboutPanel extends JPanel
 		developerLabel.setFont(getFont().deriveFont(Font.BOLD));
 		JLabel developerLink = createDevLink();
 		JLabel githubLink = createGitHubLink();
+		JLabel discordLabel = createDiscordLabel();
 
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
 		hGroup.addGroup(layout.createParallelGroup(Alignment.TRAILING).addComponent(versionLabel).addComponent(versionNumberLabel)
-				.addComponent(developerLabel).addComponent(developerLink).addComponent(githubLink));
+				.addComponent(developerLabel).addComponent(developerLink).addComponent(githubLink).addComponent(discordLabel));
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -66,7 +67,7 @@ public class AboutPanel extends JPanel
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
 		vGroup.addComponent(versionLabel).addComponent(versionNumberLabel).addComponent(developerLabel).addComponent(developerLink)
-				.addComponent(githubLink);
+				.addComponent(githubLink).addComponent(discordLabel);
 
 		layout.setVerticalGroup(vGroup);
 
@@ -119,6 +120,14 @@ public class AboutPanel extends JPanel
 			}
 		});
 		return githubLabel;
+	}
+	
+	private JLabel createDiscordLabel()
+	{
+		JLabel discordLabel = new JLabel("Kahmul");
+		discordLabel.setIcon(IconFontSwing.buildIcon(FontAwesomeBrands.DISCORD, 40, Color.decode("0x5865F2")));
+		
+		return discordLabel;
 	}
 
 }

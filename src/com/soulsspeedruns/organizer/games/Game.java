@@ -20,17 +20,18 @@ import com.soulsspeedruns.organizer.profileconfig.Profile;
 public enum Game
 {
 
-	DARK_SOULS("Dark Souls", "DS1", "DRAKS0005.sl2"),
-	DARK_SOULS_REMASTERED("Dark Souls Remastered", "DSR", "DRAKS0005.sl2"),
-	DARK_SOULS_II("Dark Souls II", "DS2", "DARKSII0000.sl2"),
-	DARK_SOULS_II_SOTFS("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2"),
-	DARK_SOULS_III("Dark Souls III", "DS3", "DS30000.sl2"),
-	SEKIRO_SHADOWS_DIE_TWICE("Sekiro", "SSDT", "S0000.sl2"),
-	ELDEN_RING("Elden Ring", "ER", "ER0000.sl2");
+	DARK_SOULS("Dark Souls", "DS1", "DRAKS0005.sl2", true),
+	DARK_SOULS_REMASTERED("Dark Souls Remastered", "DSR", "DRAKS0005.sl2", false),
+	DARK_SOULS_II("Dark Souls II", "DS2", "DARKSII0000.sl2", true),
+	DARK_SOULS_II_SOTFS("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2", true),
+	DARK_SOULS_III("Dark Souls III", "DS3", "DS30000.sl2", true),
+	SEKIRO_SHADOWS_DIE_TWICE("Sekiro", "SSDT", "S0000.sl2", true),
+	ELDEN_RING("Elden Ring", "ER", "ER0000.sl2", true);
 
 	private final String caption;
 	private final String abbr;
 	private final String saveName;
+	private final boolean supportsReadOnly;
 	private File directory;
 	private File saveFile;
 	private List<Profile> profiles;
@@ -42,12 +43,14 @@ public enum Game
 	 * @param caption the caption of this game
 	 * @param abbr the abbreviation of this game
 	 * @param saveName the name of the game's savefile
+	 * @param supportsReadOnly whether the game supports read-only
 	 */
-	private Game(String caption, String abbr, String saveName)
+	private Game(String caption, String abbr, String saveName, boolean supportsReadOnly)
 	{
 		this.caption = caption;
 		this.abbr = abbr;
 		this.saveName = saveName;
+		this.supportsReadOnly = supportsReadOnly;
 		profiles = new CopyOnWriteArrayList<>();
 	}
 
@@ -134,11 +137,21 @@ public enum Game
 	/**
 	 * Returns the name of the game's savestate.
 	 * 
-	 * @return the name of the game's savestate.
+	 * @return the name of the game's savestate
 	 */
 	public String getSaveName()
 	{
 		return saveName;
+	}
+	
+	/**
+	 * Returns whether the game supports read-only.
+	 * 
+	 * @return whether game supports read-only
+	 */
+	public boolean supportsReadOnly()
+	{
+		return supportsReadOnly;
 	}
 
 

@@ -92,6 +92,16 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		setModel(new DefaultListModel<>());
 		fillWith(OrganizerManager.getSelectedProfile(), null);
 	}
+	
+	/**
+	 * Returns whether the save list currently stores entries for pasting.
+	 * 
+	 * @return whether there is copied entries
+	 */
+	public boolean hasCopiedEntries()
+	{
+		return !copiedEntries.isEmpty();
+	}
 
 
 	/**
@@ -180,7 +190,10 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		}
 	}
 	
-	private void copyEntries(boolean isCut)
+	/**
+	 * @param isCut
+	 */
+	public void copyEntries(boolean isCut)
 	{
 		if(this.isCut && !copiedEntries.isEmpty())
 		{
@@ -202,7 +215,10 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		repaint();
 	}
 	
-	private void pasteEntries()
+	/**
+	 * 
+	 */
+	public void pasteEntries()
 	{	
 		SaveListEntry selectedEntry = getSelectedValue();
 		Profile selectedProfile = OrganizerManager.getSelectedProfile();
