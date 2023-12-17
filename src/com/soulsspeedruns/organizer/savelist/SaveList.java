@@ -575,6 +575,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 		refreshList();
 		int newIndex = ((DefaultListModel<SaveListEntry>) getModel()).indexOf(entry);
 		setSelectedIndex(newIndex);
+		ensureIndexIsVisible(newIndex);
 		requestFocusInWindow();
 	}
 

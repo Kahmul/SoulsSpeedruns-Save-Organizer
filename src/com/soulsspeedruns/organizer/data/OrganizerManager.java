@@ -99,6 +99,7 @@ public class OrganizerManager
 
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_LOAD = "hotkeyLoad";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY = "hotkeyReadOnly";
+	public static final String PREFS_KEY_GLOBAL_HOTKEY_IMPORT_SAVE = "hotkeyImportSave";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_PREV_SAVE = "hotkeyPrevSave";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_NEXT_SAVE = "hotkeyNextSave";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_TOGGLE = "hotkeyToggle";
@@ -225,6 +226,7 @@ public class OrganizerManager
 			prefs.remove(PREFS_KEY_SETTING_GLOBAL_HOTKEYS);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_LOAD);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY);
+			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_IMPORT_SAVE);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_PREV_SAVE);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_NEXT_SAVE);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_TOGGLE);

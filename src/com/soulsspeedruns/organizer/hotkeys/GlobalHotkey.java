@@ -1,7 +1,10 @@
 package com.soulsspeedruns.organizer.hotkeys;
 
 
+import javax.swing.JOptionPane;
+
 import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.profileconfig.Profile;
 import com.soulsspeedruns.organizer.savelist.Save;
 
 
@@ -16,7 +19,7 @@ import com.soulsspeedruns.organizer.savelist.Save;
 public enum GlobalHotkey
 {
 
-	LOAD_SAVE("Load Selected Save:", "None")
+	LOAD_SAVE("Load Savestate:", "None")
 	{
 
 		@Override
@@ -31,6 +34,30 @@ public enum GlobalHotkey
 		public String getPrefsKey()
 		{
 			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_LOAD;
+		}
+	},
+	IMPORT_SAVE("Import Savestate:", "None")
+	{
+
+		@Override
+		public void action()
+		{
+			Profile profile = OrganizerManager.getSelectedProfile();
+			if (profile.getRoot() != null)
+			{
+				OrganizerManager.importSavefile(null);
+				return;
+			}
+			JOptionPane.showMessageDialog(null,
+					"Create a profile before trying to import a savefile! You can do this in the profile configuration settings.",
+					"Warning", JOptionPane.WARNING_MESSAGE);
+		}
+
+
+		@Override
+		public String getPrefsKey()
+		{
+			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_IMPORT_SAVE;
 		}
 	},
 	READ_ONLY_TOGGLE("Switch Gamefile To Read-Only:", "None")
