@@ -14,7 +14,7 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 - Support for global hotkeys.
 - Support for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring.
 
-⚠️ **This application is primarily intended for speedrunners or challenge runners. There is little to no safe-guarding for keeping your savefiles if you modify or delete them. If you wish to use this program for backing up your casual playthroughs, make sure you know what you are doing and ideally make a separate backup of your savefiles elsewhere in case you mess up!** ⚠️
+⚠️ **This application is primarily intended for speedrunners or challenge runners. There is little to no safeguarding for keeping your savefiles if you modify or delete them. If you wish to use this program for backing up your casual playthroughs, make sure you know what you are doing and ideally make a separate backup of your savefiles elsewhere in case you mess up!** ⚠️
 
 ## Requirements
 
