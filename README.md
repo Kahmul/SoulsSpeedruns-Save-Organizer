@@ -25,22 +25,16 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 
 ## Getting Started
 
-In order to use the program and make savefiles you first have to set it up accordingly. Here is a step by step guide on how to achieve this:
+To get started using the save organizer, take the following steps:
 
-1. Once you started the program, press 'Edit Profiles'.
-
-2. In the window that now opens you have to choose the right tab depending on which game you want to make savefiles for.
-
-3. Click 'Browse' and navigate to the directory where the game stores its savefile (e.g. for Dark Souls this would be "<User>/Documents/NBGI/DarkSouls/<SomeNumbers>").
-
-4. Confirm the directory so that the path shows up in the textfield next to the button.
-
-5. Now press 'New' to create a new profile for your game, name it whatever you'd like.
-
-6. Now you can close the 'Profile Configuration' window.
-
-7. Back in the main menu you can now choose the game and the profile you just set up and start making savefiles.
-
+1. Start the application, press **Edit Profiles** in the top right.
+2. In the **Profile Configuration** window choose the game you wish to create savefiles for at the top.
+3. Click **Browse** under 'Location of Savefile' and navigate to the game's savefile (e.g. for Dark Souls this would be under "<User>/Documents/NBGI/DarkSouls/DRAKS0005.sl2").
+4. The application will ask you if you wish to store your savefiles in the same directory where the game's savefile is stored. You can either agree or choose a different one under 'Profiles Directory'. If you already have existing profiles on your PC, you should point the organizer to that directory in this step.
+5. Press **New** to create a new profile for your game. Name it whatever you'd like, e.g. the name of the category you wish to run.
+6. After creating the profiles you wished to create, you can close the **Profile Configuration** window.
+7. Back in the main view, you can now choose the game and the profile(s) at the top.
+8. Start creating savefiles by pressing **Import Savestate**, or **Rightclick > Add Folder** to create folders within your profiles.
 
 ## Creating/Loading Savefiles
 
