@@ -37,6 +37,7 @@ To get started using the save organizer, take the following steps:
 6. Once you are done creating your profiles you can close the **Profile Configuration** window.
 7. Back in the main window you can now choose the game and your profile(s) at the top.
 8. Start creating savefiles by pressing **Import Savestate**, or **Rightclick > Add Folder** to create folders within your profiles. Savefiles will be imported into the selected folder.
+9. *(Optional)* Click the cog button in the bottom right to access settings. You can enable global hotkeys there to conveniently work with the organizer during practice.
 
 ## Creating/Loading Savefiles
 
