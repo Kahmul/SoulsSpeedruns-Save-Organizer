@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.prefs.Preferences;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import org.jnativehook.NativeHookException;
@@ -119,11 +120,11 @@ public class OrganizerManager
 	public static Image soulsspeedrunsIcon;
 	public static Image soulsspeedrunsIconSmall;
 	public static Image soulsspeedrunsIconMedium;
-	public static Image readOnlyIcon14;
-	public static Image readOnlyIcon24;
-	public static Image writableIcon24;
-	public static Image readOnlyIcon24Hover;
-	public static Image writableIcon24Hover;
+	public static ImageIcon readOnlyIcon14;
+	public static ImageIcon readOnlyIcon22;
+	public static ImageIcon writableIcon22;
+	public static ImageIcon readOnlyIcon22Hover;
+	public static ImageIcon writableIcon22Hover;
 	public static Image settingsIcon;
 
 	private static List<ProfileListener> profileListeners;
@@ -181,11 +182,11 @@ public class OrganizerManager
 		soulsspeedrunsIconSmall = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo16.png"));
 		soulsspeedrunsIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo100.png"));
 		settingsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SettingsIcon.png"));
-		readOnlyIcon14 = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon14.png"));
-		readOnlyIcon24 = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon24.png"));
-		writableIcon24 = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon24.png"));
-		readOnlyIcon24Hover = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon24Hover.png"));
-		writableIcon24Hover = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon24Hover.png"));
+		readOnlyIcon14 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon14.png")));
+		readOnlyIcon22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon22.png")));
+		writableIcon22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon22.png")));
+		readOnlyIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon22Hover.png")));
+		writableIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon22Hover.png")));
 
 		IconFontSwing.register(FontAwesome.getIconFont());
 		IconFontSwing.register(FontAwesomeBrands.getIconFont());

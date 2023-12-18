@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -86,7 +85,7 @@ public class Save extends SaveListEntry
 		if(isMarkedForCut())
 			label.setForeground(Color.GRAY);
 		if (!getFile().canWrite())
-			label.setIcon(new ImageIcon(OrganizerManager.readOnlyIcon14));
+			label.setIcon(OrganizerManager.readOnlyIcon14);
 		if (!getFile().exists())
 		{
 			label.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 13, Color.RED));

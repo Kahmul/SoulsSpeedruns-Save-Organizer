@@ -115,7 +115,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createAddItem(SaveList saveList)
 	{
 		JMenuItem itemAdd = new JMenuItem("Add Folder");
-		itemAdd.setIcon(IconFontSwing.buildIcon(Elusive.PLUS_SIGN, 15, Color.decode("0x49ad73")));
+		itemAdd.setIcon(IconFontSwing.buildIcon(Elusive.PLUS_SIGN, 15, Color.decode("0x2c9558")));
 		itemAdd.addActionListener(event -> {
 			saveList.askToCreateFolder();
 		});
@@ -131,7 +131,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createRemoveItem(SaveList saveList)
 	{
 		JMenuItem itemRemove = new JMenuItem("Delete");
-		itemRemove.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 18, Color.decode("0xee6a5c")));
+		itemRemove.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 18, Color.decode("0xea3622")));
 		itemRemove.setAccelerator(KeyStroke.getKeyStroke("DELETE"));
 		itemRemove.addActionListener(event -> {
 			saveList.askToDeleteEntries(saveList.getSelectedValuesList());
@@ -218,7 +218,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createRefreshItem(SaveList saveList)
 	{
 		JMenuItem itemRefresh = new JMenuItem("Refresh From File System");
-		itemRefresh.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 14, Color.decode("0x4aa4fb")));
+		itemRefresh.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 14, Color.decode("0x1d6fbe")));
 		itemRefresh.addActionListener(event -> {
 			saveList.refreshFromFileSystem(false);
 		});

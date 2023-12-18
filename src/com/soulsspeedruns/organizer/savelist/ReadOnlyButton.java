@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
@@ -29,11 +28,6 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	private static final long serialVersionUID = -4432217286267536787L;
 	private File file;
 
-	private ImageIcon writableIcon = new ImageIcon(OrganizerManager.writableIcon24);
-	private ImageIcon readOnlyIcon = new ImageIcon(OrganizerManager.readOnlyIcon24);
-	private ImageIcon writableIconHover = new ImageIcon(OrganizerManager.writableIcon24Hover);
-	private ImageIcon readOnlyIconHover = new ImageIcon(OrganizerManager.readOnlyIcon24Hover);
-
 	/**
 	 * Creates a new read only button with the given file and image.
 	 * 
@@ -42,7 +36,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	 */
 	public ReadOnlyButton(File file)
 	{
-		super(new ImageIcon(OrganizerManager.writableIcon24));
+		super(OrganizerManager.writableIcon22);
 
 		setFile(file);
 		addMouseListener(this);
@@ -101,18 +95,18 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		if(isWritable)
 		{			
 			if(isHovering)
-				setIcon(writableIconHover);
+				setIcon(OrganizerManager.writableIcon22Hover);
 			else
-				setIcon(writableIcon);
+				setIcon(OrganizerManager.writableIcon22);
 			setToolTipText("Click to turn on read-only for the game's savefile.");
 			setText("Writable");
 		}
 		else
 		{
 			if(isHovering)
-				setIcon(readOnlyIconHover);
+				setIcon(OrganizerManager.readOnlyIcon22Hover);
 			else
-				setIcon(readOnlyIcon);
+				setIcon(OrganizerManager.readOnlyIcon22);
 			setToolTipText("Click to turn off read-only for the game's savefile.");
 			setText("Read-Only");
 		}

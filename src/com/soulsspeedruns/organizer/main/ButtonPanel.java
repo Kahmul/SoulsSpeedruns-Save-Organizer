@@ -112,7 +112,7 @@ public class ButtonPanel extends JPanel
 	private JButton createImportButton()
 	{
 		JButton importButton = new JButton("Import Savestate");
-		importButton.setIcon(IconFontSwing.buildIcon(Iconic.CURVED_ARROW, 16, Color.decode("0x4aa4fb")));
+		importButton.setIcon(IconFontSwing.buildIcon(Iconic.CURVED_ARROW, 16, Color.decode("0x1d6fbe")));
 		importButton.addActionListener(event -> {
 			Profile profile = OrganizerManager.getSelectedProfile();
 			if (profile.getRoot() != null)
@@ -137,7 +137,7 @@ public class ButtonPanel extends JPanel
 	private JButton createLoadButton()
 	{
 		JButton loadButton = new JButton("Load Savestate");
-		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, Color.decode("0x49ad73")));
+		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, Color.decode("0x2c9558")));
 		loadButton.addActionListener(event -> {
 			SaveListEntry entry = OrganizerManager.getSelectedEntry();
 			if (entry instanceof Folder)
@@ -157,7 +157,7 @@ public class ButtonPanel extends JPanel
 	private JButton createReplaceButton()
 	{
 		JButton replaceButton = new JButton("Replace Savestate");
-		replaceButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, Color.decode("0xffb21d")));
+		replaceButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, Color.decode("0xeb751c")));
 		replaceButton.addActionListener(event -> {
 			Save selectedSave = (Save) OrganizerManager.getSelectedEntry();
 			int confirm = JOptionPane.showConfirmDialog(getParent(), "Do you really want to replace '" + selectedSave.getName() + "'?",
