@@ -116,7 +116,7 @@ public abstract class AbstractMessage extends JPanel
 	 */
 	private void drawIcon(Graphics g)
 	{
-		Icon icon = IconFontSwing.buildIcon(getIcon(), 30, getColor());
+		Icon icon = IconFontSwing.buildIcon(getIcon(), getIconSize(), getColor());
 		icon.paintIcon(null, g, getWidth() / 6 - icon.getIconWidth() / 2, getHeight() / 2 - icon.getIconHeight() / 2);
 	}
 
@@ -225,6 +225,14 @@ public abstract class AbstractMessage extends JPanel
 	 * @return the icon
 	 */
 	protected abstract IconCode getIcon();
+	
+	
+	/**
+	 * The size of the icon for this message.
+	 * 
+	 * @return
+	 */
+	protected abstract int getIconSize();
 
 
 	/**
@@ -233,5 +241,7 @@ public abstract class AbstractMessage extends JPanel
 	 * @return the color
 	 */
 	protected abstract Color getColor();
+	
+
 
 }

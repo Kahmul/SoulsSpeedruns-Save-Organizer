@@ -18,21 +18,21 @@
 			<artifactId>jnativehook</artifactId>
 			<version>2.0.3</version>
 		</dependency>
-		<dependency>
+<!--		<dependency>
 		    <groupId>com.github.jiconfont</groupId>
 		    <artifactId>jiconfont</artifactId>
 		    <version>1.0.0</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.github.jiconfont</groupId>
 			<artifactId>jiconfont-swing</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		<dependency>
+<!--		<dependency>
 			<groupId>com.github.jiconfont</groupId>
 			<artifactId>jiconfont-font_awesome</artifactId>
 			<version>4.7.0.0</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 		    <groupId>com.github.pervoj</groupId>
 		    <artifactId>jiconfont-font-awesome</artifactId>
@@ -120,7 +120,7 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<outfile>target/${project.name}.exe</outfile>
-							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo32.ico</icon>
+							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo64.ico</icon>
 							<jar>target/soulsspeedrunssaveorganizer-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
 							<classPath>
@@ -156,7 +156,7 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<outfile>target/${project.name}-portable.exe</outfile>
-							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo48.ico</icon>
+							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo64.ico</icon>
 							<jar>target/soulsspeedrunssaveorganizer-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
 							<classPath>

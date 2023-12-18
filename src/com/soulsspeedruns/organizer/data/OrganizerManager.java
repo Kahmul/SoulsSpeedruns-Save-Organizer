@@ -29,6 +29,7 @@ import org.jnativehook.NativeHookException;
 import org.json.JSONObject;
 
 import com.github.pervoj.jiconfont.FontAwesomeBrands;
+import com.github.pervoj.jiconfont.FontAwesomeSolid;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.hotkeys.GlobalHotkey;
 import com.soulsspeedruns.organizer.hotkeys.GlobalKeyboardHook;
@@ -49,7 +50,6 @@ import com.sun.jna.NativeLong;
 import com.sun.jna.WString;
 
 import jiconfont.icons.Elusive;
-import jiconfont.icons.FontAwesome;
 import jiconfont.icons.Iconic;
 import jiconfont.swing.IconFontSwing;
 
@@ -171,6 +171,8 @@ public class OrganizerManager
 		initPreferenceData();
 		initKeyboardHook();
 		mapGamesWithProfiles();
+		
+		setAppUserModel();
 
 		isReady = true;
 	}
@@ -182,7 +184,7 @@ public class OrganizerManager
 	{
 		Native.register("shell32");
 		
-		WString appID = new WString("soulsspeedruns.saveorganizer");
+		WString appID = new WString("com.soulsspeedruns.saveorganizer");
 		SetCurrentProcessExplicitAppUserModelID(appID);
 	}
 
@@ -204,8 +206,9 @@ public class OrganizerManager
 		readOnlyIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon22Hover.png")));
 		writableIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon22Hover.png")));
 
-		IconFontSwing.register(FontAwesome.getIconFont());
+//		IconFontSwing.register(FontAwesome.getIconFont());
 		IconFontSwing.register(FontAwesomeBrands.getIconFont());
+		IconFontSwing.register(FontAwesomeSolid.getIconFont());
 		IconFontSwing.register(Elusive.getIconFont());
 //		IconFontSwing.register(Entypo.getIconFont());
 		IconFontSwing.register(Iconic.getIconFont());

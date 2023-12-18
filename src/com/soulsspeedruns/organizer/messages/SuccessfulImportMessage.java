@@ -43,7 +43,13 @@ public class SuccessfulImportMessage extends AbstractMessage
 	{
 		return ICON;
 	}
+	
 
+	@Override
+	protected int getIconSize() {
+		return 30;
+	}
+	
 
 	@Override
 	protected Color getColor()

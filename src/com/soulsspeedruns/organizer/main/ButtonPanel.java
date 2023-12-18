@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.github.pervoj.jiconfont.FontAwesomeSolid;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
@@ -29,7 +30,6 @@ import com.soulsspeedruns.organizer.settings.SettingsWindow;
 import com.soulsspeedruns.organizer.update.NewReleaseWindow;
 
 import jiconfont.icons.Elusive;
-import jiconfont.icons.FontAwesome;
 import jiconfont.icons.Iconic;
 import jiconfont.swing.IconFontSwing;
 
@@ -202,7 +202,7 @@ public class ButtonPanel extends JPanel
 	 */
 	private JButton createSettingsButton()
 	{
-		JButton settingsButton = new JButton(IconFontSwing.buildIcon(FontAwesome.COG, 17, Color.GRAY));
+		JButton settingsButton = new JButton(IconFontSwing.buildIcon(FontAwesomeSolid.COG, 32, Color.GRAY));
 		settingsButton.addActionListener(event -> new SettingsWindow());
 		return settingsButton;
 	}

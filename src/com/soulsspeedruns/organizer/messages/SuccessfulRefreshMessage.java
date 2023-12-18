@@ -43,6 +43,12 @@ public class SuccessfulRefreshMessage extends AbstractMessage
 	{
 		return ICON;
 	}
+	
+
+	@Override
+	protected int getIconSize() {
+		return 30;
+	}
 
 
 	@Override
