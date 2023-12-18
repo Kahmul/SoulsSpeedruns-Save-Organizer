@@ -65,7 +65,6 @@ Due to the how the different FROMSoftware games work, there is a few things to c
 ## Planned Features
 
 - Editing savefiles themselves to adjust stats/items (likely only for DS1)
-- Bundling a JRE with the organizer to not require a separate JRE install
 - Allowing users to add support for other games to the organizer themselves
 
 ## Troubleshooting
