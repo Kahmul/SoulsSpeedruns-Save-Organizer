@@ -3,7 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SoulsSpeedruns</groupId>
 	<artifactId>SoulsSpeedrunsSaveOrganizer</artifactId>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.5</version>
+	<name>SoulsSpeedruns - Save Organizer</name>
+	<description>SoulsSpeedruns - Save Organizer</description>
 
 	<dependencies>
 <!--	<dependency>
@@ -119,7 +121,7 @@
 							<headerType>gui</headerType>
 							<outfile>target/${project.name}.exe</outfile>
 							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo32.ico</icon>
-							<jar>target/${project.name}-${project.version}-jar-with-dependencies.jar</jar>
+							<jar>target/soulsspeedrunssaveorganizer-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
 							<classPath>
 								<mainClass>com.soulsspeedruns.organizer.main.OrganizerWindow</mainClass>
@@ -135,12 +137,47 @@
 								<timeoutErr>true</timeoutErr>
 							  </splash>
 							<versionInfo>
-								<fileVersion>1.4.1.0</fileVersion>
-								<txtFileVersion>1.4.1.0</txtFileVersion>
+								<fileVersion>1.5.0.0</fileVersion>
+								<txtFileVersion>1.5.0.0</txtFileVersion>
 								<fileDescription>${project.name}</fileDescription>
 								<copyright>N/A</copyright>
-								<productVersion>1.4.1.0</productVersion>
-								<txtProductVersion>1.4.1.0</txtProductVersion>
+								<productVersion>1.5.0.0</productVersion>
+								<txtProductVersion>1.5.0.0</txtProductVersion>
+								<productName>${project.name}</productName>
+								<internalName>${project.name}</internalName>
+								<originalFilename>${project.name}.exe</originalFilename>
+							</versionInfo>
+						</configuration>
+					</execution>
+					<execution>
+						<id>l4j-gui-portable</id>
+						<phase>package</phase>
+						<goals><goal>launch4j</goal></goals>
+						<configuration>
+							<headerType>gui</headerType>
+							<outfile>target/${project.name}-portable.exe</outfile>
+							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo32.ico</icon>
+							<jar>target/soulsspeedrunssaveorganizer-${project.version}-jar-with-dependencies.jar</jar>
+							<errTitle>${project.name}</errTitle>
+							<classPath>
+								<mainClass>com.soulsspeedruns.organizer.main.OrganizerWindow</mainClass>
+							</classPath>
+							<jre>
+								<path>./jre</path>
+							</jre>
+							<splash>
+							    <file>src/com/soulsspeedruns/organizer/resources/Splash_Screen.bmp</file>
+								<waitForWindow>true</waitForWindow>
+							    <timeout>10</timeout>
+								<timeoutErr>true</timeoutErr>
+							  </splash>
+							<versionInfo>
+								<fileVersion>1.5.0.0</fileVersion>
+								<txtFileVersion>1.5.0.0</txtFileVersion>
+								<fileDescription>${project.name}</fileDescription>
+								<copyright>N/A</copyright>
+								<productVersion>1.5.0.0</productVersion>
+								<txtProductVersion>1.5.0.0</txtProductVersion>
 								<productName>${project.name}</productName>
 								<internalName>${project.name}</internalName>
 								<originalFilename>${project.name}.exe</originalFilename>
