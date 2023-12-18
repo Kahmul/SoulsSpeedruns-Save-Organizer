@@ -44,6 +44,9 @@ import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 import com.soulsspeedruns.organizer.savelist.SortingCategory;
+import com.sun.jna.Native;
+import com.sun.jna.NativeLong;
+import com.sun.jna.WString;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.FontAwesome;
@@ -138,6 +141,8 @@ public class OrganizerManager
 	private static OrganizerWindow mainWindow;
 
 	private static boolean isReady;
+	
+	private static native NativeLong SetCurrentProcessExplicitAppUserModelID(WString appID);
 
 	static
 	{
@@ -169,6 +174,17 @@ public class OrganizerManager
 
 		isReady = true;
 	}
+	
+	/**
+	 * Sets the AppUserModelID. Needed to be able to properly pin the .exe to the taskbar.
+	 */
+	private static void setAppUserModel()
+	{
+		Native.register("shell32");
+		
+		WString appID = new WString("soulsspeedruns.saveorganizer");
+		SetCurrentProcessExplicitAppUserModelID(appID);
+	}
 
 
 	/**
@@ -194,9 +210,9 @@ public class OrganizerManager
 //		IconFontSwing.register(Entypo.getIconFont());
 		IconFontSwing.register(Iconic.getIconFont());
 //		IconFontSwing.register(Typicons.getIconFont());
-
+		
 	}
-
+	
 
 	/**
 	 * Inits the listener lists.

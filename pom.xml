@@ -8,11 +8,11 @@
 	<description>SoulsSpeedruns - Save Organizer</description>
 
 	<dependencies>
-<!--	<dependency>
+		<dependency>
 		    <groupId>net.java.dev.jna</groupId>
 		    <artifactId>jna</artifactId>
 		    <version>5.14.0</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>com.1stleg</groupId>
 			<artifactId>jnativehook</artifactId>
@@ -156,7 +156,7 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<outfile>target/${project.name}-portable.exe</outfile>
-							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo32.ico</icon>
+							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo48.ico</icon>
 							<jar>target/soulsspeedrunssaveorganizer-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
 							<classPath>
