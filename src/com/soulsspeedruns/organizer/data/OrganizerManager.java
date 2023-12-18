@@ -1284,6 +1284,9 @@ public class OrganizerManager
 	 */
 	public static boolean isVersionOutdated()
 	{
+		if(!isCheckForUpdatesEnabled())
+			return false;
+		
 		String[] vals1 = VERSION.split("\\.");
 		String[] vals2 = getLatestReleaseVersion().split("\\.");
 		int i = 0;

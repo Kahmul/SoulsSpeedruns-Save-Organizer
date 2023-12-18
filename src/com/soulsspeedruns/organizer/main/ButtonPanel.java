@@ -192,7 +192,7 @@ public class ButtonPanel extends JPanel
 			}
 		});
 		
-		updateLabel.setVisible(OrganizerManager.isVersionOutdated() && OrganizerManager.isCheckForUpdatesEnabled());
+		updateLabel.setVisible(OrganizerManager.isVersionOutdated());
 		return updateLabel;
 	}
 	
@@ -304,7 +304,7 @@ public class ButtonPanel extends JPanel
 			public void settingChanged(String prefsKey)
 			{
 				if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
-					updateLabel.setVisible(OrganizerManager.isVersionOutdated() && OrganizerManager.isCheckForUpdatesEnabled());
+					updateLabel.setVisible(OrganizerManager.isVersionOutdated());
 			}
 		});
 	}
