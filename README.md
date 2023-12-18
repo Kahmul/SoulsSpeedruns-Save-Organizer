@@ -1,5 +1,17 @@
 # <img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo32.png" width="28px"/> SoulsSpeedruns - Save Organizer
 
+1. [Description](#description)
+2. [Features](#features)  
+3. [Requirements](#requirements)
+4. [Download](#download)
+5. [Getting Started](#getting-started) 
+6. [Creating/Loading Savefiles](#creatingloading-savefiles)
+7. [Planned Features](#planned-features)
+8. [Troubleshooting](#troubleshooting)  
+9. [Credits](#credits)
+
+## Description
+
 The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring.
 
 <p align="center">
@@ -24,6 +36,8 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 
 [Latest Release](https://github.com/Kahmul/SpeedSouls-Save-Organizer/releases)
 
+- Normal version: requires Java JRE 8+ to be installed on your system
+- Standalone version: JRE 8 bundled with the .exe
 
 ## Getting Started
 
