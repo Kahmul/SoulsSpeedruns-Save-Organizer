@@ -51,7 +51,7 @@ public class GeneralSettingsPanel extends JPanel
 		JLabel hotkeysLabel = new JLabel("Global Hotkeys:");
 		hotkeysCheckbox = new JCheckBox("", OrganizerManager.areGlobalHotkeysEnabled());
 		
-		JLabel doubleClickLoadLabel = new JLabel("Double Click To Load Savefile:");
+		JLabel doubleClickLoadLabel = new JLabel("Allow Double Click To Load Savefiles:");
 		doubleClickLoadCheckbox = new JCheckBox("", OrganizerManager.isDoubleClickLoadEnabled());
 		
 		JLabel checkForUpdatesLabel = new JLabel("Check For Updates:");
@@ -70,10 +70,10 @@ public class GeneralSettingsPanel extends JPanel
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(glue));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(checkForUpdatesLabel).addComponent(checkForUpdatesCheckbox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(alwaysOnTopLabel).addComponent(alwaysOnTopCheckbox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(hotkeysLabel).addComponent(hotkeysCheckbox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(doubleClickLoadLabel).addComponent(doubleClickLoadCheckbox));
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(checkForUpdatesLabel).addComponent(checkForUpdatesCheckbox));
 
 		layout.setVerticalGroup(vGroup);
 
