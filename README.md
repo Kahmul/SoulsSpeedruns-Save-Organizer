@@ -66,4 +66,4 @@ Due to the how the different FROMSoftware games work, there is a few things to c
 
 ## Credits
 
-- johndisandonato for adding the 'Highlight Previous/Next Savefile' hotkeys
+- johndisandonato for adding the 'Highlight Previous/Next Savestate' hotkeys
