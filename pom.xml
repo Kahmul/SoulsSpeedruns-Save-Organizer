@@ -155,7 +155,7 @@
 						<goals><goal>launch4j</goal></goals>
 						<configuration>
 							<headerType>gui</headerType>
-							<outfile>target/${project.name}-portable.exe</outfile>
+							<outfile>target/${project.name} - Standalone.exe</outfile>
 							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo64.ico</icon>
 							<jar>target/soulsspeedrunssaveorganizer-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
