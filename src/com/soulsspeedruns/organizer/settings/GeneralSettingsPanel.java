@@ -51,7 +51,7 @@ public class GeneralSettingsPanel extends JPanel
 		JLabel hotkeysLabel = new JLabel("Global Hotkeys:");
 		hotkeysCheckbox = new JCheckBox("", OrganizerManager.areGlobalHotkeysEnabled());
 		
-		JLabel doubleClickLoadLabel = new JLabel("Allow Double Click To Load Savefiles:");
+		JLabel doubleClickLoadLabel = new JLabel("Allow Double Click To Load Savestates:");
 		doubleClickLoadCheckbox = new JCheckBox("", OrganizerManager.isDoubleClickLoadEnabled());
 		
 		JLabel checkForUpdatesLabel = new JLabel("Check For Updates:");

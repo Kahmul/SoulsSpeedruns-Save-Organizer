@@ -76,7 +76,7 @@ public enum GlobalHotkey
 			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY;
 		}
 	},
-	PREV_SAVE_TOGGLE("Highlight Previous Savefile:", "None")
+	PREV_SAVE_TOGGLE("Highlight Previous Savestate:", "None")
 	{
 
 		@Override
@@ -92,7 +92,7 @@ public enum GlobalHotkey
 			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_PREV_SAVE;
 		}
 	},
-	NEXT_SAVE_TOGGLE("Highlight Next Savefile:", "None")
+	NEXT_SAVE_TOGGLE("Highlight Next Savestate:", "None")
 	{
 
 		@Override
