@@ -21,6 +21,7 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
+import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.profileconfig.Profile;
 import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.ReadOnlyButton;
@@ -100,7 +101,7 @@ public class ButtonPanel extends JPanel
 
 		setLayout(layout);
 
-		addButtonListeners(loadButton, replaceButton);
+		addButtonListeners(loadButton, replaceButton, updateLabel);
 	}
 
 
@@ -191,7 +192,7 @@ public class ButtonPanel extends JPanel
 			}
 		});
 		
-		updateLabel.setVisible(OrganizerManager.isVersionOutdated());
+		updateLabel.setVisible(OrganizerManager.isVersionOutdated() && OrganizerManager.isCheckForUpdatesEnabled());
 		return updateLabel;
 	}
 	
@@ -213,7 +214,7 @@ public class ButtonPanel extends JPanel
 	 * 
 	 * @param loadButton the load button
 	 */
-	private void addButtonListeners(JButton loadButton, JButton replaceButton)
+	private void addButtonListeners(JButton loadButton, JButton replaceButton, JLabel updateLabel)
 	{
 		OrganizerManager.addSaveListener(new SaveListener() {
 
@@ -295,6 +296,16 @@ public class ButtonPanel extends JPanel
 				loadButton.setEnabled(false);
 			}
 
+		});
+		
+		OrganizerManager.addSettingsListener(new SettingsListener() {
+			
+			@Override
+			public void settingChanged(String prefsKey)
+			{
+				if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
+					updateLabel.setVisible(OrganizerManager.isVersionOutdated() && OrganizerManager.isCheckForUpdatesEnabled());
+			}
 		});
 	}
 }

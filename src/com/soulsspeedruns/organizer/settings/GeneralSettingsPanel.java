@@ -28,9 +28,10 @@ public class GeneralSettingsPanel extends JPanel
 
 	private static final long serialVersionUID = -7722457804075174686L;
 
-	private JCheckBox alwaysOnTopCheckBox;
+	private JCheckBox alwaysOnTopCheckbox;
 	private JCheckBox hotkeysCheckbox;
 	private JCheckBox doubleClickLoadCheckbox;
+	private JCheckBox checkForUpdatesCheckbox;
 
 
 	/**
@@ -45,20 +46,23 @@ public class GeneralSettingsPanel extends JPanel
 		Component glue = Box.createHorizontalGlue();
 
 		JLabel alwaysOnTopLabel = new JLabel("Always On Top:");
-		alwaysOnTopCheckBox = new JCheckBox("", OrganizerManager.isAlwaysOnTop());
+		alwaysOnTopCheckbox = new JCheckBox("", OrganizerManager.isAlwaysOnTop());
 
 		JLabel hotkeysLabel = new JLabel("Global Hotkeys:");
 		hotkeysCheckbox = new JCheckBox("", OrganizerManager.areGlobalHotkeysEnabled());
 		
 		JLabel doubleClickLoadLabel = new JLabel("Double Click To Load Savefile:");
 		doubleClickLoadCheckbox = new JCheckBox("", OrganizerManager.isDoubleClickLoadEnabled());
+		
+		JLabel checkForUpdatesLabel = new JLabel("Check For Updates:");
+		checkForUpdatesCheckbox = new JCheckBox("", OrganizerManager.isCheckForUpdatesEnabled());
 
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysLabel).addComponent(alwaysOnTopLabel).addComponent(doubleClickLoadLabel));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysLabel).addComponent(alwaysOnTopLabel).addComponent(doubleClickLoadLabel).addComponent(checkForUpdatesLabel));
 		hGroup.addGroup(layout.createParallelGroup().addComponent(glue));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysCheckbox).addComponent(alwaysOnTopCheckBox).addComponent(doubleClickLoadCheckbox));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysCheckbox).addComponent(alwaysOnTopCheckbox).addComponent(doubleClickLoadCheckbox).addComponent(checkForUpdatesCheckbox));
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -66,9 +70,10 @@ public class GeneralSettingsPanel extends JPanel
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(glue));
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(alwaysOnTopLabel).addComponent(alwaysOnTopCheckBox));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(alwaysOnTopLabel).addComponent(alwaysOnTopCheckbox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(hotkeysLabel).addComponent(hotkeysCheckbox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(doubleClickLoadLabel).addComponent(doubleClickLoadCheckbox));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(checkForUpdatesLabel).addComponent(checkForUpdatesCheckbox));
 
 		layout.setVerticalGroup(vGroup);
 
@@ -83,8 +88,9 @@ public class GeneralSettingsPanel extends JPanel
 	protected void applyChanges()
 	{
 		OrganizerManager.setGlobalHotkeysEnabled(hotkeysCheckbox.isSelected());
-		OrganizerManager.setAlwaysOnTop(alwaysOnTopCheckBox.isSelected());
+		OrganizerManager.setAlwaysOnTop(alwaysOnTopCheckbox.isSelected());
 		OrganizerManager.setDoubleClickLoadEnabled(doubleClickLoadCheckbox.isSelected());
+		OrganizerManager.setCheckForUpdatesEnabled(checkForUpdatesCheckbox.isSelected());
 	}
 
 }

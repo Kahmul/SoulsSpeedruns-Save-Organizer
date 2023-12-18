@@ -37,6 +37,7 @@ import com.soulsspeedruns.organizer.listeners.NavigationListener;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SearchListener;
+import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.listeners.SortingListener;
 import com.soulsspeedruns.organizer.main.OrganizerWindow;
 import com.soulsspeedruns.organizer.messages.AbstractMessage;
@@ -97,9 +98,10 @@ public class OrganizerManager
 	private static final String PREFS_KEY_SELECTED_PROFILE = "selectedProfile";
 	private static final String PREFS_KEY_SELECTED_SORTING = "selectedSorting";
 
-	private static final String PREFS_KEY_SETTING_ALWAYS_ON_TOP = "alwaysOnTop";
-	private static final String PREFS_KEY_SETTING_GLOBAL_HOTKEYS = "globalHotkeys";
-	private static final String PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD = "doubleClickLoad";
+	public static final String PREFS_KEY_SETTING_ALWAYS_ON_TOP = "alwaysOnTop";
+	public static final String PREFS_KEY_SETTING_GLOBAL_HOTKEYS = "globalHotkeys";
+	public static final String PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD = "doubleClickLoad";
+	public static final String PREFS_KEY_SETTING_CHECK_FOR_UPDATES = "checkForUpdates";
 
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_LOAD = "hotkeyLoad";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY = "hotkeyReadOnly";
@@ -135,6 +137,7 @@ public class OrganizerManager
 	private static List<SearchListener> searchListeners;
 	private static List<SortingListener> sortingListeners;
 	private static List<NavigationListener> navigationListeners;
+	private static List<SettingsListener> settingsListeners;
 
 	private static SaveListEntry selectedEntry;
 
@@ -172,7 +175,7 @@ public class OrganizerManager
 		initKeyboardHook();
 		mapGamesWithProfiles();
 		
-		setAppUserModel();
+		setAppUserModelID();
 
 		isReady = true;
 	}
@@ -180,7 +183,7 @@ public class OrganizerManager
 	/**
 	 * Sets the AppUserModelID. Needed to be able to properly pin the .exe to the taskbar.
 	 */
-	private static void setAppUserModel()
+	private static void setAppUserModelID()
 	{
 		Native.register("shell32");
 		
@@ -227,6 +230,7 @@ public class OrganizerManager
 		searchListeners = new ArrayList<>();
 		sortingListeners = new ArrayList<>();
 		navigationListeners = new ArrayList<>();
+		settingsListeners = new ArrayList<>();
 	}
 
 
@@ -420,6 +424,18 @@ public class OrganizerManager
 	{
 		if (listener != null)
 			navigationListeners.add(listener);
+	}
+	
+	
+	/**
+	 * Adds a settings listener to send events to.
+	 * 
+	 * @param listener the listener to add
+	 */
+	public static void addSettingsListener(SettingsListener listener)
+	{
+		if (listener != null)
+			settingsListeners.add(listener);
 	}
 
 
@@ -683,8 +699,11 @@ public class OrganizerManager
 	 */
 	public static void setGlobalHotkeysEnabled(boolean flag)
 	{
+		if(areGlobalHotkeysEnabled() == flag)
+			return;
 		prefs.putBoolean(PREFS_KEY_SETTING_GLOBAL_HOTKEYS, flag);
 		keyboardHook.setHotkeysEnabled(flag);
+		fireSettingChangedEvent(PREFS_KEY_SETTING_GLOBAL_HOTKEYS);
 	}
 
 
@@ -706,8 +725,11 @@ public class OrganizerManager
 	 */
 	public static void setAlwaysOnTop(boolean flag)
 	{
+		if(isAlwaysOnTop() == flag)
+			return;
 		prefs.putBoolean(PREFS_KEY_SETTING_ALWAYS_ON_TOP, flag);
 		mainWindow.setAlwaysOnTop(flag);
+		fireSettingChangedEvent(PREFS_KEY_SETTING_ALWAYS_ON_TOP);
 	}
 
 
@@ -721,6 +743,21 @@ public class OrganizerManager
 		return prefs.getBoolean(PREFS_KEY_SETTING_ALWAYS_ON_TOP, false);
 	}
 	
+	
+	/**
+	 * Enables/disables double click to load.
+	 * 
+	 * @param flag True to enable, false to disable
+	 */
+	public static void setDoubleClickLoadEnabled(boolean flag)
+	{
+		if(isDoubleClickLoadEnabled() == flag)
+			return;
+		prefs.putBoolean(PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD, flag);
+		fireSettingChangedEvent(PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD);
+	}
+	
+	
 	/**
 	 * Returns whether double click to load is enabled.
 	 * 
@@ -730,15 +767,30 @@ public class OrganizerManager
 	{
 		return prefs.getBoolean(PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD, false);
 	}
+
 	
 	/**
-	 * Enables/disables double click to load.
+	 * Returns whether the application should check for new releases.
+	 * 
+	 * @return whether to check for new releases
+	 */
+	public static boolean isCheckForUpdatesEnabled()
+	{
+		return prefs.getBoolean(PREFS_KEY_SETTING_CHECK_FOR_UPDATES, true);
+	}
+	
+	
+	/**
+	 * Enables/disables the check for new releases.
 	 * 
 	 * @param flag True to enable, false to disable
 	 */
-	public static void setDoubleClickLoadEnabled(boolean flag)
+	public static void setCheckForUpdatesEnabled(boolean flag)
 	{
-		prefs.putBoolean(PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD, flag);
+		if(isCheckForUpdatesEnabled() == flag)
+			return;
+		prefs.putBoolean(PREFS_KEY_SETTING_CHECK_FOR_UPDATES, flag);
+		fireSettingChangedEvent(PREFS_KEY_SETTING_CHECK_FOR_UPDATES);
 	}
 
 
@@ -1047,6 +1099,19 @@ public class OrganizerManager
 		for (SaveListener listener : saveListeners)
 		{
 			listener.gameFileWritableStateChanged(writeable);
+		}
+	}
+	
+	/**
+	 * Fires a settingChanged event.
+	 * 
+	 * @param prefsKey the key of the preference value that was changed
+	 */
+	public static void fireSettingChangedEvent(String prefsKey)
+	{
+		for (SettingsListener listener : settingsListeners)
+		{
+			listener.settingChanged(prefsKey);
 		}
 	}
 
