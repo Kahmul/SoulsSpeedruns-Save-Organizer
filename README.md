@@ -18,7 +18,7 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 
 ## Requirements
 
-- Java JRE 8 or higher
+- Java JRE 8 or higher (included in standalone version)
 
 ## Download
 
