@@ -17,7 +17,7 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 /**
  * ButtonSettingsPanel.
  * <p>
- * Contains the Save and Cancel button.
+ * Contains the About button.
  *
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 4 Jun 2016
