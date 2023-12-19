@@ -4,7 +4,6 @@ package com.soulsspeedruns.organizer.hotkeys;
 import javax.swing.JOptionPane;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
-import com.soulsspeedruns.organizer.profileconfig.Profile;
 import com.soulsspeedruns.organizer.savelist.Save;
 
 

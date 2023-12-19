@@ -178,7 +178,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void profileDirectoryChanged(Game game)
 	{
-		File file = game.getSaveFileLocation();
+		setFile(game.getSaveFileLocation());
 		if (file == null || !file.exists() || !game.supportsReadOnly())
 			setVisible(false);
 		else
