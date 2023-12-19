@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 
+import li.flor.nativejfilechooser.NativeJFileChooser;
+
 
 /**
  * Directory part of the configuration window.
@@ -50,8 +52,8 @@ public class GameConfigDirectoryPanel extends JPanel
 		JTextField saveFileField = new JTextField(saveFile != null ? saveFile.getPath() : "");
 		JTextField directoryField = new JTextField(gameDir != null ? gameDir.getPath() : "");
 
-		JButton saveFileBrowseButton = createSaveFileBrowseButton(saveFileField, directoryField, game);
 		JButton directoryBrowseButton = createDirectoryBrowseButton(directoryField, game);
+		JButton saveFileBrowseButton = createSaveFileBrowseButton(saveFileField, directoryField, directoryBrowseButton, game);
 
 		saveFileField.setEditable(false);
 		directoryField.setEditable(false);
@@ -87,12 +89,12 @@ public class GameConfigDirectoryPanel extends JPanel
 	 * @param game
 	 * @return
 	 */
-	private JButton createSaveFileBrowseButton(JTextField saveFileField, JTextField directoryField, Game game)
+	private JButton createSaveFileBrowseButton(JTextField saveFileField, JTextField directoryField, JButton directoryBrowseButton, Game game)
 	{
 		JButton browseButton = new JButton("Browse");
 
 		browseButton.addActionListener(event -> {
-			JFileChooser fc = new JFileChooser(saveFileField.getText());
+			JFileChooser fc = new NativeJFileChooser(saveFileField.getText());
 			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			int val = fc.showOpenDialog(null);
 			if (val == JFileChooser.APPROVE_OPTION)
@@ -107,6 +109,7 @@ public class GameConfigDirectoryPanel extends JPanel
 				{
 					game.setSaveFileLocation(selectedSavefile);
 					saveFileField.setText(selectedSavefile.getPath());
+					directoryBrowseButton.setEnabled(true);
 					int confirm = JOptionPane.showConfirmDialog(getParent(),
 							"Do you wish to use the directory of this savefile to store the profiles for this game?"
 									+ " You can choose an alternative directory if you wish.",
@@ -140,6 +143,7 @@ public class GameConfigDirectoryPanel extends JPanel
 	private JButton createDirectoryBrowseButton(JTextField directoryField, Game game)
 	{
 		JButton browseButton = new JButton("Browse");
+		browseButton.setEnabled(game.getSaveFileLocation() != null);
 
 		browseButton.addActionListener(event -> {
 			if (game.getSaveFileLocation() == null)
@@ -148,7 +152,7 @@ public class GameConfigDirectoryPanel extends JPanel
 						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-			JFileChooser fc = new JFileChooser(directoryField.getText());
+			JFileChooser fc = new NativeJFileChooser(directoryField.getText());
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int val = fc.showOpenDialog(null);
 			if (val == JFileChooser.APPROVE_OPTION)

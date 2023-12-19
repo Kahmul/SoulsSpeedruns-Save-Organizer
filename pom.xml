@@ -63,6 +63,11 @@
 			<artifactId>json</artifactId>
 			<version>20170516</version>
 		</dependency>
+		<dependency>
+		    <groupId>li.flor</groupId>
+		    <artifactId>native-j-file-chooser</artifactId>
+		    <version>1.6.4</version>
+		</dependency>
 	</dependencies>
 
 

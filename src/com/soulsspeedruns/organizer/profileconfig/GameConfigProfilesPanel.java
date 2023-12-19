@@ -7,7 +7,9 @@ import java.awt.GridLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
+import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.listeners.ProfileListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -101,8 +103,53 @@ public class GameConfigProfilesPanel extends JPanel
 		buttonPanel.add(editButton);
 		buttonPanel.add(importButton);
 		buttonPanel.add(deleteButton);
+		
+		addButtonListeners(newButton, editButton, importButton, deleteButton);
 
 		return buttonPanel;
+	}
+
+
+	private void addButtonListeners(JButton newButton, JButton editButton, JButton importButton, JButton deleteButton) {
+		// TODO Auto-generated method stub
+		
+		
+		OrganizerManager.addProfileListener(new ProfileListener() {
+
+			@Override
+			public void profileDeleted(Profile profile)
+			{
+			}
+
+
+			@Override
+			public void profileCreated(Profile profile)
+			{
+			}
+
+
+			@Override
+			public void profileDirectoryChanged(Game game)
+			{
+				newButton.setEnabled(game.getDirectory() != null);
+				editButton.setEnabled(game.getDirectory() != null);
+				importButton.setEnabled(game.getDirectory() != null);
+				deleteButton.setEnabled(game.getDirectory() != null);
+			}
+
+
+			@Override
+			public void changedToProfile(Profile profile)
+			{
+			}
+
+
+			@Override
+			public void changedToGame(Game game)
+			{
+			}
+
+		});
 	}
 
 
@@ -115,6 +162,7 @@ public class GameConfigProfilesPanel extends JPanel
 	{
 		JButton importButton = new JButton("Import");
 		importButton.setToolTipText("Import profile(s)");
+		importButton.setEnabled(profileList.getGame().getDirectory() != null);
 		importButton.addActionListener(event -> {
 			profileList.askToImportProfiles();
 		});
@@ -133,6 +181,7 @@ public class GameConfigProfilesPanel extends JPanel
 	{
 		JButton newButton = new JButton("New");
 		newButton.setToolTipText("Create a new profile");
+		newButton.setEnabled(profileList.getGame().getDirectory() != null);
 		newButton.addActionListener(event -> {
 			profileList.askToCreateProfile();
 		});
@@ -150,6 +199,7 @@ public class GameConfigProfilesPanel extends JPanel
 	{
 		JButton editButton = new JButton("Edit");
 		editButton.setToolTipText("Edit the selected profile");
+		editButton.setEnabled(profileList.getGame().getDirectory() != null);
 		editButton.addActionListener(event -> {
 			profileList.askToEditProfile(profileList.getSelectedValue());
 		});
@@ -167,6 +217,7 @@ public class GameConfigProfilesPanel extends JPanel
 	{
 		JButton deleteButton = new JButton("Delete");
 		deleteButton.setToolTipText("Delete the selected profile");
+		deleteButton.setEnabled(profileList.getGame().getDirectory() != null);
 		deleteButton.addActionListener(event -> {
 			profileList.askToDeleteProfiles(profileList.getSelectedValuesList());
 		});

@@ -57,6 +57,17 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 		setModel(new DefaultListModel<>());
 		fillWith(game.getProfiles());
 	}
+	
+	
+	/**
+	 * The game associated with this profile list
+	 * 
+	 * @return the game
+	 */
+	public Game getGame()
+	{
+		return game;
+	}
 
 
 	/**

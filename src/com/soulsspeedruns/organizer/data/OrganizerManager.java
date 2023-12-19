@@ -358,8 +358,10 @@ public class OrganizerManager
 	 */
 	public static void saveProperties(Game game)
 	{
-		prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR, game.getDirectory().getPath());
-		prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_SAVEFILE, game.getSaveFileLocation().getPath());
+		if(game.getDirectory() != null)
+			prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR, game.getDirectory().getPath());
+		if(game.getSaveFileLocation() != null)
+			prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_SAVEFILE, game.getSaveFileLocation().getPath());
 		importProfiles(game);
 	}
 
