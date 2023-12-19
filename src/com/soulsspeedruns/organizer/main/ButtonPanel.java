@@ -115,8 +115,7 @@ public class ButtonPanel extends JPanel
 		JButton importButton = new JButton("Import Savestate");
 		importButton.setIcon(IconFontSwing.buildIcon(Iconic.CURVED_ARROW, 16, Color.decode("0x1d6fbe")));
 		importButton.addActionListener(event -> {
-			Profile profile = OrganizerManager.getSelectedProfile();
-			if (profile.getRoot() != null)
+			if (OrganizerManager.isAProfileSelected())
 			{
 				OrganizerManager.importSavefile(null);
 				return;

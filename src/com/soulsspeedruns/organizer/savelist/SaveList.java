@@ -220,10 +220,17 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	 */
 	public void pasteEntries()
 	{	
+		if(copiedEntries.size() <= 0)
+			return;
+		
 		SaveListEntry selectedEntry = getSelectedValue();
-		Profile selectedProfile = OrganizerManager.getSelectedProfile();
 		if(selectedEntry == null)
+		{
+			Profile selectedProfile = OrganizerManager.getSelectedProfile();
+			if(selectedProfile.getRoot() == null)
+				return;
 			selectedEntry = selectedProfile.getRoot();
+		}
 		
 		Folder newParentFolder = getSelectedValue() instanceof Folder ? (Folder) selectedEntry : selectedEntry.getParent();
 

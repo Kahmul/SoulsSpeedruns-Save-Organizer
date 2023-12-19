@@ -42,8 +42,7 @@ public enum GlobalHotkey
 		@Override
 		public void action()
 		{
-			Profile profile = OrganizerManager.getSelectedProfile();
-			if (profile.getRoot() != null)
+			if (OrganizerManager.isAProfileSelected())
 			{
 				OrganizerManager.importSavefile(null);
 				return;

@@ -523,6 +523,16 @@ public class OrganizerManager
 		// if a profile with the saved name doesn't exist, return either the first existing one, or an empty one.
 		return profiles.size() > 0 ? profiles.get(0) : new Profile("", game);
 	}
+	
+	/**
+	 * Returns whether a profile is selected.
+	 * 
+	 * @return whether a profile is selected
+	 */
+	public static boolean isAProfileSelected()
+	{
+		return getSelectedProfile().getRoot() != null;
+	}
 
 
 	/**

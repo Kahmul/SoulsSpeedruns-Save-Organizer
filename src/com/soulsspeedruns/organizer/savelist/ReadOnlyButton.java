@@ -43,7 +43,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		OrganizerManager.addProfileListener(this);
 		OrganizerManager.addSaveListener(this);
 
-		setVisible(OrganizerManager.getSelectedGame().supportsReadOnly());
+		setVisible(true);
 	}
 
 
@@ -112,7 +112,24 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		}
 
 	}
+	
+	
+	@Override
+	public void setVisible(boolean flag)
+	{
+		super.setVisible(flag);
+		
+		if(flag)
+		{
+			if(!OrganizerManager.getSelectedGame().supportsReadOnly())
+				super.setVisible(false);
+			if(!OrganizerManager.isAProfileSelected())
+				super.setVisible(false);
+		}
 
+	}
+
+	
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
@@ -165,7 +182,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		if (file == null || !file.exists() || !game.supportsReadOnly())
 			setVisible(false);
 		else
-			setVisible(!OrganizerManager.getSelectedProfile().getName().equals(""));
+			setVisible(true);
 	}
 
 
@@ -182,7 +199,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		if (file == null || !file.exists() || !game.supportsReadOnly())
 			setVisible(false);
 		else
-			setVisible(!OrganizerManager.getSelectedProfile().getName().equals(""));
+			setVisible(true);
 	}
 
 
@@ -220,7 +237,6 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void gameFileWritableStateChanged(boolean writeable)
 	{
-		setEnabled(!writeable);
 	}
 
 }
