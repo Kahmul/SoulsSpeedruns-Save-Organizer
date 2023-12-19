@@ -46,9 +46,6 @@ import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 import com.soulsspeedruns.organizer.savelist.SortingCategory;
-import com.sun.jna.Native;
-import com.sun.jna.NativeLong;
-import com.sun.jna.WString;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.Iconic;
@@ -145,7 +142,7 @@ public class OrganizerManager
 
 	private static boolean isReady;
 	
-	private static native NativeLong SetCurrentProcessExplicitAppUserModelID(WString appID);
+//	private static native NativeLong SetCurrentProcessExplicitAppUserModelID(WString appID);
 
 	static
 	{
@@ -175,21 +172,21 @@ public class OrganizerManager
 		initKeyboardHook();
 		mapGamesWithProfiles();
 		
-		setAppUserModelID();
+//		setAppUserModelID();
 
 		isReady = true;
 	}
 	
-	/**
-	 * Sets the AppUserModelID. Needed to be able to properly pin the .exe to the taskbar.
-	 */
-	private static void setAppUserModelID()
-	{
-		Native.register("shell32");
-		
-		WString appID = new WString("com.soulsspeedruns.saveorganizer");
-		SetCurrentProcessExplicitAppUserModelID(appID);
-	}
+//	/**
+//	 * Sets the AppUserModelID. Needed to be able to properly pin the .exe to the taskbar.
+//	 */
+//	private static void setAppUserModelID()
+//	{
+//		Native.register("shell32");
+//		
+//		WString appID = new WString("com.soulsspeedruns.saveorganizer");
+//		SetCurrentProcessExplicitAppUserModelID(appID);
+//	}
 
 
 	/**
