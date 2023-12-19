@@ -71,6 +71,7 @@ public class SettingsWindow extends JDialog
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
+				saveSettings();
 				OrganizerManager.getKeyboardHook().registerHook();
 			}
 		});

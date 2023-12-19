@@ -51,7 +51,7 @@ public class ButtonsSettingsPanel extends JPanel
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addComponent(aboutButton).addComponent(glue).addComponent(saveButton).addComponent(cancelButton);
+		hGroup.addComponent(glue).addComponent(aboutButton);//.addComponent(saveButton).addComponent(cancelButton);
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -59,7 +59,7 @@ public class ButtonsSettingsPanel extends JPanel
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
 		vGroup.addGroup(
-				layout.createParallelGroup(Alignment.TRAILING).addComponent(aboutButton).addComponent(glue).addComponent(saveButton).addComponent(cancelButton));
+				layout.createParallelGroup(Alignment.TRAILING).addComponent(glue).addComponent(aboutButton));//.addComponent(saveButton).addComponent(cancelButton));
 
 		layout.setVerticalGroup(vGroup);
 
