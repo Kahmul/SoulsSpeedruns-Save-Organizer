@@ -70,7 +70,7 @@ public class SaveListContextMenu extends JPopupMenu
 
 		itemReadOnly.setEnabled(false);
 		itemPaste.setEnabled(saveList.hasCopiedEntries());
-		if (OrganizerManager.isAProfileSelected())
+		if (!OrganizerManager.isAProfileSelected())
 		{
 			itemAdd.setEnabled(false);
 			itemRefresh.setEnabled(false);
