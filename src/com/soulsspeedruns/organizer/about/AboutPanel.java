@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.github.pervoj.jiconfont.FontAwesomeBrands;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 import jiconfont.icons.Elusive;
@@ -125,7 +124,7 @@ public class AboutPanel extends JPanel
 	private JLabel createDiscordLabel()
 	{
 		JLabel discordLabel = new JLabel("Kahmul");
-		discordLabel.setIcon(IconFontSwing.buildIcon(FontAwesomeBrands.DISCORD, 40, Color.decode("0x5865F2")));
+		discordLabel.setIcon(OrganizerManager.discordIcon);
 		
 		return discordLabel;
 	}

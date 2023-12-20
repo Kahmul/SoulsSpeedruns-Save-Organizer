@@ -10,10 +10,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
-import com.github.pervoj.jiconfont.FontAwesomeSolid;
 import com.soulsspeedruns.organizer.about.AboutWindow;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
+import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
 
@@ -59,7 +59,7 @@ public class SettingsContextMenu extends JPopupMenu
 	 */
 	private JMenuItem createSettingsItem()
 	{
-		JMenuItem itemSettings = new JMenuItem("Settings", IconFontSwing.buildIcon(FontAwesomeSolid.COG, 17, Color.GRAY));
+		JMenuItem itemSettings = new JMenuItem("Settings", IconFontSwing.buildIcon(FontAwesome.COG, 17, Color.GRAY));
 		itemSettings.addActionListener(event -> {
 			new SettingsWindow();
 		});

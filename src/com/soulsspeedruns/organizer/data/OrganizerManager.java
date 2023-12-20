@@ -28,8 +28,6 @@ import javax.swing.JOptionPane;
 import org.jnativehook.NativeHookException;
 import org.json.JSONObject;
 
-import com.github.pervoj.jiconfont.FontAwesomeBrands;
-import com.github.pervoj.jiconfont.FontAwesomeSolid;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.hotkeys.GlobalHotkey;
 import com.soulsspeedruns.organizer.hotkeys.GlobalKeyboardHook;
@@ -48,6 +46,7 @@ import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 import com.soulsspeedruns.organizer.savelist.SortingCategory;
 
 import jiconfont.icons.Elusive;
+import jiconfont.icons.FontAwesome;
 import jiconfont.icons.Iconic;
 import jiconfont.swing.IconFontSwing;
 
@@ -127,6 +126,7 @@ public class OrganizerManager
 	public static ImageIcon writableIcon22;
 	public static ImageIcon readOnlyIcon22Hover;
 	public static ImageIcon writableIcon22Hover;
+	public static ImageIcon discordIcon;
 	public static Image settingsIcon;
 
 	private static List<ProfileListener> profileListeners;
@@ -205,10 +205,11 @@ public class OrganizerManager
 		writableIcon22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon22.png")));
 		readOnlyIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon22Hover.png")));
 		writableIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon22Hover.png")));
+		discordIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "DiscordLogo.png")));
 
-//		IconFontSwing.register(FontAwesome.getIconFont());
-		IconFontSwing.register(FontAwesomeBrands.getIconFont());
-		IconFontSwing.register(FontAwesomeSolid.getIconFont());
+		IconFontSwing.register(FontAwesome.getIconFont());
+//		IconFontSwing.register(FontAwesomeBrands.getIconFont());
+//		IconFontSwing.register(FontAwesomeSolid.getIconFont());
 		IconFontSwing.register(Elusive.getIconFont());
 //		IconFontSwing.register(Entypo.getIconFont());
 		IconFontSwing.register(Iconic.getIconFont());

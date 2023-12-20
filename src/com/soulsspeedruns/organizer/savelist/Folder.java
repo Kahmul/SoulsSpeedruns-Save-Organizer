@@ -14,9 +14,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import com.github.pervoj.jiconfont.FontAwesomeSolid;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
+import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
 
@@ -33,7 +33,7 @@ public class Folder extends SaveListEntry
 
 	private boolean isClosed = true;
 	private static final Color ICON_COLOR = new Color(251, 208, 108);
-	private static final int ICON_SIZE = 30;
+	private static final int ICON_SIZE = 15;
 
 
 	/**
@@ -160,9 +160,9 @@ public class Folder extends SaveListEntry
 			label.setToolTipText("Directory does not exist any longer!");
 		}
 		if (isClosed())
-			label.setIcon(IconFontSwing.buildIcon(FontAwesomeSolid.FOLDER, ICON_SIZE, color));
+			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER, ICON_SIZE, color));
 		else
-			label.setIcon(IconFontSwing.buildIcon(FontAwesomeSolid.FOLDER_OPEN, ICON_SIZE, color));
+			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, ICON_SIZE, color));
 
 			
 	}
