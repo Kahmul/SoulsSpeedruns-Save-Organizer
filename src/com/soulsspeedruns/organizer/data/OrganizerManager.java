@@ -73,7 +73,7 @@ public class OrganizerManager
 	public static final String GITHUB_REPO_URL = "www.github.com/Kahmul/SoulsSpeedruns-Save-Organizer";
 	public static final String TWITTER_URL = "www.twitter.com/Kahmul78";
 	public static final String LATEST_RELEASE_JSON_URL = "https://api.github.com/repos/Kahmul/SoulsSpeedruns-Save-Organizer/releases/latest";
-	public static final String LATEST_RELEASE_URL = "https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/releases";
+	public static final String LATEST_RELEASE_URL = "https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/releases/latest";
 
 	/**
 	 * Constants for paths to preferences and resources.

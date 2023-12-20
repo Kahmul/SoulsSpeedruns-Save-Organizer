@@ -4,8 +4,10 @@ package com.soulsspeedruns.organizer.main;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URI;
 
 import javax.swing.Box;
 import javax.swing.GroupLayout;
@@ -28,7 +30,6 @@ import com.soulsspeedruns.organizer.savelist.ReadOnlyButton;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 import com.soulsspeedruns.organizer.settings.SettingsWindow;
-import com.soulsspeedruns.organizer.update.NewReleaseWindow;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.Iconic;
@@ -174,7 +175,7 @@ public class ButtonPanel extends JPanel
 	{
 		JLabel updateLabel = new JLabel("<html><body><a href=\"\">Update Available</a></body></html>", SwingConstants.RIGHT);
 		updateLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-//		updateLabel.setToolTipText(OrganizerManager.GITHUB_REPO_RELEASES_URL);
+		updateLabel.setToolTipText(OrganizerManager.LATEST_RELEASE_URL);
 		updateLabel.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -182,8 +183,8 @@ public class ButtonPanel extends JPanel
 			{
 				try
 				{
-					new NewReleaseWindow();
-//					Desktop.getDesktop().browse(new URI(OrganizerManager.GITHUB_REPO_RELEASES_URL));
+//					new NewReleaseWindow();
+					Desktop.getDesktop().browse(new URI(OrganizerManager.LATEST_RELEASE_URL));
 				}
 				catch (Exception ex)
 				{
