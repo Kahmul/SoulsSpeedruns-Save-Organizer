@@ -63,7 +63,7 @@ import jiconfont.swing.IconFontSwing;
 public class OrganizerManager
 {
 
-	public static final String VERSION = "1.5.0";
+	public static final String VERSION = "1.5.1";
 
 	/**
 	 * Constants defining various URLs.
@@ -127,6 +127,7 @@ public class OrganizerManager
 	public static ImageIcon readOnlyIcon22Hover;
 	public static ImageIcon writableIcon22Hover;
 	public static ImageIcon discordIcon;
+	public static ImageIcon frankerZIcon;
 	public static Image settingsIcon;
 
 	private static List<ProfileListener> profileListeners;
@@ -206,6 +207,7 @@ public class OrganizerManager
 		readOnlyIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon22Hover.png")));
 		writableIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon22Hover.png")));
 		discordIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "DiscordLogo.png")));
+		frankerZIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "FrankerZ.png")));
 
 		IconFontSwing.register(FontAwesome.getIconFont());
 //		IconFontSwing.register(FontAwesomeBrands.getIconFont());
