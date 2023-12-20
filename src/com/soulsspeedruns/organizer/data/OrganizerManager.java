@@ -64,7 +64,7 @@ import jiconfont.swing.IconFontSwing;
 public class OrganizerManager
 {
 
-	public static final String VERSION = "1.5";
+	public static final String VERSION = "1.5.0";
 
 	/**
 	 * Constants defining various URLs.
