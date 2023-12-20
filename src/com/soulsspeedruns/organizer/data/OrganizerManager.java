@@ -1325,7 +1325,13 @@ public class OrganizerManager
 	{
 		JSONObject latestReleaseJSON = getLatestReleaseJSON();
 		if (latestReleaseJSON != null)
-			return latestReleaseJSON.getString("tag_name").substring(2);
+		{
+			String version = latestReleaseJSON.getString("tag_name");
+			String prefix = version.split("[0-9]")[0];
+			version = version.substring(prefix.length());
+			
+			return version;
+		}
 		return "0.0";
 	}
 
