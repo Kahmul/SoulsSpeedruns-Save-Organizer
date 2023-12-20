@@ -237,6 +237,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void gameFileWritableStateChanged(boolean writeable)
 	{
+		changeImage(file.canWrite(), false);
 	}
 
 }
