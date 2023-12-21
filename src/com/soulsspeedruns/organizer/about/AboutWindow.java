@@ -78,7 +78,6 @@ public class AboutWindow extends JDialog
 		JLabel iconLabel = new JLabel(new ImageIcon(OrganizerManager.soulsspeedrunsIconMedium));
 		iconLabel.addMouseListener(new MouseListener() {
 			
-			int count = 0;
 			boolean once = false;
 			
 			@Override
@@ -99,8 +98,8 @@ public class AboutWindow extends JDialog
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				count++;
-				if(count >= 3 && !once)
+				
+				if(e.getClickCount() >= 3 && !once)
 				{
 					once = true;
 					iconLabel.setIcon(OrganizerManager.frankerZIcon);
@@ -112,9 +111,11 @@ public class AboutWindow extends JDialog
 		return iconLabel;
 	}
 	
-	 private void vibrate() { 
-	    try
-	    { 
+	
+	 private void vibrate()
+	 { 
+		 try
+		 {
 			int originalX = getLocationOnScreen().x; 
 			int originalY = getLocationOnScreen().y; 
 			for(int i = 0; i < 5; i++) { 
@@ -126,11 +127,11 @@ public class AboutWindow extends JDialog
 				setLocation(originalX + 5, originalY);
 				Thread.sleep(10); 
 				setLocation(originalX, originalY); 
-			} 
-	    } 
-	    catch (Exception err)
-	    { 
-	    	err.printStackTrace(); 
-	    }
-	  }
+			}
+		 }
+		catch (Exception err)
+		{ 
+			err.printStackTrace(); 
+		}
+	 }
 }
