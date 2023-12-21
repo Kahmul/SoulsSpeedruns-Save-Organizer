@@ -1,5 +1,12 @@
 # <img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo32.png" width="28px"/> SoulsSpeedruns - Save Organizer
 
+<p align="center">
+    <b>Click the banner below to join the SoulsSpeedruns Discord!</b><br><br>
+    <a href="https://discord.soulsspeedruns.com"><img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/docs/images/SoulsSpeedruns_Banner.png" width="350px"/></a>
+</p>
+
+## Table of Contents
+
 1. [Description](#description)
 2. [Features](#features)  
 3. [Requirements](#requirements)
@@ -69,7 +76,8 @@ Due to the how the different FROMSoftware games work, there is a few things to c
 
 ## Troubleshooting
 
-- Make sure you use Java JRE 8.
+- You can join the [SoulsSpeedruns Discord](https://discord.soulsspeedruns.com) for troubleshooting help.
+- Make sure you use Java JRE 8. You can use the bundled version for this.
 - If you have problems starting up the program after you've already been using it there might be conflicting data between the registry entries and the actual data. In this case it might help to remove the registry entries of the Save Organizer (the following steps are for Windows):
 
         1. Press Windows + R.
