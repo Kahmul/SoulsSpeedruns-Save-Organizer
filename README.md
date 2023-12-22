@@ -74,7 +74,6 @@ Due to the how the different FROMSoftware games work, there is a few things to c
 
 - Editing savefiles to adjust stats/items for characters (likely only for DS1)
 - Allowing users to add support for other games to the organizer themselves
-- Compact version with smaller buttons to reduce window size
 - Dark Mode
 
 ## Troubleshooting
