@@ -15,8 +15,6 @@ import javax.swing.JTextField;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 
-import li.flor.nativejfilechooser.NativeJFileChooser;
-
 
 /**
  * Directory part of the configuration window.
@@ -94,7 +92,7 @@ public class GameConfigDirectoryPanel extends JPanel
 		JButton browseButton = new JButton("Browse");
 
 		browseButton.addActionListener(event -> {
-			JFileChooser fc = new NativeJFileChooser(saveFileField.getText());
+			JFileChooser fc = new JFileChooser(saveFileField.getText());
 			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			int val = fc.showOpenDialog(null);
 			if (val == JFileChooser.APPROVE_OPTION)
@@ -152,7 +150,7 @@ public class GameConfigDirectoryPanel extends JPanel
 						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-			JFileChooser fc = new NativeJFileChooser(directoryField.getText());
+			JFileChooser fc = new JFileChooser(directoryField.getText());
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int val = fc.showOpenDialog(null);
 			if (val == JFileChooser.APPROVE_OPTION)
