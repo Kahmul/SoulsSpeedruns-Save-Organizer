@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.listeners.SettingsListener;
 
 
 /**
@@ -22,13 +23,16 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 26 Sep 2015
  */
-public class OrganizerWindow extends JFrame
+public class OrganizerWindow extends JFrame implements SettingsListener
 {
 
 	private static final long serialVersionUID = -410330356532830410L;
 
-	private static final int MIN_WIDTH = 700;
-	private static final int MIN_HEIGHT = 600;
+	private static final int MIN_WIDTH = 700; //700
+	private static final int MIN_HEIGHT = 600; //600
+	
+	private static final int MIN_WIDTH_COMPACT = 500;
+	private static final int MIN_HEIGHT_COMPACT = 400;
 
 	private static final boolean IS_RESIZABLE = true;
 
@@ -70,11 +74,12 @@ public class OrganizerWindow extends JFrame
 		setIconImage(OrganizerManager.soulsspeedrunsIcon);
 		setResizable(IS_RESIZABLE);
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
-		setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
+		setMinSize(OrganizerManager.isCompactModeEnabled());
 		Dimension size = OrganizerManager.getStoredWindowSize();
 		setSize(size);
 		setLocationRelativeTo(null);
 		OrganizerManager.setMainWindow(this);
+		OrganizerManager.addSettingsListener(this);
 	}
 
 
@@ -124,6 +129,27 @@ public class OrganizerWindow extends JFrame
 				System.exit(0);
 			}
 		});
+	}
+	
+	
+	private void setMinSize(boolean isCompact)
+	{
+		if(isCompact)
+		{
+			setMinimumSize(new Dimension(MIN_WIDTH_COMPACT, MIN_HEIGHT_COMPACT));
+			return;
+		}
+		setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
+	}
+
+
+	@Override
+	public void settingChanged(String prefsKey)
+	{
+		if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE))
+		{
+			setMinSize(OrganizerManager.isCompactModeEnabled());
+		}
 	}
 
 }

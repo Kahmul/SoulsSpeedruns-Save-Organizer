@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SoulsSpeedruns</groupId>
 	<artifactId>SoulsSpeedrunsSaveOrganizer</artifactId>
-	<version>1.5.1</version>
+	<version>1.5.2</version>
 	<name>SoulsSpeedruns - Save Organizer</name>
 	<description>SoulsSpeedruns - Save Organizer</description>
 
@@ -63,6 +63,7 @@
 			<artifactId>json</artifactId>
 			<version>20170516</version>
 		</dependency>
+
 
 	</dependencies>
 

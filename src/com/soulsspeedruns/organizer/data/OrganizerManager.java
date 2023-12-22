@@ -63,7 +63,7 @@ import jiconfont.swing.IconFontSwing;
 public class OrganizerManager
 {
 
-	public static final String VERSION = "1.5.1";
+	public static final String VERSION = "1.5.2";
 
 	/**
 	 * Constants defining various URLs.
@@ -98,6 +98,7 @@ public class OrganizerManager
 	public static final String PREFS_KEY_SETTING_GLOBAL_HOTKEYS = "globalHotkeys";
 	public static final String PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD = "doubleClickLoad";
 	public static final String PREFS_KEY_SETTING_CHECK_FOR_UPDATES = "checkForUpdates";
+	public static final String PREFS_KEY_SETTING_COMPACT_MODE = "compactMode";
 
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_LOAD = "hotkeyLoad";
 	public static final String PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY = "hotkeyReadOnly";
@@ -779,17 +780,6 @@ public class OrganizerManager
 	{
 		return prefs.getBoolean(PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD, false);
 	}
-
-	
-	/**
-	 * Returns whether the application should check for new releases.
-	 * 
-	 * @return whether to check for new releases
-	 */
-	public static boolean isCheckForUpdatesEnabled()
-	{
-		return prefs.getBoolean(PREFS_KEY_SETTING_CHECK_FOR_UPDATES, true);
-	}
 	
 	
 	/**
@@ -805,7 +795,43 @@ public class OrganizerManager
 		fireSettingChangedEvent(PREFS_KEY_SETTING_CHECK_FOR_UPDATES);
 	}
 
+	
+	/**
+	 * Returns whether the application should check for new releases.
+	 * 
+	 * @return whether to check for new releases
+	 */
+	public static boolean isCheckForUpdatesEnabled()
+	{
+		return prefs.getBoolean(PREFS_KEY_SETTING_CHECK_FOR_UPDATES, true);
+	}
+	
+	
+	/**
+	 * Enables/disables compact mode which 
+	 * 
+	 * @param flag True to enable, false to disable
+	 */
+	public static void setCompactModeEnabled(boolean flag)
+	{
+		if(isCompactModeEnabled() == flag)
+			return;
+		prefs.putBoolean(PREFS_KEY_SETTING_COMPACT_MODE, flag);
+		fireSettingChangedEvent(PREFS_KEY_SETTING_COMPACT_MODE);
+	}
 
+	
+	/**
+	 * Returns whether compact mode is enabled, i.e. smaller savestate buttons at the bottom
+	 * 
+	 * @return whether compact mode is enabled
+	 */
+	public static boolean isCompactModeEnabled()
+	{
+		return prefs.getBoolean(PREFS_KEY_SETTING_COMPACT_MODE, false);
+	}
+	
+	
 	/**
 	 * Switches the gamefile of the currently selected game between read-only and writeable.
 	 */

@@ -32,6 +32,7 @@ public class GeneralSettingsPanel extends JPanel
 	private JCheckBox hotkeysCheckbox;
 	private JCheckBox doubleClickLoadCheckbox;
 	private JCheckBox checkForUpdatesCheckbox;
+	private JCheckBox compactModeCheckbox;
 
 
 	/**
@@ -46,23 +47,31 @@ public class GeneralSettingsPanel extends JPanel
 		Component glue = Box.createHorizontalGlue();
 
 		JLabel alwaysOnTopLabel = new JLabel("Always On Top:");
+		alwaysOnTopLabel.setToolTipText("Forces the organizer to always stay visible over other windows.");
 		alwaysOnTopCheckbox = new JCheckBox("", OrganizerManager.isAlwaysOnTop());
 
 		JLabel hotkeysLabel = new JLabel("Global Hotkeys:");
+		hotkeysLabel.setToolTipText("Enables the global hotkeys below.");
 		hotkeysCheckbox = new JCheckBox("", OrganizerManager.areGlobalHotkeysEnabled());
 		
 		JLabel doubleClickLoadLabel = new JLabel("Allow Double Click To Load Savestates:");
+		doubleClickLoadLabel.setToolTipText("Double clicking a savestate in the list will load it.");
 		doubleClickLoadCheckbox = new JCheckBox("", OrganizerManager.isDoubleClickLoadEnabled());
 		
 		JLabel checkForUpdatesLabel = new JLabel("Check For Updates:");
+		checkForUpdatesLabel.setToolTipText("Checks for updates to the organizer and notifies you in the bottom right about it.");
 		checkForUpdatesCheckbox = new JCheckBox("", OrganizerManager.isCheckForUpdatesEnabled());
+		
+		JLabel compactModeLabel = new JLabel("Compact Mode:");
+		compactModeLabel.setToolTipText("Reduces the size of buttons in the main window and allows a smaller window size.");
+		compactModeCheckbox = new JCheckBox("", OrganizerManager.isCompactModeEnabled());
 
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysLabel).addComponent(alwaysOnTopLabel).addComponent(doubleClickLoadLabel).addComponent(checkForUpdatesLabel));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysLabel).addComponent(alwaysOnTopLabel).addComponent(doubleClickLoadLabel).addComponent(checkForUpdatesLabel).addComponent(compactModeLabel));
 		hGroup.addGroup(layout.createParallelGroup().addComponent(glue));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysCheckbox).addComponent(alwaysOnTopCheckbox).addComponent(doubleClickLoadCheckbox).addComponent(checkForUpdatesCheckbox));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysCheckbox).addComponent(alwaysOnTopCheckbox).addComponent(doubleClickLoadCheckbox).addComponent(checkForUpdatesCheckbox).addComponent(compactModeCheckbox));
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -74,6 +83,7 @@ public class GeneralSettingsPanel extends JPanel
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(alwaysOnTopLabel).addComponent(alwaysOnTopCheckbox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(hotkeysLabel).addComponent(hotkeysCheckbox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(doubleClickLoadLabel).addComponent(doubleClickLoadCheckbox));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(compactModeLabel).addComponent(compactModeCheckbox));
 
 		layout.setVerticalGroup(vGroup);
 
@@ -91,6 +101,7 @@ public class GeneralSettingsPanel extends JPanel
 		OrganizerManager.setAlwaysOnTop(alwaysOnTopCheckbox.isSelected());
 		OrganizerManager.setDoubleClickLoadEnabled(doubleClickLoadCheckbox.isSelected());
 		OrganizerManager.setCheckForUpdatesEnabled(checkForUpdatesCheckbox.isSelected());
+		OrganizerManager.setCompactModeEnabled(compactModeCheckbox.isSelected());
 	}
 
 }

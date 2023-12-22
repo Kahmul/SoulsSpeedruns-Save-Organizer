@@ -48,6 +48,12 @@ public class ButtonPanel extends JPanel
 {
 
 	private static final long serialVersionUID = 4450835782973692167L;
+	
+	private JButton importButton;
+	private JButton loadButton;
+	private JButton replaceButton;
+	private JButton settingsButton;
+	private JLabel updateLabel;
 
 
 	/**
@@ -61,11 +67,11 @@ public class ButtonPanel extends JPanel
 
 		ReadOnlyButton readOnlyButton = new ReadOnlyButton(OrganizerManager.getSelectedGame().getSaveFileLocation());
 
-		JButton importButton = createImportButton();
-		JButton loadButton = createLoadButton();
-		JButton replaceButton = createReplaceButton();
-		JButton settingsButton = createSettingsButton();
-		JLabel updateLabel = createUpdateLabel();
+		importButton = createImportButton();
+		loadButton = createLoadButton();
+		replaceButton = createReplaceButton();
+		settingsButton = createSettingsButton();
+		updateLabel = createUpdateLabel();
 		
 		JPanel settingsUpdatePanel = new JPanel();
 		GroupLayout panelLayout = new GroupLayout(settingsUpdatePanel);
@@ -102,7 +108,8 @@ public class ButtonPanel extends JPanel
 
 		setLayout(layout);
 
-		addButtonListeners(loadButton, replaceButton, updateLabel);
+		addButtonListeners();
+		refreshButtons();
 	}
 
 
@@ -207,14 +214,24 @@ public class ButtonPanel extends JPanel
 		settingsButton.addActionListener(event -> new SettingsWindow());
 		return settingsButton;
 	}
+	
+	
+	/**
+	 * Refreshes the button texts based on settings.
+	 */
+	private void refreshButtons()
+	{
+		boolean isCompact = OrganizerManager.isCompactModeEnabled();
+		importButton.setText(isCompact ? "Import" : "Import Savestate");
+		loadButton.setText(isCompact ? "Load" : "Load Savestate");
+		replaceButton.setText(isCompact ? "Replace" : "Replace Savestate");
+	}
 
 
 	/**
-	 * Adds the listeners to enable/disable the load and replace button
-	 * 
-	 * @param loadButton the load button
+	 * Adds the listeners to manipulate the buttons.
 	 */
-	private void addButtonListeners(JButton loadButton, JButton replaceButton, JLabel updateLabel)
+	private void addButtonListeners()
 	{
 		OrganizerManager.addSaveListener(new SaveListener() {
 
@@ -305,6 +322,8 @@ public class ButtonPanel extends JPanel
 			{
 				if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
 					updateLabel.setVisible(OrganizerManager.isVersionOutdated());
+				else if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE))
+					refreshButtons();
 			}
 		});
 	}

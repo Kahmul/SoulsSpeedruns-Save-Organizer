@@ -11,6 +11,7 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
+import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.profileconfig.Profile;
 
 
@@ -22,7 +23,7 @@ import com.soulsspeedruns.organizer.profileconfig.Profile;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 26 Sep 2015
  */
-public class ReadOnlyButton extends JLabel implements MouseListener, ProfileListener, SaveListener
+public class ReadOnlyButton extends JLabel implements MouseListener, ProfileListener, SaveListener, SettingsListener
 {
 
 	private static final long serialVersionUID = -4432217286267536787L;
@@ -32,7 +33,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	 * Creates a new read only button with the given file and image.
 	 * 
 	 * @param file the file to associate with this button.
-	 * @param img the image to use for this button.
+	 * @param isCompact whether to show the "writable/read-only" text
 	 */
 	public ReadOnlyButton(File file)
 	{
@@ -42,7 +43,8 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		addMouseListener(this);
 		OrganizerManager.addProfileListener(this);
 		OrganizerManager.addSaveListener(this);
-
+		OrganizerManager.addSettingsListener(this);
+		
 		setVisible(true);
 	}
 
@@ -74,7 +76,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		}
 		this.file = file;
 		setVisible(true);
-		changeImage(file.canWrite(), false);
+		refreshAppearance(false);
 	}
 
 
@@ -85,32 +87,33 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	{
 		if (file == null || !file.exists() || !OrganizerManager.getSelectedGame().supportsReadOnly())
 			return;
-		boolean isWritable = !file.canWrite();
-		file.setWritable(isWritable);
-		changeImage(isWritable, true);
+		file.setWritable(!file.canWrite());
+		refreshAppearance(true);
 	}
 	
-	private void changeImage(boolean isWritable, boolean isHovering)
+	
+	/**
+	 * Changes the image of the read-only button depending on the state of the file and whether the mouse is hovered over it.
+	 * 
+	 * @param isHovering
+	 */
+	private void refreshAppearance(boolean isHovering)
 	{
+		boolean isWritable = file.canWrite();
+		boolean isCompact = OrganizerManager.isCompactModeEnabled();
 		if(isWritable)
 		{			
-			if(isHovering)
-				setIcon(OrganizerManager.writableIcon22Hover);
-			else
-				setIcon(OrganizerManager.writableIcon22);
+			setText(!isCompact ? "Writable" : null);
+			setIcon(isHovering ? OrganizerManager.writableIcon22Hover : OrganizerManager.writableIcon22);
 			setToolTipText("Click to turn on read-only for the game's savefile.");
-			setText("Writable");
 		}
 		else
 		{
-			if(isHovering)
-				setIcon(OrganizerManager.readOnlyIcon22Hover);
-			else
-				setIcon(OrganizerManager.readOnlyIcon22);
+			setText(!isCompact ? "Read-Only" : null);
+			setIcon(isHovering ? OrganizerManager.readOnlyIcon22Hover : OrganizerManager.readOnlyIcon22);
 			setToolTipText("Click to turn off read-only for the game's savefile.");
-			setText("Read-Only");
 		}
-
+		
 	}
 	
 	
@@ -140,14 +143,14 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void mouseEntered(MouseEvent e)
 	{
-		changeImage(file.canWrite(), true);
+		refreshAppearance(true);
 	}
 
 
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
-		changeImage(file.canWrite(), false);
+		refreshAppearance(false);
 	}
 
 
@@ -230,14 +233,22 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void saveLoadFinished(Save save)
 	{
-		changeImage(save.getFile().canWrite(), false);
+		refreshAppearance(false);
 	}
 
 
 	@Override
 	public void gameFileWritableStateChanged(boolean writeable)
 	{
-		changeImage(file.canWrite(), false);
+		refreshAppearance(false);
+	}
+
+
+	@Override
+	public void settingChanged(String prefsKey)
+	{
+		if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE))
+			refreshAppearance(false);
 	}
 
 }
