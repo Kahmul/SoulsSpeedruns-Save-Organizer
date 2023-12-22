@@ -43,8 +43,9 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 
 [Latest Release](https://github.com/Kahmul/SpeedSouls-Save-Organizer/releases)
 
-- **Standard version:** requires Java JRE 8+ to be installed on your system
-- **Bundled version:** JRE 8 bundled with the .exe
+- **Standard version:** Runnable .exe file. Requires Java JRE 8+ to be installed on your system.
+- **Bundled version:** Runnable .exe file. Bundled with JRE 8.
+- **Linux version:** Runnable .jar file. Run it via CLI <code>java -jar "SoulsSpeedruns - Save Organizer.jar"</code> or similar.
 
 ## Getting Started
 
