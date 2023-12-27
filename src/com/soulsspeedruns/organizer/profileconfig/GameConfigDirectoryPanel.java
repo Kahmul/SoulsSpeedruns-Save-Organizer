@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
@@ -94,7 +95,7 @@ public class GameConfigDirectoryPanel extends JPanel
 		browseButton.addActionListener(event -> {
 			JFileChooser fc = new JFileChooser(saveFileField.getText());
 			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			int val = fc.showOpenDialog(null);
+			int val = fc.showOpenDialog(SwingUtilities.windowForComponent(this));
 			if (val == JFileChooser.APPROVE_OPTION)
 			{
 				File selectedSavefile = fc.getSelectedFile();
@@ -152,7 +153,7 @@ public class GameConfigDirectoryPanel extends JPanel
 			}
 			JFileChooser fc = new JFileChooser(directoryField.getText());
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			int val = fc.showOpenDialog(null);
+			int val = fc.showOpenDialog(SwingUtilities.windowForComponent(this));
 			if (val == JFileChooser.APPROVE_OPTION)
 			{
 				File selectedDir = fc.getSelectedFile();

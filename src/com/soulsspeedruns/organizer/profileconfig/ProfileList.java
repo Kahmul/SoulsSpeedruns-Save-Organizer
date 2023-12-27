@@ -99,7 +99,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fc.setMultiSelectionEnabled(true);
-		int val = fc.showOpenDialog(getParent());
+		int val = fc.showOpenDialog(SwingUtilities.windowForComponent(this));
 		if (val == JFileChooser.APPROVE_OPTION)
 		{
 			File[] files = fc.getSelectedFiles();
