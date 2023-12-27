@@ -16,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
@@ -140,7 +141,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 			return;
 		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
-		String name = JOptionPane.showInputDialog(getParent(), "Profile name: ", "Create Profile", JOptionPane.QUESTION_MESSAGE);
+		String name = JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Profile name: ", "Create Profile", JOptionPane.QUESTION_MESSAGE);
 		boolean nameValidation = validateNameForNewProfile(name);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 		if (nameValidation)
@@ -256,7 +257,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 			return;
 		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
-		String newProfileName = (String) JOptionPane.showInputDialog(getParent(), "Profile name: ", "Edit " + profile.getName(),
+		String newProfileName = (String) JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Profile name: ", "Edit " + profile.getName(),
 				JOptionPane.QUESTION_MESSAGE, null, null, profile.getName());
 		boolean nameValidation = validateNewName(profile, newProfileName);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
