@@ -2,6 +2,7 @@ package com.soulsspeedruns.organizer.settings;
 
 
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -11,6 +12,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
@@ -88,7 +90,9 @@ public class GeneralSettingsPanel extends JPanel
 		layout.setVerticalGroup(vGroup);
 
 		setLayout(layout);
-		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "General"));
+		TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "General");
+		border.setTitleFont(border.getTitleFont().deriveFont(Font.BOLD));
+		setBorder(border);
 	}
 
 

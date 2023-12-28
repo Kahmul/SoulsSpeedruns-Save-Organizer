@@ -2,6 +2,7 @@ package com.soulsspeedruns.organizer.settings;
 
 
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -10,6 +11,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import com.soulsspeedruns.organizer.hotkeys.GlobalHotkey;
 
@@ -69,7 +71,9 @@ public class HotkeysSettingsPanel extends JPanel
 		layout.setVerticalGroup(vGroup);
 
 		setLayout(layout);
-		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Hotkeys"));
+		TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Hotkeys");
+		border.setTitleFont(border.getTitleFont().deriveFont(Font.BOLD));
+		setBorder(border);
 	}
 
 
