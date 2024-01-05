@@ -8,12 +8,12 @@
 	<description>SoulsSpeedruns - Save Organizer</description>
 
 	<dependencies>
-		<dependency>
-<!--		    <groupId>net.java.dev.jna</groupId>
+<!--	<dependency>
+		    <groupId>net.java.dev.jna</groupId>
 		    <artifactId>jna</artifactId>
 		    <version>5.14.0</version>
-		</dependency>
-		<dependency> -->
+		</dependency> -->
+		<dependency>
 			<groupId>com.1stleg</groupId>
 			<artifactId>jnativehook</artifactId>
 			<version>2.0.3</version>
@@ -62,6 +62,11 @@
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20170516</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.weisj</groupId>
+			<artifactId>darklaf-core</artifactId>
+			<version>3.0.2</version>
 		</dependency>
 
 
