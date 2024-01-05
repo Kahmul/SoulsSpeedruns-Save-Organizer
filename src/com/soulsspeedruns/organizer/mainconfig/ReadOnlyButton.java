@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.savelist;
+package com.soulsspeedruns.organizer.mainconfig;
 
 
 import java.awt.event.MouseEvent;
@@ -13,6 +13,8 @@ import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.profileconfig.Profile;
+import com.soulsspeedruns.organizer.savelist.Save;
+import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 
 
 /**
@@ -103,13 +105,13 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		boolean isCompact = OrganizerManager.isCompactModeEnabled();
 		if(isWritable)
 		{			
-			setText(!isCompact ? "Writable" : null);
+			setText(!isCompact && !OrganizerManager.isVersionOutdated() ? "Writable" : null);
 			setIcon(isHovering ? OrganizerManager.writableIcon22Hover : OrganizerManager.writableIcon22);
 			setToolTipText("Click to turn on read-only for the game's savefile.");
 		}
 		else
 		{
-			setText(!isCompact ? "Read-Only" : null);
+			setText(!isCompact && !OrganizerManager.isVersionOutdated() ? "Read-Only" : null);
 			setIcon(isHovering ? OrganizerManager.readOnlyIcon22Hover : OrganizerManager.readOnlyIcon22);
 			setToolTipText("Click to turn off read-only for the game's savefile.");
 		}
@@ -247,7 +249,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void settingChanged(String prefsKey)
 	{
-		if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE))
+		if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE) || prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
 			refreshAppearance(false);
 	}
 

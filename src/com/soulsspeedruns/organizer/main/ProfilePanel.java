@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.mainconfig.GamesComboBox;
+import com.soulsspeedruns.organizer.mainconfig.ProfilesComboBox;
 import com.soulsspeedruns.organizer.profileconfig.ProfileConfigurationWindow;
-import com.soulsspeedruns.organizer.savelist.GamesComboBox;
-import com.soulsspeedruns.organizer.savelist.ProfilesComboBox;
 
 
 /**

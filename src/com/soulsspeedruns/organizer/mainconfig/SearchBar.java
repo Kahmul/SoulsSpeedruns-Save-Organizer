@@ -1,6 +1,7 @@
-package com.soulsspeedruns.organizer.savelist;
+package com.soulsspeedruns.organizer.mainconfig;
 
 
+import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -44,6 +45,7 @@ public class SearchBar extends JTextField implements FocusListener, KeyListener
 
 		addFocusListener(this);
 		addKeyListener(this);
+		setForeground(Color.gray);
 	}
 
 

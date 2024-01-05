@@ -1,15 +1,10 @@
-package com.soulsspeedruns.organizer.savelist;
+package com.soulsspeedruns.organizer.mainconfig;
 
 
-import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.util.List;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
@@ -25,11 +20,11 @@ import com.soulsspeedruns.organizer.profileconfig.Profile;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 29 Sep 2015
  */
-public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRenderer<Profile>, ProfileListener
+public class ProfilesComboBox extends JComboBox<Profile> implements ProfileListener
 {
 
 	private static final long serialVersionUID = 1056591949253213932L;
-
+	
 
 	/**
 	 * Creates a new ProfilesComboBox.
@@ -41,7 +36,7 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRend
 		fillWith(game);
 
 		OrganizerManager.addProfileListener(this);
-		setRenderer(this);
+		setRenderer(new ProfilesComboBoxRenderer());
 		addItemListener(event -> {
 			if (event.getStateChange() == ItemEvent.SELECTED)
 			{
@@ -80,17 +75,6 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ListCellRend
 	{
 		if (game != null)
 			fillWith(game);
-	}
-
-
-	@Override
-	public Component getListCellRendererComponent(JList<? extends Profile> list, Profile profile, int index, boolean isSelected,
-			boolean cellHasFocus)
-	{
-		JLabel label = (JLabel) new DefaultListCellRenderer().getListCellRendererComponent(list, profile, index, isSelected, cellHasFocus);
-		if (profile != null)
-			label.setText(profile.getName());
-		return label;
 	}
 
 

@@ -1,14 +1,10 @@
-package com.soulsspeedruns.organizer.savelist;
+package com.soulsspeedruns.organizer.mainconfig;
 
 
-import java.awt.Component;
 import java.awt.event.ItemEvent;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
@@ -22,10 +18,13 @@ import com.soulsspeedruns.organizer.games.Game;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 29 Sep 2015
  */
-public class GamesComboBox extends JComboBox<Game> implements ListCellRenderer<Game>
+public class GamesComboBox extends JComboBox<Game>
 {
 
 	private static final long serialVersionUID = -3428616630686103313L;
+	
+	
+	protected final DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 
 
 	/**
@@ -38,7 +37,7 @@ public class GamesComboBox extends JComboBox<Game> implements ListCellRenderer<G
 	{
 		fillWith(games);
 
-		setRenderer(this);
+		setRenderer(new GamesComboBoxRenderer());
 		setPrototypeDisplayValue(Game.DARK_SOULS_II_SOTFS);
 		addItemListener(event -> {
 			if (event.getStateChange() == ItemEvent.SELECTED)
@@ -69,17 +68,6 @@ public class GamesComboBox extends JComboBox<Game> implements ListCellRenderer<G
 				}
 			}
 		}
-	}
-
-
-	@Override
-	public Component getListCellRendererComponent(JList<? extends Game> list, Game game, int index, boolean isSelected,
-			boolean cellHasFocus)
-	{
-		JLabel label = (JLabel) new DefaultListCellRenderer().getListCellRendererComponent(list, game, index, isSelected, cellHasFocus);
-		if (game != null)
-			label.setText(game.getCaption());
-		return label;
 	}
 
 }

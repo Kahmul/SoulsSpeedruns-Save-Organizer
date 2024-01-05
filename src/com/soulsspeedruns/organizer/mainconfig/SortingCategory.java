@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.savelist;
+package com.soulsspeedruns.organizer.mainconfig;
 
 
 import java.io.IOException;
@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
+
+import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 
 
 /**

@@ -14,6 +14,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.mainconfig.SortingCategory;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.Iconic;

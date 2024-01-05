@@ -8,8 +8,8 @@ import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
-import com.soulsspeedruns.organizer.savelist.SearchBar;
-import com.soulsspeedruns.organizer.savelist.SortingComboBox;
+import com.soulsspeedruns.organizer.mainconfig.SearchBar;
+import com.soulsspeedruns.organizer.mainconfig.SortingComboBox;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

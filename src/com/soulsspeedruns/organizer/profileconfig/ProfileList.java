@@ -1,20 +1,15 @@
 package com.soulsspeedruns.organizer.profileconfig;
 
 
-import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
@@ -31,7 +26,7 @@ import com.soulsspeedruns.organizer.listeners.ProfileListener;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 28 Sep 2015
  */
-public class ProfileList extends JList<Profile> implements ListCellRenderer<Profile>, ProfileListener, KeyListener
+public class ProfileList extends JList<Profile> implements ProfileListener, KeyListener
 {
 
 	private static final long serialVersionUID = -3296536317277215330L;
@@ -49,7 +44,7 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 
 		this.game = game;
 
-		setCellRenderer(this);
+		setCellRenderer(new ProfileListRenderer());
 		setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
 		addKeyListener(this);
@@ -307,20 +302,6 @@ public class ProfileList extends JList<Profile> implements ListCellRenderer<Prof
 			return false;
 		}
 		return true;
-	}
-
-
-	@Override
-	public Component getListCellRendererComponent(JList<? extends Profile> list, Profile profile, int index, boolean isSelected,
-			boolean cellHasFocus)
-	{
-		JLabel label = (JLabel) new DefaultListCellRenderer().getListCellRendererComponent(list, profile, index, isSelected, cellHasFocus);
-		if (profile != null)
-		{
-			label.setText(profile.getName());
-			label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
-		}
-		return label;
 	}
 
 
