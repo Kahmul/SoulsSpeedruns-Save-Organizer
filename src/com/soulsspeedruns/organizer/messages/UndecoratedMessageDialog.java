@@ -1,6 +1,7 @@
 package com.soulsspeedruns.organizer.messages;
 
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.MouseEvent;
@@ -39,12 +40,13 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 
 		this.message = message;
 		Window parentWindow = OrganizerManager.getMainWindow();
-		setSize(parentWindow.getWidth() / 2, parentWindow.getHeight() / 10);
-		setLocationRelativeTo(OrganizerManager.getMainWindow());
+		setSize(Math.min(400, parentWindow.getWidth() / 2), Math.min(100, parentWindow.getHeight() / 10));
+		setLocationRelativeTo(parentWindow);
 		setUndecorated(true);
 		setAutoRequestFocus(false);
 		setBackground(new Color(0, 0, 0, 0));
-		add(message);
+		setLayout(new BorderLayout());
+		add(message, BorderLayout.CENTER);
 
 		WindowListener wl = new WindowAdapter() {
 
@@ -57,7 +59,7 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 		addWindowListener(wl);
 		addMouseListener(this);
 	}
-
+	
 
 	/**
 	 * Starts the fade-in of the message.
@@ -100,4 +102,5 @@ public class UndecoratedMessageDialog extends JDialog implements MouseListener
 	{
 
 	}
+	
 }

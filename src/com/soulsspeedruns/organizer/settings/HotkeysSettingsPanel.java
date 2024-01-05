@@ -71,7 +71,7 @@ public class HotkeysSettingsPanel extends JPanel
 		layout.setVerticalGroup(vGroup);
 
 		setLayout(layout);
-		TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Hotkeys");
+		TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Global Hotkeys");
 		border.setTitleFont(border.getTitleFont().deriveFont(Font.BOLD));
 		setBorder(border);
 	}
