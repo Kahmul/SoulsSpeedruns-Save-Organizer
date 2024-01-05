@@ -75,8 +75,7 @@ public abstract class AbstractMessage extends JPanel
 		g.setColor(getColor());
 		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 		g.setFont(FONT);
-		drawIcon(g);
-		drawMessage(g);
+		drawMessageAndIcon(g);
 		fadeInOut();
 	}
 
@@ -107,31 +106,25 @@ public abstract class AbstractMessage extends JPanel
 		}
 		repaint();
 	}
-
-
+	
+	
 	/**
-	 * Draws the icon associated with this message.
+	 * Draws the message and icon associated with this message.
 	 * 
 	 * @param g the graphics to draw on
 	 */
-	private void drawIcon(Graphics g)
-	{
-		Icon icon = IconFontSwing.buildIcon(getIcon(), getIconSize(), getColor());
-		icon.paintIcon(null, g, getWidth() / 6 - icon.getIconWidth() / 2, getHeight() / 2 - icon.getIconHeight() / 2);
-	}
-
-
-	/**
-	 * Draws the text associated with this message.
-	 * 
-	 * @param g the graphics to draw on
-	 */
-	private void drawMessage(Graphics g)
+	private void drawMessageAndIcon(Graphics g)
 	{
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
-		int x = getWidth() / 2 - metrics.stringWidth(getMessage()) / 2;
-		int y = getHeight() / 2 - metrics.getHeight() / 2 + metrics.getAscent();
-		g.drawString(getMessage(), x, y);
+		Icon icon = IconFontSwing.buildIcon(getIcon(), 22, getColor());
+		
+		int iconX = getWidth() / 2 - metrics.stringWidth(getMessage()) / 2  - icon.getIconWidth()/2 - 5;
+		int iconY = getHeight() / 2 - icon.getIconHeight() / 2;
+		icon.paintIcon(null, g, iconX, iconY);
+		
+		int messageX = getWidth() / 2 - metrics.stringWidth(getMessage()) / 2 + icon.getIconWidth()/2 + 5;
+		int messageY = getHeight() / 2 - metrics.getHeight() / 2 + metrics.getAscent() + 2;
+		g.drawString(getMessage(), messageX, messageY);
 	}
 
 
@@ -190,10 +183,14 @@ public abstract class AbstractMessage extends JPanel
 	public static void display(AbstractMessage message)
 	{
 		currentMessage = message;
+		
 		SUCCESSFUL_DELETE.fadeOut();
 		SUCCESSFUL_IMPORT.fadeOut();
 		SUCCESSFUL_LOAD.fadeOut();
 		SUCCESSFUL_REPLACE.fadeOut();
+		SUCCESSFUL_REFRESH.fadeOut();
+		FAILED_LOAD.fadeOut();
+		
 		message.display();
 	}
 
@@ -204,10 +201,13 @@ public abstract class AbstractMessage extends JPanel
 	public static void clearAllMessages()
 	{
 		currentMessage = null;
+		
 		SUCCESSFUL_DELETE.fadeOut();
 		SUCCESSFUL_IMPORT.fadeOut();
 		SUCCESSFUL_LOAD.fadeOut();
 		SUCCESSFUL_REPLACE.fadeOut();
+		SUCCESSFUL_REFRESH.fadeOut();
+		FAILED_LOAD.fadeOut();
 	}
 
 
