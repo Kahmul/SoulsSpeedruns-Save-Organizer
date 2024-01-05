@@ -2,12 +2,6 @@ package com.soulsspeedruns.organizer.about;
 
 
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.net.URI;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -16,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.mainconfig.HyperLink;
 
 import jiconfont.icons.Elusive;
 import jiconfont.swing.IconFontSwing;
@@ -32,9 +27,6 @@ import jiconfont.swing.IconFontSwing;
 public class AboutPanel extends JPanel
 {
 
-	private static final long serialVersionUID = 1295107948615705937L;
-
-
 	/**
 	 * Creates a new AboutPanel.
 	 */
@@ -44,82 +36,36 @@ public class AboutPanel extends JPanel
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		JLabel versionLabel = new JLabel("Version:");
-		versionLabel.setFont(getFont().deriveFont(Font.BOLD));
+		JLabel versionLabel = new JLabel("<html><b>Version:</b></html>");
+		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		JLabel versionNumberLabel = new JLabel(OrganizerManager.VERSION);
 
-		JLabel developerLabel = new JLabel("Developed by:");
-		developerLabel.setFont(getFont().deriveFont(Font.BOLD));
-		JLabel developerLink = createDevLink();
-		JLabel githubLink = createGitHubLink();
+		JLabel developerLabel = new JLabel("<html><b>Developed by:</b></html>");
+		developerLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		
 		JLabel discordLabel = createDiscordLabel();
+		HyperLink devLink = createDevLink();
+		HyperLink githubLink = createGitHubLink();
 
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
 		hGroup.addGroup(layout.createParallelGroup(Alignment.TRAILING).addComponent(versionLabel).addComponent(versionNumberLabel)
-				.addComponent(developerLabel).addComponent(discordLabel).addComponent(developerLink).addComponent(githubLink));
+				.addComponent(developerLabel).addComponent(discordLabel).addComponent(devLink).addComponent(githubLink));
 
 		layout.setHorizontalGroup(hGroup);
 
 		// Vertical
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
-		vGroup.addComponent(versionLabel).addComponent(versionNumberLabel).addComponent(developerLabel).addComponent(discordLabel).addComponent(developerLink)
-				.addComponent(githubLink);
+		vGroup.addComponent(versionLabel).addComponent(versionNumberLabel).addComponent(developerLabel).addComponent(discordLabel)
+				.addComponent(devLink).addComponent(githubLink);
 
 		layout.setVerticalGroup(vGroup);
 
 		setLayout(layout);
 	}
-
-
-	private JLabel createDevLink()
-	{
-		JLabel developerNameLabel = new JLabel("<html><body><a href=\"\">Kahmul78</a></body></html>");
-		developerNameLabel.setIcon(IconFontSwing.buildIcon(Elusive.TWITTER, 20, new Color(64, 153, 255)));
-		developerNameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		developerNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		developerNameLabel.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				try
-				{
-					Desktop.getDesktop().browse(new URI(OrganizerManager.TWITTER_URL));
-				}
-				catch (Exception ex)
-				{
-				}
-			}
-		});
-		return developerNameLabel;
-	}
-
-
-	private JLabel createGitHubLink()
-	{
-		JLabel githubLabel = new JLabel("<html><body><a href=\"\">GitHub Repository</a></body></html>");
-		githubLabel.setIcon(IconFontSwing.buildIcon(Elusive.GITHUB, 20));
-		githubLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		githubLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		githubLabel.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				try
-				{
-					Desktop.getDesktop().browse(new URI(OrganizerManager.GITHUB_REPO_URL));
-				}
-				catch (Exception ex)
-				{
-				}
-			}
-		});
-		return githubLabel;
-	}
+	
 	
 	private JLabel createDiscordLabel()
 	{
@@ -127,6 +73,26 @@ public class AboutPanel extends JPanel
 		discordLabel.setIcon(OrganizerManager.discordIcon);
 		
 		return discordLabel;
+	}
+	
+	
+	private HyperLink createDevLink()
+	{
+		HyperLink devLink = new HyperLink("Kahmul78", OrganizerManager.TWITTER_URL);
+		devLink.setHorizontalAlignment(SwingConstants.RIGHT);
+		devLink.setIcon(IconFontSwing.buildIcon(Elusive.TWITTER, 20, new Color(64, 153, 255)));
+		
+		return devLink;
+	}
+	
+	
+	private HyperLink createGitHubLink()
+	{
+		HyperLink githubLink = new HyperLink("GitHub Repository", OrganizerManager.GITHUB_REPO_URL);
+		githubLink.setHorizontalAlignment(SwingConstants.RIGHT);
+		githubLink.setIcon(IconFontSwing.buildIcon(Elusive.GITHUB, 20));
+		
+		return githubLink;
 	}
 
 }

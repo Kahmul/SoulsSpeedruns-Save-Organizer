@@ -3,17 +3,11 @@ package com.soulsspeedruns.organizer.main;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.net.URI;
 
 import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -23,9 +17,10 @@ import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
+import com.soulsspeedruns.organizer.mainconfig.HyperLink;
+import com.soulsspeedruns.organizer.mainconfig.ReadOnlyButton;
 import com.soulsspeedruns.organizer.profileconfig.Profile;
 import com.soulsspeedruns.organizer.savelist.Folder;
-import com.soulsspeedruns.organizer.savelist.ReadOnlyButton;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 import com.soulsspeedruns.organizer.settings.SettingsWindow;
@@ -47,13 +42,11 @@ import jiconfont.swing.IconFontSwing;
 public class ButtonPanel extends JPanel
 {
 
-	private static final long serialVersionUID = 4450835782973692167L;
-	
 	private JButton importButton;
 	private JButton loadButton;
 	private JButton replaceButton;
 	private JButton settingsButton;
-	private JLabel updateLabel;
+	private HyperLink updateLink;
 
 
 	/**
@@ -71,13 +64,13 @@ public class ButtonPanel extends JPanel
 		loadButton = createLoadButton();
 		replaceButton = createReplaceButton();
 		settingsButton = createSettingsButton();
-		updateLabel = createUpdateLabel();
+		updateLink = createUpdateLink();
 		
 		JPanel settingsUpdatePanel = new JPanel();
 		GroupLayout panelLayout = new GroupLayout(settingsUpdatePanel);
 		
-		panelLayout.setHorizontalGroup(panelLayout.createSequentialGroup().addComponent(updateLabel).addGap(10).addComponent(settingsButton));
-		panelLayout.setVerticalGroup(panelLayout.createParallelGroup(Alignment.CENTER).addComponent(updateLabel).addComponent(settingsButton));
+		panelLayout.setHorizontalGroup(panelLayout.createSequentialGroup().addComponent(updateLink).addGap(10).addComponent(settingsButton));
+		panelLayout.setVerticalGroup(panelLayout.createParallelGroup(Alignment.CENTER).addComponent(updateLink).addComponent(settingsButton));
 		
 		settingsUpdatePanel.setLayout(panelLayout);
 
@@ -178,29 +171,14 @@ public class ButtonPanel extends JPanel
 		return replaceButton;
 	}
 	
-	private JLabel createUpdateLabel()
+	
+	private HyperLink createUpdateLink()
 	{
-		JLabel updateLabel = new JLabel("<html><body><a href=\"\">Update Available</a></body></html>", SwingConstants.RIGHT);
-		updateLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		updateLabel.setToolTipText(OrganizerManager.LATEST_RELEASE_URL);
-		updateLabel.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				try
-				{
-//					new NewReleaseWindow();
-					Desktop.getDesktop().browse(new URI(OrganizerManager.LATEST_RELEASE_URL));
-				}
-				catch (Exception ex)
-				{
-				}
-			}
-		});
+		HyperLink updateLink = new HyperLink("Update Available", OrganizerManager.LATEST_RELEASE_URL); 
+		updateLink.setHorizontalAlignment(SwingConstants.RIGHT);
+		updateLink.setVisible(OrganizerManager.isVersionOutdated());
 		
-		updateLabel.setVisible(OrganizerManager.isVersionOutdated());
-		return updateLabel;
+		return updateLink;
 	}
 	
 	/**
@@ -210,8 +188,9 @@ public class ButtonPanel extends JPanel
 	 */
 	private JButton createSettingsButton()
 	{
-		JButton settingsButton = new JButton(IconFontSwing.buildIcon(FontAwesome.COG, 17, Color.GRAY));
+		JButton settingsButton = new JButton(IconFontSwing.buildIcon(FontAwesome.COG, 22, Color.GRAY));
 		settingsButton.addActionListener(event -> new SettingsWindow());
+		settingsButton.setFocusable(false);
 		return settingsButton;
 	}
 	
@@ -321,7 +300,7 @@ public class ButtonPanel extends JPanel
 			public void settingChanged(String prefsKey)
 			{
 				if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
-					updateLabel.setVisible(OrganizerManager.isVersionOutdated());
+					updateLink.setVisible(OrganizerManager.isVersionOutdated());
 				else if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE))
 					refreshButtons();
 			}
