@@ -29,10 +29,9 @@ import jiconfont.swing.IconFontSwing;
 public abstract class AbstractMessage extends JPanel
 {
 
-	private static final long serialVersionUID = -7470202821259477366L;
-
 	private static final Font FONT = new Font("Calibri", Font.BOLD, 17);
 	private static final int TIME_OUT = 2500;
+	private static final int iconTextGap = 5;
 
 	public static final AbstractMessage SUCCESSFUL_DELETE = new SuccessfulDeleteMessage();
 	public static final AbstractMessage SUCCESSFUL_IMPORT = new SuccessfulImportMessage();
@@ -118,12 +117,12 @@ public abstract class AbstractMessage extends JPanel
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
 		Icon icon = IconFontSwing.buildIcon(getIcon(), 22, getColor());
 		
-		int iconX = getWidth() / 2 - metrics.stringWidth(getMessage()) / 2  - icon.getIconWidth()/2 - 5;
+		int iconX = getWidth() / 2 - metrics.stringWidth(getMessage()) / 2  - icon.getIconWidth()/2 - iconTextGap;
 		int iconY = getHeight() / 2 - icon.getIconHeight() / 2;
 		icon.paintIcon(null, g, iconX, iconY);
 		
-		int messageX = getWidth() / 2 - metrics.stringWidth(getMessage()) / 2 + icon.getIconWidth()/2 + 5;
-		int messageY = getHeight() / 2 - metrics.getHeight() / 2 + metrics.getAscent() + 2;
+		int messageX = getWidth() / 2 - metrics.stringWidth(getMessage()) / 2 + icon.getIconWidth()/2 + iconTextGap;
+		int messageY = getHeight() / 2 + metrics.getAscent() / 2;
 		g.drawString(getMessage(), messageX, messageY);
 	}
 
