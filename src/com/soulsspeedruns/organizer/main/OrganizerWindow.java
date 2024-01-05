@@ -7,9 +7,8 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
+import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
@@ -26,20 +25,21 @@ import com.soulsspeedruns.organizer.listeners.SettingsListener;
 public class OrganizerWindow extends JFrame implements SettingsListener
 {
 
-	private static final long serialVersionUID = -410330356532830410L;
-
-	private static final int MIN_WIDTH = 700; //700
-	private static final int MIN_HEIGHT = 600; //600
+	private static final int MIN_WIDTH = 650;
+	private static final int MIN_HEIGHT = 550;
 	
-	private static final int MIN_WIDTH_COMPACT = 575;
-	private static final int MIN_HEIGHT_COMPACT = 475;
+	private static final int MIN_WIDTH_COMPACT = 500;
+	private static final int MIN_HEIGHT_COMPACT = 400;
 
 	private static final boolean IS_RESIZABLE = true;
-
+	
 
 	public static void main(String[] args)
 	{
-		new OrganizerWindow();
+		SwingUtilities.invokeLater(() -> {
+			new OrganizerWindow();
+		});
+
 	}
 
 
@@ -63,14 +63,6 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	 */
 	private void initProperties()
 	{
-		try
-		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch (Exception e)
-		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error occurred", JOptionPane.ERROR_MESSAGE);
-		}
 		setIconImage(OrganizerManager.soulsspeedrunsIcon);
 		setResizable(IS_RESIZABLE);
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
@@ -78,6 +70,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 		Dimension size = OrganizerManager.getStoredWindowSize();
 		setSize(size);
 		setLocationRelativeTo(null);
+		setExtendedState(OrganizerManager.getStoredMaximizedWindowState());
 		OrganizerManager.setMainWindow(this);
 		OrganizerManager.addSettingsListener(this);
 	}
@@ -90,12 +83,12 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	{
 		JPanel guiPanel = new JPanel();
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.PAGE_AXIS));
-
+		
 		guiPanel.add(new ProfilePanel());
 		guiPanel.add(new SortingPanel());
 		guiPanel.add(new ListPanel());
 		guiPanel.add(new ButtonPanel());
-
+		
 		add(guiPanel);
 	}
 
@@ -108,24 +101,22 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 		addWindowListener(new WindowAdapter() {
 
 			@Override
-			public void windowGainedFocus(WindowEvent e)
+			public void windowActivated(WindowEvent e)
 			{
-			}
-
-
-			@Override
-			public void windowOpened(WindowEvent e)
-			{
+				requestFocusInWindow();
+				OrganizerManager.updateLookAndFeel();
 			}
 
 
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
-				OrganizerManager.setStoredWindowSize(new Dimension(getSize()));
+				int state = getExtendedState();
+				if(state != JFrame.MAXIMIZED_BOTH)
+					OrganizerManager.setStoredWindowSize(new Dimension(getSize()));
+				OrganizerManager.setStoredMaximizedWindowState(state);
 				OrganizerManager.getKeyboardHook().unregisterHook();
 				e.getWindow().dispose();
-				System.runFinalization();
 				System.exit(0);
 			}
 		});

@@ -1,7 +1,6 @@
 package com.soulsspeedruns.organizer.savelist;
 
 
-import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -13,13 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
@@ -35,6 +31,8 @@ import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SearchListener;
 import com.soulsspeedruns.organizer.listeners.SortingListener;
+import com.soulsspeedruns.organizer.mainconfig.SearchBar;
+import com.soulsspeedruns.organizer.mainconfig.SortingCategory;
 import com.soulsspeedruns.organizer.messages.AbstractMessage;
 import com.soulsspeedruns.organizer.profileconfig.Profile;
 
@@ -47,11 +45,9 @@ import com.soulsspeedruns.organizer.profileconfig.Profile;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 26 Sep 2015
  */
-public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<SaveListEntry>, ListSelectionListener, ProfileListener,
+public class SaveList extends JList<SaveListEntry> implements ListSelectionListener, ProfileListener,
 		SaveListener, SearchListener, SortingListener, MouseListener, KeyListener, NavigationListener
 {
-
-	private static final long serialVersionUID = 4832551527054891457L;
 
 	private static final int EMPTY_SPACE_AT_BOTTOM = 50;
 
@@ -70,7 +66,7 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 
 		setBorder(BorderFactory.createEmptyBorder(0, 0, EMPTY_SPACE_AT_BOTTOM, 0));
 
-		setCellRenderer(this);
+		setCellRenderer(new SaveListRenderer());
 		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		setDragEnabled(true);
@@ -513,20 +509,14 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	private void checkForPopUp(MouseEvent event)
 	{
 		int index = locationToIndex(new Point(event.getX(), event.getY()));
-		if (index == -1 || !getCellBounds(index, index).contains(new Point(event.getX(), event.getY())))
-			clearSelection();
 		if (event.isPopupTrigger())
 			new SaveListContextMenu(this, event.getX(), event.getY());
-	}
-
-
-	@Override
-	public Component getListCellRendererComponent(JList<? extends SaveListEntry> list, SaveListEntry entry, int index, boolean isSelected,
-			boolean cellHasFocus)
-	{
-		JLabel label = (JLabel) new DefaultListCellRenderer().getListCellRendererComponent(list, entry, index, isSelected, cellHasFocus);
-		entry.render(label);
-		return label;
+		if (index == -1 || !getCellBounds(index, index).contains(new Point(event.getX(), event.getY())))
+		{
+			clearSelection();
+			return;
+		}
+		setSelectedIndex(index);
 	}
 
 
@@ -692,6 +682,8 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
+		e.consume();
+		requestFocusInWindow();
 		checkForPopUp(e);
 	}
 
@@ -699,6 +691,8 @@ public class SaveList extends JList<SaveListEntry> implements ListCellRenderer<S
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
+		e.consume();
+		requestFocusInWindow();
 		checkForPopUp(e);
 	}
 

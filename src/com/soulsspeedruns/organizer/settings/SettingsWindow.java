@@ -26,8 +26,6 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 public class SettingsWindow extends JDialog
 {
 
-	private static final long serialVersionUID = -4051069456386856693L;
-
 	private GeneralSettingsPanel generalSettingsPanel;
 	private HotkeysSettingsPanel hotkeysSettingsPanel;
 
@@ -41,7 +39,7 @@ public class SettingsWindow extends JDialog
 
 		initLayout();
 		initProperties();
-
+		
 		setVisible(true);
 	}
 
@@ -67,6 +65,13 @@ public class SettingsWindow extends JDialog
 			}
 		});
 		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowActivated(WindowEvent e)
+			{
+				requestFocusInWindow();
+				OrganizerManager.updateLookAndFeel();
+			}
 
 			@Override
 			public void windowClosing(WindowEvent e)

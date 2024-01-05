@@ -3,17 +3,22 @@ package com.soulsspeedruns.organizer.settings;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ItemEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.theme.Theme;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 
@@ -28,13 +33,12 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 public class GeneralSettingsPanel extends JPanel
 {
 
-	private static final long serialVersionUID = -7722457804075174686L;
-
 	private JCheckBox alwaysOnTopCheckbox;
 	private JCheckBox hotkeysCheckbox;
 	private JCheckBox doubleClickLoadCheckbox;
 	private JCheckBox checkForUpdatesCheckbox;
 	private JCheckBox compactModeCheckbox;
+	private JComboBox<Theme> themeCombobox;
 
 
 	/**
@@ -47,6 +51,9 @@ public class GeneralSettingsPanel extends JPanel
 		layout.setAutoCreateContainerGaps(true);
 
 		Component glue = Box.createHorizontalGlue();
+		
+		JLabel themeLabel = new JLabel("Theme:");
+		themeCombobox = createThemeComboBox();
 
 		JLabel alwaysOnTopLabel = new JLabel("Always On Top:");
 		alwaysOnTopLabel.setToolTipText("Forces the organizer to always stay visible over other windows.");
@@ -71,9 +78,9 @@ public class GeneralSettingsPanel extends JPanel
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysLabel).addComponent(alwaysOnTopLabel).addComponent(doubleClickLoadLabel).addComponent(checkForUpdatesLabel).addComponent(compactModeLabel));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysLabel).addComponent(alwaysOnTopLabel).addComponent(doubleClickLoadLabel).addComponent(checkForUpdatesLabel).addComponent(compactModeLabel).addComponent(themeLabel));
 		hGroup.addGroup(layout.createParallelGroup().addComponent(glue));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(hotkeysCheckbox).addComponent(alwaysOnTopCheckbox).addComponent(doubleClickLoadCheckbox).addComponent(checkForUpdatesCheckbox).addComponent(compactModeCheckbox));
+		hGroup.addGroup(layout.createParallelGroup(Alignment.TRAILING).addComponent(hotkeysCheckbox).addComponent(alwaysOnTopCheckbox).addComponent(doubleClickLoadCheckbox).addComponent(checkForUpdatesCheckbox).addComponent(compactModeCheckbox).addComponent(themeCombobox));
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -81,11 +88,12 @@ public class GeneralSettingsPanel extends JPanel
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(glue));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(themeLabel).addComponent(themeCombobox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(checkForUpdatesLabel).addComponent(checkForUpdatesCheckbox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(alwaysOnTopLabel).addComponent(alwaysOnTopCheckbox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(hotkeysLabel).addComponent(hotkeysCheckbox));
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(doubleClickLoadLabel).addComponent(doubleClickLoadCheckbox));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(compactModeLabel).addComponent(compactModeCheckbox));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(doubleClickLoadLabel).addComponent(doubleClickLoadCheckbox));
 
 		layout.setVerticalGroup(vGroup);
 
@@ -93,6 +101,29 @@ public class GeneralSettingsPanel extends JPanel
 		TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "General");
 		border.setTitleFont(border.getTitleFont().deriveFont(Font.BOLD));
 		setBorder(border);
+	}
+
+
+	private JComboBox<Theme> createThemeComboBox()
+	{
+		JComboBox<Theme> themeCombobox = new JComboBox<>(LafManager.getThemeComboBoxModel());
+		themeCombobox.setSelectedItem(LafManager.getInstalledTheme());
+		
+		themeCombobox.addItemListener(event -> {
+			if (event.getStateChange() == ItemEvent.SELECTED)
+			{
+				Theme selectedTheme = (Theme) event.getItem();
+				if(!LafManager.getInstalledTheme().equals(selectedTheme))
+				{
+					SwingUtilities.invokeLater(() -> {
+						LafManager.install(selectedTheme);
+					});
+				}
+
+			}
+		});
+		
+		return themeCombobox;
 	}
 
 

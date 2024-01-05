@@ -3,8 +3,10 @@ package com.soulsspeedruns.organizer.about;
 
 import java.awt.Dialog;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -25,8 +27,6 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
  */
 public class AboutWindow extends JDialog
 {
-
-	private static final long serialVersionUID = 3660600135211221410L;
 
 
 	/**
@@ -53,6 +53,15 @@ public class AboutWindow extends JDialog
 		setIconImage(OrganizerManager.soulsspeedrunsIcon);
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
+		
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowActivated(WindowEvent e)
+			{
+				OrganizerManager.updateLookAndFeel();
+			}
+		});
 	}
 
 
@@ -76,25 +85,9 @@ public class AboutWindow extends JDialog
 	private JLabel createIconLabel()
 	{
 		JLabel iconLabel = new JLabel(new ImageIcon(OrganizerManager.soulsspeedrunsIconMedium));
-		iconLabel.addMouseListener(new MouseListener() {
+		iconLabel.addMouseListener(new MouseAdapter() {
 			
 			boolean once = false;
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {

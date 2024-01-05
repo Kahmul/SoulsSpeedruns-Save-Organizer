@@ -2,6 +2,8 @@ package com.soulsspeedruns.organizer.profileconfig;
 
 
 import java.awt.Dialog;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
@@ -22,9 +24,6 @@ import com.soulsspeedruns.organizer.games.Game;
  */
 public class ProfileConfigurationWindow extends JDialog
 {
-
-	private static final long serialVersionUID = 649337266477016499L;
-
 
 	/**
 	 * Creates a new configuration window.
@@ -51,6 +50,15 @@ public class ProfileConfigurationWindow extends JDialog
 		setLocationRelativeTo(null);
 		setIconImage(OrganizerManager.soulsspeedrunsIcon);
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
+		
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowActivated(WindowEvent e)
+			{
+				OrganizerManager.updateLookAndFeel();
+			}
+		});
 	}
 
 

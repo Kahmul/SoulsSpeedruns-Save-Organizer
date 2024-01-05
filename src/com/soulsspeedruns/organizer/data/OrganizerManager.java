@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -24,10 +23,14 @@ import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import org.jnativehook.NativeHookException;
 import org.json.JSONObject;
 
+import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.theme.IntelliJTheme;
+import com.github.weisj.darklaf.theme.spec.ColorToneRule;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.hotkeys.GlobalHotkey;
 import com.soulsspeedruns.organizer.hotkeys.GlobalKeyboardHook;
@@ -38,12 +41,16 @@ import com.soulsspeedruns.organizer.listeners.SearchListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.listeners.SortingListener;
 import com.soulsspeedruns.organizer.main.OrganizerWindow;
+import com.soulsspeedruns.organizer.mainconfig.SortingCategory;
 import com.soulsspeedruns.organizer.messages.AbstractMessage;
 import com.soulsspeedruns.organizer.profileconfig.Profile;
 import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
-import com.soulsspeedruns.organizer.savelist.SortingCategory;
+import com.soulsspeedruns.organizer.theme.DefaultTheme;
+import com.soulsspeedruns.organizer.theme.GlobalThemeAdjustmentTask;
+import com.soulsspeedruns.organizer.theme.GlobalThemeInitTask;
+import com.soulsspeedruns.organizer.theme.SoulsSpeedrunsTheme;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.FontAwesome;
@@ -63,14 +70,16 @@ import jiconfont.swing.IconFontSwing;
 public class OrganizerManager
 {
 
-	public static final String VERSION = "1.5.2";
+	public static final String VERSION = "1.5.1";
+	
+	private static String latestReleaseVersion;
 
 	/**
 	 * Constants defining various URLs.
 	 */
-	public static final String WEB_PAGE_URL = "www.github.com/Kahmul/SoulsSpeedruns-Save-Organizer";
-	public static final String GITHUB_REPO_URL = "www.github.com/Kahmul/SoulsSpeedruns-Save-Organizer";
-	public static final String TWITTER_URL = "www.twitter.com/Kahmul78";
+	public static final String WEB_PAGE_URL = "https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer";
+	public static final String GITHUB_REPO_URL = "https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer";
+	public static final String TWITTER_URL = "https://twitter.com/Kahmul78";
 	public static final String LATEST_RELEASE_JSON_URL = "https://api.github.com/repos/Kahmul/SoulsSpeedruns-Save-Organizer/releases/latest";
 	public static final String LATEST_RELEASE_URL = "https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/releases/latest";
 
@@ -89,6 +98,8 @@ public class OrganizerManager
 
 	private static final String PREFS_KEY_WIN_WIDTH = "WindowWidth";
 	private static final String PREFS_KEY_WIN_HEIGHT = "WindowHeight";
+	
+	private static final String PREFS_KEY_MAXIMIZED = "WindowMaximized";
 
 	private static final String PREFS_KEY_SELECTED_GAME = "selectedGame";
 	private static final String PREFS_KEY_SELECTED_PROFILE = "selectedProfile";
@@ -172,6 +183,7 @@ public class OrganizerManager
 		initListeners();
 		initPreferenceData();
 		initKeyboardHook();
+		initLookAndFeel();
 		mapGamesWithProfiles();
 		
 //		setAppUserModelID();
@@ -293,6 +305,19 @@ public class OrganizerManager
 					"Error occurred", JOptionPane.ERROR_MESSAGE);
 			keyboardHook.setHotkeysEnabled(false);
 		}
+	}
+	
+	private static void initLookAndFeel()
+	{
+		LafManager.unregisterTheme(new IntelliJTheme());
+		LafManager.registerTheme(new SoulsSpeedrunsTheme());
+		LafManager.registerTheme(new DefaultTheme());
+		
+		LafManager.registerDefaultsAdjustmentTask(new GlobalThemeAdjustmentTask());
+		LafManager.registerInitTask(new GlobalThemeInitTask());
+		
+		boolean dark = LafManager.getPreferredThemeStyle().getColorToneRule() != ColorToneRule.DARK;
+		LafManager.install(dark ? new SoulsSpeedrunsTheme() : new IntelliJTheme());
 	}
 
 
@@ -576,7 +601,7 @@ public class OrganizerManager
 		Folder parent = saveToReplace.getParent();
 		String name = saveToReplace.getName();
 		saveToReplace.delete();
-		File saveFile = createFileForNewSave((Folder) parent);
+		File saveFile = createFileForNewSave(parent);
 		if (saveFile == null)
 			return;
 		Save newSave = new Save(parent, saveFile);
@@ -702,6 +727,18 @@ public class OrganizerManager
 		{
 			JOptionPane.showMessageDialog(mainWindow, e.getMessage(), "Error occurred", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	
+	/**
+	 * Updates the L&F given the current settings.
+	 * Used when a new window is opened to refresh the L&F, otherwise minor things might be off, e.g. the title bar icon.
+	 */
+	public static void updateLookAndFeel()
+	{
+		SwingUtilities.invokeLater(() -> {
+			LafManager.forceLafUpdate();
+		});
 	}
 
 
@@ -846,22 +883,24 @@ public class OrganizerManager
 
 
 	/**
-	 * Navigates upwards in the savefile list
+	 * Navigates upwards in the savefile list.
 	 */
 	public static void navigateToPrevious()
 	{
-		for(NavigationListener listener : navigationListeners) {
+		for(NavigationListener listener : navigationListeners)
+		{
 			listener.navigatedToPrevious();
 		}
 	}
 
 
 	/**
-	 * Navigates downwards in the savefile list
+	 * Navigates downwards in the savefile list.
 	 */
 	public static void navigateToNext()
 	{
-		for(NavigationListener listener : navigationListeners) {
+		for(NavigationListener listener : navigationListeners)
+		{
 			listener.navigatedToNext();
 		}
 	}
@@ -890,6 +929,28 @@ public class OrganizerManager
 	{
 		prefs.putInt(PREFS_KEY_WIN_WIDTH, size.width);
 		prefs.putInt(PREFS_KEY_WIN_HEIGHT, size.height);
+	}
+	
+	
+	/**
+	 * Returns whether the main window is stored as maximized in the preferences.
+	 * 
+	 * @return whether the main window is maximized
+	 */
+	public static int getStoredMaximizedWindowState()
+	{
+		return prefs.getInt(PREFS_KEY_MAXIMIZED, -1);
+	}
+	
+	
+	/**
+	 * Sets whether the main window should be stored as maximized in the preferences
+	 * 
+	 * @param state whether it is maximized or not
+	 */
+	public static void setStoredMaximizedWindowState(int state)
+	{
+		prefs.putInt(PREFS_KEY_MAXIMIZED, state);
 	}
 
 
@@ -1313,6 +1374,22 @@ public class OrganizerManager
 		String[] arr = toExamine.split(ILLEGAL_CHARACTERS_REGEX, 2);
 		return arr.length > 1;
 	}
+	
+	
+	/**
+	 * Gets the major Java version of the current runtime.
+	 * 
+	 * @return the currently used major Java version
+	 */
+	public static int getMajorJavaVersion()
+	{
+		String[] versionElements = System.getProperty("java.version").split("\\.");
+	    int firstElement = Integer.parseInt(versionElements[0]);
+	    int version = firstElement == 1 ? Integer.parseInt(versionElements[1]) : firstElement;
+	    
+	    return version;
+	}
+	
 
 
 	/**
@@ -1325,8 +1402,11 @@ public class OrganizerManager
 		if(!isCheckForUpdatesEnabled())
 			return false;
 		
+		if(latestReleaseVersion == null)
+			latestReleaseVersion = getLatestReleaseVersion();
+		
 		String[] vals1 = VERSION.split("\\.");
-		String[] vals2 = getLatestReleaseVersion().split("\\.");
+		String[] vals2 = latestReleaseVersion.split("\\.");
 		int i = 0;
 		// set index to first non-equal ordinal or length of shortest version string
 		while (i < vals1.length && i < vals2.length && vals1[i].equals(vals2[i]))
@@ -1399,7 +1479,7 @@ public class OrganizerManager
 	 */
 	private static JSONObject getLatestReleaseJSON()
 	{
-		try (InputStream is = new URL(LATEST_RELEASE_JSON_URL).openStream())
+		try (InputStream is = URI.create(LATEST_RELEASE_JSON_URL).toURL().openStream())
 		{
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 			String jsonText = readAll(rd);
@@ -1408,8 +1488,8 @@ public class OrganizerManager
 		}
 		catch (Exception e)
 		{
+			return null;
 		}
-		return null;
 	}
 
 

@@ -32,9 +32,6 @@ import jiconfont.swing.IconFontSwing;
 public class SaveListContextMenu extends JPopupMenu
 {
 
-	private static final long serialVersionUID = -1904622827514676246L;
-
-
 	/**
 	 * Creates and shows a new context menu for the given SaveList.
 	 * 
