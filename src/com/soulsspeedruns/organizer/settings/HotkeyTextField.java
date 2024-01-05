@@ -22,8 +22,6 @@ import com.soulsspeedruns.organizer.hotkeys.GlobalHotkey;
 public class HotkeyTextField extends JTextField implements FocusListener, KeyListener
 {
 
-	private static final long serialVersionUID = 154973469277989728L;
-
 	private static final String WAITING_FOR_INPUT_TEXT = "Set Hotkey...";
 
 	private String currentKey;

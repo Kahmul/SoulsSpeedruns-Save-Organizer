@@ -28,9 +28,6 @@ import javax.swing.JScrollPane;
 public class GameConfigProfilesPanel extends JPanel
 {
 
-	private static final long serialVersionUID = -1327027925194860493L;
-
-
 	/**
 	 * Creates a new profile panel.
 	 * 

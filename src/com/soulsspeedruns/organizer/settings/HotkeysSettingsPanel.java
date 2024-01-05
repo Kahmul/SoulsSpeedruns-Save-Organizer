@@ -27,8 +27,6 @@ import com.soulsspeedruns.organizer.hotkeys.GlobalHotkey;
 public class HotkeysSettingsPanel extends JPanel
 {
 
-	private static final long serialVersionUID = 7313394242620056579L;
-
 	private HotkeyTextField[] fields;
 
 

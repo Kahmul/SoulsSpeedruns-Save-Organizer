@@ -19,8 +19,6 @@ import com.soulsspeedruns.organizer.games.Game;
 public class GameConfigPanel extends JPanel
 {
 
-	private static final long serialVersionUID = -1150088331110967812L;
-
 
 	/**
 	 * Creates a game configuration panel.

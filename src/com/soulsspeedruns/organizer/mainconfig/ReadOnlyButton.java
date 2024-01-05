@@ -28,7 +28,6 @@ import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 public class ReadOnlyButton extends JLabel implements MouseListener, ProfileListener, SaveListener, SettingsListener
 {
 
-	private static final long serialVersionUID = -4432217286267536787L;
 	private File file;
 
 	/**

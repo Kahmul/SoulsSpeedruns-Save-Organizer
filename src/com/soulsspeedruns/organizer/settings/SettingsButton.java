@@ -23,8 +23,6 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 public class SettingsButton extends JLabel implements MouseListener
 {
 
-	private static final long serialVersionUID = -3605228058130886152L;
-
 	private boolean highlighted = false;
 	private boolean pressed = false;
 

@@ -28,9 +28,6 @@ import jiconfont.swing.IconFontSwing;
 public class SettingsContextMenu extends JPopupMenu
 {
 
-	private static final long serialVersionUID = -4476965394382053981L;
-
-
 	/**
 	 * Creates a new context menu for the settings button
 	 * 

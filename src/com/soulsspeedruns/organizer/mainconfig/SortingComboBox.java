@@ -19,9 +19,6 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 public class SortingComboBox extends JComboBox<SortingCategory>
 {
 
-	private static final long serialVersionUID = -8190201929116747754L;
-
-
 	/**
 	 * Creates a new sorting combobox.
 	 */

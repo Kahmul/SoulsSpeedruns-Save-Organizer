@@ -25,8 +25,6 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 public class SearchBar extends JTextField implements FocusListener, KeyListener
 {
 
-	private static final long serialVersionUID = -1608497657232185005L;
-
 	public static final String DEFAULT_TEXT = "Search...";
 	private static final int SEARCH_DELAY = 500;
 

@@ -18,8 +18,6 @@ import jiconfont.icons.Elusive;
 public class SuccessfulReplaceMessage extends AbstractMessage
 {
 
-	private static final long serialVersionUID = 3917031603377354547L;
-
 	private static final String MESSAGE = "REPLACE SUCCESSFUL";
 	private static final IconCode ICON = Elusive.REFRESH;
 	private static final Color COLOR = Color.decode("0xeb751c");

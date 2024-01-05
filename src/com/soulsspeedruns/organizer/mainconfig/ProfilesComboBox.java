@@ -23,9 +23,6 @@ import com.soulsspeedruns.organizer.profileconfig.Profile;
 public class ProfilesComboBox extends JComboBox<Profile> implements ProfileListener
 {
 
-	private static final long serialVersionUID = 1056591949253213932L;
-	
-
 	/**
 	 * Creates a new ProfilesComboBox.
 	 * 

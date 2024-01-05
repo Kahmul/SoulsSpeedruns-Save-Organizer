@@ -29,7 +29,6 @@ import com.soulsspeedruns.organizer.listeners.ProfileListener;
 public class ProfileList extends JList<Profile> implements ProfileListener, KeyListener
 {
 
-	private static final long serialVersionUID = -3296536317277215330L;
 	private Game game;
 
 

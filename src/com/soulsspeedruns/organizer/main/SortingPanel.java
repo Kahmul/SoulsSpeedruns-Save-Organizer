@@ -26,9 +26,6 @@ import javax.swing.JPanel;
 public class SortingPanel extends JPanel
 {
 
-	private static final long serialVersionUID = -9085347834231860908L;
-
-
 	protected SortingPanel()
 	{
 		GroupLayout layout = new GroupLayout(this);

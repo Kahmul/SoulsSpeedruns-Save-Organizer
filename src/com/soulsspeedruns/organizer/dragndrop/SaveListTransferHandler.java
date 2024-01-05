@@ -27,8 +27,6 @@ import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 public class SaveListTransferHandler extends TransferHandler
 {
 
-	private static final long serialVersionUID = 4773499372263177613L;
-
 	private SaveList saveList;
 
 

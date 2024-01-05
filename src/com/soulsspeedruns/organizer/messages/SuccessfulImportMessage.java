@@ -18,8 +18,6 @@ import jiconfont.icons.Iconic;
 public class SuccessfulImportMessage extends AbstractMessage
 {
 
-	private static final long serialVersionUID = 3917031603377354547L;
-
 	private static final String MESSAGE = "IMPORT SUCCESSFUL";
 	private static final IconCode ICON = Iconic.CURVED_ARROW;
 	private static final Color COLOR = Color.decode("0x1d6fbe");

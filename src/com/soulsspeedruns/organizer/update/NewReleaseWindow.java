@@ -27,9 +27,6 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 public class NewReleaseWindow extends JDialog
 {
 
-	private static final long serialVersionUID = -6391232613190496632L;
-
-
 	/**
 	 * Creates a new AboutWindow.
 	 */

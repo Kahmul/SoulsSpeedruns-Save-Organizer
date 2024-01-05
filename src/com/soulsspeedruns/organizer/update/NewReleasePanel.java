@@ -23,9 +23,6 @@ import javax.swing.JPanel;
 public class NewReleasePanel extends JPanel
 {
 
-	private static final long serialVersionUID = -5274107865858097200L;
-
-
 	/**
 	 * Creates a NewReleasePanel.
 	 */

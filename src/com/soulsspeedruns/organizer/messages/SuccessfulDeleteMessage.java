@@ -18,8 +18,6 @@ import jiconfont.icons.FontAwesome;
 public class SuccessfulDeleteMessage extends AbstractMessage
 {
 
-	private static final long serialVersionUID = 3917031603377354547L;
-
 	private static final String MESSAGE = "DELETE SUCCESSFUL";
 	private static final IconCode ICON = FontAwesome.CHECK;
 	private static final Color COLOR = Color.decode("0xea3622");

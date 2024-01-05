@@ -28,8 +28,6 @@ import com.soulsspeedruns.organizer.games.Game;
 public class GameConfigDirectoryPanel extends JPanel
 {
 
-	private static final long serialVersionUID = 3869667597583441534L;
-
 
 	/**
 	 * Creates a new directory panel.

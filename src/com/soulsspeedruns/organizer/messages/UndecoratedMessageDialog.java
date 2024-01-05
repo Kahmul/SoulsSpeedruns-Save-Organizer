@@ -26,8 +26,6 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 public class UndecoratedMessageDialog extends JDialog implements MouseListener
 {
 
-	private static final long serialVersionUID = 2647400160686831681L;
-
 	private AbstractMessage message;
 
 

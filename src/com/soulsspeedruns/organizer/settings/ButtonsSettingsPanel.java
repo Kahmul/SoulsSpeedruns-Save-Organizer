@@ -25,9 +25,6 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 public class ButtonsSettingsPanel extends JPanel
 {
 
-	private static final long serialVersionUID = -6763035231347610220L;
-
-
 	/**
 	 * Creates a new buttons settings panel.
 	 *

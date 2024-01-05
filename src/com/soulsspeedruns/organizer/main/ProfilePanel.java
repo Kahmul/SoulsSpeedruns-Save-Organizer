@@ -27,9 +27,6 @@ import com.soulsspeedruns.organizer.profileconfig.ProfileConfigurationWindow;
 public class ProfilePanel extends JPanel
 {
 
-	private static final long serialVersionUID = 726071248080811470L;
-
-
 	/**
 	 * Creates a new ProfilePanel for the main window.
 	 */

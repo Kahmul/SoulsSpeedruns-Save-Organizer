@@ -21,9 +21,6 @@ import com.soulsspeedruns.organizer.games.Game;
 public class GamesComboBox extends JComboBox<Game>
 {
 
-	private static final long serialVersionUID = -3428616630686103313L;
-	
-	
 	protected final DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 
 

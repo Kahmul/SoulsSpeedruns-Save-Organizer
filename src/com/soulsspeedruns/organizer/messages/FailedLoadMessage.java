@@ -18,8 +18,6 @@ import jiconfont.icons.Iconic;
 public class FailedLoadMessage extends AbstractMessage
 {
 
-	private static final long serialVersionUID = -650759122764314062L;
-	
 	private static final String MESSAGE = "LOAD FAILED";
 	private static final IconCode ICON = Iconic.CHECK;
 	private static final Color COLOR = Color.decode("0xee6a5c");

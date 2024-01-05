@@ -22,9 +22,6 @@ import javax.swing.ScrollPaneConstants;
 public class ListPanel extends JPanel
 {
 
-	private static final long serialVersionUID = 6198586503518113347L;
-
-
 	/**
 	 * Creates a new ListPanel for the main window.
 	 */
