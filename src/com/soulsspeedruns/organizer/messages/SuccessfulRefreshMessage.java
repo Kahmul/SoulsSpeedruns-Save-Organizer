@@ -22,7 +22,7 @@ public class SuccessfulRefreshMessage extends AbstractMessage
 
 	private static final String MESSAGE = "REFRESH SUCCESSFUL";
 	private static final Color COLOR = Color.decode("0x1d6fbe");
-	private static final int ICON_SIZE = 22;
+	private static final int ICON_SIZE = 20;
 	private static final Icon ICON = IconFontSwing.buildIcon(Elusive.REPEAT, ICON_SIZE, COLOR);
 
 

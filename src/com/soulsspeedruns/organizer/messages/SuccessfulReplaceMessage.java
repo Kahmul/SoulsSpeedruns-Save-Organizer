@@ -22,7 +22,7 @@ public class SuccessfulReplaceMessage extends AbstractMessage
 
 	private static final String MESSAGE = "REPLACE SUCCESSFUL";
 	private static final Color COLOR = Color.decode("0xeb751c");
-	private static final int ICON_SIZE = 22;
+	private static final int ICON_SIZE = 20;
 	private static final Icon ICON = IconFontSwing.buildIcon(Elusive.REFRESH, ICON_SIZE, COLOR);
 
 

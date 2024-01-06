@@ -22,7 +22,7 @@ public class SuccessfulLoadMessage extends AbstractMessage
 
 	private static final String MESSAGE = "LOAD SUCCESSFUL";
 	private static final Color COLOR = Color.decode("0x2c9558");
-	private static final int ICON_SIZE = 22;
+	private static final int ICON_SIZE = 20;
 	private static final Icon ICON = IconFontSwing.buildIcon(Elusive.REPEAT, ICON_SIZE, COLOR);
 
 
