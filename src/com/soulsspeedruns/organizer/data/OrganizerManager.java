@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.IntelliJTheme;
+import com.github.weisj.darklaf.theme.Theme;
 import com.github.weisj.darklaf.theme.spec.ColorToneRule;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.hotkeys.GlobalHotkey;
@@ -71,8 +72,6 @@ public class OrganizerManager
 {
 
 	public static final String VERSION = "1.5.1";
-	
-	private static String latestReleaseVersion;
 
 	/**
 	 * Constants defining various URLs.
@@ -95,6 +94,8 @@ public class OrganizerManager
 	 */
 	private static final String PREFS_KEY_INITIAL_STARTUP = "initStartup";
 	private static final String PREFS_KEY_VERSION = "Version";
+	
+	private static final String PREFS_KEY_THEME = "Theme";
 
 	private static final String PREFS_KEY_WIN_WIDTH = "WindowWidth";
 	private static final String PREFS_KEY_WIN_HEIGHT = "WindowHeight";
@@ -129,6 +130,8 @@ public class OrganizerManager
 	private static Preferences prefs;
 
 	private static GlobalKeyboardHook keyboardHook;
+	
+	private static String latestReleaseVersion;
 
 	public static Image soulsspeedrunsIcon;
 	public static Image soulsspeedrunsIconSmall;
@@ -165,7 +168,7 @@ public class OrganizerManager
 		}
 		catch (IOException e)
 		{
-			JOptionPane.showMessageDialog(null, "Error when trying to initialize the data. Could not start the Save Organizer.",
+			JOptionPane.showMessageDialog(null, "Error when trying to initialize the organizer. Could not start the Save Organizer.",
 					"Error occurred", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		}
@@ -316,8 +319,7 @@ public class OrganizerManager
 		LafManager.registerDefaultsAdjustmentTask(new GlobalThemeAdjustmentTask());
 		LafManager.registerInitTask(new GlobalThemeInitTask());
 		
-		boolean dark = LafManager.getPreferredThemeStyle().getColorToneRule() != ColorToneRule.DARK;
-		LafManager.install(dark ? new SoulsSpeedrunsTheme() : new IntelliJTheme());
+		LafManager.install(getStoredTheme());
 	}
 
 
@@ -739,6 +741,43 @@ public class OrganizerManager
 		SwingUtilities.invokeLater(() -> {
 			LafManager.forceLafUpdate();
 		});
+	}
+	
+	
+	/**
+	 * Stores the prefix of the given theme in the preferences. The corresponding theme will be loaded on restart.
+	 * 
+	 * @param theme the theme to store
+	 */
+	public static void setStoredTheme(Theme theme)
+	{
+		prefs.put(PREFS_KEY_THEME, theme.getPrefix());
+	}
+	
+	
+	/**
+	 * Returns the theme that was stored. If none is stored, returns a default choice based on the user theme preferences.
+	 * 
+	 * @return the stored theme
+	 */
+	public static Theme getStoredTheme()
+	{
+		String prefix = prefs.get(PREFS_KEY_THEME, PREFS_ERROR_ON_RETRIEVE);
+		if(prefix != PREFS_ERROR_ON_RETRIEVE)
+		{
+			for (Theme theme : LafManager.getRegisteredThemes())
+			{
+				if(theme.getPrefix().equalsIgnoreCase(prefix))
+					return theme;
+			}
+		}
+		
+		boolean dark = LafManager.getPreferredThemeStyle().getColorToneRule() == ColorToneRule.DARK;
+		Theme theme = dark ? new SoulsSpeedrunsTheme() : new DefaultTheme();
+		
+		setStoredTheme(theme);
+		
+		return theme;
 	}
 
 

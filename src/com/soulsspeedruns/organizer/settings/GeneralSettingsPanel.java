@@ -118,6 +118,7 @@ public class GeneralSettingsPanel extends JPanel
 					SwingUtilities.invokeLater(() -> {
 						LafManager.install(selectedTheme);
 					});
+					OrganizerManager.setStoredTheme(selectedTheme);
 				}
 
 			}
