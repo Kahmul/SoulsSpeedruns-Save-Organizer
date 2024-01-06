@@ -1,7 +1,6 @@
 package com.soulsspeedruns.organizer.savelist;
 
 
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -320,7 +319,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	{
 		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
-		String name = JOptionPane.showInputDialog(getParent(), "Folder name: ", "Create Folder", JOptionPane.QUESTION_MESSAGE);
+		String name = JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Folder name: ", "Create Folder", JOptionPane.QUESTION_MESSAGE);
 		boolean nameValidation = validateNameForNewFolder(name);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 		if (nameValidation)
@@ -385,7 +384,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
 		if (entries.size() == 1)
-			confirm = JOptionPane.showConfirmDialog(getParent(),
+			confirm = JOptionPane.showConfirmDialog(SwingUtilities.windowForComponent(this),
 					"Do you really want to delete '" + entries.get(0).getName() + "'"
 							+ (entries.get(0) instanceof Folder ? " and all of its contents?" : "?"),
 					"Delete " + entries.get(0).getName(), JOptionPane.YES_NO_OPTION);
@@ -439,21 +438,22 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	{
 		if (entry == null)
 			return;
-		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
-		String newName = (String) JOptionPane.showInputDialog(getParent(), (entry instanceof Folder ? "Folder name: " : "Save name: "),
-				"Edit " + entry.getName(), JOptionPane.QUESTION_MESSAGE, null, null, entry.getName());
-		boolean nameValidation = validateNewName(entry, newName);
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 		if (!entry.canBeRenamed())
 		{
 			JOptionPane.showMessageDialog(getParent(),
-					"This entry can currently not be renamed. It is probably being accessed by another program.", "Warning",
+					"This entry can currently not be renamed. It is probably being accessed by another program or in read-only.", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		if (nameValidation)
-			renameEntry(entry, newName);
+		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
+		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
+		String newName = (String) JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), (entry instanceof Folder ? "Folder name: " : "Save name: "),
+				"Edit " + entry.getName(), JOptionPane.QUESTION_MESSAGE, null, null, entry.getName());
+		boolean nameValidation = validateNewName(entry, newName);
+		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		if(!nameValidation)
+			return;
+		renameEntry(entry, newName);
 	}
 
 
@@ -500,23 +500,46 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		return true;
 	}
 
-
+	
 	/**
-	 * Checks whether this MouseEvent should bring up the context menu.
+	 * Own selection implementation due to the Darklaf implementation throwing an exception without swingx library.
+	 * This function also allows removing any selection by clicking on empty space within the list.
 	 * 
-	 * @param event the event to check
+	 * @param event the click event
 	 */
-	private void checkForPopUp(MouseEvent event)
+	private void handleSelection(MouseEvent event)
 	{
-		int index = locationToIndex(new Point(event.getX(), event.getY()));
-		if (event.isPopupTrigger())
-			new SaveListContextMenu(this, event.getX(), event.getY());
-		if (index == -1 || !getCellBounds(index, index).contains(new Point(event.getX(), event.getY())))
+		int index = locationToIndex(event.getPoint());
+		if (index < 0 || !getCellBounds(index, index).contains(event.getPoint()))
 		{
 			clearSelection();
 			return;
 		}
-		setSelectedIndex(index);
+		if(!event.isShiftDown())
+		{
+			if(!event.isControlDown())
+			{
+				clearSelection();
+				addSelectionInterval(index, index);
+				return;
+			}
+			if(isSelectedIndex(index))
+			{
+				removeSelectionInterval(index, index);
+				return;
+			}
+			addSelectionInterval(index, index);
+			return;
+		}
+		
+		int anchorIndex = getAnchorSelectionIndex();
+		if (anchorIndex == -1)
+		{
+			addSelectionInterval(index, index);
+			return;
+		}
+		clearSelection();
+		addSelectionInterval(anchorIndex, index);
 	}
 
 
@@ -684,7 +707,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	{
 		e.consume();
 		requestFocusInWindow();
-		checkForPopUp(e);
+		handleSelection(e);
 	}
 
 
@@ -692,8 +715,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	public void mouseReleased(MouseEvent e)
 	{
 		e.consume();
-		requestFocusInWindow();
-		checkForPopUp(e);
+		if (e.isPopupTrigger())
+			new SaveListContextMenu(this, e.getX(), e.getY());
 	}
 
 
