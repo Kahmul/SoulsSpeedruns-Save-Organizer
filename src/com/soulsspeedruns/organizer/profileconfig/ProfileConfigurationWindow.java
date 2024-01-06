@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
@@ -56,7 +57,9 @@ public class ProfileConfigurationWindow extends JDialog
 			@Override
 			public void windowActivated(WindowEvent e)
 			{
-				OrganizerManager.updateLookAndFeel();
+				SwingUtilities.invokeLater(() -> {
+					SwingUtilities.updateComponentTreeUI(ProfileConfigurationWindow.this);
+				});
 			}
 		});
 	}

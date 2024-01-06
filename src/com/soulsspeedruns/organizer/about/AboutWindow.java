@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
@@ -59,7 +60,9 @@ public class AboutWindow extends JDialog
 			@Override
 			public void windowActivated(WindowEvent e)
 			{
-				OrganizerManager.updateLookAndFeel();
+				SwingUtilities.invokeLater(() -> {
+					SwingUtilities.updateComponentTreeUI(AboutWindow.this);
+				});
 			}
 		});
 	}

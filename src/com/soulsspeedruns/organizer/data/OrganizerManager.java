@@ -738,18 +738,6 @@ public class OrganizerManager
 	
 	
 	/**
-	 * Updates the L&F given the current settings.
-	 * Used when a new window is opened to refresh the L&F, otherwise minor things might be off, e.g. the title bar icon.
-	 */
-	public static void updateLookAndFeel()
-	{
-		SwingUtilities.invokeLater(() -> {
-			LafManager.forceLafUpdate();
-		});
-	}
-	
-	
-	/**
 	 * Stores the prefix of the given theme in the preferences. The corresponding theme will be loaded on restart.
 	 * 
 	 * @param theme the theme to store

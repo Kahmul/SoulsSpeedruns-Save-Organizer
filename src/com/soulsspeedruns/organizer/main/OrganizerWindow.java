@@ -101,10 +101,12 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 		addWindowListener(new WindowAdapter() {
 
 			@Override
-			public void windowActivated(WindowEvent e)
+			public void windowOpened(WindowEvent e)
 			{
 				requestFocusInWindow();
-				OrganizerManager.updateLookAndFeel();
+				SwingUtilities.invokeLater(() -> {
+					SwingUtilities.updateComponentTreeUI(OrganizerWindow.this);
+				});
 			}
 
 

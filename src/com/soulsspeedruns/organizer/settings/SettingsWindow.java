@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
@@ -70,7 +71,9 @@ public class SettingsWindow extends JDialog
 			public void windowActivated(WindowEvent e)
 			{
 				requestFocusInWindow();
-				OrganizerManager.updateLookAndFeel();
+				SwingUtilities.invokeLater(() -> {
+					SwingUtilities.updateComponentTreeUI(SettingsWindow.this);
+				});
 			}
 
 			@Override
