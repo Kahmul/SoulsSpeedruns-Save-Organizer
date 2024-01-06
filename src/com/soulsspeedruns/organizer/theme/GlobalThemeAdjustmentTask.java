@@ -13,6 +13,8 @@ public class GlobalThemeAdjustmentTask implements DefaultsAdjustmentTask
 	{
 		// fixes the title pane text not being the proper font color with decorations enabled
 		properties.put("textForegroundSecondary", properties.get("textForeground"));
+		properties.put("borderThickness", 0);
+		properties.put("arc", 0);
 	}
 
 }

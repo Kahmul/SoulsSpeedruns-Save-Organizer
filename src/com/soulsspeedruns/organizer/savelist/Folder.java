@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -32,8 +33,16 @@ public class Folder extends SaveListEntry
 {
 
 	private boolean isClosed = true;
+
 	private static final Color ICON_COLOR = new Color(251, 208, 108);
+	private static final Color ICON_COLOR_ERROR = Color.RED;
 	private static final int ICON_SIZE = 15;
+	
+	private static final Icon ICON = IconFontSwing.buildIcon(FontAwesome.FOLDER, ICON_SIZE, ICON_COLOR);
+	private static final Icon ICON_OPEN = IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, ICON_SIZE, ICON_COLOR);
+	
+	private static final Icon ICON_ERROR = IconFontSwing.buildIcon(FontAwesome.FOLDER, ICON_SIZE, ICON_COLOR_ERROR);
+	private static final Icon ICON_OPEN_ERROR = IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, ICON_SIZE, ICON_COLOR_ERROR);
 
 
 	/**
@@ -152,19 +161,16 @@ public class Folder extends SaveListEntry
 		if(isMarkedForCut())
 			label.setForeground(Color.GRAY);
 		
-		Color color = ICON_COLOR;
 		if (!getFile().exists())
 		{
-			color = Color.RED;
-			label.setForeground(Color.RED);
+			label.setForeground(ICON_COLOR_ERROR);
 			label.setToolTipText("Directory does not exist any longer!");
-		}
-		if (isClosed())
-			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER, ICON_SIZE, color));
-		else
-			label.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, ICON_SIZE, color));
-
 			
+			label.setIcon(isClosed() ? ICON_ERROR : ICON_OPEN_ERROR);
+			return;
+		}
+		label.setIcon(isClosed() ? ICON : ICON_OPEN);
+
 	}
 
 

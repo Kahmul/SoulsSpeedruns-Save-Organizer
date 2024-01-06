@@ -609,8 +609,8 @@ public class OrganizerManager
 		Save newSave = new Save(parent, saveFile);
 		newSave.rename(name);
 		parent.addChild(newSave);
-		fireEntryCreatedEvent(newSave);
 		AbstractMessage.display(AbstractMessage.SUCCESSFUL_REPLACE);
+		fireEntryCreatedEvent(newSave);
 	}
 
 
