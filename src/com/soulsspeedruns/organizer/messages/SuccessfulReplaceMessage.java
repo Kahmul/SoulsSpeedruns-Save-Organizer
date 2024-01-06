@@ -3,8 +3,10 @@ package com.soulsspeedruns.organizer.messages;
 
 import java.awt.Color;
 
-import jiconfont.IconCode;
+import javax.swing.Icon;
+
 import jiconfont.icons.Elusive;
+import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -19,8 +21,9 @@ public class SuccessfulReplaceMessage extends AbstractMessage
 {
 
 	private static final String MESSAGE = "REPLACE SUCCESSFUL";
-	private static final IconCode ICON = Elusive.REFRESH;
 	private static final Color COLOR = Color.decode("0xeb751c");
+	private static final int ICON_SIZE = 22;
+	private static final Icon ICON = IconFontSwing.buildIcon(Elusive.REFRESH, ICON_SIZE, COLOR);
 
 
 	protected SuccessfulReplaceMessage()
@@ -37,7 +40,7 @@ public class SuccessfulReplaceMessage extends AbstractMessage
 
 
 	@Override
-	protected IconCode getIcon()
+	protected Icon getIcon()
 	{
 		return ICON;
 	}
@@ -45,7 +48,7 @@ public class SuccessfulReplaceMessage extends AbstractMessage
 
 	@Override
 	protected int getIconSize() {
-		return 30;
+		return ICON_SIZE;
 	}
 
 

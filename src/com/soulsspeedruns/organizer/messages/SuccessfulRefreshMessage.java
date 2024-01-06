@@ -3,8 +3,10 @@ package com.soulsspeedruns.organizer.messages;
 
 import java.awt.Color;
 
-import jiconfont.IconCode;
+import javax.swing.Icon;
+
 import jiconfont.icons.Elusive;
+import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -19,8 +21,9 @@ public class SuccessfulRefreshMessage extends AbstractMessage
 {
 
 	private static final String MESSAGE = "REFRESH SUCCESSFUL";
-	private static final IconCode ICON = Elusive.REPEAT;
 	private static final Color COLOR = Color.decode("0x1d6fbe");
+	private static final int ICON_SIZE = 22;
+	private static final Icon ICON = IconFontSwing.buildIcon(Elusive.REPEAT, ICON_SIZE, COLOR);
 
 
 	protected SuccessfulRefreshMessage()
@@ -37,7 +40,7 @@ public class SuccessfulRefreshMessage extends AbstractMessage
 
 
 	@Override
-	protected IconCode getIcon()
+	protected Icon getIcon()
 	{
 		return ICON;
 	}
@@ -45,7 +48,7 @@ public class SuccessfulRefreshMessage extends AbstractMessage
 
 	@Override
 	protected int getIconSize() {
-		return 30;
+		return ICON_SIZE;
 	}
 
 

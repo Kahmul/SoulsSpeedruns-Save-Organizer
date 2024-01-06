@@ -27,7 +27,6 @@ import com.soulsspeedruns.organizer.settings.SettingsWindow;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.FontAwesome;
-import jiconfont.icons.Iconic;
 import jiconfont.swing.IconFontSwing;
 
 
@@ -114,7 +113,8 @@ public class ButtonPanel extends JPanel
 	private JButton createImportButton()
 	{
 		JButton importButton = new JButton("Import Savestate");
-		importButton.setIcon(IconFontSwing.buildIcon(Iconic.CURVED_ARROW, 16, Color.decode("0x1d6fbe")));
+//		importButton.setIcon(IconFontSwing.buildIcon(Iconic.CURVED_ARROW, 16, Color.decode("0x1d6fbe")));
+		importButton.setIcon(OrganizerManager.importIcon);
 		importButton.addActionListener(event -> {
 			if (OrganizerManager.isAProfileSelected())
 			{

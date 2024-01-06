@@ -3,8 +3,9 @@ package com.soulsspeedruns.organizer.messages;
 
 import java.awt.Color;
 
-import jiconfont.IconCode;
-import jiconfont.icons.Iconic;
+import javax.swing.Icon;
+
+import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 
 /**
@@ -19,7 +20,7 @@ public class SuccessfulImportMessage extends AbstractMessage
 {
 
 	private static final String MESSAGE = "IMPORT SUCCESSFUL";
-	private static final IconCode ICON = Iconic.CURVED_ARROW;
+	private static final Icon ICON = OrganizerManager.importIcon24;
 	private static final Color COLOR = Color.decode("0x1d6fbe");
 
 
@@ -37,7 +38,7 @@ public class SuccessfulImportMessage extends AbstractMessage
 
 
 	@Override
-	protected IconCode getIcon()
+	protected Icon getIcon()
 	{
 		return ICON;
 	}
@@ -45,7 +46,7 @@ public class SuccessfulImportMessage extends AbstractMessage
 
 	@Override
 	protected int getIconSize() {
-		return 30;
+		return 22;
 	}
 	
 

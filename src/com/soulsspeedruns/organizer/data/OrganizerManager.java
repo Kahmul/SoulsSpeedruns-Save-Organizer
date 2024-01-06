@@ -143,7 +143,10 @@ public class OrganizerManager
 	public static ImageIcon writableIcon22Hover;
 	public static ImageIcon discordIcon;
 	public static ImageIcon frankerZIcon;
+	public static ImageIcon importIcon;
+	public static ImageIcon importIcon24;
 	public static Image settingsIcon;
+
 
 	private static List<ProfileListener> profileListeners;
 	private static List<SaveListener> saveListeners;
@@ -224,6 +227,8 @@ public class OrganizerManager
 		writableIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon22Hover.png")));
 		discordIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "DiscordLogo.png")));
 		frankerZIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "FrankerZ.png")));
+		importIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ImportIcon.png")));
+		importIcon24 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ImportIcon24.png")));
 
 		IconFontSwing.register(FontAwesome.getIconFont());
 //		IconFontSwing.register(FontAwesomeBrands.getIconFont());

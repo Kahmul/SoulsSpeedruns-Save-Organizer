@@ -14,9 +14,6 @@ import java.util.TimerTask;
 import javax.swing.Icon;
 import javax.swing.JPanel;
 
-import jiconfont.IconCode;
-import jiconfont.swing.IconFontSwing;
-
 
 /**
  * AbstractMessage.
@@ -115,7 +112,7 @@ public abstract class AbstractMessage extends JPanel
 	private void drawMessageAndIcon(Graphics g)
 	{
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
-		Icon icon = IconFontSwing.buildIcon(getIcon(), 22, getColor());
+		Icon icon = getIcon();
 		
 		int iconX = getWidth() / 2 - metrics.stringWidth(getMessage()) / 2  - icon.getIconWidth()/2 - iconTextGap;
 		int iconY = getHeight() / 2 - icon.getIconHeight() / 2;
@@ -223,7 +220,7 @@ public abstract class AbstractMessage extends JPanel
 	 * 
 	 * @return the icon
 	 */
-	protected abstract IconCode getIcon();
+	protected abstract Icon getIcon();
 	
 	
 	/**

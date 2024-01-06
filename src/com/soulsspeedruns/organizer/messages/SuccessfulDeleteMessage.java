@@ -3,8 +3,10 @@ package com.soulsspeedruns.organizer.messages;
 
 import java.awt.Color;
 
-import jiconfont.IconCode;
+import javax.swing.Icon;
+
 import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -19,8 +21,9 @@ public class SuccessfulDeleteMessage extends AbstractMessage
 {
 
 	private static final String MESSAGE = "DELETE SUCCESSFUL";
-	private static final IconCode ICON = FontAwesome.CHECK;
 	private static final Color COLOR = Color.decode("0xea3622");
+	private static final int ICON_SIZE = 22;
+	private static final Icon ICON = IconFontSwing.buildIcon(FontAwesome.CHECK, ICON_SIZE, COLOR);
 
 
 	protected SuccessfulDeleteMessage()
@@ -37,7 +40,7 @@ public class SuccessfulDeleteMessage extends AbstractMessage
 
 
 	@Override
-	protected IconCode getIcon()
+	protected Icon getIcon()
 	{
 		return ICON;
 	}
@@ -45,7 +48,7 @@ public class SuccessfulDeleteMessage extends AbstractMessage
 
 	@Override
 	protected int getIconSize() {
-		return 34;
+		return ICON_SIZE;
 	}
 
 
