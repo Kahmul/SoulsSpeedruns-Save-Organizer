@@ -123,7 +123,7 @@ public class HotkeyTextField extends JTextField implements FocusListener, KeyLis
 	 */
 	private void updateKey(KeyEvent e)
 	{
-		String modifiers = KeyEvent.getKeyModifiersText(e.getModifiers());
+		String modifiers = KeyEvent.getModifiersExText(e.getModifiersEx());
 		modifiers = modifiers.replaceAll("\\+", " \\+ ");
 		modifiers = modifiers.length() > 0 ? modifiers + " + " : modifiers;
 

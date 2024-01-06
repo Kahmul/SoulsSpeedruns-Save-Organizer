@@ -2,17 +2,15 @@ package com.soulsspeedruns.organizer.main;
 
 
 import java.awt.Component;
-import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import com.soulsspeedruns.organizer.mainconfig.SearchBar;
 import com.soulsspeedruns.organizer.mainconfig.SortingComboBox;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 
 /**
@@ -32,8 +30,6 @@ public class SortingPanel extends JPanel
 
 		JLabel sortByLabel = new JLabel("Sort by:");
 		SortingComboBox sortingComboBox = new SortingComboBox();
-		sortingComboBox
-				.setPreferredSize(new Dimension(sortingComboBox.getPreferredSize().width + 2, sortingComboBox.getPreferredSize().height));
 		SearchBar searchBar = new SearchBar();
 
 		Component glue = Box.createHorizontalGlue();
