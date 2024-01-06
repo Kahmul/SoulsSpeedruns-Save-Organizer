@@ -1,16 +1,15 @@
 package com.soulsspeedruns.organizer.mainconfig;
 
 
-import java.awt.Color;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+import com.github.weisj.darklaf.ui.text.DarkTextFieldUI;
+import com.github.weisj.darklaf.ui.text.DarkTextUI;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 
@@ -22,7 +21,7 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 18 May 2016
  */
-public class SearchBar extends JTextField implements FocusListener, KeyListener
+public class SearchBar extends JTextField
 {
 
 	public static final String DEFAULT_TEXT = "Search...";
@@ -37,40 +36,37 @@ public class SearchBar extends JTextField implements FocusListener, KeyListener
 	 */
 	public SearchBar()
 	{
-		super(DEFAULT_TEXT, 50);
+		super(50);
 
 		searchDelayTimer = new Timer(true);
 
-		addFocusListener(this);
-		addKeyListener(this);
-		setForeground(Color.gray);
+		putClientProperty(DarkTextFieldUI.KEY_VARIANT, DarkTextFieldUI.VARIANT_SEARCH);
+		putClientProperty(DarkTextFieldUI.KEY_SHOW_CLEAR, true);
+		putClientProperty(DarkTextUI.KEY_DEFAULT_TEXT, DEFAULT_TEXT);
+		
+		getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e)
+			{
+				rescheduleSearch();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e)
+			{
+				rescheduleSearch();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e)
+			{
+				rescheduleSearch();
+			}
+		});
 	}
-
-
-	@Override
-	public void focusGained(FocusEvent e)
-	{
-		if (getText().equals(DEFAULT_TEXT))
-			setText("");
-	}
-
-
-	@Override
-	public void focusLost(FocusEvent e)
-	{
-		if (getText().equals(""))
-			setText(DEFAULT_TEXT);
-	}
-
-
-	@Override
-	public void keyPressed(KeyEvent e)
-	{
-	}
-
-
-	@Override
-	public void keyReleased(KeyEvent e)
+	
+	private void rescheduleSearch()
 	{
 		if (searchTask != null)
 			searchTask.cancel();
@@ -83,12 +79,6 @@ public class SearchBar extends JTextField implements FocusListener, KeyListener
 			}
 		};
 		searchDelayTimer.schedule(searchTask, SEARCH_DELAY);
-	}
-
-
-	@Override
-	public void keyTyped(KeyEvent e)
-	{
 	}
 
 }
