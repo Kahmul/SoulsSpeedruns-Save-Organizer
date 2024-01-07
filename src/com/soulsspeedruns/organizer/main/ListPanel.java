@@ -3,12 +3,11 @@ package com.soulsspeedruns.organizer.main;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-
-import com.soulsspeedruns.organizer.savelist.SaveList;
-
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
+import com.github.weisj.darklaf.components.OverlayScrollPane;
+import com.soulsspeedruns.organizer.savelist.SaveList;
 
 
 /**
@@ -31,7 +30,7 @@ public class ListPanel extends JPanel
 
 		SaveList saveList = new SaveList();
 
-		JScrollPane savePane = new JScrollPane(saveList, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		OverlayScrollPane savePane = new OverlayScrollPane(saveList, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		// Horizontal

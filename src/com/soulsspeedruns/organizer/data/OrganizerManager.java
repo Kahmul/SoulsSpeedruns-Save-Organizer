@@ -23,7 +23,6 @@ import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import org.jnativehook.NativeHookException;
 import org.json.JSONObject;
