@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -26,6 +27,8 @@ import jiconfont.swing.IconFontSwing;
  */
 public class Save extends SaveListEntry
 {
+	
+	private static final Icon ICON_FILE_DOES_NOT_EXIST = IconFontSwing.buildIcon(Iconic.CHECK, 13, Color.RED);
 
 	/**
 	 * Creates a new Save instance.
@@ -88,7 +91,7 @@ public class Save extends SaveListEntry
 			label.setIcon(OrganizerManager.readOnlyIcon14);
 		if (!getFile().exists())
 		{
-			label.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 13, Color.RED));
+			label.setIcon(ICON_FILE_DOES_NOT_EXIST);
 			label.setForeground(Color.RED);
 			label.setToolTipText("File no longer exists!");
 		}
