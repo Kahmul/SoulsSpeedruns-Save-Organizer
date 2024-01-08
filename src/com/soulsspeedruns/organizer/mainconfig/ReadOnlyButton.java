@@ -9,10 +9,10 @@ import javax.swing.JLabel;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
-import com.soulsspeedruns.organizer.profileconfig.Profile;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 

@@ -86,7 +86,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 		JPanel guiPanel = new JPanel();
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.PAGE_AXIS));
 		
-		guiPanel.add(new ProfilePanel());
+		guiPanel.add(new GamePanel());
 		guiPanel.add(new SortingPanel());
 		guiPanel.add(new ListPanel());
 		guiPanel.add(new ButtonPanel());

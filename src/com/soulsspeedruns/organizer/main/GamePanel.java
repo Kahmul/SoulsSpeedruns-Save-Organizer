@@ -10,10 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.gameconfig.GameConfigurationWindow;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.mainconfig.GamesComboBox;
 import com.soulsspeedruns.organizer.mainconfig.ProfilesComboBox;
-import com.soulsspeedruns.organizer.profileconfig.ProfileConfigurationWindow;
 
 
 /**
@@ -24,13 +24,13 @@ import com.soulsspeedruns.organizer.profileconfig.ProfileConfigurationWindow;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 27 Sep 2015
  */
-public class ProfilePanel extends JPanel
+public class GamePanel extends JPanel
 {
 
 	/**
 	 * Creates a new ProfilePanel for the main window.
 	 */
-	protected ProfilePanel()
+	protected GamePanel()
 	{
 		GroupLayout layout = new GroupLayout(this);
 		layout.setAutoCreateGaps(true);
@@ -102,9 +102,9 @@ public class ProfilePanel extends JPanel
 	 */
 	private JButton createEditProfilesButton()
 	{
-		JButton editButton = new JButton("Edit profiles");
+		JButton editButton = new JButton("Edit Games");
 		editButton.addActionListener(event -> {
-			new ProfileConfigurationWindow();
+			new GameConfigurationWindow();
 		});
 		return editButton;
 	}

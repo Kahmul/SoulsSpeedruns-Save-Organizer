@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.profileconfig;
+package com.soulsspeedruns.organizer.gameconfig;
 
 
 import javax.swing.BoxLayout;

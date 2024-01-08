@@ -1,11 +1,10 @@
-package com.soulsspeedruns.organizer.profileconfig;
+package com.soulsspeedruns.organizer.games;
 
 
 import java.io.File;
 import java.util.Collections;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
-import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.RootFolder;
 

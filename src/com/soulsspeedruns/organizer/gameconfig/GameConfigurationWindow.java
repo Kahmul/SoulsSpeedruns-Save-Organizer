@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.profileconfig;
+package com.soulsspeedruns.organizer.gameconfig;
 
 
 import java.awt.Color;
@@ -25,22 +25,22 @@ import jiconfont.swing.IconFontSwing;
 
 
 /**
- * Window for configuring profiles.
+ * Window for configuring games.
  * <p>
- * Allows the configuration of existing and creation of new profiles.
+ * Allows the configuration of existing and creation of new games and their profiles.
  *
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 27 Sep 2015
  */
-public class ProfileConfigurationWindow extends JDialog
+public class GameConfigurationWindow extends JDialog
 {
 
 	/**
 	 * Creates a new configuration window.
 	 */
-	public ProfileConfigurationWindow()
+	public GameConfigurationWindow()
 	{
-		super(OrganizerManager.getMainWindow(), "Profile Configuration", Dialog.ModalityType.APPLICATION_MODAL);
+		super(OrganizerManager.getMainWindow(), "Game Configuration", Dialog.ModalityType.APPLICATION_MODAL);
 
 		initLayout();
 		initProperties();
@@ -67,7 +67,7 @@ public class ProfileConfigurationWindow extends JDialog
 			public void windowActivated(WindowEvent e)
 			{
 				SwingUtilities.invokeLater(() -> {
-					SwingUtilities.updateComponentTreeUI(ProfileConfigurationWindow.this);
+					SwingUtilities.updateComponentTreeUI(GameConfigurationWindow.this);
 				});
 			}
 		});

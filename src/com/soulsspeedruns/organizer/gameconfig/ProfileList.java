@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.profileconfig;
+package com.soulsspeedruns.organizer.gameconfig;
 
 
 import java.awt.event.KeyEvent;
@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 
 

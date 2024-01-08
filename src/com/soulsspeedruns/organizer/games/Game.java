@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.soulsspeedruns.organizer.profileconfig.Profile;
-
 
 /**
  * Game Enum.

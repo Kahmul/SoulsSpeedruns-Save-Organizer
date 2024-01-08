@@ -25,6 +25,7 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.dragndrop.SaveListDragListener;
 import com.soulsspeedruns.organizer.dragndrop.SaveListTransferHandler;
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.NavigationListener;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
@@ -33,7 +34,6 @@ import com.soulsspeedruns.organizer.listeners.SortingListener;
 import com.soulsspeedruns.organizer.mainconfig.SearchBar;
 import com.soulsspeedruns.organizer.mainconfig.SortingCategory;
 import com.soulsspeedruns.organizer.messages.AbstractMessage;
-import com.soulsspeedruns.organizer.profileconfig.Profile;
 
 
 /**

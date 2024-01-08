@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.profileconfig;
+package com.soulsspeedruns.organizer.gameconfig;
 
 
 import java.awt.Dimension;
@@ -10,6 +10,7 @@ import javax.swing.GroupLayout.Alignment;
 import com.github.weisj.darklaf.components.OverlayScrollPane;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 
 import javax.swing.JButton;

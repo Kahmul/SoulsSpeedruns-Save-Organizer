@@ -2,7 +2,7 @@ package com.soulsspeedruns.organizer.listeners;
 
 
 import com.soulsspeedruns.organizer.games.Game;
-import com.soulsspeedruns.organizer.profileconfig.Profile;
+import com.soulsspeedruns.organizer.games.Profile;
 
 
 /**

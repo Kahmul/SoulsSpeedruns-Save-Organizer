@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.profileconfig;
+package com.soulsspeedruns.organizer.gameconfig;
 
 import java.awt.Component;
 
@@ -7,6 +7,8 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+
+import com.soulsspeedruns.organizer.games.Profile;
 
 public class ProfileListRenderer implements ListCellRenderer<Profile>
 {

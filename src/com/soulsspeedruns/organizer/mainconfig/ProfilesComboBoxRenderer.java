@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import com.soulsspeedruns.organizer.profileconfig.Profile;
+import com.soulsspeedruns.organizer.games.Profile;
 
 public class ProfilesComboBoxRenderer implements ListCellRenderer<Profile>
 {
