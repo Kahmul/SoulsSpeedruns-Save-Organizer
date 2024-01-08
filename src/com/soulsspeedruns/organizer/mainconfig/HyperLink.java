@@ -1,6 +1,5 @@
 package com.soulsspeedruns.organizer.mainconfig;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Insets;
@@ -32,7 +31,7 @@ public class HyperLink extends JButton
 		setToolTipText(url);
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
-		setForeground((Color) UIManager.get("hyperlink"));
+		setForeground(UIManager.getColor("hyperlink"));
 		
 		getModel().addChangeListener(new ChangeListener() {
 			
@@ -63,7 +62,7 @@ public class HyperLink extends JButton
 			@Override
 			public void themeInstalled(ThemeChangeEvent e)
 			{
-				setForeground((Color) UIManager.get("hyperlink"));
+				setForeground(UIManager.getColor("hyperlink"));
 			}
 			
 			@Override

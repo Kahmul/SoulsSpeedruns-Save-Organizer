@@ -2,6 +2,8 @@ package com.soulsspeedruns.organizer.main;
 
 
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -88,6 +90,15 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 		guiPanel.add(new SortingPanel());
 		guiPanel.add(new ListPanel());
 		guiPanel.add(new ButtonPanel());
+		
+		guiPanel.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				requestFocusInWindow();
+			}
+		});
 		
 		add(guiPanel);
 	}

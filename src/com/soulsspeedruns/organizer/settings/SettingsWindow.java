@@ -59,9 +59,8 @@ public class SettingsWindow extends JDialog
 		addMouseListener(new MouseAdapter() {
 
 			@Override
-			public void mouseReleased(MouseEvent e)
+			public void mouseClicked(MouseEvent e)
 			{
-				super.mouseReleased(e);
 				requestFocusInWindow();
 			}
 		});

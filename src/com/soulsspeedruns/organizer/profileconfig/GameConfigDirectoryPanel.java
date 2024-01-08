@@ -43,7 +43,7 @@ public class GameConfigDirectoryPanel extends JPanel
 		File saveFile = game.getSaveFileLocation();
 		File gameDir = game.getDirectory();
 
-		JLabel saveFileLabel = new JLabel("Location of Savefile:");
+		JLabel saveFileLabel = new JLabel("Savefile Location:");
 		JLabel directoryLabel = new JLabel("Profiles Directory:");
 
 		JTextField saveFileField = new JTextField(saveFile != null ? saveFile.getPath() : "");
