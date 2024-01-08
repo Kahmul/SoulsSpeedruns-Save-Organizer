@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
+import com.github.weisj.darklaf.components.OverlayScrollPane;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
@@ -42,7 +43,7 @@ public class GameConfigProfilesPanel extends JPanel
 		JLabel profileLabel = new JLabel("Profiles: ");
 
 		ProfileList profileList = createProfileList(game);
-		JScrollPane listPane = new JScrollPane(profileList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		OverlayScrollPane listPane = new OverlayScrollPane(profileList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		listPane.setMinimumSize(new Dimension(100, 130));
 
@@ -158,7 +159,7 @@ public class GameConfigProfilesPanel extends JPanel
 	private JButton createImportButton(ProfileList profileList)
 	{
 		JButton importButton = new JButton("Import");
-		importButton.setToolTipText("Import profile(s)");
+		importButton.setToolTipText("Import profile(s).");
 		importButton.setEnabled(profileList.getGame().getDirectory() != null);
 		importButton.addActionListener(event -> {
 			profileList.askToImportProfiles();
@@ -177,7 +178,7 @@ public class GameConfigProfilesPanel extends JPanel
 	private JButton createNewButton(ProfileList profileList)
 	{
 		JButton newButton = new JButton("New");
-		newButton.setToolTipText("Create a new profile");
+		newButton.setToolTipText("Create a new profile.");
 		newButton.setEnabled(profileList.getGame().getDirectory() != null);
 		newButton.addActionListener(event -> {
 			profileList.askToCreateProfile();
@@ -195,7 +196,7 @@ public class GameConfigProfilesPanel extends JPanel
 	private JButton createEditButton(ProfileList profileList)
 	{
 		JButton editButton = new JButton("Edit");
-		editButton.setToolTipText("Edit the selected profile");
+		editButton.setToolTipText("Edit the selected profile.");
 		editButton.setEnabled(profileList.getGame().getDirectory() != null);
 		editButton.addActionListener(event -> {
 			profileList.askToEditProfile(profileList.getSelectedValue());
@@ -213,7 +214,7 @@ public class GameConfigProfilesPanel extends JPanel
 	private JButton createDeleteButton(ProfileList profileList)
 	{
 		JButton deleteButton = new JButton("Delete");
-		deleteButton.setToolTipText("Delete the selected profile");
+		deleteButton.setToolTipText("Delete the selected profile.");
 		deleteButton.setEnabled(profileList.getGame().getDirectory() != null);
 		deleteButton.addActionListener(event -> {
 			profileList.askToDeleteProfiles(profileList.getSelectedValuesList());
