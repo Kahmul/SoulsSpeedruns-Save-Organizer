@@ -11,7 +11,8 @@ import com.soulsspeedruns.organizer.games.Game;
 /**
  * Game Configuration Panel.
  * <p>
- * Panel containing components to configure game settings and their respective profiles.
+ * Panel containing components to configure game settings and their respective
+ * profiles.
  *
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 28 Sep 2015

@@ -2,9 +2,10 @@ package com.soulsspeedruns.organizer.games;
 
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**
@@ -15,42 +16,71 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 27 Sep 2015
  */
-public enum Game
+public class Game
 {
-
-	DARK_SOULS("Dark Souls", "DS1", "DRAKS0005.sl2", true),
-	DARK_SOULS_REMASTERED("Dark Souls Remastered", "DSR", "DRAKS0005.sl2", false),
-	DARK_SOULS_II("Dark Souls II", "DS2", "DARKSII0000.sl2", true),
-	DARK_SOULS_II_SOTFS("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2", true),
-	DARK_SOULS_III("Dark Souls III", "DS3", "DS30000.sl2", true),
-	SEKIRO_SHADOWS_DIE_TWICE("Sekiro", "SSDT", "S0000.sl2", true),
-	ELDEN_RING("Elden Ring", "ER", "ER0000.sl2", true);
-
+	
+	public static final Game DARK_SOULS = new Game("Dark Souls", "DS1", "DRAKS0005.sl2", true, false);
+	public static final Game DARK_SOULS_REMASTERED = new Game("Dark Souls Remastered", "DSR", "DRAKS0005.sl2", false, false);
+	public static final Game DARK_SOULS_II = new Game("Dark Souls II", "DS2", "DARKSII0000.sl2", true, false);
+	public static final Game DARK_SOULS_II_SOTFS = new Game("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2", true, false);
+	public static final Game DARK_SOULS_III = new Game("Dark Souls III", "DS3", "DS30000.sl2", true, false);
+	public static final Game SEKIRO_SHADOWS_DIE_TWICE = new Game("Sekiro", "SSDT", "S0000.sl2", true, false);
+	public static final Game ELDEN_RING = new Game("Elden Ring", "ER", "ER0000.sl2", true, false);
+	
+	public static final List<Game> GAMES = Arrays.asList(
+			DARK_SOULS,
+			DARK_SOULS_REMASTERED,
+			DARK_SOULS_II,
+			DARK_SOULS_II_SOTFS,
+			DARK_SOULS_III,
+			SEKIRO_SHADOWS_DIE_TWICE,
+			ELDEN_RING
+		);
+	
 	private final String caption;
 	private final String abbr;
 	private final String saveName;
 	private final boolean supportsReadOnly;
+	private final boolean isCustomGame;
 	private File directory;
 	private File saveFile;
 	private List<Profile> profiles;
 
 
 	/**
-	 * Creates a new Game constant.
+	 * Creates a new Game object.
 	 * 
 	 * @param caption the caption of this game
 	 * @param abbr the abbreviation of this game
 	 * @param saveName the name of the game's savefile
 	 * @param supportsReadOnly whether the game supports read-only
+	 * @param isCustomGame whether the game was added by the user
 	 */
-	private Game(String caption, String abbr, String saveName, boolean supportsReadOnly)
+	private Game(String caption, String abbr, String saveName, boolean supportsReadOnly, boolean isCustomGame)
 	{
 		this.caption = caption;
 		this.abbr = abbr;
 		this.saveName = saveName;
 		this.supportsReadOnly = supportsReadOnly;
-		profiles = new CopyOnWriteArrayList<>();
+		this.isCustomGame = isCustomGame;
+		
+		profiles = new ArrayList<>();
 	}
+	
+	
+//	/**
+//	 * Returns a combined list object consisting of the games support from the start
+//	 * 
+//	 * @return
+//	 */
+//	public static List<Game> all()
+//	{
+//		List<Game> gamesList = new ArrayList<>(BASE_GAMES.size() + CUSTOM_GAMES.size());
+//		gamesList.addAll(BASE_GAMES);
+//		gamesList.addAll(CUSTOM_GAMES);
+//		
+//		return gamesList;
+//	}
 
 
 	/**
@@ -150,6 +180,17 @@ public enum Game
 	public boolean supportsReadOnly()
 	{
 		return supportsReadOnly;
+	}
+	
+	
+	/**
+	 * Returns whether the game is a custom game added by the user.
+	 * 
+	 * @return true if custom game, false if supported out of the box
+	 */
+	public boolean isCustomGame()
+	{
+		return isCustomGame;
 	}
 
 

@@ -334,7 +334,7 @@ public class OrganizerManager
 	{
 		if (prefs == null)
 			return;
-		Game[] games = Game.values();
+		List<Game> games = Game.GAMES;
 		for (Game game : games)
 			importProfiles(game);
 	}
@@ -528,7 +528,7 @@ public class OrganizerManager
 	public static Game getSelectedGame()
 	{
 		String gameName = prefs.get(PREFS_KEY_SELECTED_GAME, "");
-		Game[] games = Game.values();
+		List<Game> games = Game.GAMES;
 		for (Game game : games)
 		{
 			if (game.getCaption().equals(gameName))
@@ -536,7 +536,7 @@ public class OrganizerManager
 				return game;
 			}
 		}
-		return games.length > 0 ? games[0] : null;
+		return games.size() > 0 ? games.get(0) : null;
 	}
 
 

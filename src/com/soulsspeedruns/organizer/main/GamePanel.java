@@ -76,7 +76,7 @@ public class GamePanel extends JPanel
 	 */
 	private GamesComboBox createGameComboBox(ProfilesComboBox profilesComboBox)
 	{
-		GamesComboBox gamesComboBox = new GamesComboBox(Game.values(), profilesComboBox);
+		GamesComboBox gamesComboBox = new GamesComboBox(Game.GAMES, profilesComboBox);
 		gamesComboBox.setMaximumSize(new Dimension(80, 20));
 		return gamesComboBox;
 	}

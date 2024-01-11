@@ -2,6 +2,7 @@ package com.soulsspeedruns.organizer.mainconfig;
 
 
 import java.awt.event.ItemEvent;
+import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
@@ -30,7 +31,7 @@ public class GamesComboBox extends JComboBox<Game>
 	 * @param games array of games to display in this combobox
 	 * @param profilesCB the associated ProfilesComboBox
 	 */
-	public GamesComboBox(Game[] games, ProfilesComboBox profilesCB)
+	public GamesComboBox(List<Game> games, ProfilesComboBox profilesCB)
 	{
 		fillWith(games);
 
@@ -52,16 +53,16 @@ public class GamesComboBox extends JComboBox<Game>
 	 * 
 	 * @param games the games to fill with
 	 */
-	public void fillWith(Game[] games)
+	public void fillWith(List<Game> games)
 	{
-		if (games != null && games.length > 0)
+		if (games != null && games.size() > 0)
 		{
-			for (int i = 0; i < games.length; i++)
+			for (int i = 0; i < games.size(); i++)
 			{
-				addItem(games[i]);
-				if (OrganizerManager.getSelectedGame() == games[i])
+				addItem(games.get(i));
+				if (OrganizerManager.getSelectedGame() == games.get(i))
 				{
-					setSelectedItem(games[i]);
+					setSelectedItem(games.get(i));
 				}
 			}
 		}
