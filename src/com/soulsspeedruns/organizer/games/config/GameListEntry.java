@@ -2,8 +2,6 @@ package com.soulsspeedruns.organizer.games.config;
 
 import java.awt.Color;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.UIManager;
@@ -38,14 +36,8 @@ public class GameListEntry extends JButton
 		setBorder(new EmptyBorder(0, 0, 0, 0));
 //		setBorder(new MatteBorder(0, 0, 1, 0, dropTargetColor));
 
-		addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				pane.setSelectedEntry(GameListEntry.this);
-			}
+		addActionListener((e) -> {
+			pane.setSelectedEntry(this);
 		});
 	}
 

@@ -35,6 +35,7 @@ import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.hotkeys.GlobalHotkey;
 import com.soulsspeedruns.organizer.hotkeys.GlobalKeyboardHook;
+import com.soulsspeedruns.organizer.listeners.GameListener;
 import com.soulsspeedruns.organizer.listeners.NavigationListener;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
@@ -148,6 +149,7 @@ public class OrganizerManager
 
 
 	private static List<ProfileListener> profileListeners;
+	private static List<GameListener> gameListeners;
 	private static List<SaveListener> saveListeners;
 	private static List<SearchListener> searchListeners;
 	private static List<SortingListener> sortingListeners;
@@ -246,6 +248,7 @@ public class OrganizerManager
 	private static void initListeners()
 	{
 		profileListeners = new ArrayList<>();
+		gameListeners = new ArrayList<>();
 		saveListeners = new ArrayList<>();
 		searchListeners = new ArrayList<>();
 		sortingListeners = new ArrayList<>();
@@ -410,6 +413,18 @@ public class OrganizerManager
 	{
 		if (listener != null)
 			profileListeners.add(listener);
+	}
+	
+	
+	/**
+	 * Adds a game listener to send events to.
+	 * 
+	 * @param listener the listener to add
+	 */
+	public static void addGameListener(GameListener listener)
+	{
+		if(listener != null)
+			gameListeners.add(listener);
 	}
 
 
@@ -1117,6 +1132,48 @@ public class OrganizerManager
 		for (ProfileListener listener : profileListeners)
 		{
 			listener.profileDirectoryChanged(game);
+		}
+	}
+	
+	
+	/**
+	 * Fires a gameCreated event.
+	 * 
+	 * @param game the game that was created
+	 */
+	public static void fireGameCreatedEvent(Game game)
+	{
+		for (GameListener listener : gameListeners)
+		{
+			listener.gameCreated(game);
+		}
+	}
+	
+	
+	/**
+	 * Fires a gameDeleted event.
+	 * 
+	 * @param game the game that was deleted
+	 */
+	public static void fireGameDeletedEvent(Game game)
+	{
+		for (GameListener listener : gameListeners)
+		{
+			listener.gameDeleted(game);
+		}
+	}
+	
+	
+	/**
+	 * Fires a gameEdited event.
+	 * 
+	 * @param game the game that was edited
+	 */
+	public static void fireGameEditedEvent(Game game)
+	{
+		for (GameListener listener : gameListeners)
+		{
+			listener.gameEdited(game);
 		}
 	}
 

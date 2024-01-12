@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.soulsspeedruns.organizer.data.OrganizerManager;
+
 
 /**
  * Game Enum.
@@ -29,10 +31,10 @@ public class Game
 	public static final Game SEKIRO_SHADOWS_DIE_TWICE = createGame("Sekiro", "SSDT", "S0000.sl2", true, false);
 	public static final Game ELDEN_RING = createGame("Elden Ring", "ER", "ER0000.sl2", true, false);
 
-	private final String caption;
+	private String caption;
 	private final String abbr;
-	private final String saveName;
-	private final boolean supportsReadOnly;
+	private String saveName;
+	private boolean supportsReadOnly;
 	private final boolean isCustomGame;
 	private File directory;
 	private File saveFile;
@@ -64,6 +66,8 @@ public class Game
 	{
 		Game game = new Game(caption, abbr, saveName, supportsReadOnly, isCustomGame);
 		GAMES.add(game);
+		
+		OrganizerManager.fireGameCreatedEvent(game);
 
 		return game;
 	}
@@ -79,21 +83,9 @@ public class Game
 		if (!game.isCustomGame)
 			return;
 		GAMES.remove(game);
+		
+		OrganizerManager.fireGameDeletedEvent(game);
 	}
-
-//	/**
-//	 * Returns a combined list object consisting of the games support from the start
-//	 * 
-//	 * @return
-//	 */
-//	public static List<Game> all()
-//	{
-//		List<Game> gamesList = new ArrayList<>(BASE_GAMES.size() + CUSTOM_GAMES.size());
-//		gamesList.addAll(BASE_GAMES);
-//		gamesList.addAll(CUSTOM_GAMES);
-//		
-//		return gamesList;
-//	}
 
 
 	/**
@@ -104,6 +96,17 @@ public class Game
 	public String getCaption()
 	{
 		return caption;
+	}
+
+
+	/**
+	 * Sets the caption of this game.
+	 * 
+	 * @param caption
+	 */
+	public void setCaption(String caption)
+	{
+		this.caption = caption;
 	}
 
 
@@ -187,6 +190,17 @@ public class Game
 
 
 	/**
+	 * Sets the name of the game's savesate.
+	 * 
+	 * @param saveName the name of the game's savestate
+	 */
+	public void setSaveName(String saveName)
+	{
+		this.saveName = saveName;
+	}
+
+
+	/**
 	 * Returns whether the game supports read-only.
 	 * 
 	 * @return whether game supports read-only
@@ -194,6 +208,17 @@ public class Game
 	public boolean supportsReadOnly()
 	{
 		return supportsReadOnly;
+	}
+
+
+	/**
+	 * Sets whether the game supports read-only.
+	 * 
+	 * @param supportsReadOnly
+	 */
+	public void setSupportsReadOnly(boolean supportsReadOnly)
+	{
+		this.supportsReadOnly = supportsReadOnly;
 	}
 
 
