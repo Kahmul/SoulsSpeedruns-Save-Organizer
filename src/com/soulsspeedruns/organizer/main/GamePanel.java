@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
-import com.soulsspeedruns.organizer.gameconfig.GameConfigurationWindow;
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.games.config.GameConfigurationWindow;
 import com.soulsspeedruns.organizer.mainconfig.GamesComboBox;
 import com.soulsspeedruns.organizer.mainconfig.ProfilesComboBox;
 

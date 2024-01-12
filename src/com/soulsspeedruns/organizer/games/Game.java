@@ -3,7 +3,6 @@ package com.soulsspeedruns.organizer.games;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,25 +17,18 @@ import java.util.List;
  */
 public class Game
 {
-	
-	public static final Game DARK_SOULS = new Game("Dark Souls", "DS1", "DRAKS0005.sl2", true, false);
-	public static final Game DARK_SOULS_REMASTERED = new Game("Dark Souls Remastered", "DSR", "DRAKS0005.sl2", false, false);
-	public static final Game DARK_SOULS_II = new Game("Dark Souls II", "DS2", "DARKSII0000.sl2", true, false);
-	public static final Game DARK_SOULS_II_SOTFS = new Game("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2", true, false);
-	public static final Game DARK_SOULS_III = new Game("Dark Souls III", "DS3", "DS30000.sl2", true, false);
-	public static final Game SEKIRO_SHADOWS_DIE_TWICE = new Game("Sekiro", "SSDT", "S0000.sl2", true, false);
-	public static final Game ELDEN_RING = new Game("Elden Ring", "ER", "ER0000.sl2", true, false);
-	
-	public static final List<Game> GAMES = Arrays.asList(
-			DARK_SOULS,
-			DARK_SOULS_REMASTERED,
-			DARK_SOULS_II,
-			DARK_SOULS_II_SOTFS,
-			DARK_SOULS_III,
-			SEKIRO_SHADOWS_DIE_TWICE,
-			ELDEN_RING
-		);
-	
+
+
+	public static final List<Game> GAMES = new ArrayList<>();
+
+	public static final Game DARK_SOULS = createGame("Dark Souls", "DS1", "DRAKS0005.sl2", true, false);
+	public static final Game DARK_SOULS_REMASTERED = createGame("Dark Souls Remastered", "DSR", "DRAKS0005.sl2", false, false);
+	public static final Game DARK_SOULS_II = createGame("Dark Souls II", "DS2", "DARKSII0000.sl2", true, false);
+	public static final Game DARK_SOULS_II_SOTFS = createGame("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2", true, false);
+	public static final Game DARK_SOULS_III = createGame("Dark Souls III", "DS3", "DS30000.sl2", true, false);
+	public static final Game SEKIRO_SHADOWS_DIE_TWICE = createGame("Sekiro", "SSDT", "S0000.sl2", true, false);
+	public static final Game ELDEN_RING = createGame("Elden Ring", "ER", "ER0000.sl2", true, false);
+
 	private final String caption;
 	private final String abbr;
 	private final String saveName;
@@ -47,15 +39,6 @@ public class Game
 	private List<Profile> profiles;
 
 
-	/**
-	 * Creates a new Game object.
-	 * 
-	 * @param caption the caption of this game
-	 * @param abbr the abbreviation of this game
-	 * @param saveName the name of the game's savefile
-	 * @param supportsReadOnly whether the game supports read-only
-	 * @param isCustomGame whether the game was added by the user
-	 */
 	private Game(String caption, String abbr, String saveName, boolean supportsReadOnly, boolean isCustomGame)
 	{
 		this.caption = caption;
@@ -63,11 +46,28 @@ public class Game
 		this.saveName = saveName;
 		this.supportsReadOnly = supportsReadOnly;
 		this.isCustomGame = isCustomGame;
-		
+
 		profiles = new ArrayList<>();
 	}
-	
-	
+
+
+	/**
+	 * Creates a new Game object.
+	 * 
+	 * @param caption          the caption of this game
+	 * @param abbr             the abbreviation of this game
+	 * @param saveName         the name of the game's savefile
+	 * @param supportsReadOnly whether the game supports read-only
+	 * @param isCustomGame     whether the game was added by the user
+	 */
+	public static Game createGame(String caption, String abbr, String saveName, boolean supportsReadOnly, boolean isCustomGame)
+	{
+		Game game = new Game(caption, abbr, saveName, supportsReadOnly, isCustomGame);
+		GAMES.add(game);
+
+		return game;
+	}
+
 //	/**
 //	 * Returns a combined list object consisting of the games support from the start
 //	 * 
@@ -171,7 +171,8 @@ public class Game
 	{
 		return saveName;
 	}
-	
+
+
 	/**
 	 * Returns whether the game supports read-only.
 	 * 
@@ -181,8 +182,8 @@ public class Game
 	{
 		return supportsReadOnly;
 	}
-	
-	
+
+
 	/**
 	 * Returns whether the game is a custom game added by the user.
 	 * 

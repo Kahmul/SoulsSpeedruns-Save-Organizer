@@ -1,10 +1,6 @@
 package com.soulsspeedruns.organizer.main;
 
 
-import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -31,10 +27,7 @@ public class SortingPanel extends JPanel
 
 		JLabel sortByLabel = new JLabel("Sort by:");
 		SortingComboBox sortingComboBox = new SortingComboBox();
-		sortingComboBox.setPreferredSize(new Dimension(sortingComboBox.getPreferredSize().width + 2, sortingComboBox.getPreferredSize().height));
 		SearchBar searchBar = new SearchBar();
-
-		Component glue = Box.createHorizontalGlue();
 
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
@@ -42,13 +35,12 @@ public class SortingPanel extends JPanel
 		hGroup.addGap(10);
 		hGroup.addGroup(layout.createParallelGroup().addComponent(sortByLabel));
 		hGroup.addGap(5);
-		hGroup.addGroup(layout.createParallelGroup().addComponent(sortingComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE,
+		hGroup.addGroup(layout.createParallelGroup().addComponent(sortingComboBox, GroupLayout.PREFERRED_SIZE, sortingComboBox.getPreferredSize().width + 2,
 				GroupLayout.PREFERRED_SIZE));
 		hGroup.addGap(6);
 		hGroup.addGroup(layout.createParallelGroup().addComponent(searchBar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-				GroupLayout.PREFERRED_SIZE));
-		hGroup.addGap(10);
-		hGroup.addGroup(layout.createParallelGroup().addComponent(glue));
+				Short.MAX_VALUE));
+		hGroup.addGap(12);
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -57,8 +49,7 @@ public class SortingPanel extends JPanel
 
 		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(sortByLabel)
 				.addComponent(sortingComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(searchBar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(glue));
+				.addComponent(searchBar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE));
 		vGroup.addGap(10);
 
 		layout.setVerticalGroup(vGroup);

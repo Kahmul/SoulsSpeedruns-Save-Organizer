@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.gameconfig;
+package com.soulsspeedruns.organizer.games.config;
 
 import java.awt.Dialog;
 import java.awt.event.MouseAdapter;
