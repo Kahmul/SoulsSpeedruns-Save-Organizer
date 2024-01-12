@@ -36,7 +36,7 @@ public class SettingsWindow extends JDialog
 	 */
 	public SettingsWindow()
 	{
-		super(null, "Settings", Dialog.ModalityType.APPLICATION_MODAL);
+		super(OrganizerManager.getMainWindow(), "Settings", Dialog.ModalityType.APPLICATION_MODAL);
 
 		initLayout();
 		initProperties();

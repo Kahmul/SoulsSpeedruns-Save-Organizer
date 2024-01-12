@@ -44,7 +44,7 @@ public class GameConfigurationWindow extends JDialog
 	{
 		pack();
 		setResizable(false);
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(OrganizerManager.getMainWindow());
 		setIconImage(OrganizerManager.soulsspeedrunsIcon);
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
 

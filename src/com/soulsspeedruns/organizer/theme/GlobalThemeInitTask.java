@@ -14,7 +14,7 @@ public class GlobalThemeInitTask implements DefaultsInitTask
 	{
 		defaults.put("Button.rollover", true);
 		defaults.put("ComboBox.squareButton", true);
-		defaults.put("ComboBox.valueInsets", new InsetsUIResource(3, 4, 4, 4));
+		defaults.put("ComboBox.valueInsets", new InsetsUIResource(4, 4, 4, 4));
 		defaults.put("MenuItem.insets", new InsetsUIResource(3, 2, 3, 4));
 	}
 
