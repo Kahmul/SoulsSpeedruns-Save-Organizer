@@ -80,13 +80,11 @@ public class ScrollableGamesConfigPane extends JPanel
 		});
 
 		editButton = createButton(FontAwesome.PENCIL, buttonColor);
-//		editButton.setEnabled(false);
 
 		deleteButton = createButton(FontAwesome.TRASH, buttonColor);
 		deleteButton.addActionListener((e) -> {
 			deleteSelectedEntry();
 		});
-//		deleteButton.setEnabled(false);
 
 		JLabel settingsLabel = new JLabel("Game Settings");
 

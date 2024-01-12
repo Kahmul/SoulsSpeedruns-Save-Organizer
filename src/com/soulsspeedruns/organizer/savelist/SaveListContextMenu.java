@@ -14,7 +14,7 @@ import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
-import com.soulsspeedruns.organizer.mainconfig.SortingCategory;
+import com.soulsspeedruns.organizer.main.config.SortingCategory;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.FontAwesome;

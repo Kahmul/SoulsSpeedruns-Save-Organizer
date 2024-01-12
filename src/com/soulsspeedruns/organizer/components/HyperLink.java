@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.mainconfig;
+package com.soulsspeedruns.organizer.components;
 
 import java.awt.Color;
 import java.awt.Cursor;

@@ -12,14 +12,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.soulsspeedruns.organizer.components.HyperLink;
+import com.soulsspeedruns.organizer.components.ReadOnlyButton;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
-import com.soulsspeedruns.organizer.mainconfig.HyperLink;
-import com.soulsspeedruns.organizer.mainconfig.ReadOnlyButton;
 import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;

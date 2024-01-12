@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.soulsspeedruns.organizer.components.HyperLink;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
-import com.soulsspeedruns.organizer.mainconfig.HyperLink;
 
 import jiconfont.icons.Elusive;
 import jiconfont.swing.IconFontSwing;

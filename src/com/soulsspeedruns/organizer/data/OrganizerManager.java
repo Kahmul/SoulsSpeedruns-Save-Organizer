@@ -42,7 +42,7 @@ import com.soulsspeedruns.organizer.listeners.SearchListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.listeners.SortingListener;
 import com.soulsspeedruns.organizer.main.OrganizerWindow;
-import com.soulsspeedruns.organizer.mainconfig.SortingCategory;
+import com.soulsspeedruns.organizer.main.config.SortingCategory;
 import com.soulsspeedruns.organizer.messages.AbstractMessage;
 import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.Save;

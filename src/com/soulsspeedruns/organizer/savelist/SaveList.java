@@ -21,6 +21,7 @@ import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.soulsspeedruns.organizer.components.SearchBar;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.dragndrop.SaveListDragListener;
 import com.soulsspeedruns.organizer.dragndrop.SaveListTransferHandler;
@@ -31,8 +32,7 @@ import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SearchListener;
 import com.soulsspeedruns.organizer.listeners.SortingListener;
-import com.soulsspeedruns.organizer.mainconfig.SearchBar;
-import com.soulsspeedruns.organizer.mainconfig.SortingCategory;
+import com.soulsspeedruns.organizer.main.config.SortingCategory;
 import com.soulsspeedruns.organizer.messages.AbstractMessage;
 
 

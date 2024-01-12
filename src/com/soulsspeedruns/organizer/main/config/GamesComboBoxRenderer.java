@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.mainconfig;
+package com.soulsspeedruns.organizer.main.config;
 
 import java.awt.Component;
 
