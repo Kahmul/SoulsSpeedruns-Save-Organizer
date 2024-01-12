@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import com.soulsspeedruns.organizer.components.HyperLink;
 import com.soulsspeedruns.organizer.components.ReadOnlyButton;
@@ -139,6 +140,7 @@ public class ButtonPanel extends JPanel
 	{
 		JButton loadButton = new JButton("Load Savestate");
 		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, Color.decode("0x2c9558")));
+		loadButton.setDisabledIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, UIManager.getColor("disabledIconColor")));
 		loadButton.addActionListener(event -> {
 			SaveListEntry entry = OrganizerManager.getSelectedEntry();
 			if (entry instanceof Folder)
@@ -159,6 +161,7 @@ public class ButtonPanel extends JPanel
 	{
 		JButton replaceButton = new JButton("Replace Savestate");
 		replaceButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, Color.decode("0xeb751c")));
+		replaceButton.setDisabledIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, UIManager.getColor("disabledIconColor")));
 		replaceButton.addActionListener(event -> {
 			Save selectedSave = (Save) OrganizerManager.getSelectedEntry();
 			int confirm = JOptionPane.showConfirmDialog(getParent(), "Do you really want to replace '" + selectedSave.getName() + "'?",

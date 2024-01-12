@@ -68,6 +68,19 @@ public class Game
 		return game;
 	}
 
+
+	/**
+	 * Removes the game from the list of games.
+	 * 
+	 * @param game the game to remove
+	 */
+	public static void deleteGame(Game game)
+	{
+		if (!game.isCustomGame)
+			return;
+		GAMES.remove(game);
+	}
+
 //	/**
 //	 * Returns a combined list object consisting of the games support from the start
 //	 * 

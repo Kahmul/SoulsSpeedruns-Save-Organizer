@@ -43,7 +43,7 @@ public class ScrollableGamesConfigPane extends JPanel
 	private JButton editButton;
 	private JButton deleteButton;
 
-	JScrollPane scrollPane;
+	private JScrollPane scrollPane;
 	private JPanel listPanel;
 
 	private GroupLayout gameSelectionLayout;
@@ -103,7 +103,8 @@ public class ScrollableGamesConfigPane extends JPanel
 
 	private JButton createButton(FontAwesome icon, Color buttonColor)
 	{
-		JButton button = new JButton(IconFontSwing.buildIcon(icon, 16, (Color) UIManager.get("hyperlink")));
+		JButton button = new JButton(IconFontSwing.buildIcon(icon, 16, UIManager.getColor("hyperlink")));
+		button.setDisabledIcon(IconFontSwing.buildIcon(icon, 16, UIManager.getColor("disabledIconColor")));
 		button.setBorderPainted(false);
 		button.setBackground(buttonColor);
 		button.setMargin(new Insets(6, 18, 6, 18));
@@ -208,6 +209,8 @@ public class ScrollableGamesConfigPane extends JPanel
 
 		entries.remove(selectedIndex);
 		listPanel.remove(selectedIndex);
+		
+		Game.deleteGame(selectedEntry.getGame());
 
 		setSelectedEntry(entries.get(newIndex));
 	}
