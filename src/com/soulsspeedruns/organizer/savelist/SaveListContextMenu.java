@@ -7,17 +7,17 @@ import java.awt.Point;
 import java.io.File;
 import java.util.List;
 
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.mainconfig.SortingCategory;
 
 import jiconfont.icons.Elusive;
-import jiconfont.icons.Iconic;
+import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
 
@@ -49,18 +49,20 @@ public class SaveListContextMenu extends JPopupMenu
 		JMenuItem itemCopy = createCopyItem(saveList);
 		JMenuItem itemCut = createCutItem(saveList);
 		JMenuItem itemPaste = createPasteItem(saveList);
-		JCheckBoxMenuItem itemReadOnly = createReadOnlyItem(saveList);
+		JMenuItem itemReadOnly = createReadOnlyItem(saveList);
 		JMenuItem itemRefresh = createRefreshItem(saveList);
 		JMenuItem itemOpenInExplorer = createOpenInExplorerItem(saveList);
 
 		add(itemAdd);
+		add(new JSeparator());
 		add(itemRemove);
 		add(itemEdit);
+		if (OrganizerManager.getSelectedGame().supportsReadOnly())
+			add(itemReadOnly);
 		add(itemCopy);
 		add(itemCut);
 		add(itemPaste);
-		if (OrganizerManager.getSelectedGame().supportsReadOnly())
-			add(itemReadOnly);
+		add(new JSeparator());
 		add(itemRefresh);
 		add(itemOpenInExplorer);
 
@@ -113,7 +115,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createAddItem(SaveList saveList)
 	{
 		JMenuItem itemAdd = new JMenuItem("Add Folder");
-		itemAdd.setIcon(IconFontSwing.buildIcon(Elusive.PLUS_SIGN, 15, Color.decode("0x2c9558")));
+		itemAdd.setIcon(IconFontSwing.buildIcon(FontAwesome.FOLDER, 16, new Color(251, 208, 108)));
 		itemAdd.addActionListener(event -> {
 			saveList.askToCreateFolder();
 		});
@@ -129,7 +131,8 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem createRemoveItem(SaveList saveList)
 	{
 		JMenuItem itemRemove = new JMenuItem("Delete");
-		itemRemove.setIcon(IconFontSwing.buildIcon(Iconic.CHECK, 18, Color.decode("0xea3622")));
+		
+//		itemRemove.setIcon(IconFontSwing.buildIcon(FontAwesome.TIMES_CIRCLE, 17, Color.decode("0xea3622")));
 		itemRemove.setAccelerator(KeyStroke.getKeyStroke("DELETE"));
 		itemRemove.addActionListener(event -> {
 			saveList.askToDeleteEntries(saveList.getSelectedValuesList());
@@ -194,16 +197,17 @@ public class SaveListContextMenu extends JPopupMenu
 	 * 
 	 * @return the read only item
 	 */
-	private JCheckBoxMenuItem createReadOnlyItem(SaveList saveList)
+	private JMenuItem createReadOnlyItem(SaveList saveList)
 	{
-		JCheckBoxMenuItem itemReadOnly = new JCheckBoxMenuItem("Read-Only");
+		JMenuItem itemReadOnly = new JMenuItem("Read-Only");
+		itemReadOnly.setIcon(OrganizerManager.readOnlyIcon14);
 		itemReadOnly.addActionListener(event -> {
 			for (SaveListEntry entry : saveList.getSelectedValuesList())
 			{
 				if(!(entry instanceof Save))
 					continue;
 				File file = entry.getFile();
-				file.setWritable(!itemReadOnly.isSelected());
+				file.setWritable(!file.canWrite());
 			}
 			if (OrganizerManager.getSelectedSortingCategory() == SortingCategory.READ_ONLY)
 				saveList.refreshList();
