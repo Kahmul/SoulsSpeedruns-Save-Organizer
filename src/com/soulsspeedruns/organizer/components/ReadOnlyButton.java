@@ -100,7 +100,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	 */
 	private void refreshAppearance(boolean isHovering)
 	{
-		boolean isWritable = file.canWrite();
+		boolean isWritable = file != null ? file.canWrite() : false;
 		boolean isCompact = OrganizerManager.isCompactModeEnabled();
 		if(isWritable)
 		{			

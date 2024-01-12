@@ -27,8 +27,7 @@ import jiconfont.swing.IconFontSwing;
 /**
  * Scrollable Games Config Pane
  * <p>
- * Component pane offering all available games in a scrollable list, together
- * with a configuration panel and buttons to add/delete games.
+ * Component pane offering all available games in a scrollable list, together with a configuration panel and buttons to add/delete games.
  * 
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 11 Jan 2024
@@ -42,6 +41,7 @@ public class ScrollableGamesConfigPane extends JPanel
 
 	private JButton editButton;
 	private JButton deleteButton;
+	private JLabel settingsLabel;
 
 	private JScrollPane scrollPane;
 	private JPanel listPanel;
@@ -86,7 +86,7 @@ public class ScrollableGamesConfigPane extends JPanel
 			deleteSelectedEntry();
 		});
 
-		JLabel settingsLabel = new JLabel("Game Settings");
+		settingsLabel = new JLabel("Game Settings");
 
 		buttonPanel.add(addButton);
 		buttonPanel.add(editButton);
@@ -125,10 +125,10 @@ public class ScrollableGamesConfigPane extends JPanel
 
 		GroupLayout.SequentialGroup hGroup = gameSelectionLayout.createSequentialGroup()
 				.addComponent(gameList, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-				.addComponent(configPanel);
+				.addComponent(configPanel, GroupLayout.PREFERRED_SIZE, 435, GroupLayout.PREFERRED_SIZE);
 
-		GroupLayout.ParallelGroup vGroup = gameSelectionLayout.createParallelGroup().addComponent(gameList,
-				GroupLayout.PREFERRED_SIZE, configPanel.getPreferredSize().height, GroupLayout.PREFERRED_SIZE)
+		GroupLayout.ParallelGroup vGroup = gameSelectionLayout.createParallelGroup()
+				.addComponent(gameList, GroupLayout.PREFERRED_SIZE, configPanel.getPreferredSize().height, GroupLayout.PREFERRED_SIZE)
 				.addComponent(configPanel);
 
 		gameSelectionLayout.setHorizontalGroup(hGroup);
@@ -153,13 +153,7 @@ public class ScrollableGamesConfigPane extends JPanel
 			GameListEntry entry = new GameListEntry(game, this);
 
 			if (OrganizerManager.getSelectedGame().equals(game))
-			{
-				entry.setSelected(true);
-				editButton.setEnabled(entry.getGame().isCustomGame());
-				deleteButton.setEnabled(entry.getGame().isCustomGame());
-
-				selectedEntry = entry;
-			}
+				setSelectedEntry(entry);
 
 			entries.add(entry);
 			listPanel.add(entry);
@@ -167,16 +161,11 @@ public class ScrollableGamesConfigPane extends JPanel
 
 		for (int i = 0; i < 5; i++)
 		{
-			Game nier = Game.createGame("NieR: Automata", "NRA", "test.sl2", true, true);
+			Game nier = Game.createGame("Elden Ring Seamless Coop", "NRA", "test.sl2", true, true);
 			GameListEntry nierEntry = new GameListEntry(nier, this);
 			entries.add(nierEntry);
 			listPanel.add(nierEntry);
 		}
-
-//		for (Game game : games)
-//		{
-//			listPanel.add(new GameListEntry(game, this));
-//		}
 
 		scrollPane.setViewportView(listPanel);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -186,17 +175,17 @@ public class ScrollableGamesConfigPane extends JPanel
 
 		return scrollPane;
 	}
-	
-	
+
+
 	protected void addEntry()
 	{
-		Game nier = Game.createGame("NieR: Automata", "NRA", "test.sl2", true, true);
+		Game nier = Game.createGame("Elden Ring Seamless Coop", "NRA", "test.sl2", true, true);
 		GameListEntry nierEntry = new GameListEntry(nier, this);
 		entries.add(nierEntry);
 		listPanel.add(nierEntry);
-		
+
 		setSelectedEntry(nierEntry);
-		
+
 		scrollPane.validate();
 		scrollPane.getVerticalScrollBar().setValue(nierEntry.getLocation().y);
 	}
@@ -209,7 +198,7 @@ public class ScrollableGamesConfigPane extends JPanel
 
 		entries.remove(selectedIndex);
 		listPanel.remove(selectedIndex);
-		
+
 		Game.deleteGame(selectedEntry.getGame());
 
 		setSelectedEntry(entries.get(newIndex));
@@ -226,14 +215,18 @@ public class ScrollableGamesConfigPane extends JPanel
 	{
 		if (entry != selectedEntry)
 		{
-			selectedEntry.setSelected(false);
-			entry.setSelected(true);
+			if (selectedEntry != null)
+			{
+				selectedEntry.setSelected(false);
+				gameSelectionLayout.replace(selectedEntry.getConfigPanel(), entry.getConfigPanel());
+			}
 
-			gameSelectionLayout.replace(selectedEntry.getConfigPanel(), entry.getConfigPanel());
+			entry.setSelected(true);
 			selectedEntry = entry;
 
 			editButton.setEnabled(selectedEntry.getGame().isCustomGame());
 			deleteButton.setEnabled(selectedEntry.getGame().isCustomGame());
+			settingsLabel.setText(selectedEntry.getGame().getCaption());
 
 			revalidate();
 			repaint();

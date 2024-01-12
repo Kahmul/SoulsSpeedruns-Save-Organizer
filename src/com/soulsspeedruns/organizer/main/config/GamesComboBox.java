@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.listeners.GameListener;
 
 
 /**
@@ -19,7 +20,7 @@ import com.soulsspeedruns.organizer.games.Game;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 29 Sep 2015
  */
-public class GamesComboBox extends JComboBox<Game>
+public class GamesComboBox extends JComboBox<Game> implements GameListener
 {
 
 	protected final DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
@@ -45,6 +46,8 @@ public class GamesComboBox extends JComboBox<Game>
 				profilesCB.setGame(game);
 			}
 		});
+		
+		OrganizerManager.addGameListener(this);
 	}
 
 
@@ -55,6 +58,7 @@ public class GamesComboBox extends JComboBox<Game>
 	 */
 	public void fillWith(List<Game> games)
 	{
+		removeAllItems();
 		if (games != null && games.size() > 0)
 		{
 			for (int i = 0; i < games.size(); i++)
@@ -66,6 +70,29 @@ public class GamesComboBox extends JComboBox<Game>
 				}
 			}
 		}
+	}
+
+
+	@Override
+	public void gameCreated(Game game)
+	{
+		addItem(game);
+	}
+
+
+	@Override
+	public void gameDeleted(Game game)
+	{
+		removeItem(game);
+		if(OrganizerManager.getSelectedGame() == game)
+			setSelectedIndex(Math.max(0, getSelectedIndex() - 1));
+	}
+
+
+	@Override
+	public void gameEdited(Game game)
+	{
+		
 	}
 
 }

@@ -4,8 +4,6 @@ package com.soulsspeedruns.organizer.theme;
 import java.awt.Color;
 import java.util.Properties;
 
-import javax.swing.plaf.ColorUIResource;
-
 import com.github.weisj.darklaf.task.DefaultsAdjustmentTask;
 import com.github.weisj.darklaf.theme.Theme;
 
@@ -22,7 +20,7 @@ public class GlobalThemeAdjustmentTask implements DefaultsAdjustmentTask
 		properties.put("borderThickness", 0);
 		properties.put("arc", 0);
 		properties.put("disabledIconColor",
-				Theme.isDark(currentTheme) ? new ColorUIResource(Color.decode("#495162")) : new ColorUIResource(Color.decode("#bfc0c1")));
+				Theme.isDark(currentTheme) ? Color.decode("#495162") : Color.decode("#bfc0c1"));
 	}
 
 }

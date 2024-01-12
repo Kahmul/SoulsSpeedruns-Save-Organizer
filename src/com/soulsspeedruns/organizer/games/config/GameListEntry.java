@@ -25,7 +25,14 @@ public class GameListEntry extends JButton
 
 	public GameListEntry(Game game, ScrollableGamesConfigPane pane)
 	{
-		super(game.getCaption());
+		String caption = game.getCaption();
+		if(caption.length() > 22)
+		{
+			caption = caption.substring(0, 21);
+			caption += "...";
+		}
+		
+		setText(caption);
 
 		this.game = game;
 		configPanel = new GameConfigPanel(game);

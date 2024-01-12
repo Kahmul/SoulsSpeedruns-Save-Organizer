@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.theme.event.ThemeChangeEvent;
+import com.github.weisj.darklaf.theme.event.ThemeChangeListener;
 import com.soulsspeedruns.organizer.components.HyperLink;
 import com.soulsspeedruns.organizer.components.ReadOnlyButton;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
@@ -42,6 +45,7 @@ import jiconfont.swing.IconFontSwing;
 public class ButtonPanel extends JPanel
 {
 
+
 	private JButton importButton;
 	private JButton loadButton;
 	private JButton replaceButton;
@@ -65,13 +69,13 @@ public class ButtonPanel extends JPanel
 		replaceButton = createReplaceButton();
 		settingsButton = createSettingsButton();
 		updateLink = createUpdateLink();
-		
+
 		JPanel settingsUpdatePanel = new JPanel();
 		GroupLayout panelLayout = new GroupLayout(settingsUpdatePanel);
-		
+
 		panelLayout.setHorizontalGroup(panelLayout.createSequentialGroup().addComponent(updateLink).addGap(10).addComponent(settingsButton));
 		panelLayout.setVerticalGroup(panelLayout.createParallelGroup(Alignment.CENTER).addComponent(updateLink).addComponent(settingsButton));
-		
+
 		settingsUpdatePanel.setLayout(panelLayout);
 
 		Component glue = Box.createHorizontalGlue();
@@ -93,8 +97,8 @@ public class ButtonPanel extends JPanel
 		// Vertical
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
-		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(importButton).addComponent(loadButton)
-				.addComponent(replaceButton).addComponent(readOnlyButton).addComponent(glue).addComponent(settingsUpdatePanel));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(importButton).addComponent(loadButton).addComponent(replaceButton)
+				.addComponent(readOnlyButton).addComponent(glue).addComponent(settingsUpdatePanel));
 		vGroup.addGap(10);
 
 		layout.setVerticalGroup(vGroup);
@@ -123,8 +127,8 @@ public class ButtonPanel extends JPanel
 				return;
 			}
 			JOptionPane.showMessageDialog(null,
-					"Create a profile before trying to import a savefile! You can do this in the profile configuration settings.",
-					"Warning", JOptionPane.WARNING_MESSAGE);
+					"Create a profile before trying to import a savefile! You can do this in the profile configuration settings.", "Warning",
+					JOptionPane.WARNING_MESSAGE);
 		});
 		return importButton;
 	}
@@ -146,6 +150,22 @@ public class ButtonPanel extends JPanel
 			if (entry instanceof Folder)
 				return;
 			OrganizerManager.loadSave((Save) entry);
+		});
+		LafManager.addThemeChangeListener(new ThemeChangeListener()
+		{
+
+
+			@Override
+			public void themeInstalled(ThemeChangeEvent e)
+			{
+				loadButton.setDisabledIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, UIManager.getColor("disabledIconColor")));
+			}
+
+
+			@Override
+			public void themeChanged(ThemeChangeEvent e)
+			{
+			}
 		});
 		loadButton.setEnabled(false);
 		return loadButton;
@@ -170,20 +190,37 @@ public class ButtonPanel extends JPanel
 				return;
 			OrganizerManager.importAndReplaceSavefile(selectedSave);
 		});
+		LafManager.addThemeChangeListener(new ThemeChangeListener()
+		{
+
+
+			@Override
+			public void themeInstalled(ThemeChangeEvent e)
+			{
+				replaceButton.setDisabledIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, UIManager.getColor("disabledIconColor")));
+			}
+
+
+			@Override
+			public void themeChanged(ThemeChangeEvent e)
+			{
+			}
+		});
 		replaceButton.setEnabled(false);
 		return replaceButton;
 	}
-	
-	
+
+
 	private HyperLink createUpdateLink()
 	{
-		HyperLink updateLink = new HyperLink("Update Available", OrganizerManager.LATEST_RELEASE_URL); 
+		HyperLink updateLink = new HyperLink("Update Available", OrganizerManager.LATEST_RELEASE_URL);
 		updateLink.setHorizontalAlignment(SwingConstants.RIGHT);
 		updateLink.setVisible(OrganizerManager.isVersionOutdated());
-		
+
 		return updateLink;
 	}
-	
+
+
 	/**
 	 * Creates the settings button.
 	 * 
@@ -196,8 +233,8 @@ public class ButtonPanel extends JPanel
 		settingsButton.setFocusable(false);
 		return settingsButton;
 	}
-	
-	
+
+
 	/**
 	 * Refreshes the button texts based on settings.
 	 */
@@ -215,7 +252,9 @@ public class ButtonPanel extends JPanel
 	 */
 	private void addButtonListeners()
 	{
-		OrganizerManager.addSaveListener(new SaveListener() {
+		OrganizerManager.addSaveListener(new SaveListener()
+		{
+
 
 			@Override
 			public void entrySelected(SaveListEntry entry)
@@ -262,7 +301,9 @@ public class ButtonPanel extends JPanel
 
 		});
 
-		OrganizerManager.addProfileListener(new ProfileListener() {
+		OrganizerManager.addProfileListener(new ProfileListener()
+		{
+
 
 			@Override
 			public void profileDeleted(Profile profile)
@@ -296,15 +337,17 @@ public class ButtonPanel extends JPanel
 			}
 
 		});
-		
-		OrganizerManager.addSettingsListener(new SettingsListener() {
-			
+
+		OrganizerManager.addSettingsListener(new SettingsListener()
+		{
+
+
 			@Override
 			public void settingChanged(String prefsKey)
 			{
-				if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
+				if (prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
 					updateLink.setVisible(OrganizerManager.isVersionOutdated());
-				else if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE))
+				else if (prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE))
 					refreshButtons();
 			}
 		});
