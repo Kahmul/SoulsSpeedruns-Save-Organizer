@@ -20,15 +20,15 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 27 Sep 2015
  */
-public class GameConfigurationWindow extends JDialog
+public class GamesConfigurationWindow extends JDialog
 {
 
 	/**
 	 * Creates a new configuration window.
 	 */
-	public GameConfigurationWindow()
+	public GamesConfigurationWindow()
 	{
-		super(OrganizerManager.getMainWindow(), "Game Configuration", Dialog.ModalityType.APPLICATION_MODAL);
+		super(OrganizerManager.getMainWindow(), "Games Configuration", Dialog.ModalityType.APPLICATION_MODAL);
 
 		initLayout();
 		initProperties();
@@ -55,7 +55,7 @@ public class GameConfigurationWindow extends JDialog
 			public void windowActivated(WindowEvent e)
 			{
 				SwingUtilities.invokeLater(() -> {
-					SwingUtilities.updateComponentTreeUI(GameConfigurationWindow.this);
+					SwingUtilities.updateComponentTreeUI(GamesConfigurationWindow.this);
 				});
 			}
 		});

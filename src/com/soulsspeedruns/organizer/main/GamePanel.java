@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
-import com.soulsspeedruns.organizer.games.config.GameConfigurationWindow;
+import com.soulsspeedruns.organizer.games.config.GamesConfigurationWindow;
 import com.soulsspeedruns.organizer.main.config.GamesComboBox;
 import com.soulsspeedruns.organizer.main.config.ProfilesComboBox;
 
@@ -104,7 +104,7 @@ public class GamePanel extends JPanel
 	{
 		JButton editButton = new JButton("Edit Games");
 		editButton.addActionListener(event -> {
-			new GameConfigurationWindow();
+			new GamesConfigurationWindow();
 		});
 		return editButton;
 	}
