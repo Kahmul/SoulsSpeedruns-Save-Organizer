@@ -62,8 +62,8 @@ import jiconfont.swing.IconFontSwing;
 /**
  * OrganizerManager.
  * <p>
- * Manages storing and retrieving of the used data (e.g. profiles, saves, images). Handles listener events for profiles, saves and
- * games. Offers utility methods.
+ * Manages storing and retrieving of the used data (e.g. profiles, saves, images). Handles listener events for profiles, saves and games. Offers
+ * utility methods.
  *
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 27 Sep 2015
@@ -94,12 +94,12 @@ public class OrganizerManager
 	 */
 	private static final String PREFS_KEY_INITIAL_STARTUP = "initStartup";
 	private static final String PREFS_KEY_VERSION = "Version";
-	
+
 	private static final String PREFS_KEY_THEME = "Theme";
 
 	private static final String PREFS_KEY_WIN_WIDTH = "WindowWidth";
 	private static final String PREFS_KEY_WIN_HEIGHT = "WindowHeight";
-	
+
 	private static final String PREFS_KEY_MAXIMIZED = "WindowMaximized";
 
 	private static final String PREFS_KEY_SELECTED_GAME = "selectedGame";
@@ -127,10 +127,12 @@ public class OrganizerManager
 	public static final String ILLEGAL_CHARACTERS = "~, @, *, {, }, <, >, [, ], |, \u201C, \u201D, \\, /, ^";
 	private static final String ILLEGAL_CHARACTERS_REGEX = "[~#@*{}<>\\[\\]|\"\\^\\\\\\/]";
 
+	private static String operatingSystem;
+
 	private static Preferences prefs;
 
 	private static GlobalKeyboardHook keyboardHook;
-	
+
 	private static String latestReleaseVersion;
 
 	public static Image soulsspeedrunsIcon;
@@ -147,7 +149,6 @@ public class OrganizerManager
 	public static ImageIcon importIcon24;
 	public static Image settingsIcon;
 
-
 	private static List<ProfileListener> profileListeners;
 	private static List<GameListener> gameListeners;
 	private static List<SaveListener> saveListeners;
@@ -161,7 +162,7 @@ public class OrganizerManager
 	private static OrganizerWindow mainWindow;
 
 	private static boolean isReady;
-	
+
 //	private static native NativeLong SetCurrentProcessExplicitAppUserModelID(WString appID);
 
 	static
@@ -192,12 +193,13 @@ public class OrganizerManager
 		initKeyboardHook();
 		initLookAndFeel();
 		mapGamesWithProfiles();
-		
+
+		determineOS();
 //		setAppUserModelID();
 
 		isReady = true;
 	}
-	
+
 //	/**
 //	 * Sets the AppUserModelID. Needed to be able to properly pin the .exe to the taskbar.
 //	 */
@@ -208,6 +210,24 @@ public class OrganizerManager
 //		WString appID = new WString("com.soulsspeedruns.saveorganizer");
 //		SetCurrentProcessExplicitAppUserModelID(appID);
 //	}
+
+
+	private static void determineOS()
+	{
+		String osName = System.getProperty("os.name").toLowerCase();
+		if (osName.contains("win"))
+		{
+			operatingSystem = "Windows";
+		}
+		else if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix"))
+		{
+			operatingSystem = "Linux";
+		}
+		else if (osName.contains("mac"))
+		{
+			operatingSystem = "Mac";
+		}
+	}
 
 
 	/**
@@ -238,9 +258,9 @@ public class OrganizerManager
 //		IconFontSwing.register(Entypo.getIconFont());
 		IconFontSwing.register(Iconic.getIconFont());
 //		IconFontSwing.register(Typicons.getIconFont());
-		
+
 	}
-	
+
 
 	/**
 	 * Inits the listener lists.
@@ -277,20 +297,23 @@ public class OrganizerManager
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_PREV_SAVE);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_NEXT_SAVE);
 			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_TOGGLE);
-			
-			try {
-				if(Preferences.userRoot().nodeExists(PREFERENCES_PATH_LEGACY))
+
+			try
+			{
+				if (Preferences.userRoot().nodeExists(PREFERENCES_PATH_LEGACY))
 				{
 					ByteArrayOutputStream os = new ByteArrayOutputStream();
 					Preferences.userRoot().node(PREFERENCES_PATH_LEGACY).exportSubtree(os);
 					String legacyPrefs = new String(os.toByteArray(), "UTF-8");
 					legacyPrefs = legacyPrefs.replaceFirst("speedsouls", "soulsspeedruns");
-					
+
 					Preferences.importPreferences(new ByteArrayInputStream(legacyPrefs.getBytes()));
-					
+
 					Preferences.userRoot().node(PREFERENCES_PATH_LEGACY).removeNode();
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 
@@ -316,16 +339,17 @@ public class OrganizerManager
 			keyboardHook.setHotkeysEnabled(false);
 		}
 	}
-	
+
+
 	private static void initLookAndFeel()
 	{
 		LafManager.unregisterTheme(new IntelliJTheme());
 		LafManager.registerTheme(new SoulsSpeedrunsTheme());
 		LafManager.registerTheme(new DefaultTheme());
-		
+
 		LafManager.registerDefaultsAdjustmentTask(new GlobalThemeAdjustmentTask());
 		LafManager.registerInitTask(new GlobalThemeInitTask());
-		
+
 		LafManager.install(getStoredTheme());
 	}
 
@@ -396,9 +420,9 @@ public class OrganizerManager
 	 */
 	public static void saveProperties(Game game)
 	{
-		if(game.getDirectory() != null)
+		if (game.getDirectory() != null)
 			prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR, game.getDirectory().getPath());
-		if(game.getSaveFileLocation() != null)
+		if (game.getSaveFileLocation() != null)
 			prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_SAVEFILE, game.getSaveFileLocation().getPath());
 		importProfiles(game);
 	}
@@ -414,8 +438,8 @@ public class OrganizerManager
 		if (listener != null)
 			profileListeners.add(listener);
 	}
-	
-	
+
+
 	/**
 	 * Adds a game listener to send events to.
 	 * 
@@ -423,7 +447,7 @@ public class OrganizerManager
 	 */
 	public static void addGameListener(GameListener listener)
 	{
-		if(listener != null)
+		if (listener != null)
 			gameListeners.add(listener);
 	}
 
@@ -474,8 +498,8 @@ public class OrganizerManager
 		if (listener != null)
 			navigationListeners.add(listener);
 	}
-	
-	
+
+
 	/**
 	 * Adds a settings listener to send events to.
 	 * 
@@ -485,6 +509,17 @@ public class OrganizerManager
 	{
 		if (listener != null)
 			settingsListeners.add(listener);
+	}
+
+
+	/**
+	 * Returns whether the OS this application is running on is Windows.
+	 * 
+	 * @return whether the OS is Windows
+	 */
+	public static boolean isRunningOnWindows()
+	{
+		return operatingSystem.contains("Windows");
 	}
 
 
@@ -573,7 +608,8 @@ public class OrganizerManager
 		// if a profile with the saved name doesn't exist, return either the first existing one, or an empty one.
 		return profiles.size() > 0 ? profiles.get(0) : new Profile("", game);
 	}
-	
+
+
 	/**
 	 * Returns whether a profile is selected.
 	 * 
@@ -586,8 +622,8 @@ public class OrganizerManager
 
 
 	/**
-	 * Imports a new savefile. If a parent is given, it will be imported into that folder. Otherwise the parent will be determined
-	 * based on the selection in the save list.
+	 * Imports a new savefile. If a parent is given, it will be imported into that folder. Otherwise the parent will be determined based on the
+	 * selection in the save list.
 	 * 
 	 * @param parentFolder the folder to import the savefile into
 	 * @return the imported save
@@ -679,8 +715,7 @@ public class OrganizerManager
 		}
 		catch (IOException e)
 		{
-			JOptionPane.showMessageDialog(mainWindow, "Error when trying to import the savefile!", "Error occurred",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mainWindow, "Error when trying to import the savefile!", "Error occurred", JOptionPane.ERROR_MESSAGE);
 		}
 		return newFile;
 	}
@@ -749,8 +784,8 @@ public class OrganizerManager
 			JOptionPane.showMessageDialog(mainWindow, e.getMessage(), "Error occurred", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Stores the prefix of the given theme in the preferences. The corresponding theme will be loaded on restart.
 	 * 
@@ -760,8 +795,8 @@ public class OrganizerManager
 	{
 		prefs.put(PREFS_KEY_THEME, theme.getPrefix());
 	}
-	
-	
+
+
 	/**
 	 * Returns the theme that was stored. If none is stored, returns a default choice based on the user theme preferences.
 	 * 
@@ -770,20 +805,20 @@ public class OrganizerManager
 	public static Theme getStoredTheme()
 	{
 		String prefix = prefs.get(PREFS_KEY_THEME, PREFS_ERROR_ON_RETRIEVE);
-		if(prefix != PREFS_ERROR_ON_RETRIEVE)
+		if (prefix != PREFS_ERROR_ON_RETRIEVE)
 		{
 			for (Theme theme : LafManager.getRegisteredThemes())
 			{
-				if(theme.getPrefix().equalsIgnoreCase(prefix))
+				if (theme.getPrefix().equalsIgnoreCase(prefix))
 					return theme;
 			}
 		}
-		
+
 		boolean dark = LafManager.getPreferredThemeStyle().getColorToneRule() == ColorToneRule.DARK;
 		Theme theme = dark ? new SoulsSpeedrunsTheme() : new DefaultTheme();
-		
+
 		setStoredTheme(theme);
-		
+
 		return theme;
 	}
 
@@ -795,7 +830,7 @@ public class OrganizerManager
 	 */
 	public static void setGlobalHotkeysEnabled(boolean flag)
 	{
-		if(areGlobalHotkeysEnabled() == flag)
+		if (areGlobalHotkeysEnabled() == flag)
 			return;
 		prefs.putBoolean(PREFS_KEY_SETTING_GLOBAL_HOTKEYS, flag);
 		keyboardHook.setHotkeysEnabled(flag);
@@ -821,7 +856,7 @@ public class OrganizerManager
 	 */
 	public static void setAlwaysOnTop(boolean flag)
 	{
-		if(isAlwaysOnTop() == flag)
+		if (isAlwaysOnTop() == flag)
 			return;
 		prefs.putBoolean(PREFS_KEY_SETTING_ALWAYS_ON_TOP, flag);
 		mainWindow.setAlwaysOnTop(flag);
@@ -838,8 +873,8 @@ public class OrganizerManager
 	{
 		return prefs.getBoolean(PREFS_KEY_SETTING_ALWAYS_ON_TOP, false);
 	}
-	
-	
+
+
 	/**
 	 * Enables/disables double click to load.
 	 * 
@@ -847,13 +882,13 @@ public class OrganizerManager
 	 */
 	public static void setDoubleClickLoadEnabled(boolean flag)
 	{
-		if(isDoubleClickLoadEnabled() == flag)
+		if (isDoubleClickLoadEnabled() == flag)
 			return;
 		prefs.putBoolean(PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD, flag);
 		fireSettingChangedEvent(PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD);
 	}
-	
-	
+
+
 	/**
 	 * Returns whether double click to load is enabled.
 	 * 
@@ -863,8 +898,8 @@ public class OrganizerManager
 	{
 		return prefs.getBoolean(PREFS_KEY_SETTING_DOUBLE_CLICK_LOAD, false);
 	}
-	
-	
+
+
 	/**
 	 * Enables/disables the check for new releases.
 	 * 
@@ -872,13 +907,13 @@ public class OrganizerManager
 	 */
 	public static void setCheckForUpdatesEnabled(boolean flag)
 	{
-		if(isCheckForUpdatesEnabled() == flag)
+		if (isCheckForUpdatesEnabled() == flag)
 			return;
 		prefs.putBoolean(PREFS_KEY_SETTING_CHECK_FOR_UPDATES, flag);
 		fireSettingChangedEvent(PREFS_KEY_SETTING_CHECK_FOR_UPDATES);
 	}
 
-	
+
 	/**
 	 * Returns whether the application should check for new releases.
 	 * 
@@ -888,22 +923,22 @@ public class OrganizerManager
 	{
 		return prefs.getBoolean(PREFS_KEY_SETTING_CHECK_FOR_UPDATES, true);
 	}
-	
-	
+
+
 	/**
-	 * Enables/disables compact mode which 
+	 * Enables/disables compact mode which
 	 * 
 	 * @param flag True to enable, false to disable
 	 */
 	public static void setCompactModeEnabled(boolean flag)
 	{
-		if(isCompactModeEnabled() == flag)
+		if (isCompactModeEnabled() == flag)
 			return;
 		prefs.putBoolean(PREFS_KEY_SETTING_COMPACT_MODE, flag);
 		fireSettingChangedEvent(PREFS_KEY_SETTING_COMPACT_MODE);
 	}
 
-	
+
 	/**
 	 * Returns whether compact mode is enabled, i.e. smaller savestate buttons at the bottom
 	 * 
@@ -913,8 +948,8 @@ public class OrganizerManager
 	{
 		return prefs.getBoolean(PREFS_KEY_SETTING_COMPACT_MODE, false);
 	}
-	
-	
+
+
 	/**
 	 * Switches the gamefile of the currently selected game between read-only and writeable.
 	 */
@@ -933,7 +968,7 @@ public class OrganizerManager
 	 */
 	public static void navigateToPrevious()
 	{
-		for(NavigationListener listener : navigationListeners)
+		for (NavigationListener listener : navigationListeners)
 		{
 			listener.navigatedToPrevious();
 		}
@@ -945,7 +980,7 @@ public class OrganizerManager
 	 */
 	public static void navigateToNext()
 	{
-		for(NavigationListener listener : navigationListeners)
+		for (NavigationListener listener : navigationListeners)
 		{
 			listener.navigatedToNext();
 		}
@@ -976,8 +1011,8 @@ public class OrganizerManager
 		prefs.putInt(PREFS_KEY_WIN_WIDTH, size.width);
 		prefs.putInt(PREFS_KEY_WIN_HEIGHT, size.height);
 	}
-	
-	
+
+
 	/**
 	 * Returns whether the main window is stored as maximized in the preferences.
 	 * 
@@ -987,8 +1022,8 @@ public class OrganizerManager
 	{
 		return prefs.getInt(PREFS_KEY_MAXIMIZED, -1);
 	}
-	
-	
+
+
 	/**
 	 * Sets whether the main window should be stored as maximized in the preferences
 	 * 
@@ -1009,7 +1044,7 @@ public class OrganizerManager
 	/**
 	 * Stores the given code for the given hotkey in the preferences.
 	 * 
-	 * @param hotkey the hotkey
+	 * @param hotkey  the hotkey
 	 * @param keyCode the new key code
 	 */
 	public static void setStoredHotkeyCode(GlobalHotkey hotkey, String keyCode)
@@ -1134,8 +1169,8 @@ public class OrganizerManager
 			listener.profileDirectoryChanged(game);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Fires a gameCreated event.
 	 * 
@@ -1148,8 +1183,8 @@ public class OrganizerManager
 			listener.gameCreated(game);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Fires a gameDeleted event.
 	 * 
@@ -1162,8 +1197,8 @@ public class OrganizerManager
 			listener.gameDeleted(game);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Fires a gameEdited event.
 	 * 
@@ -1288,7 +1323,8 @@ public class OrganizerManager
 			listener.gameFileWritableStateChanged(writeable);
 		}
 	}
-	
+
+
 	/**
 	 * Fires a settingChanged event.
 	 * 
@@ -1304,11 +1340,11 @@ public class OrganizerManager
 
 
 	/**
-	 * Checks whether the given file contains the given string in its name, and if not checks its subcontents for such a file if
-	 * the given file is a directory.
+	 * Checks whether the given file contains the given string in its name, and if not checks its subcontents for such a file if the given file is a
+	 * directory.
 	 * 
 	 * @param directory the file/directory to check
-	 * @param name the name to check for
+	 * @param name      the name to check for
 	 * @return whether a file containing the name was found or not
 	 */
 	public static boolean containsFileWithName(File directory, String name)
@@ -1337,15 +1373,15 @@ public class OrganizerManager
 	/**
 	 * Copies the source directory and its contents into the destination directory.
 	 * 
-	 * @param src the source directory
+	 * @param src  the source directory
 	 * @param dest the destination directory
 	 * @throws IOException
 	 */
 	public static void copyDirectory(File src, File dest) throws IOException
 	{
-		if(src.getPath().equals(dest.getPath()))
+		if (src.getPath().equals(dest.getPath()))
 			return;
-		if(isDirectoryAParentOfChild(src, dest))
+		if (isDirectoryAParentOfChild(src, dest))
 		{
 			JOptionPane.showMessageDialog(mainWindow, "The requested action would result in file recursion!", "Error occurred",
 					JOptionPane.ERROR_MESSAGE);
@@ -1366,13 +1402,14 @@ public class OrganizerManager
 		}
 		Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
-	
+
+
 	public static boolean isDirectoryAParentOfChild(File possibleParent, File possibleChild)
 	{
 		File parent = possibleChild.getParentFile();
-		while(parent != null)
+		while (parent != null)
 		{
-			if(parent.equals(possibleParent))
+			if (parent.equals(possibleParent))
 				return true;
 			parent = parent.getParentFile();
 		}
@@ -1408,31 +1445,30 @@ public class OrganizerManager
 		}
 		return (directory.delete());
 	}
-	
-	
-	
+
+
 	/**
 	 * Copy entry into destination Folder object.
 	 * 
-	 * @param entry the entry to copy
-	 * @param dest the Folder object to paste the file into and attach it to
+	 * @param entry            the entry to copy
+	 * @param dest             the Folder object to paste the file into and attach it to
 	 * @param fireCreatedEvent whether to fire a entryCreated event
 	 * @throws IOException
 	 */
 	public static void copyEntry(SaveListEntry entry, Folder dest, boolean fireCreatedEvent) throws IOException
 	{
 		File src = entry.getFile();
-		
+
 		String parentPath = dest.getFile().getPath();
 		String name = src.getName();
-		
+
 		File newFile = new File(parentPath + File.separator + name);
 		for (int i = 0; newFile.exists(); i++)
 			newFile = new File(parentPath + File.separator + name + "_" + i);
-		
+
 		SaveListEntry newEntry;
-		
-		if(src.isDirectory())
+
+		if (src.isDirectory())
 		{
 			copyDirectory(src, newFile);
 			newEntry = new Folder(dest, newFile);
@@ -1444,10 +1480,10 @@ public class OrganizerManager
 		}
 
 		dest.addChild(newEntry);
-		
-		if(fireCreatedEvent)
+
+		if (fireCreatedEvent)
 			fireEntryCreatedEvent(newEntry);
-		
+
 	}
 
 
@@ -1462,8 +1498,8 @@ public class OrganizerManager
 		String[] arr = toExamine.split(ILLEGAL_CHARACTERS_REGEX, 2);
 		return arr.length > 1;
 	}
-	
-	
+
+
 	/**
 	 * Gets the major Java version of the current runtime.
 	 * 
@@ -1472,12 +1508,11 @@ public class OrganizerManager
 	public static int getMajorJavaVersion()
 	{
 		String[] versionElements = System.getProperty("java.version").split("\\.");
-	    int firstElement = Integer.parseInt(versionElements[0]);
-	    int version = firstElement == 1 ? Integer.parseInt(versionElements[1]) : firstElement;
-	    
-	    return version;
+		int firstElement = Integer.parseInt(versionElements[0]);
+		int version = firstElement == 1 ? Integer.parseInt(versionElements[1]) : firstElement;
+
+		return version;
 	}
-	
 
 
 	/**
@@ -1487,12 +1522,12 @@ public class OrganizerManager
 	 */
 	public static boolean isVersionOutdated()
 	{
-		if(!isCheckForUpdatesEnabled())
+		if (!isCheckForUpdatesEnabled())
 			return false;
-		
-		if(latestReleaseVersion == null)
+
+		if (latestReleaseVersion == null)
 			latestReleaseVersion = getLatestReleaseVersion();
-		
+
 		String[] vals1 = VERSION.split("\\.");
 		String[] vals2 = latestReleaseVersion.split("\\.");
 		int i = 0;
@@ -1526,7 +1561,7 @@ public class OrganizerManager
 			String version = latestReleaseJSON.getString("tag_name");
 			String prefix = version.split("[0-9]")[0];
 			version = version.substring(prefix.length());
-			
+
 			return version;
 		}
 		return "0.0";
