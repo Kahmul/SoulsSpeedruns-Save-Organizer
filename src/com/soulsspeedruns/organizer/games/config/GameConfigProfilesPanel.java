@@ -91,7 +91,7 @@ public class GameConfigProfilesPanel extends JPanel
 	{
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(4, 1));
-		buttonPanel.setMaximumSize(new Dimension(68, 50));
+		buttonPanel.setMaximumSize(new Dimension(66, 50));
 
 		JButton newButton = createNewButton(profileList);
 		JButton importButton = createImportButton(profileList);

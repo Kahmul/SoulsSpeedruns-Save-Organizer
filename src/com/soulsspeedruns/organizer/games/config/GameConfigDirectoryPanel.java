@@ -28,7 +28,6 @@ import com.soulsspeedruns.organizer.games.Game;
 public class GameConfigDirectoryPanel extends JPanel
 {
 
-
 	/**
 	 * Creates a new directory panel.
 	 * 
@@ -67,13 +66,13 @@ public class GameConfigDirectoryPanel extends JPanel
 		// Vertical
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(saveFileLabel));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(saveFileLabel));
 
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(saveFileField).addComponent(saveFileBrowseButton));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(saveFileField).addComponent(saveFileBrowseButton));
 
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(directoryLabel));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(directoryLabel));
 
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(directoryField).addComponent(directoryBrowseButton));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(directoryField).addComponent(directoryBrowseButton));
 
 		layout.setVerticalGroup(vGroup);
 
@@ -107,10 +106,11 @@ public class GameConfigDirectoryPanel extends JPanel
 					game.setSaveFileLocation(selectedSavefile);
 					saveFileField.setText(selectedSavefile.getPath());
 					directoryBrowseButton.setEnabled(true);
-					int confirm = JOptionPane.showConfirmDialog(getParent(),
-							"Do you wish to use the directory of this savefile to store the profiles for this game?"
-									+ " You can choose an alternative directory if you wish.",
-							"Choosing Savefile", JOptionPane.YES_NO_OPTION);
+					int confirm = JOptionPane
+							.showConfirmDialog(getParent(),
+									"Do you wish to use the directory of this savefile to store the profiles for this game?"
+											+ " You can choose an alternative directory if you wish.",
+									"Choosing Savefile", JOptionPane.YES_NO_OPTION);
 					if (confirm == 0)
 					{
 						directoryField.setText(selectedSavefile.getParentFile().getPath());
@@ -134,7 +134,7 @@ public class GameConfigDirectoryPanel extends JPanel
 	 * Creates the browse button.
 	 * 
 	 * @param directoryField the directory field of this panel
-	 * @param game the game associated with this panel
+	 * @param game           the game associated with this panel
 	 * @return the browse button
 	 */
 	private JButton createDirectoryBrowseButton(JTextField directoryField, Game game)

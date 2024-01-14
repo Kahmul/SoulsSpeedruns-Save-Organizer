@@ -1,5 +1,6 @@
 package com.soulsspeedruns.organizer.games.config;
 
+
 import java.awt.Dialog;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,11 +12,11 @@ import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
+
 /**
  * Window for configuring games.
  * <p>
- * Allows the configuration of existing and creation of new games and their
- * profiles.
+ * Allows the configuration of existing and creation of new games and their profiles.
  *
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 27 Sep 2015
