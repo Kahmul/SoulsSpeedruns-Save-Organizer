@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import com.github.weisj.darklaf.ui.text.DarkTextUI;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 
@@ -45,7 +46,7 @@ public class GameConfigDirectoryPanel extends JPanel
 		JLabel saveFileLabel = new JLabel("Savefile Location:");
 		JLabel directoryLabel = new JLabel("Profiles Directory:");
 
-		JTextField saveFileField = new JTextField(saveFile != null ? saveFile.getPath() : "");
+		JTextField saveFileField = createSaveFileTextField(saveFile, game);
 		JTextField directoryField = new JTextField(gameDir != null ? gameDir.getPath() : "");
 
 		JButton directoryBrowseButton = createDirectoryBrowseButton(directoryField, game);
@@ -80,6 +81,15 @@ public class GameConfigDirectoryPanel extends JPanel
 	}
 
 
+	private JTextField createSaveFileTextField(File saveFile, Game game)
+	{
+		JTextField saveFileField = new JTextField(saveFile != null ? saveFile.getPath() : "");
+		saveFileField.putClientProperty(DarkTextUI.KEY_DEFAULT_TEXT, game.getSuggestedSaveLocation());
+		
+		return saveFileField;
+	}
+
+
 	/**
 	 * @param saveFileField
 	 * @param game
@@ -90,7 +100,7 @@ public class GameConfigDirectoryPanel extends JPanel
 		JButton browseButton = new JButton("Browse");
 
 		browseButton.addActionListener(event -> {
-			JFileChooser fc = new JFileChooser(saveFileField.getText());
+			JFileChooser fc = new JFileChooser(game.getSaveFilePathOrSuggested());
 			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			int val = fc.showOpenDialog(SwingUtilities.windowForComponent(this));
 			if (val == JFileChooser.APPROVE_OPTION)

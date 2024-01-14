@@ -20,16 +20,27 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
 public class Game
 {
 
-
 	public static final List<Game> GAMES = new ArrayList<>();
 
-	public static final Game DARK_SOULS = createGame("Dark Souls", "DS1", "DRAKS0005.sl2", true, false);
-	public static final Game DARK_SOULS_REMASTERED = createGame("Dark Souls Remastered", "DSR", "DRAKS0005.sl2", false, false);
-	public static final Game DARK_SOULS_II = createGame("Dark Souls II", "DS2", "DARKSII0000.sl2", true, false);
-	public static final Game DARK_SOULS_II_SOTFS = createGame("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2", true, false);
-	public static final Game DARK_SOULS_III = createGame("Dark Souls III", "DS3", "DS30000.sl2", true, false);
-	public static final Game SEKIRO_SHADOWS_DIE_TWICE = createGame("Sekiro", "SSDT", "S0000.sl2", true, false);
-	public static final Game ELDEN_RING = createGame("Elden Ring", "ER", "ER0000.sl2", true, false);
+	public static final Game DARK_SOULS = createGame("Dark Souls", "DS1", "DRAKS0005.sl2", "211420", "%UserProfile%\\Documents\\NBGI\\DarkSouls",
+			true, false);
+
+	public static final Game DARK_SOULS_REMASTERED = createGame("Dark Souls Remastered", "DSR", "DRAKS0005.sl2", "570940",
+			"%UserProfile%\\Documents\\NBGI\\DARK SOULS REMASTERED", false, false);
+
+	public static final Game DARK_SOULS_II = createGame("Dark Souls II", "DS2", "DARKSII0000.sl2", "236430", "%AppData%\\DarkSoulsII\\<SteamID>",
+			true, false);
+
+	public static final Game DARK_SOULS_II_SOTFS = createGame("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2", "335300",
+			"%AppData%\\DarkSoulsII\\<SteamID>", true, false);
+
+	public static final Game DARK_SOULS_III = createGame("Dark Souls III", "DS3", "DS30000.sl2", "374320", "%AppData%\\DarkSoulsIII\\<SteamID>", true,
+			false);
+
+	public static final Game SEKIRO_SHADOWS_DIE_TWICE = createGame("Sekiro", "SSDT", "S0000.sl2", "814380", "%AppData%\\Sekiro\\<SteamID>", true,
+			false);
+
+	public static final Game ELDEN_RING = createGame("Elden Ring", "ER", "ER0000.sl2", "1245620", "%AppData%\\EldenRing\\<SteamID>", true, false);
 
 	private String caption;
 	private final String abbr;
@@ -40,12 +51,18 @@ public class Game
 	private File saveFile;
 	private List<Profile> profiles;
 
+	private final String suggestedSaveLocation;
+	private final String steamAppID;
 
-	private Game(String caption, String abbr, String saveName, boolean supportsReadOnly, boolean isCustomGame)
+
+	private Game(String caption, String abbr, String saveName, String steamAppID, String suggestedSaveLocation, boolean supportsReadOnly,
+			boolean isCustomGame)
 	{
 		this.caption = caption;
 		this.abbr = abbr;
 		this.saveName = saveName;
+		this.steamAppID = steamAppID;
+		this.suggestedSaveLocation = suggestedSaveLocation;
 		this.supportsReadOnly = supportsReadOnly;
 		this.isCustomGame = isCustomGame;
 
@@ -62,11 +79,12 @@ public class Game
 	 * @param supportsReadOnly whether the game supports read-only
 	 * @param isCustomGame     whether the game was added by the user
 	 */
-	public static Game createGame(String caption, String abbr, String saveName, boolean supportsReadOnly, boolean isCustomGame)
+	public static Game createGame(String caption, String abbr, String saveName, String steamAppID, String suggestedSaveLocation,
+			boolean supportsReadOnly, boolean isCustomGame)
 	{
-		Game game = new Game(caption, abbr, saveName, supportsReadOnly, isCustomGame);
+		Game game = new Game(caption, abbr, saveName, steamAppID, suggestedSaveLocation, supportsReadOnly, isCustomGame);
 		GAMES.add(game);
-		
+
 		OrganizerManager.fireGameCreatedEvent(game);
 
 		return game;
@@ -83,7 +101,7 @@ public class Game
 		if (!game.isCustomGame)
 			return;
 		GAMES.remove(game);
-		
+
 		OrganizerManager.fireGameDeletedEvent(game);
 	}
 
@@ -230,6 +248,70 @@ public class Game
 	public boolean isCustomGame()
 	{
 		return isCustomGame;
+	}
+
+
+	/**
+	 * The location at which it is most likely to find the savefile for the given game.
+	 * 
+	 * @return the suggested save location
+	 */
+	public String getSuggestedSaveLocation()
+	{
+		return suggestedSaveLocation;
+	}
+
+
+	/**
+	 * Returns the suggested path where one might find the savefile for this game.
+	 * 
+	 * @return the most likely savefile path
+	 */
+	public String getSuggestedSaveLocationPath()
+	{
+		String suggestedPath = getSuggestedSaveLocation();
+		if (suggestedPath == null)
+			return "";
+
+		if (OrganizerManager.isRunningOnWindows())
+		{
+			String appdataPath = System.getenv("appdata");
+			String userprofilePath = System.getenv("userprofile");
+
+			suggestedPath = suggestedPath.replace("%AppData%", appdataPath);
+			suggestedPath = suggestedPath.replace("%UserProfile%", userprofilePath);
+
+			suggestedPath = suggestedPath.replace("\\<SteamID>", "");
+
+			return suggestedPath;
+		}
+
+		if (OrganizerManager.isRunningOnLinux())
+		{
+			String prefix = "~\\.local\\share\\Steam\\steamapps\\compatdata\\" + steamAppID + "\\pfx\\drive_c\\users\\steamuser\\";
+
+			suggestedPath = suggestedPath.replace("%AppData%", prefix);
+			suggestedPath = suggestedPath.replace("%UserProfile%", prefix);
+
+			suggestedPath = suggestedPath.replace("\\<SteamID>", "");
+
+			return suggestedPath;
+		}
+
+		return suggestedPath;
+	}
+
+
+	/**
+	 * Either returns the path of the savefile associated with this game, or a suggested path where it might be found if no file is set.
+	 * 
+	 * @return the savefile path or the path where one might find it
+	 */
+	public String getSaveFilePathOrSuggested()
+	{
+		if (saveFile != null)
+			return saveFile.getPath();
+		return getSuggestedSaveLocationPath();
 	}
 
 

@@ -524,6 +524,18 @@ public class OrganizerManager
 
 
 	/**
+	 * Returns whether the OS this application is running on is Linux. It is assumed for the Souls games that they are running on a compatibility
+	 * layer such as Proton.
+	 * 
+	 * @return whether the OS is Linux
+	 */
+	public static boolean isRunningOnLinux()
+	{
+		return operatingSystem.contains("Linux");
+	}
+
+
+	/**
 	 * Switches the currently selected profile.
 	 * 
 	 * @param profile the profile to switch to
