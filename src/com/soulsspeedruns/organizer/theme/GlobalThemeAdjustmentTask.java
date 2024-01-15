@@ -11,7 +11,6 @@ import com.github.weisj.darklaf.theme.Theme;
 public class GlobalThemeAdjustmentTask implements DefaultsAdjustmentTask
 {
 
-
 	@Override
 	public void run(Theme currentTheme, Properties properties)
 	{
@@ -19,8 +18,9 @@ public class GlobalThemeAdjustmentTask implements DefaultsAdjustmentTask
 		properties.put("textForegroundSecondary", properties.get("textForeground"));
 		properties.put("borderThickness", 0);
 		properties.put("arc", 0);
-		properties.put("disabledIconColor",
-				Theme.isDark(currentTheme) ? Color.decode("#495162") : Color.decode("#bfc0c1"));
+		properties.put("disabledIconColor", Theme.isDark(currentTheme) ? Color.decode("#495162") : Color.decode("#bfc0c1"));
+		properties.put("gameConfigButtonColors", currentTheme.getClass().equals(SoulsSpeedrunsTheme.class) ? Color.decode("#fdba74")
+				: Theme.isHighContrast(currentTheme) ? properties.get("hyperlink") : Color.decode("#4D89C9"));
 	}
 
 }
