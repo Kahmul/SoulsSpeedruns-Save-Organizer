@@ -389,8 +389,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 							+ (entries.get(0) instanceof Folder ? " and all of its contents?" : "?"),
 					"Delete " + entries.get(0).getName(), JOptionPane.YES_NO_OPTION);
 		else if (entries.size() > 1)
-			confirm = JOptionPane.showConfirmDialog(getParent(),
-					"Do you really want to delete all your selected files and their sub-contents, if any?", "Delete",
+			confirm = JOptionPane.showConfirmDialog(SwingUtilities.windowForComponent(this),
+					"Do you really want to delete all your selected files and their sub-contents, if any?", "Delete Files",
 					JOptionPane.YES_NO_OPTION);
 		if (confirm == 0)
 		{
@@ -519,6 +519,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		{
 			if(!event.isControlDown())
 			{
+				if(SwingUtilities.isRightMouseButton(event))
+					return;
 				clearSelection();
 				addSelectionInterval(index, index);
 				return;
