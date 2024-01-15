@@ -113,7 +113,7 @@ public class GameCreationWindow extends JDialog
 		layout.setAutoCreateContainerGaps(true);
 
 		JLabel gameNameLabel = new JLabel("Name of your custom game:");
-		JLabel saveNameLabel = new JLabel("Name of the savefile:");
+		JLabel saveNameLabel = new JLabel("Name of the game's savefile:");
 
 		gameNameField = createTextField(game == null ? "" : game.getCaption());
 		saveNameField = createTextField(game == null ? "" : game.getSaveName());

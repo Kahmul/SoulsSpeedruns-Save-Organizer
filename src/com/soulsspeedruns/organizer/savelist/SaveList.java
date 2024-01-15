@@ -23,8 +23,6 @@ import javax.swing.event.ListSelectionListener;
 
 import com.soulsspeedruns.organizer.components.SearchBar;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
-import com.soulsspeedruns.organizer.dragndrop.SaveListDragListener;
-import com.soulsspeedruns.organizer.dragndrop.SaveListTransferHandler;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.NavigationListener;

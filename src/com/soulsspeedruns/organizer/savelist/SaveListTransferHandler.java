@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.dragndrop;
+package com.soulsspeedruns.organizer.savelist;
 
 
 import java.nio.file.Path;
@@ -11,9 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.TransferHandler;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
-import com.soulsspeedruns.organizer.savelist.Folder;
-import com.soulsspeedruns.organizer.savelist.SaveList;
-import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 
 
 /**

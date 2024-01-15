@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.dragndrop;
+package com.soulsspeedruns.organizer.savelist;
 
 
 import java.awt.dnd.DnDConstants;
@@ -9,8 +9,6 @@ import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
-
-import com.soulsspeedruns.organizer.savelist.SaveList;
 
 
 /**
