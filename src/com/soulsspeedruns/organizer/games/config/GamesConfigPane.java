@@ -120,7 +120,8 @@ public class GamesConfigPane extends JPanel implements GameListListener
 
 		gameList = new GameList();
 		gameList.addListener(this);
-		
+		updateButtonState(gameList.getSelectedEntry());
+
 		GameConfigPanel configPanel = gameList.getSelectedEntry().getConfigPanel();
 
 		GroupLayout.SequentialGroup hGroup = gameSelectionLayout.createSequentialGroup()
@@ -137,6 +138,18 @@ public class GamesConfigPane extends JPanel implements GameListListener
 		gameSelectionPanel.setLayout(gameSelectionLayout);
 
 		return gameSelectionPanel;
+	}
+
+
+	/**
+	 * Updates the state of the menu buttons to reflect the given entry.
+	 * 
+	 * @param entry
+	 */
+	private void updateButtonState(GameListEntry entry)
+	{
+		editButton.setEnabled(entry.getGame().isCustomGame());
+		deleteButton.setEnabled(entry.getGame().isCustomGame());
 	}
 
 
@@ -167,12 +180,11 @@ public class GamesConfigPane extends JPanel implements GameListListener
 	@Override
 	public void entrySelected(GameListEntry prevEntry, GameListEntry newEntry)
 	{
-		if(prevEntry != null)
+		if (prevEntry != null)
 			gameSelectionLayout.replace(prevEntry.getConfigPanel(), newEntry.getConfigPanel());
 
-		editButton.setEnabled(newEntry.getGame().isCustomGame());
-		deleteButton.setEnabled(newEntry.getGame().isCustomGame());
 		settingsLabel.setText(newEntry.getGame().getCaption());
+		updateButtonState(newEntry);
 
 		revalidate();
 		repaint();
