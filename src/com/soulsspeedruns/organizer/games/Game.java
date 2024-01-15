@@ -107,6 +107,21 @@ public class Game
 
 
 	/**
+	 * Moves the given game to the given new index in the games list.
+	 * 
+	 * @param gameToMove the game to move
+	 * @param newIndex the new index of the game
+	 */
+	public static void moveGame(Game gameToMove, int newIndex)
+	{
+		Game.GAMES.remove(gameToMove);
+		Game.GAMES.add(newIndex, gameToMove);
+		
+		OrganizerManager.fireGameMovedEvent(gameToMove, newIndex);
+	}
+
+
+	/**
 	 * Returns the caption of this game.
 	 * 
 	 * @return the caption of this game

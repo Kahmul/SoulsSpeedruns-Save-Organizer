@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
-import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.config.GamesConfigurationWindow;
 import com.soulsspeedruns.organizer.main.config.GamesComboBox;
 import com.soulsspeedruns.organizer.main.config.ProfilesComboBox;
@@ -76,7 +75,7 @@ public class GamePanel extends JPanel
 	 */
 	private GamesComboBox createGameComboBox(ProfilesComboBox profilesComboBox)
 	{
-		GamesComboBox gamesComboBox = new GamesComboBox(Game.GAMES, profilesComboBox);
+		GamesComboBox gamesComboBox = new GamesComboBox(profilesComboBox);
 		gamesComboBox.setMaximumSize(new Dimension(80, 20));
 		return gamesComboBox;
 	}

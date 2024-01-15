@@ -234,14 +234,13 @@ public class GameList extends JScrollPane
 
 		listPanel.remove(oldIndex);
 		entries.remove(entryToMove);
-		Game.GAMES.remove(gameToMove);
 
 		newIndex = oldIndex > newIndex ? newIndex : Math.max(0, newIndex - 1);
 
 		listPanel.add(entryToMove, newIndex);
 		entries.add(newIndex, entryToMove);
-		Game.GAMES.add(newIndex, gameToMove);
-
+		Game.moveGame(gameToMove, newIndex);
+		
 		validate();
 		repaint();
 	}

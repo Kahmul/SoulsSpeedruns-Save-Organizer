@@ -35,4 +35,7 @@ public interface GameListener
 	 */
 	public void gameEdited(Game game);
 	
+	
+	public void gameMoved(Game game, int newIndex);
+	
 }

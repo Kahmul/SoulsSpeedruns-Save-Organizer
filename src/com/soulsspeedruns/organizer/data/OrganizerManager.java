@@ -1241,6 +1241,20 @@ public class OrganizerManager
 			listener.gameEdited(game);
 		}
 	}
+	
+	/**
+	 * Fires a gameMoved event.
+	 * 
+	 * @param game the game that was moved
+	 * @param newIndex the new index of the game
+	 */
+	public static void fireGameMovedEvent(Game game, int newIndex)
+	{
+		for (GameListener listener : gameListeners)
+		{
+			listener.gameMoved(game, newIndex);
+		}
+	}
 
 
 	/**

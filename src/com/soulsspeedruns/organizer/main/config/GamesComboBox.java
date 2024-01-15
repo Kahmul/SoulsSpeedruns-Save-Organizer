@@ -25,23 +25,24 @@ public class GamesComboBox extends JComboBox<Game> implements GameListener
 
 	protected final DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 
+	private boolean updateProfileComboBox = true;
 
 	/**
 	 * Creates a new GamesComboBox.
 	 * 
-	 * @param games array of games to display in this combobox
 	 * @param profilesCB the associated ProfilesComboBox
 	 */
-	public GamesComboBox(List<Game> games, ProfilesComboBox profilesCB)
+	public GamesComboBox(ProfilesComboBox profilesCB)
 	{
-		fillWith(games);
+		fillWith(Game.GAMES);
 
 		setRenderer(new GamesComboBoxRenderer());
 		setPrototypeDisplayValue(Game.DARK_SOULS_II_SOTFS);
 		addItemListener(event -> {
-			if (event.getStateChange() == ItemEvent.SELECTED)
+			if (event.getStateChange() == ItemEvent.SELECTED && updateProfileComboBox)
 			{
 				Game game = (Game) event.getItem();
+				System.out.println(game.getCaption());
 				OrganizerManager.switchToGame(game);
 				profilesCB.setGame(game);
 			}
@@ -93,6 +94,21 @@ public class GamesComboBox extends JComboBox<Game> implements GameListener
 	public void gameEdited(Game game)
 	{
 		
+	}
+	
+	@Override
+	public void gameMoved(Game game, int newIndex)
+	{
+		Game selectedGame = (Game) getSelectedItem();
+		
+		updateProfileComboBox = false;
+		
+		removeItem(game);
+		insertItemAt(game, newIndex);
+		
+		setSelectedItem(selectedGame);
+		
+		updateProfileComboBox = true;
 	}
 
 }
