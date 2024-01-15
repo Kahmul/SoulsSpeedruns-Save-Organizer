@@ -88,7 +88,7 @@ public class ScrollableGamesConfigPane extends JPanel
 		deleteButton = createButton(FontAwesome.TRASH, buttonColor);
 		deleteButton.addActionListener((e) -> {
 			int confirm = JOptionPane.showConfirmDialog(SwingUtilities.windowForComponent(this),
-					"Do you really want to delete " + selectedEntry.getGame().getCaption() + "?", "Delete Custom Game", JOptionPane.YES_NO_OPTION);
+					"Do you really want to delete your custom game '" + selectedEntry.getGame().getCaption() + "'?", "Delete Custom Game", JOptionPane.YES_NO_OPTION);
 			if (confirm == 0)
 				deleteSelectedEntry();
 		});

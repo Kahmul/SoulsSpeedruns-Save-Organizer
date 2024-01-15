@@ -2,6 +2,8 @@ package com.soulsspeedruns.organizer.games.config;
 
 
 import java.awt.Dialog;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -43,7 +45,8 @@ public class GameCreationWindow extends JDialog
 
 	public GameCreationWindow(ScrollableGamesConfigPane pane, Game game)
 	{
-		super(SwingUtilities.windowForComponent(pane), game == null ? "Create Custom Game" : "Edit Custom Game", Dialog.ModalityType.APPLICATION_MODAL);
+		super(SwingUtilities.windowForComponent(pane), game == null ? "Create Custom Game" : "Edit Custom Game",
+				Dialog.ModalityType.APPLICATION_MODAL);
 
 		this.pane = pane;
 		this.game = game;
@@ -61,7 +64,6 @@ public class GameCreationWindow extends JDialog
 	private void initProperties()
 	{
 		pack();
-//		setSize(500, 230);
 		setResizable(false);
 		setLocationRelativeTo(SwingUtilities.windowForComponent(pane));
 		setIconImage(OrganizerManager.soulsspeedrunsIcon);
@@ -110,8 +112,8 @@ public class GameCreationWindow extends JDialog
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		JLabel gameNameLabel = new JLabel("Game Name:");
-		JLabel saveNameLabel = new JLabel("Savefile Name:");
+		JLabel gameNameLabel = new JLabel("Name of your custom game:");
+		JLabel saveNameLabel = new JLabel("Name of the savefile:");
 
 		gameNameField = createTextField(game == null ? "" : game.getCaption());
 		saveNameField = createTextField(game == null ? "" : game.getSaveName());
@@ -147,6 +149,29 @@ public class GameCreationWindow extends JDialog
 	private JTextField createTextField(String text)
 	{
 		JTextField textField = new JTextField(text);
+
+		textField.addKeyListener(new KeyListener()
+		{
+
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+			}
+
+
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+					createOrUpdateGame();
+			}
+
+
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+			}
+		});
 
 		AbstractDocument document = (AbstractDocument) textField.getDocument();
 		document.setDocumentFilter(new DocumentFilter()
@@ -193,24 +218,30 @@ public class GameCreationWindow extends JDialog
 	{
 		JButton createButton = new JButton(game == null ? "Create" : "Update");
 		createButton.addActionListener(e -> {
-			String gameName = gameNameField.getText();
-			String saveName = saveNameField.getText();
-			if (gameName.length() <= 0 || saveName.length() <= 0)
-			{
-				JOptionPane.showMessageDialog(GameCreationWindow.this, "Please enter a game name and a savefile name!", "Invalid Input",
-						JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-
-			if(game == null)
-				pane.addEntry(gameNameField.getText(), saveNameField.getText());
-			else
-				pane.updateEntry(gameNameField.getText(), saveNameField.getText());
-			dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+			createOrUpdateGame();
 		});
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(createButton);
 		return buttonPanel;
+	}
+
+
+	private void createOrUpdateGame()
+	{
+		String gameName = gameNameField.getText();
+		String saveName = saveNameField.getText();
+		if (gameName.length() <= 0 || saveName.length() <= 0)
+		{
+			JOptionPane.showMessageDialog(GameCreationWindow.this, "Please enter a game name and a savefile name!", "Invalid Input",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		if (game == null)
+			pane.addEntry(gameNameField.getText(), saveNameField.getText());
+		else
+			pane.updateEntry(gameNameField.getText(), saveNameField.getText());
+		dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 }
