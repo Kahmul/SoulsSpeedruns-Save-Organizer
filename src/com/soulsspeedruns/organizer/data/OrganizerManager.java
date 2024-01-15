@@ -23,6 +23,7 @@ import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.ToolTipManager;
 
 import org.jnativehook.NativeHookException;
 import org.json.JSONObject;
@@ -193,11 +194,13 @@ public class OrganizerManager
 		initKeyboardHook();
 		initLookAndFeel();
 		mapGamesWithProfiles();
+		initSharedValues();
 
 		determineOS();
 //		setAppUserModelID();
 
 		isReady = true;
+
 	}
 
 //	/**
@@ -210,24 +213,6 @@ public class OrganizerManager
 //		WString appID = new WString("com.soulsspeedruns.saveorganizer");
 //		SetCurrentProcessExplicitAppUserModelID(appID);
 //	}
-
-
-	private static void determineOS()
-	{
-		String osName = System.getProperty("os.name").toLowerCase();
-		if (osName.contains("win"))
-		{
-			operatingSystem = "Windows";
-		}
-		else if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix"))
-		{
-			operatingSystem = "Linux";
-		}
-		else if (osName.contains("mac"))
-		{
-			operatingSystem = "Mac";
-		}
-	}
 
 
 	/**
@@ -355,6 +340,36 @@ public class OrganizerManager
 
 
 	/**
+	 * Initializes values shared across the application.
+	 */
+	private static void initSharedValues()
+	{
+		ToolTipManager.sharedInstance().setDismissDelay(60000);
+	}
+
+
+	/**
+	 * Determines the general OS name the application is running on.
+	 */
+	private static void determineOS()
+	{
+		String osName = System.getProperty("os.name").toLowerCase();
+		if (osName.contains("win"))
+		{
+			operatingSystem = "Windows";
+		}
+		else if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix"))
+		{
+			operatingSystem = "Linux";
+		}
+		else if (osName.contains("mac"))
+		{
+			operatingSystem = "Mac";
+		}
+	}
+
+
+	/**
 	 * Maps all the existing games with their profiles.
 	 */
 	private static void mapGamesWithProfiles()
@@ -420,11 +435,14 @@ public class OrganizerManager
 	 */
 	public static void saveProperties(Game game)
 	{
-		if (game.getDirectory() != null)
-			prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR, game.getDirectory().getPath());
-		if (game.getSaveFileLocation() != null)
-			prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_SAVEFILE, game.getSaveFileLocation().getPath());
-		importProfiles(game);
+		if(!game.isCustomGame())
+		{
+			if (game.getDirectory() != null)
+				prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR, game.getDirectory().getPath());
+			if (game.getSaveFileLocation() != null)
+				prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_SAVEFILE, game.getSaveFileLocation().getPath());
+			importProfiles(game);
+		}
 	}
 
 
