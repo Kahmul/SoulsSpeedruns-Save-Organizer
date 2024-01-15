@@ -270,7 +270,7 @@ public class Game
 	public String getSuggestedSaveLocationPath()
 	{
 		String suggestedPath = getSuggestedSaveLocation();
-		if (suggestedPath == null)
+		if (suggestedPath == null || suggestedPath.equals(""))
 			return "";
 
 		if (OrganizerManager.isRunningOnWindows())

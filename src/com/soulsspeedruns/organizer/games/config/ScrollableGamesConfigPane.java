@@ -11,8 +11,10 @@ import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -34,7 +36,6 @@ import jiconfont.swing.IconFontSwing;
  */
 public class ScrollableGamesConfigPane extends JPanel
 {
-
 
 	private final List<GameListEntry> entries = new ArrayList<>();
 	private GameListEntry selectedEntry;
@@ -75,15 +76,21 @@ public class ScrollableGamesConfigPane extends JPanel
 		Color buttonColor = new Color(UIManager.getColor("background").getRGB());
 
 		JButton addButton = createButton(FontAwesome.PLUS, buttonColor);
-		addButton.addActionListener((e) -> {
-			addEntry();
+		addButton.addActionListener(e -> {
+			new GameCreationWindow(this, null);
 		});
 
 		editButton = createButton(FontAwesome.PENCIL, buttonColor);
+		editButton.addActionListener(e -> {
+			new GameCreationWindow(this, selectedEntry.getGame());
+		});
 
 		deleteButton = createButton(FontAwesome.TRASH, buttonColor);
 		deleteButton.addActionListener((e) -> {
-			deleteSelectedEntry();
+			int confirm = JOptionPane.showConfirmDialog(SwingUtilities.windowForComponent(this),
+					"Do you really want to delete " + selectedEntry.getGame().getCaption() + "?", "Delete Custom Game", JOptionPane.YES_NO_OPTION);
+			if (confirm == 0)
+				deleteSelectedEntry();
 		});
 
 		settingsLabel = new JLabel("Game Settings");
@@ -91,6 +98,7 @@ public class ScrollableGamesConfigPane extends JPanel
 		buttonPanel.add(addButton);
 		buttonPanel.add(editButton);
 		buttonPanel.add(deleteButton);
+
 		buttonPanel.add(Box.createHorizontalGlue());
 		buttonPanel.add(settingsLabel);
 		buttonPanel.add(Box.createHorizontalGlue());
@@ -103,7 +111,7 @@ public class ScrollableGamesConfigPane extends JPanel
 
 	private JButton createButton(FontAwesome icon, Color buttonColor)
 	{
-		JButton button = new JButton(IconFontSwing.buildIcon(icon, 16, UIManager.getColor("hyperlink")));
+		JButton button = new JButton(IconFontSwing.buildIcon(icon, 16, UIManager.getColor("gameConfigButtonColors")));
 		button.setDisabledIcon(IconFontSwing.buildIcon(icon, 16, UIManager.getColor("disabledIconColor")));
 		button.setBorderPainted(false);
 		button.setBackground(buttonColor);
@@ -159,14 +167,6 @@ public class ScrollableGamesConfigPane extends JPanel
 			listPanel.add(entry);
 		}
 
-		for (int i = 0; i < 5; i++)
-		{
-			Game nier = Game.createGame("Elden Ring Seamless Coop", "NRA", "test.sl2", true, true);
-			GameListEntry nierEntry = new GameListEntry(nier, this);
-			entries.add(nierEntry);
-			listPanel.add(nierEntry);
-		}
-
 		scrollPane.setViewportView(listPanel);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -177,9 +177,9 @@ public class ScrollableGamesConfigPane extends JPanel
 	}
 
 
-	protected void addEntry()
+	protected void addEntry(String gameName, String saveName)
 	{
-		Game nier = Game.createGame("Elden Ring Seamless Coop", "NRA", "test.sl2", true, true);
+		Game nier = Game.createGame(gameName, String.valueOf(Game.GAMES.size()), saveName, null, null, true, true);
 		GameListEntry nierEntry = new GameListEntry(nier, this);
 		entries.add(nierEntry);
 		listPanel.add(nierEntry);
@@ -188,6 +188,20 @@ public class ScrollableGamesConfigPane extends JPanel
 
 		scrollPane.validate();
 		scrollPane.getVerticalScrollBar().setValue(nierEntry.getLocation().y);
+	}
+
+
+	protected void updateEntry(String gameName, String saveName)
+	{
+		Game selectedGame = selectedEntry.getGame();
+		selectedGame.setCaption(gameName);
+		selectedGame.setSaveName(saveName);
+
+		selectedEntry.setText(gameName);
+		settingsLabel.setText(gameName);
+
+		revalidate();
+		repaint();
 	}
 
 
