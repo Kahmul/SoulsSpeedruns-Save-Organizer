@@ -68,7 +68,7 @@ public class GamesConfigurationWindow extends JDialog
 	 */
 	private void initLayout()
 	{
-		ScrollableGamesConfigPane gamesPane = new ScrollableGamesConfigPane();
+		GamesConfigPane gamesPane = new GamesConfigPane();
 
 		gamesPane.addMouseListener(new MouseAdapter()
 		{

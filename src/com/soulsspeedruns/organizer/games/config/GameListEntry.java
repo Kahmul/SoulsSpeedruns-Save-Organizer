@@ -1,7 +1,13 @@
 package com.soulsspeedruns.organizer.games.config;
 
+
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Insets;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.UIManager;
@@ -9,29 +15,34 @@ import javax.swing.border.EmptyBorder;
 
 import com.soulsspeedruns.organizer.games.Game;
 
-public class GameListEntry extends JButton
+
+public class GameListEntry extends JButton implements Transferable
 {
+
+	public static final DataFlavor ENTRY_FLAVOR = new DataFlavor(GameListEntry.class, GameListEntry.class.getSimpleName());
 
 	private final Game game;
 	private final GameConfigPanel configPanel;
 
 	private final Color backgroundColor = new Color(UIManager.getColor("background").getRGB());
 	private final Color backgroundHoverColor = new Color(UIManager.getColor("backgroundHover").getRGB());
-	
-//	private final Color dropTargetColor = new Color(UIManager.getColor("hyperlink").getRGB());
+
+	private final Color dropTargetColor = new Color(UIManager.getColor("dropForeground").getRGB());
 
 	private boolean isSelected = false;
 
+	private boolean isDropTarget = false;
 
-	public GameListEntry(Game game, ScrollableGamesConfigPane pane)
+
+	public GameListEntry(Game game, GameList list)
 	{
 		String caption = game.getCaption();
-		if(caption.length() > 22)
+		if (caption.length() > 22)
 		{
 			caption = caption.substring(0, 21);
 			caption += "...";
 		}
-		
+
 		setText(caption);
 
 		this.game = game;
@@ -41,11 +52,12 @@ public class GameListEntry extends JButton
 		setBackground(backgroundColor);
 		setMargin(new Insets(7, 12, 7, 150));
 		setBorder(new EmptyBorder(0, 0, 0, 0));
-//		setBorder(new MatteBorder(0, 0, 1, 0, dropTargetColor));
 
 		addActionListener((e) -> {
-			pane.setSelectedEntry(this);
+			list.setSelectedEntry(this);
 		});
+
+		new GameListEntryDragListener(this, list);
 	}
 
 
@@ -62,6 +74,26 @@ public class GameListEntry extends JButton
 	}
 
 
+	public void setIsDropTarget(boolean flag)
+	{
+		this.isDropTarget = flag;
+		repaint();
+	}
+	
+	
+	@Override
+	public void paint(Graphics g)
+	{
+		super.paint(g);
+		
+		if(isDropTarget)
+		{
+			g.setColor(dropTargetColor);
+			g.fillRect(0, 0, getWidth() - 1, 2);
+		}
+	}
+
+
 	public Game getGame()
 	{
 		return game;
@@ -71,5 +103,28 @@ public class GameListEntry extends JButton
 	public GameConfigPanel getConfigPanel()
 	{
 		return configPanel;
+	}
+
+
+	@Override
+	public DataFlavor[] getTransferDataFlavors()
+	{
+		return new DataFlavor[] { ENTRY_FLAVOR };
+	}
+
+
+	@Override
+	public boolean isDataFlavorSupported(DataFlavor flavor)
+	{
+		return flavor.equals(ENTRY_FLAVOR);
+	}
+
+
+	@Override
+	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
+	{
+		if (isDataFlavorSupported(flavor))
+			return this;
+		throw new UnsupportedFlavorException(flavor);
 	}
 }

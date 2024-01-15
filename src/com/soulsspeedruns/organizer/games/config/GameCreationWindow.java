@@ -36,19 +36,19 @@ import jiconfont.swing.IconFontSwing;
 public class GameCreationWindow extends JDialog
 {
 
-	private final ScrollableGamesConfigPane pane;
+	private GameList list;
 	private final Game game;
 
 	private JTextField gameNameField;
 	private JTextField saveNameField;
 
 
-	public GameCreationWindow(ScrollableGamesConfigPane pane, Game game)
+	public GameCreationWindow(GameList list, Game game)
 	{
-		super(SwingUtilities.windowForComponent(pane), game == null ? "Create Custom Game" : "Edit Custom Game",
+		super(SwingUtilities.windowForComponent(list), game == null ? "Create Custom Game" : "Edit Custom Game",
 				Dialog.ModalityType.APPLICATION_MODAL);
 
-		this.pane = pane;
+		this.list = list;
 		this.game = game;
 
 		initLayout();
@@ -65,7 +65,7 @@ public class GameCreationWindow extends JDialog
 	{
 		pack();
 		setResizable(false);
-		setLocationRelativeTo(SwingUtilities.windowForComponent(pane));
+		setLocationRelativeTo(SwingUtilities.windowForComponent(list));
 		setIconImage(OrganizerManager.soulsspeedrunsIcon);
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
 
@@ -239,9 +239,9 @@ public class GameCreationWindow extends JDialog
 		}
 
 		if (game == null)
-			pane.addEntry(gameNameField.getText(), saveNameField.getText());
+			list.addEntry(gameNameField.getText(), saveNameField.getText());
 		else
-			pane.updateEntry(gameNameField.getText(), saveNameField.getText());
+			list.updateEntry(gameNameField.getText(), saveNameField.getText());
 		dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 }
