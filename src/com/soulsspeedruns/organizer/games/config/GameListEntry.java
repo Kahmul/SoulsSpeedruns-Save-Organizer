@@ -7,6 +7,8 @@ import java.awt.Insets;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -16,6 +18,14 @@ import javax.swing.border.EmptyBorder;
 import com.soulsspeedruns.organizer.games.Game;
 
 
+/**
+ * Game List Entry
+ * <p>
+ * An entry in a GameList instance.
+ * 
+ * @author Kahmul (www.twitch.tv/kahmul78)
+ * @date 14 Jan 2024
+ */
 public class GameListEntry extends JButton implements Transferable
 {
 
@@ -32,6 +42,9 @@ public class GameListEntry extends JButton implements Transferable
 	private boolean isSelected = false;
 
 	private boolean isDropTarget = false;
+	private boolean drawDropTargetBelow = false;
+
+	private GameList list;
 
 
 	public GameListEntry(Game game, GameList list)
@@ -46,6 +59,7 @@ public class GameListEntry extends JButton implements Transferable
 		setText(caption);
 
 		this.game = game;
+		this.list = list;
 		configPanel = new GameConfigPanel(game);
 
 		setFocusPainted(false);
@@ -53,8 +67,14 @@ public class GameListEntry extends JButton implements Transferable
 		setMargin(new Insets(7, 12, 7, 150));
 		setBorder(new EmptyBorder(0, 0, 0, 0));
 
-		addActionListener((e) -> {
-			list.setSelectedEntry(this);
+		addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				e.consume();
+				list.setSelectedEntry(GameListEntry.this);
+			}
 		});
 
 		new GameListEntryDragListener(this, list);
@@ -74,9 +94,18 @@ public class GameListEntry extends JButton implements Transferable
 	}
 
 
-	public void setIsDropTarget(boolean flag)
+	/**
+	 * Sets whether this entry is highlighted as a potential drop location in the list.
+	 * 
+	 * @param isDropTarget whether to highlight this entry as a drop location
+	 * @param drawDropTargetBelow whether to draw the drop line below or above the entry
+	 */
+	public void setIsDropTarget(boolean isDropTarget, boolean drawDropTargetBelow)
 	{
-		this.isDropTarget = flag;
+		if(this.isDropTarget == isDropTarget && this.drawDropTargetBelow == drawDropTargetBelow)
+			return;
+		this.isDropTarget = isDropTarget;
+		this.drawDropTargetBelow = drawDropTargetBelow;
 		repaint();
 	}
 	
@@ -89,6 +118,11 @@ public class GameListEntry extends JButton implements Transferable
 		if(isDropTarget)
 		{
 			g.setColor(dropTargetColor);
+			if(drawDropTargetBelow)
+			{
+				g.fillRect(0, getHeight() - 2, getWidth() - 1, 2);
+				return;
+			}
 			g.fillRect(0, 0, getWidth() - 1, 2);
 		}
 	}
@@ -124,7 +158,7 @@ public class GameListEntry extends JButton implements Transferable
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
 	{
 		if (isDataFlavorSupported(flavor))
-			return this;
+			return list.getIndexOfEntry(this);
 		throw new UnsupportedFlavorException(flavor);
 	}
 }

@@ -4,6 +4,14 @@ package com.soulsspeedruns.organizer.games.config;
 import javax.swing.TransferHandler;
 
 
+/**
+ * Game List Transfer Handler
+ * <p>
+ * A TransferHandler for GameList.
+ * 
+ * @author Kahmul (www.twitch.tv/kahmul78)
+ * @date 15 Jan 2024
+ */
 public class GameListTransferHandler extends TransferHandler
 {
 
@@ -14,80 +22,73 @@ public class GameListTransferHandler extends TransferHandler
 	{
 		this.list = list;
 	}
-	
+
+
 	@Override
 	public boolean canImport(TransferHandler.TransferSupport support)
 	{
 		if (!support.isDataFlavorSupported(GameListEntry.ENTRY_FLAVOR))
 			return false;
-		DropLocation dl = support.getDropLocation();
-		
-		GameListEntry dropTarget = list.getEntryByPoint(dl.getDropPoint());
 		try
 		{
-//			GameListEntry entry = (GameListEntry) support.getTransferable().getTransferData(GameListEntry.ENTRY_FLAVOR);
-//			if(dropTarget != entry)
-				list.setDropTargetEntry(dropTarget);
+			int draggedIndex = (int) support.getTransferable().getTransferData(GameListEntry.ENTRY_FLAVOR);
+
+			DropLocation dl = support.getDropLocation();
+			int dropIndex = list.getDropIndexByPoint(dl.getDropPoint());
+
+			if (isValidDropIndex(draggedIndex, dropIndex))
+			{
+				list.setDropTargetIndex(dropIndex);
+				return true;
+			}
+
+			list.clearDropTarget();
+			return false;
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			return false;
 		}
-		
-//		System.out.println(dropTarget.getGame().getCaption());
+	}
 
-//		int index = saveList.locationToIndex(dl.getDropPoint());
-//		SwingUtilities.conve
-//		if (index == -1)
-//			return false;
-//		try
-//		{
-//			GameListEntry entry = (GameListEntry) support.getTransferable().getTransferData(GameListEntry.ENTRY_FLAVOR);
-//			support.setShowDropLocation(true);
-//		}
-//		catch (Exception e)
-//		{
-//			return false;
-//		}
+
+	/**
+	 * Returns whether the given drop index is valid given the index of the dragged entry.
+	 * 
+	 * @param draggedIndex the index of the dragged entry
+	 * @param dropIndex the index at which to drop the dragged entry
+	 * @return whether the drop index is valid
+	 */
+	private boolean isValidDropIndex(int draggedIndex, int dropIndex)
+	{
+		if (dropIndex > draggedIndex)
+			return dropIndex - draggedIndex > 1;
+
+		return draggedIndex - dropIndex > 0;
+	}
+
+
+	@Override
+	public boolean importData(TransferHandler.TransferSupport support)
+	{
+		if (!canImport(support))
+			return false;
+		try
+		{
+			int draggedIndex = (int) support.getTransferable().getTransferData(GameListEntry.ENTRY_FLAVOR);
+
+			DropLocation dl = support.getDropLocation();
+			int dropIndex = list.getDropIndexByPoint(dl.getDropPoint());
+			
+			list.moveIndexToNewIndex(draggedIndex, dropIndex);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 		return true;
 	}
-//
-//
-//	@Override
-//	public boolean importData(TransferHandler.TransferSupport support)
-//	{
-//		if (!canImport(support))
-//			return false;
-//		try
-//		{
-//			SaveListEntry entry = (SaveListEntry) support.getTransferable().getTransferData(SaveListEntry.ENTRY_FLAVOR);
-//
-//			JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
-//			Folder newParentFolder = findNewParentFolderFromDropLocation(dl);
-//
-//			Path newPath = Paths.get(newParentFolder.getFile().getPath()).resolve(entry.getName());
-//			if (newPath.toFile().exists())
-//			{
-//				if (JOptionPane.showConfirmDialog(saveList.getParent(),
-//						entry.getName() + " already exists in that directory. Do you want to overwrite?", "Confirmation",
-//						JOptionPane.YES_NO_OPTION) != 0)
-//					return false;
-//				SaveListEntry existingEntry = newParentFolder.getChildByName(entry.getName());
-//				((DefaultListModel<SaveListEntry>) saveList.getModel()).removeElement(existingEntry);
-//				existingEntry.delete();
-//			}
-//			
-//			entry.moveToNewParent(newParentFolder);
-//			newParentFolder.setClosed(false);
-//			saveList.refreshList();
-//			saveList.setSelectedValue(entry, true);
-//		}
-//		catch (Exception e)
-//		{
-//			e.printStackTrace();
-//			return false;
-//		}
-//		return true;
-//	}
 
 }

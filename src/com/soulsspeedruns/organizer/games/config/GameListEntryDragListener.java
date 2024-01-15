@@ -57,13 +57,14 @@ public class GameListEntryDragListener implements DragSourceListener, DragGestur
 	@Override
 	public void dragExit(DragSourceEvent dse)
 	{
+		list.clearDropTarget();
 	}
 
 
 	@Override
 	public void dragDropEnd(DragSourceDropEvent dsde)
 	{
-		list.setDropTargetEntry(null);
+		list.clearDropTarget();
 	}
 
 }
