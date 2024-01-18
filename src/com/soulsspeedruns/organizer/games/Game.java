@@ -17,7 +17,7 @@ import com.soulsspeedruns.organizer.data.OrganizerManager;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 27 Sep 2015
  */
-public class Game
+public class Game implements Comparable<Game>
 {
 
 	public static final List<Game> GAMES = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Game
 	public static final Game ELDEN_RING = createGame("Elden Ring", "ER", "ER0000.sl2", "1245620", "%AppData%\\EldenRing\\<SteamID>", true, false);
 
 	private String caption;
-	private final String abbr;
+	private final String gameID;
 	private String saveName;
 	private boolean supportsReadOnly;
 	private final boolean isCustomGame;
@@ -51,15 +51,17 @@ public class Game
 	private File saveFile;
 	private List<Profile> profiles;
 
+	private int listIndex;
+
 	private final String suggestedSaveLocation;
 	private final String steamAppID;
 
 
-	private Game(String caption, String abbr, String saveName, String steamAppID, String suggestedSaveLocation, boolean supportsReadOnly,
+	private Game(String caption, String gameID, String saveName, String steamAppID, String suggestedSaveLocation, boolean supportsReadOnly,
 			boolean isCustomGame)
 	{
 		this.caption = caption;
-		this.abbr = abbr;
+		this.gameID = gameID;
 		this.saveName = saveName;
 		this.steamAppID = steamAppID;
 		this.suggestedSaveLocation = suggestedSaveLocation;
@@ -74,16 +76,17 @@ public class Game
 	 * Creates a new Game object.
 	 * 
 	 * @param caption          the caption of this game
-	 * @param abbr             the abbreviation of this game
+	 * @param gameID           the ID of this game
 	 * @param saveName         the name of the game's savefile
 	 * @param supportsReadOnly whether the game supports read-only
 	 * @param isCustomGame     whether the game was added by the user
 	 */
-	public static Game createGame(String caption, String abbr, String saveName, String steamAppID, String suggestedSaveLocation,
+	public static Game createGame(String caption, String gameID, String saveName, String steamAppID, String suggestedSaveLocation,
 			boolean supportsReadOnly, boolean isCustomGame)
 	{
-		Game game = new Game(caption, abbr, saveName, steamAppID, suggestedSaveLocation, supportsReadOnly, isCustomGame);
+		Game game = new Game(caption, gameID, saveName, steamAppID, suggestedSaveLocation, supportsReadOnly, isCustomGame);
 		GAMES.add(game);
+		game.setListIndex(GAMES.size() - 1);
 
 		OrganizerManager.fireGameCreatedEvent(game);
 
@@ -101,6 +104,8 @@ public class Game
 		if (!game.isCustomGame)
 			return;
 		GAMES.remove(game);
+		
+		OrganizerManager.removeFromPreferences(game);
 
 		OrganizerManager.fireGameDeletedEvent(game);
 	}
@@ -110,13 +115,19 @@ public class Game
 	 * Moves the given game to the given new index in the games list.
 	 * 
 	 * @param gameToMove the game to move
-	 * @param newIndex the new index of the game
+	 * @param newIndex   the new index of the game
 	 */
 	public static void moveGame(Game gameToMove, int newIndex)
 	{
 		Game.GAMES.remove(gameToMove);
 		Game.GAMES.add(newIndex, gameToMove);
-		
+
+		for (int i = 0; i < GAMES.size(); i++)
+		{
+			GAMES.get(i).setListIndex(i);
+			OrganizerManager.saveToPreferences(GAMES.get(i));
+		}
+
 		OrganizerManager.fireGameMovedEvent(gameToMove, newIndex);
 	}
 
@@ -144,13 +155,13 @@ public class Game
 
 
 	/**
-	 * Returns the abbreviation of this game.
+	 * Returns the ID of this game.
 	 * 
-	 * @return the abbreviation of this game
+	 * @return the ID of this game
 	 */
-	public String getAbbreviation()
+	public String getGameID()
 	{
-		return abbr;
+		return gameID;
 	}
 
 
@@ -172,6 +183,8 @@ public class Game
 	 */
 	public void setDirectory(File file)
 	{
+		if (file == null || !file.exists())
+			return;
 		profiles.clear();
 		if (file.isDirectory())
 		{
@@ -330,6 +343,18 @@ public class Game
 	}
 
 
+	public int getListIndex()
+	{
+		return listIndex;
+	}
+
+
+	public void setListIndex(int index)
+	{
+		this.listIndex = index;
+	}
+
+
 	/**
 	 * @return the profiles
 	 */
@@ -356,6 +381,13 @@ public class Game
 	{
 		profiles.remove(profile);
 		Collections.sort(profiles);
+	}
+
+
+	@Override
+	public int compareTo(Game o)
+	{
+		return Integer.compare(listIndex, o.getListIndex());
 	}
 
 }

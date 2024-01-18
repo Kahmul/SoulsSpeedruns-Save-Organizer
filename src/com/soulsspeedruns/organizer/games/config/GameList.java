@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
@@ -75,12 +77,22 @@ public class GameList extends JScrollPane
 	 */
 	protected void addEntry(String gameName, String saveName)
 	{
-		Game newGame = Game.createGame(gameName, String.valueOf(Game.GAMES.size()), saveName, null, null, true, true);
+		int gameID = OrganizerManager.getNewCustomGameID();
+		if (gameID == -1)
+		{
+			JOptionPane.showMessageDialog(SwingUtilities.windowForComponent(this), "Error when saving new custom game. Backing store unavailable.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		Game newGame = Game.createGame(gameName, String.valueOf(gameID), saveName, null, null, true, true);
 		GameListEntry newGameEntry = new GameListEntry(newGame, this);
 		entries.add(newGameEntry);
 		listPanel.add(newGameEntry);
 
 		setSelectedEntry(newGameEntry);
+
+		OrganizerManager.saveToPreferences(newGame);
 
 		validate();
 		getVerticalScrollBar().setValue(newGameEntry.getLocation().y);
@@ -100,6 +112,8 @@ public class GameList extends JScrollPane
 		selectedGame.setSaveName(saveName);
 
 		selectedEntry.setText(gameName);
+
+		OrganizerManager.saveToPreferences(selectedGame);
 
 		fireEntryUpdatedEvent(selectedEntry);
 
@@ -240,7 +254,7 @@ public class GameList extends JScrollPane
 		listPanel.add(entryToMove, newIndex);
 		entries.add(newIndex, entryToMove);
 		Game.moveGame(gameToMove, newIndex);
-		
+
 		validate();
 		repaint();
 	}

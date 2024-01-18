@@ -17,7 +17,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import javax.imageio.ImageIO;
@@ -123,6 +125,12 @@ public class OrganizerManager
 	public static final String PREFS_MODIFIER_GAME_DIR = "Path";
 	public static final String PREFS_MODIFIER_GAME_SAVEFILE = "Savefile";
 
+	public static final String PREFS_MODIFIER_GAME_GAMENAME = "GameName";
+	public static final String PREFS_MODIFIER_GAME_SAVENAME = "SaveName";
+	public static final String PREFS_MODIFIER_GAME_INDEX = "Index";
+
+	public static final String PREFS_PREFIX_CUSTOM_GAME = "CustomGame_";
+
 	public static final String PREFS_ERROR_ON_RETRIEVE = "ERROR";
 
 	public static final String ILLEGAL_CHARACTERS = "~, @, *, {, }, <, >, [, ], |, \u201C, \u201D, \\, /, ^";
@@ -189,30 +197,21 @@ public class OrganizerManager
 	private static void initialize() throws IOException
 	{
 		importImages();
+
 		initListeners();
 		initPreferenceData();
 		initKeyboardHook();
 		initLookAndFeel();
-		mapGamesWithProfiles();
 		initSharedValues();
 
 		determineOS();
 //		setAppUserModelID();
 
+		loadGames();
+
 		isReady = true;
 
 	}
-
-//	/**
-//	 * Sets the AppUserModelID. Needed to be able to properly pin the .exe to the taskbar.
-//	 */
-//	private static void setAppUserModelID()
-//	{
-//		Native.register("shell32");
-//		
-//		WString appID = new WString("com.soulsspeedruns.saveorganizer");
-//		SetCurrentProcessExplicitAppUserModelID(appID);
-//	}
 
 
 	/**
@@ -368,51 +367,106 @@ public class OrganizerManager
 		}
 	}
 
+//	/**
+//	 * Sets the AppUserModelID. Needed to be able to properly pin the .exe to the taskbar.
+//	 */
+//	private static void setAppUserModelID()
+//	{
+//		Native.register("shell32");
+//		
+//		WString appID = new WString("com.soulsspeedruns.saveorganizer");
+//		SetCurrentProcessExplicitAppUserModelID(appID);
+//	}
+
 
 	/**
-	 * Maps all the existing games with their profiles.
+	 * Creates custom games from the preferences if there are any, and loads preference settings for each game. Then sorts the GAMES list according to
+	 * each game's listindex.
 	 */
-	private static void mapGamesWithProfiles()
+	private static void loadGames()
 	{
-		if (prefs == null)
-			return;
-		List<Game> games = Game.GAMES;
-		for (Game game : games)
-			importProfiles(game);
+		createCustomGames();
+		for (Game game : Game.GAMES)
+			loadGame(game);
+		Game.GAMES.sort(null);
 	}
 
 
 	/**
-	 * Searches for all the profiles of the given game.
-	 * 
-	 * @param game the game to import the profiles for
+	 * Creates custom games from the preferences.
 	 */
-	private static void importProfiles(Game game)
+	private static void createCustomGames()
 	{
-		String gameDirectoryPath = prefs.get(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR, PREFS_ERROR_ON_RETRIEVE);
+		try
+		{
+			String[] preferences = prefs.keys();
+
+			List<String> gameIDs = new ArrayList<>(Arrays.asList(preferences));
+			gameIDs.removeIf(e -> !(e.startsWith(PREFS_PREFIX_CUSTOM_GAME) && e.endsWith(PREFS_MODIFIER_GAME_GAMENAME)));
+			gameIDs.sort(null);
+
+			for (String gameID : gameIDs)
+			{
+				gameID = gameID.substring(PREFS_PREFIX_CUSTOM_GAME.length(), gameID.lastIndexOf("_"));
+
+				String gameName = prefs.get(PREFS_PREFIX_CUSTOM_GAME + gameID + "_" + PREFS_MODIFIER_GAME_GAMENAME, null);
+				String saveName = prefs.get(PREFS_PREFIX_CUSTOM_GAME + gameID + "_" + PREFS_MODIFIER_GAME_SAVENAME, null);
+
+				Game.createGame(gameName, gameID, saveName, null, null, true, true);
+			}
+		}
+		catch (BackingStoreException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+
+
+	/**
+	 * (Re)loads the settings saved for the game in the preferences and loads the associated folders and files as profiles and saves.
+	 * 
+	 * @param game the game for which to load from the preferences
+	 */
+	private static void loadGame(Game game)
+	{
+		if (!game.isCustomGame())
+		{
+			game.setListIndex(prefs.getInt(game.getGameID() + PREFS_MODIFIER_GAME_INDEX, 0));
+
+			String saveLocationPath = prefs.get(game.getGameID() + PREFS_MODIFIER_GAME_SAVEFILE, PREFS_ERROR_ON_RETRIEVE);
+			if (PREFS_ERROR_ON_RETRIEVE.equals(saveLocationPath))
+				return;
+			game.setSaveFileLocation(new File(saveLocationPath));
+
+			String gameDirectoryPath = prefs.get(game.getGameID() + PREFS_MODIFIER_GAME_DIR, PREFS_ERROR_ON_RETRIEVE);
+			if (PREFS_ERROR_ON_RETRIEVE.equals(gameDirectoryPath))
+				return;
+			game.setDirectory(new File(gameDirectoryPath));
+
+			return;
+		}
+
+		game.setListIndex(prefs.getInt(PREFS_PREFIX_CUSTOM_GAME + game.getGameID() + "_" + PREFS_MODIFIER_GAME_INDEX, Game.GAMES.size()));
+
+		String saveLocationPath = prefs.get(PREFS_PREFIX_CUSTOM_GAME + game.getGameID() + "_" + PREFS_MODIFIER_GAME_SAVEFILE,
+				PREFS_ERROR_ON_RETRIEVE);
+		if (PREFS_ERROR_ON_RETRIEVE.equals(saveLocationPath))
+			return;
+		game.setSaveFileLocation(new File(saveLocationPath));
+
+		String gameDirectoryPath = prefs.get(PREFS_PREFIX_CUSTOM_GAME + game.getGameID() + "_" + PREFS_MODIFIER_GAME_DIR, PREFS_ERROR_ON_RETRIEVE);
 		if (PREFS_ERROR_ON_RETRIEVE.equals(gameDirectoryPath))
 			return;
-		File gameDirectory = new File(gameDirectoryPath);
-		if (!gameDirectory.exists())
-		{
-			prefs.remove(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR);
-			return;
-		}
-		game.setDirectory(gameDirectory);
-		String saveLocationPath = prefs.get(game.getAbbreviation() + PREFS_MODIFIER_GAME_SAVEFILE, PREFS_ERROR_ON_RETRIEVE);
-		if (!PREFS_ERROR_ON_RETRIEVE.equals(saveLocationPath))
-		{
-			game.setSaveFileLocation(new File(saveLocationPath));
-			return;
-		}
-		// If the user used an old version, then a savefile location might not have been explicitly specified.
-		// In that case, use the profile directory + saveName as the savefile location
-		File defaultSaveFileLocation = new File(gameDirectoryPath + File.separator + game.getSaveName());
-		if (defaultSaveFileLocation.exists())
-			game.setSaveFileLocation(defaultSaveFileLocation);
+		game.setDirectory(new File(gameDirectoryPath));
 	}
 
 
+	/**
+	 * Returns whether the OrganizerManager has finished initializations and loading up all preferences.
+	 * 
+	 * @return whether the application is ready for use
+	 */
 	public static boolean isApplicationReady()
 	{
 		return isReady;
@@ -424,7 +478,7 @@ public class OrganizerManager
 	 */
 	public static void refreshProfiles()
 	{
-		mapGamesWithProfiles();
+		loadGames();
 	}
 
 
@@ -433,15 +487,87 @@ public class OrganizerManager
 	 * 
 	 * @param game the game to update
 	 */
-	public static void saveProperties(Game game)
+	public static void saveToPreferences(Game game)
 	{
-		if(!game.isCustomGame())
+		if (!game.isCustomGame())
 		{
 			if (game.getDirectory() != null)
-				prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_DIR, game.getDirectory().getPath());
+				prefs.put(game.getGameID() + PREFS_MODIFIER_GAME_DIR, game.getDirectory().getPath());
 			if (game.getSaveFileLocation() != null)
-				prefs.put(game.getAbbreviation() + PREFS_MODIFIER_GAME_SAVEFILE, game.getSaveFileLocation().getPath());
-			importProfiles(game);
+				prefs.put(game.getGameID() + PREFS_MODIFIER_GAME_SAVEFILE, game.getSaveFileLocation().getPath());
+
+			prefs.putInt(game.getGameID() + PREFS_MODIFIER_GAME_INDEX, game.getListIndex());
+			return;
+		}
+
+		if (game.getDirectory() != null)
+			prefs.put(PREFS_PREFIX_CUSTOM_GAME + game.getGameID() + "_" + PREFS_MODIFIER_GAME_DIR, game.getDirectory().getPath());
+		if (game.getSaveFileLocation() != null)
+			prefs.put(PREFS_PREFIX_CUSTOM_GAME + game.getGameID() + "_" + PREFS_MODIFIER_GAME_SAVEFILE, game.getSaveFileLocation().getPath());
+
+		prefs.put(PREFS_PREFIX_CUSTOM_GAME + game.getGameID() + "_" + PREFS_MODIFIER_GAME_GAMENAME, game.getCaption());
+		prefs.put(PREFS_PREFIX_CUSTOM_GAME + game.getGameID() + "_" + PREFS_MODIFIER_GAME_SAVENAME, game.getSaveName());
+		prefs.putInt(PREFS_PREFIX_CUSTOM_GAME + game.getGameID() + "_" + PREFS_MODIFIER_GAME_INDEX, game.getListIndex());
+	}
+
+
+	/**
+	 * Deletes the given custom game from the preferences.
+	 * 
+	 * @param game the game to delete
+	 */
+	public static void removeFromPreferences(Game game)
+	{
+		if (!game.isCustomGame())
+			return;
+
+		String gameID = game.getGameID();
+
+		prefs.remove(PREFS_PREFIX_CUSTOM_GAME + gameID + "_" + PREFS_MODIFIER_GAME_GAMENAME);
+		prefs.remove(PREFS_PREFIX_CUSTOM_GAME + gameID + "_" + PREFS_MODIFIER_GAME_SAVENAME);
+		prefs.remove(PREFS_PREFIX_CUSTOM_GAME + gameID + "_" + PREFS_MODIFIER_GAME_SAVEFILE);
+		prefs.remove(PREFS_PREFIX_CUSTOM_GAME + gameID + "_" + PREFS_MODIFIER_GAME_DIR);
+		prefs.remove(PREFS_PREFIX_CUSTOM_GAME + gameID + "_" + PREFS_MODIFIER_GAME_INDEX);
+	}
+
+
+	/**
+	 * Gets the first available incremental ID to use for a new custom game.
+	 * 
+	 * @return first available ID as int
+	 */
+	public static int getNewCustomGameID()
+	{
+		try
+		{
+			String[] preferences = prefs.keys();
+			List<String> gameIDs = new ArrayList<>(Arrays.asList(preferences));
+			gameIDs.removeIf(e -> !(e.startsWith(PREFS_PREFIX_CUSTOM_GAME) && e.endsWith(PREFS_MODIFIER_GAME_GAMENAME)));
+			gameIDs.sort(null);
+
+			int id = 0;
+
+			for (String gameID : gameIDs)
+			{
+				try
+				{
+					int existingGameID = Integer.parseInt(gameID.substring(PREFS_PREFIX_CUSTOM_GAME.length(), gameID.lastIndexOf("_")));
+					if (existingGameID != id)
+						return id;
+					id++;
+				}
+				catch (NumberFormatException e)
+				{
+					continue;
+				}
+			}
+
+			return id;
+		}
+		catch (BackingStoreException e)
+		{
+			e.printStackTrace();
+			return -1;
 		}
 	}
 
@@ -1241,11 +1367,12 @@ public class OrganizerManager
 			listener.gameEdited(game);
 		}
 	}
-	
+
+
 	/**
 	 * Fires a gameMoved event.
 	 * 
-	 * @param game the game that was moved
+	 * @param game     the game that was moved
 	 * @param newIndex the new index of the game
 	 */
 	public static void fireGameMovedEvent(Game game, int newIndex)

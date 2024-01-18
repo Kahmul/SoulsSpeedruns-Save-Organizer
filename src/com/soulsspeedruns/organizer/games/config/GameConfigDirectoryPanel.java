@@ -125,11 +125,11 @@ public class GameConfigDirectoryPanel extends JPanel
 					{
 						directoryField.setText(selectedSavefile.getParentFile().getPath());
 						game.setDirectory(selectedSavefile.getParentFile());
-						OrganizerManager.saveProperties(game);
+						OrganizerManager.saveToPreferences(game);
 						OrganizerManager.fireProfileDirectoryChangedEvent(game);
 						return;
 					}
-					OrganizerManager.saveProperties(game);
+					OrganizerManager.saveToPreferences(game);
 					return;
 				}
 				JOptionPane.showMessageDialog(null, "Filename needs to be '" + game.getSaveName() + "'!", "Error occurred",
@@ -172,7 +172,7 @@ public class GameConfigDirectoryPanel extends JPanel
 				}
 				directoryField.setText(selectedDir.getPath());
 				game.setDirectory(selectedDir);
-				OrganizerManager.saveProperties(game);
+				OrganizerManager.saveToPreferences(game);
 				OrganizerManager.fireProfileDirectoryChangedEvent(game);
 			}
 		});

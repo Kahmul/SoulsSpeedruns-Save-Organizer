@@ -42,7 +42,6 @@ public class GamesComboBox extends JComboBox<Game> implements GameListener
 			if (event.getStateChange() == ItemEvent.SELECTED && updateProfileComboBox)
 			{
 				Game game = (Game) event.getItem();
-				System.out.println(game.getCaption());
 				OrganizerManager.switchToGame(game);
 				profilesCB.setGame(game);
 			}
