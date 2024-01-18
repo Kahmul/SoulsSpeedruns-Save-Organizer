@@ -229,13 +229,23 @@ public class GameCreationWindow extends JDialog
 
 	private void createOrUpdateGame()
 	{
-		String gameName = gameNameField.getText();
-		String saveName = saveNameField.getText();
+		String gameName = gameNameField.getText().trim();
+		String saveName = saveNameField.getText().trim();
 		if (gameName.length() <= 0 || saveName.length() <= 0)
 		{
 			JOptionPane.showMessageDialog(GameCreationWindow.this, "Please enter a game name and a savefile name!", "Invalid Input",
 					JOptionPane.WARNING_MESSAGE);
 			return;
+		}
+
+		for (Game game : Game.GAMES)
+		{
+			if (game.getCaption().equalsIgnoreCase(gameName) && !game.equals(this.game))
+			{
+				JOptionPane.showMessageDialog(GameCreationWindow.this, "A name with the given name already exists!", "Name Already Exists",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
 		}
 
 		if (game == null)
