@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 import jiconfont.icons.Iconic;
@@ -89,7 +90,7 @@ public class Save extends SaveListEntry
 		if(isMarkedForCut())
 			label.setForeground(Color.GRAY);
 		if (!getFile().canWrite())
-			label.setIcon(OrganizerManager.readOnlyIcon14);
+			label.setIcon(IconsAndFontsManager.getReadOnlyIcon(IconsAndFontsManager.ICON_SIZE_SMALL, false));
 		if (!getFile().exists())
 		{
 			label.setIcon(ICON_FILE_DOES_NOT_EXIST);

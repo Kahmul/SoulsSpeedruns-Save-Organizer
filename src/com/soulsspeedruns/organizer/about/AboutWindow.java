@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 
@@ -51,7 +52,7 @@ public class AboutWindow extends JDialog
 	{
 		pack();
 		setResizable(false);
-		setIconImage(OrganizerManager.soulsspeedrunsIcon);
+		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
 		
@@ -87,7 +88,7 @@ public class AboutWindow extends JDialog
 	
 	private JLabel createIconLabel()
 	{
-		JLabel iconLabel = new JLabel(new ImageIcon(OrganizerManager.soulsspeedrunsIconMedium));
+		JLabel iconLabel = new JLabel(new ImageIcon(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_LARGE)));
 		iconLabel.addMouseListener(new MouseAdapter() {
 			
 			boolean once = false;
@@ -98,7 +99,7 @@ public class AboutWindow extends JDialog
 				if(e.getClickCount() >= 3 && !once)
 				{
 					once = true;
-					iconLabel.setIcon(OrganizerManager.frankerZIcon);
+					iconLabel.setIcon(IconsAndFontsManager.getFrankerZ());
 					vibrate();
 				}
 			}

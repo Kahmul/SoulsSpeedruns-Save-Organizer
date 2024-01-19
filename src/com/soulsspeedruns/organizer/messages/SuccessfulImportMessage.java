@@ -5,7 +5,7 @@ import java.awt.Color;
 
 import javax.swing.Icon;
 
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 
 
 /**
@@ -20,7 +20,7 @@ public class SuccessfulImportMessage extends AbstractMessage
 {
 
 	private static final String MESSAGE = "IMPORT SUCCESSFUL";
-	private static final Icon ICON = OrganizerManager.importIcon24;
+	private static final Icon ICON = IconsAndFontsManager.getImportIcon(IconsAndFontsManager.ICON_SIZE_LARGE);
 	private static final Color COLOR = Color.decode("0x1d6fbe");
 
 

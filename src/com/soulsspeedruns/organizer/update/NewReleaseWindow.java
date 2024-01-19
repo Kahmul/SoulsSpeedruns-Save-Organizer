@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 
@@ -48,7 +49,7 @@ public class NewReleaseWindow extends JDialog
 	private void initProperties()
 	{
 		setResizable(false);
-		setIconImage(OrganizerManager.soulsspeedrunsIcon);
+		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
 	}
@@ -68,7 +69,7 @@ public class NewReleaseWindow extends JDialog
 		contentPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 20, 5));
 
 		contentPanel.add(new NewReleasePanel());
-		contentPanel.add(new JLabel(new ImageIcon(OrganizerManager.soulsspeedrunsIconMedium)));
+		contentPanel.add(new JLabel(new ImageIcon(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_LARGE))));
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		guiPanel.add(contentPanel, constraints);

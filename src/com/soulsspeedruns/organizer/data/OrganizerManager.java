@@ -3,7 +3,6 @@ package com.soulsspeedruns.organizer.data;
 
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -22,8 +21,6 @@ import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ToolTipManager;
 
@@ -56,11 +53,6 @@ import com.soulsspeedruns.organizer.theme.GlobalThemeAdjustmentTask;
 import com.soulsspeedruns.organizer.theme.GlobalThemeInitTask;
 import com.soulsspeedruns.organizer.theme.SoulsSpeedrunsTheme;
 
-import jiconfont.icons.Elusive;
-import jiconfont.icons.FontAwesome;
-import jiconfont.icons.Iconic;
-import jiconfont.swing.IconFontSwing;
-
 
 /**
  * OrganizerManager.
@@ -90,9 +82,6 @@ public class OrganizerManager
 	 */
 	private static final String PREFERENCES_PATH = "/com/soulsspeedruns/organizer/prefs";
 	private static final String PREFERENCES_PATH_LEGACY = "/com/speedsouls";
-	
-	private static final String RESOURCE_PATH = "/com/soulsspeedruns/organizer/resources/";
-	private static final String RESOURCE_READONLY_PATH = RESOURCE_PATH + "readonlyicon/";
 
 	/**
 	 * Constants for the keys used to access preferences.
@@ -146,34 +135,6 @@ public class OrganizerManager
 
 	private static String latestReleaseVersion;
 
-	public static Image soulsspeedrunsIcon;
-	public static Image soulsspeedrunsIconSmall;
-	public static Image soulsspeedrunsIconMedium;
-	
-	public static Image settingsIcon;
-	
-	public static ImageIcon readOnlyIcon14;
-	public static ImageIcon readOnlyIcon22;
-	public static ImageIcon readOnlyIconHover22;
-	
-	public static ImageIcon readOnlyIconDarkMode14;
-	public static ImageIcon readOnlyIconDarkMode22;
-	public static ImageIcon readOnlyIconDarkModeHover22;
-	
-	public static ImageIcon writableIcon14;
-	public static ImageIcon writableIcon22;
-	public static ImageIcon writableIconHover22;
-	
-	public static ImageIcon writableIconDarkMode14;
-	public static ImageIcon writableIconDarkMode22;
-	public static ImageIcon writableIconDarkModeHover22;
-	
-	public static ImageIcon discordIcon;
-	public static ImageIcon frankerZIcon;
-	public static ImageIcon importIcon;
-	public static ImageIcon importIcon24;
-
-
 	private static List<ProfileListener> profileListeners;
 	private static List<GameListener> gameListeners;
 	private static List<SaveListener> saveListeners;
@@ -194,7 +155,10 @@ public class OrganizerManager
 	{
 		try
 		{
+			IconsAndFontsManager.initialize();
 			initialize();
+			
+			isReady = true;
 		}
 		catch (IOException e)
 		{
@@ -212,8 +176,6 @@ public class OrganizerManager
 	 */
 	private static void initialize() throws IOException
 	{
-		importImages();
-
 		initListeners();
 		initPreferenceData();
 		initKeyboardHook();
@@ -224,54 +186,6 @@ public class OrganizerManager
 //		setAppUserModelID();
 
 		loadGames();
-
-		isReady = true;
-
-	}
-
-
-	/**
-	 * Imports all the images and icons used in the program.
-	 * 
-	 * @throws IOException
-	 */
-	private static void importImages() throws IOException
-	{
-		soulsspeedrunsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo32.png"));
-		soulsspeedrunsIconSmall = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo16.png"));
-		soulsspeedrunsIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo100.png"));
-		
-		settingsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SettingsIcon.png"));
-		
-		readOnlyIcon14 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIcon14.png")));
-		readOnlyIcon22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIcon22.png")));
-		readOnlyIconHover22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIconHover22.png")));
-		
-		readOnlyIconDarkMode14 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIconDarkMode14.png")));
-		readOnlyIconDarkMode22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIconDarkMode22.png")));
-		readOnlyIconDarkModeHover22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIconDarkModeHover22.png")));
-		
-		writableIcon14 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIcon14.png")));
-		writableIcon22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIcon22.png")));
-		writableIconHover22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIconHover22.png")));
-		
-		writableIconDarkMode14 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIconDarkMode14.png")));
-		writableIconDarkMode22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIconDarkMode22.png")));
-		writableIconDarkModeHover22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIconDarkModeHover22.png")));
-		
-		discordIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "DiscordLogo.png")));
-		frankerZIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "FrankerZ.png")));
-		importIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ImportIcon.png")));
-		importIcon24 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ImportIcon24.png")));
-
-		IconFontSwing.register(FontAwesome.getIconFont());
-//		IconFontSwing.register(FontAwesomeBrands.getIconFont());
-//		IconFontSwing.register(FontAwesomeSolid.getIconFont());
-		IconFontSwing.register(Elusive.getIconFont());
-//		IconFontSwing.register(Entypo.getIconFont());
-		IconFontSwing.register(Iconic.getIconFont());
-//		IconFontSwing.register(Typicons.getIconFont());
-
 	}
 
 

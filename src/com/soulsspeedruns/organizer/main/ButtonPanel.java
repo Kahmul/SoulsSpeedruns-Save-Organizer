@@ -18,6 +18,7 @@ import com.github.weisj.darklaf.theme.event.ThemeChangeEvent;
 import com.github.weisj.darklaf.theme.event.ThemeChangeListener;
 import com.soulsspeedruns.organizer.components.HyperLink;
 import com.soulsspeedruns.organizer.components.ReadOnlyButton;
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
@@ -119,7 +120,7 @@ public class ButtonPanel extends JPanel
 	{
 		JButton importButton = new JButton("Import Savestate");
 //		importButton.setIcon(IconFontSwing.buildIcon(Iconic.CURVED_ARROW, 16, Color.decode("0x1d6fbe")));
-		importButton.setIcon(OrganizerManager.importIcon);
+		importButton.setIcon(IconsAndFontsManager.getImportIcon(IconsAndFontsManager.ICON_SIZE_SMALL));
 		importButton.addActionListener(event -> {
 			if (OrganizerManager.isAProfileSelected())
 			{

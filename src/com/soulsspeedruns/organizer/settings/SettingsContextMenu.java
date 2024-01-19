@@ -11,6 +11,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
 import com.soulsspeedruns.organizer.about.AboutWindow;
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 import jiconfont.icons.FontAwesome;
@@ -71,7 +72,7 @@ public class SettingsContextMenu extends JPopupMenu
 	 */
 	private JMenuItem createAboutItem()
 	{
-		JMenuItem itemAbout = new JMenuItem("About", new ImageIcon(OrganizerManager.soulsspeedrunsIconSmall));
+		JMenuItem itemAbout = new JMenuItem("About", new ImageIcon(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_SMALL)));
 		itemAbout.addActionListener(event -> new AboutWindow());
 		return itemAbout;
 	}

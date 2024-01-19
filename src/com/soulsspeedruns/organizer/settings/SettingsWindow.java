@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
 
@@ -53,7 +54,7 @@ public class SettingsWindow extends JDialog
 		pack();
 		setResizable(false);
 		OrganizerManager.getKeyboardHook().unregisterHook();
-		setIconImage(OrganizerManager.soulsspeedrunsIcon);
+		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
 		addMouseListener(new MouseAdapter() {

@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.soulsspeedruns.organizer.about.AboutWindow;
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 
 
 /**
@@ -63,7 +63,7 @@ public class ButtonsSettingsPanel extends JPanel
 	
 	private JButton createAboutButton()
 	{
-		JButton aboutButton = new JButton("About", new ImageIcon(OrganizerManager.soulsspeedrunsIconSmall));
+		JButton aboutButton = new JButton("About", new ImageIcon(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_SMALL)));
 		aboutButton.addActionListener(event -> new AboutWindow());
 		return aboutButton;
 	}

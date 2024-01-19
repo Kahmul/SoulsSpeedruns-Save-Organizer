@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.main.config.SortingCategory;
 
@@ -57,11 +58,11 @@ public class SaveListContextMenu extends JPopupMenu
 		add(new JSeparator());
 		add(itemRemove);
 		add(itemEdit);
-		if (OrganizerManager.getSelectedGame().supportsReadOnly())
-			add(itemReadOnly);
 		add(itemCopy);
 		add(itemCut);
 		add(itemPaste);
+		if (OrganizerManager.getSelectedGame().supportsReadOnly())
+			add(itemReadOnly);
 		add(new JSeparator());
 		add(itemRefresh);
 		add(itemOpenInExplorer);
@@ -80,22 +81,26 @@ public class SaveListContextMenu extends JPopupMenu
 		int index = saveList.locationToIndex(new Point(x, y));
 		if (index != -1 && saveList.getCellBounds(index, index).contains(new Point(x, y)))
 		{
-			// need to check the size of the list first before and then assign it to a variable later in the case of a single selection by right-click
+			// select the entry that was right clicked if multiple others aren't selected already
 			if(saveList.getSelectedValuesList().size() <= 1)
 				saveList.setSelectedIndex(index);
 			
 			itemEdit.setEnabled(true);
 			itemRemove.setEnabled(true);
-
-			itemReadOnly.setSelected(true);
+			
+			itemReadOnly.setIcon(IconsAndFontsManager.getWritableIcon(IconsAndFontsManager.ICON_SIZE_MEDIUM, false));
+			itemReadOnly.setText("Disable 'Read-Only'");
 			
 			List<SaveListEntry> selectedEntries = saveList.getSelectedValuesList();
 			for (SaveListEntry entry : selectedEntries)
 			{
 				if(entry instanceof Save)
 					itemReadOnly.setEnabled(true);
-				if(entry.getFile().canWrite())
-					itemReadOnly.setSelected(false);
+				if(entry.getFile().canWrite() && entry instanceof Save)
+				{
+					itemReadOnly.setIcon(IconsAndFontsManager.getReadOnlyIcon(IconsAndFontsManager.ICON_SIZE_MEDIUM, false));
+					itemReadOnly.setText("Enable 'Read-Only'");
+				}
 			}
 			return;
 		}
@@ -199,8 +204,8 @@ public class SaveListContextMenu extends JPopupMenu
 	 */
 	private JMenuItem createReadOnlyItem(SaveList saveList)
 	{
-		JMenuItem itemReadOnly = new JMenuItem("Read-Only");
-		itemReadOnly.setIcon(OrganizerManager.readOnlyIcon14);
+		JMenuItem itemReadOnly = new JMenuItem("Enable 'Read-Only'");
+		itemReadOnly.setIcon(IconsAndFontsManager.getReadOnlyIcon(IconsAndFontsManager.ICON_SIZE_MEDIUM, false));
 		itemReadOnly.addActionListener(event -> {
 			for (SaveListEntry entry : saveList.getSelectedValuesList())
 			{

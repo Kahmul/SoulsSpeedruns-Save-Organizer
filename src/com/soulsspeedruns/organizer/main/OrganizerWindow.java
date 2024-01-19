@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
 
@@ -49,13 +50,14 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	{
 		super("SoulsSpeedruns - Save Organizer");
 
-		initProperties();
-		initLayout();
-		initListeners();
-
 		while (!OrganizerManager.isApplicationReady())
 		{
 		}
+		
+		initProperties();
+		initLayout();
+		initListeners();
+		
 		setVisible(true);
 	}
 
@@ -65,7 +67,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	 */
 	private void initProperties()
 	{
-		setIconImage(OrganizerManager.soulsspeedrunsIcon);
+		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
 		setResizable(IS_RESIZABLE);
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
 		setMinSize(OrganizerManager.isCompactModeEnabled());

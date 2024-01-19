@@ -4,15 +4,13 @@ package com.soulsspeedruns.organizer.components;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.HashMap;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.github.weisj.darklaf.LafManager;
-import com.github.weisj.darklaf.theme.Theme;
 import com.github.weisj.darklaf.theme.event.ThemeChangeEvent;
 import com.github.weisj.darklaf.theme.event.ThemeChangeListener;
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
@@ -35,45 +33,39 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 {
 
 	private File file;
-	
-	private HashMap<String, ImageIcon> icons = new HashMap<>();
-	
-	private static final String READ_ONLY_ICON = "readOnly";
-	private static final String WRITABLE_ICON = "writable";
-	private static final String DARKMODE_ICON = "DarkMode";
-	private static final String HOVER_ICON = "Hover";
+
 
 	/**
 	 * Creates a new read only button with the given file and image.
 	 * 
-	 * @param file the file to associate with this button.
+	 * @param file      the file to associate with this button.
 	 * @param isCompact whether to show the "writable/read-only" text
 	 */
 	public ReadOnlyButton(File file)
 	{
 		setFile(file);
-		
+
 		addMouseListener(this);
 		OrganizerManager.addProfileListener(this);
 		OrganizerManager.addSaveListener(this);
 		OrganizerManager.addSettingsListener(this);
-		
+
 		LafManager.addThemeChangeListener(new ThemeChangeListener()
 		{
-			
+
 			@Override
 			public void themeInstalled(ThemeChangeEvent e)
 			{
 				refreshAppearance(false);
 			}
-			
-			
+
+
 			@Override
 			public void themeChanged(ThemeChangeEvent e)
 			{
 			}
 		});
-		
+
 		setVisible(true);
 	}
 
@@ -119,8 +111,8 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		file.setWritable(!file.canWrite());
 		refreshAppearance(true);
 	}
-	
-	
+
+
 	/**
 	 * Changes the image of the read-only button depending on the state of the file and whether the mouse is hovered over it.
 	 * 
@@ -130,62 +122,38 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	{
 		boolean isWritable = file != null ? file.canWrite() : false;
 		boolean isCompact = OrganizerManager.isCompactModeEnabled();
-		if(isWritable)
-		{			
+		if (isWritable)
+		{
 			setText(!isCompact && !OrganizerManager.isVersionOutdated() ? "Writable" : null);
-			setIcon(getIcon(WRITABLE_ICON, isHovering));
+			setIcon(IconsAndFontsManager.getWritableIcon(IconsAndFontsManager.ICON_SIZE_LARGE, isHovering));
 			setToolTipText("Click to turn on read-only for the game's savefile.");
 		}
 		else
 		{
 			setText(!isCompact && !OrganizerManager.isVersionOutdated() ? "Read-Only" : null);
-			setIcon(getIcon(READ_ONLY_ICON, isHovering));
+			setIcon(IconsAndFontsManager.getReadOnlyIcon(IconsAndFontsManager.ICON_SIZE_LARGE, isHovering));
 			setToolTipText("Click to turn off read-only for the game's savefile.");
 		}
-		
+
 	}
-	
-	
-	private ImageIcon getIcon(String key, boolean isHovering)
-	{
-		if(icons.isEmpty())
-		{
-			icons.put(READ_ONLY_ICON, OrganizerManager.readOnlyIcon22);
-			icons.put(READ_ONLY_ICON + HOVER_ICON, OrganizerManager.readOnlyIconHover22);
-			icons.put(READ_ONLY_ICON + DARKMODE_ICON, OrganizerManager.readOnlyIconDarkMode22);
-			icons.put(READ_ONLY_ICON + DARKMODE_ICON + HOVER_ICON, OrganizerManager.readOnlyIconDarkModeHover22);
-			
-			icons.put(WRITABLE_ICON, OrganizerManager.writableIcon22);
-			icons.put(WRITABLE_ICON + HOVER_ICON, OrganizerManager.writableIconHover22);
-			icons.put(WRITABLE_ICON + DARKMODE_ICON, OrganizerManager.writableIconDarkMode22);
-			icons.put(WRITABLE_ICON + DARKMODE_ICON + HOVER_ICON, OrganizerManager.writableIconDarkModeHover22);
-		}
-		
-		if(Theme.isDark(LafManager.getInstalledTheme()))
-			key += DARKMODE_ICON;
-		if(isHovering)
-			key += HOVER_ICON;
-		
-		return icons.get(key);
-	}
-	
-	
+
+
 	@Override
 	public void setVisible(boolean flag)
 	{
 		super.setVisible(flag);
-		
-		if(flag)
+
+		if (flag)
 		{
-			if(!OrganizerManager.getSelectedGame().supportsReadOnly())
+			if (!OrganizerManager.getSelectedGame().supportsReadOnly())
 				super.setVisible(false);
-			if(!OrganizerManager.isAProfileSelected())
+			if (!OrganizerManager.isAProfileSelected())
 				super.setVisible(false);
 		}
 
 	}
 
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
@@ -300,7 +268,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void settingChanged(String prefsKey)
 	{
-		if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE) || prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
+		if (prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE) || prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
 			refreshAppearance(false);
 	}
 

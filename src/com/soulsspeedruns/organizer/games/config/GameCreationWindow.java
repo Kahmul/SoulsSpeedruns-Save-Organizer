@@ -26,6 +26,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 import com.github.weisj.darklaf.ui.button.DarkButtonUI;
+import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 
@@ -66,7 +67,7 @@ public class GameCreationWindow extends JDialog
 		pack();
 		setResizable(false);
 		setLocationRelativeTo(SwingUtilities.windowForComponent(list));
-		setIconImage(OrganizerManager.soulsspeedrunsIcon);
+		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
 		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
 
 		addWindowListener(new WindowAdapter()
