@@ -269,19 +269,10 @@ public class OrganizerManager
 		prefs = Preferences.userRoot().node(PREFERENCES_PATH);
 		prefs.put(PREFS_KEY_VERSION, VERSION);
 
-		// reset global hotkeys if this is the first time the organizer is started to avoid incompatibility with older versions
-		// also import legacy preferences to new path, delete old path
+		// import legacy preferences to new path, delete old path
 		boolean initStartup = prefs.getBoolean(PREFS_KEY_INITIAL_STARTUP, true);
 		if (initStartup)
 		{
-			prefs.remove(PREFS_KEY_SETTING_GLOBAL_HOTKEYS);
-			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_LOAD);
-			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY);
-			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_IMPORT_SAVE);
-			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_PREV_SAVE);
-			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_NEXT_SAVE);
-			prefs.remove(PREFS_KEY_GLOBAL_HOTKEY_TOGGLE);
-
 			try
 			{
 				if (Preferences.userRoot().nodeExists(PREFERENCES_PATH_LEGACY))
