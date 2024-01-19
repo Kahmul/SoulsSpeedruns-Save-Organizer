@@ -17,7 +17,8 @@ public class SaveListRenderer implements ListCellRenderer<SaveListEntry>
 			boolean isSelected, boolean cellHasFocus)
 	{
 		JLabel label = (JLabel) defaultRenderer.getListCellRendererComponent(list, entry, index, isSelected, cellHasFocus);
-		entry.render(label);
+		entry.render(list, index, label);
+		
 		return label;
 	}
 

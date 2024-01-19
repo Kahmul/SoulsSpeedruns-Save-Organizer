@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
@@ -81,7 +82,7 @@ public class Save extends SaveListEntry
 
 
 	@Override
-	public void render(JLabel label)
+	public void render(JList<? extends SaveListEntry> list, int index, JLabel label)
 	{
 		label.setText(getFile().getName());
 		label.setBorder(BorderFactory.createEmptyBorder(1, 3 + getIndent(), 0, 1));

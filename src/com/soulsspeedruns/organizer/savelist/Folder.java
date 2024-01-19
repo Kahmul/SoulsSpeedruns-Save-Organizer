@@ -13,7 +13,9 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
@@ -153,11 +155,19 @@ public class Folder extends SaveListEntry
 
 
 	@Override
-	public void render(JLabel label)
+	public void render(JList<? extends SaveListEntry> list, int index, JLabel label)
 	{
 		label.setText(getFile().getName());
 		label.setFont(label.getFont().deriveFont(Font.BOLD));
 		label.setBorder(BorderFactory.createEmptyBorder(1, 3 + getIndent(), 0, 1));
+		
+		JList.DropLocation dropLocation = list.getDropLocation();
+        if (dropLocation != null && dropLocation.getIndex() == index)
+        {
+        	label.setBackground(new Color(UIManager.getColor("List.backgroundSelected").getRGB()));
+        	label.setForeground(new Color(UIManager.getColor("List.foregroundSelected").getRGB()));
+        }
+		
 		if(isMarkedForCut())
 			label.setForeground(Color.GRAY);
 		

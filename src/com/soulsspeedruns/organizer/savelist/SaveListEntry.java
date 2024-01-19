@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 
@@ -286,9 +287,11 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 	/**
 	 * Renders this label according to this entry.
 	 * 
+	 * @param list the JList of this entry
+	 * @param index the index of this entry in the list
 	 * @param label the label to render
 	 */
-	public abstract void render(JLabel label);
+	public abstract void render(JList<? extends SaveListEntry> list, int index, JLabel label);
 
 
 	/**

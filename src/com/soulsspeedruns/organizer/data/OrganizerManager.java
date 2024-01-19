@@ -316,6 +316,9 @@ public class OrganizerManager
 	}
 
 
+	/**
+	 * Sets up the LafManager and the custom themes.
+	 */
 	private static void initLookAndFeel()
 	{
 		LafManager.unregisterTheme(new IntelliJTheme());
