@@ -42,6 +42,8 @@ public class Game implements Comparable<Game>
 
 	public static final Game ELDEN_RING = createGame("Elden Ring", "ER", "ER0000.sl2", "1245620", "%AppData%\\EldenRing\\<SteamID>", true, false);
 
+	private static final String STEAM_ID_PREFIX = "76561";
+
 	private String caption;
 	private final String gameID;
 	private String saveName;
@@ -104,7 +106,7 @@ public class Game implements Comparable<Game>
 		if (!game.isCustomGame)
 			return;
 		GAMES.remove(game);
-		
+
 		OrganizerManager.removeFromPreferences(game);
 
 		OrganizerManager.fireGameDeletedEvent(game);
@@ -280,7 +282,8 @@ public class Game implements Comparable<Game>
 
 
 	/**
-	 * The location at which it is most likely to find the savefile for the given game.
+	 * The location at which it is most likely to find the savefile for the given game. By itself not a valid file path. Use
+	 * getSuggestedSaveLocationPath instead.
 	 * 
 	 * @return the suggested save location
 	 */
@@ -311,6 +314,8 @@ public class Game implements Comparable<Game>
 
 			suggestedPath = suggestedPath.replace("\\<SteamID>", "");
 
+			suggestedPath += getSteamIDFolderName(suggestedPath);
+
 			return suggestedPath;
 		}
 
@@ -323,10 +328,33 @@ public class Game implements Comparable<Game>
 
 			suggestedPath = suggestedPath.replace("\\<SteamID>", "");
 
-			return suggestedPath;
+			suggestedPath += getSteamIDFolderName(suggestedPath);
 		}
 
 		return suggestedPath;
+	}
+
+
+	/**
+	 * Returns the name of the folder with the user steam ID, if it exists.
+	 * 
+	 * @param pathToDir the path to the directory in which to search for the steam ID folder
+	 * @return the folder named after the user's steam ID, if it exists
+	 */
+	private static String getSteamIDFolderName(String pathToDir)
+	{
+		File dir = new File(pathToDir);
+		if (!dir.exists() || !dir.isDirectory())
+			return "";
+
+		File[] files = dir.listFiles();
+		for (File file : files)
+		{
+			if (file.isDirectory() && file.getName().startsWith(STEAM_ID_PREFIX))
+				return "\\" + file.getName();
+		}
+		
+		return "";
 	}
 
 
@@ -343,12 +371,22 @@ public class Game implements Comparable<Game>
 	}
 
 
+	/**
+	 * Returns the position of this game in the game list.
+	 * 
+	 * @return the index of the game in the game list.
+	 */
 	public int getListIndex()
 	{
 		return listIndex;
 	}
 
 
+	/**
+	 * Sets the index of this game in the game list.
+	 * 
+	 * @param index the new index
+	 */
 	public void setListIndex(int index)
 	{
 		this.listIndex = index;
