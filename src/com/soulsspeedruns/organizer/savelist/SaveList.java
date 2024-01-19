@@ -42,17 +42,17 @@ import com.soulsspeedruns.organizer.messages.AbstractMessage;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 26 Sep 2015
  */
-public class SaveList extends JList<SaveListEntry> implements ListSelectionListener, ProfileListener,
-		SaveListener, SearchListener, SortingListener, MouseListener, KeyListener, NavigationListener
+public class SaveList extends JList<SaveListEntry> implements ListSelectionListener, ProfileListener, SaveListener, SearchListener, SortingListener,
+		MouseListener, KeyListener, NavigationListener
 {
 
 	private static final int EMPTY_SPACE_AT_BOTTOM = 50;
 
 	private final TransferHandler transferHandler = new SaveListTransferHandler(this);
-	
+
 	private List<SaveListEntry> copiedEntries = new ArrayList<>();
 	private boolean isCut = false;
-	
+
 
 	/**
 	 * Creates a new SaveList.
@@ -85,7 +85,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		setModel(new DefaultListModel<>());
 		fillWith(OrganizerManager.getSelectedProfile(), null);
 	}
-	
+
+
 	/**
 	 * Returns whether the save list currently stores entries for pasting.
 	 * 
@@ -100,7 +101,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	/**
 	 * Fills the list with the given profile. If a search term is given, only saves/folders that contain the term will be added.
 	 * 
-	 * @param profile the profile to fill this list with
+	 * @param profile    the profile to fill this list with
 	 * @param searchTerm the search term
 	 */
 	private void fillWith(Profile profile, String searchTerm)
@@ -112,8 +113,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 
 
 	/**
-	 * Adds all the children of the given folder and its open subFolders to the list. If a search term is given, only
-	 * saves/folders that contain the term will be added.
+	 * Adds all the children of the given folder and its open subFolders to the list. If a search term is given, only saves/folders that contain the
+	 * term will be added.
 	 * 
 	 * @param folder
 	 * @param searchTerm
@@ -144,7 +145,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	 * Refreshes all profiles and the savelist to keep it up to date with the filesystem.
 	 * 
 	 * @param refreshAllProfiles whether to refresh all profiles or just the currently selected one
-	 * @param silent whether to output a message on a successful refresh
+	 * @param silent             whether to output a message on a successful refresh
 	 */
 	public void refreshFromFileSystem(boolean silent)
 	{
@@ -159,7 +160,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		if(!silent)
+		if (!silent)
 			AbstractMessage.display(AbstractMessage.SUCCESSFUL_REFRESH);
 	}
 
@@ -182,15 +183,19 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			ensureIndexIsVisible(selectedIndex);
 		}
 	}
-	
+
+
 	/**
-	 * @param isCut
+	 * Copies/cuts the currently selected entries.
+	 * 
+	 * @param isCut whether it is a cut operation
 	 */
 	public void copyEntries(boolean isCut)
 	{
-		if(this.isCut && !copiedEntries.isEmpty())
+		if (this.isCut && !copiedEntries.isEmpty())
 		{
-			for (SaveListEntry entry : copiedEntries) {
+			for (SaveListEntry entry : copiedEntries)
+			{
 				entry.setMarkedForCut(false);
 			}
 		}
@@ -198,33 +203,34 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		List<SaveListEntry> selectedEntries = getSelectedValuesList();
 		for (SaveListEntry entry : getSelectedValuesList())
 		{
-			if(selectedEntries.contains(entry.getParent()))
+			if (selectedEntries.contains(entry.getParent()))
 				copiedEntries.remove(entry);
 			else
 				entry.setMarkedForCut(isCut);
 		}
-		
+
 		this.isCut = isCut;
 		repaint();
 	}
-	
+
+
 	/**
 	 * 
 	 */
 	public void pasteEntries()
-	{	
-		if(copiedEntries.size() <= 0)
+	{
+		if (copiedEntries.size() <= 0)
 			return;
-		
+
 		SaveListEntry selectedEntry = getSelectedValue();
-		if(selectedEntry == null)
+		if (selectedEntry == null)
 		{
 			Profile selectedProfile = OrganizerManager.getSelectedProfile();
-			if(selectedProfile.getRoot() == null)
+			if (selectedProfile.getRoot() == null)
 				return;
 			selectedEntry = selectedProfile.getRoot();
 		}
-		
+
 		Folder newParentFolder = getSelectedValue() instanceof Folder ? (Folder) selectedEntry : selectedEntry.getParent();
 
 		for (SaveListEntry entry : copiedEntries)
@@ -236,23 +242,26 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			if (entry.getParent().equals(newParentFolder) && isCut) // prevent pasting on the same level if it's a cut
 				return;
 		}
-		
+
 		for (SaveListEntry entry : copiedEntries)
 		{
-			try {
+			try
+			{
 				OrganizerManager.copyEntry(entry, newParentFolder, false);
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 		}
-		
-		if(isCut)
+
+		if (isCut)
 		{
 			deleteEntries(copiedEntries, true);
 			copiedEntries = new ArrayList<>();
 			isCut = false;
 		}
-		
+
 		newParentFolder.setClosed(false);
 		refreshList();
 	}
@@ -317,7 +326,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	{
 		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
-		String name = JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Folder name: ", "Create Folder", JOptionPane.QUESTION_MESSAGE);
+		String name = JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Folder name: ", "Create Folder",
+				JOptionPane.QUESTION_MESSAGE);
 		boolean nameValidation = validateNameForNewFolder(name);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 		if (nameValidation)
@@ -350,8 +360,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			return false;
 		if (OrganizerManager.containsIllegals(name))
 		{
-			JOptionPane.showMessageDialog(getParent(), "Illegal characters (" + OrganizerManager.ILLEGAL_CHARACTERS + ") are not allowed!",
-					"Warning", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(getParent(), "Illegal characters (" + OrganizerManager.ILLEGAL_CHARACTERS + ") are not allowed!", "Warning",
+					JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		SaveListEntry parent = getSelectedValue();
@@ -422,7 +432,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			model.removeElement(entry);
 			entry.delete();
 		}
-		if(!silent)
+		if (!silent)
 			AbstractMessage.display(AbstractMessage.SUCCESSFUL_DELETE);
 	}
 
@@ -445,11 +455,12 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		}
 		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
-		String newName = (String) JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), (entry instanceof Folder ? "Folder name: " : "Save name: "),
-				"Edit " + entry.getName(), JOptionPane.QUESTION_MESSAGE, null, null, entry.getName());
+		String newName = (String) JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this),
+				(entry instanceof Folder ? "Folder name: " : "Save name: "), "Edit " + entry.getName(), JOptionPane.QUESTION_MESSAGE, null, null,
+				entry.getName());
 		boolean nameValidation = validateNewName(entry, newName);
 		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
-		if(!nameValidation)
+		if (!nameValidation)
 			return;
 		renameEntry(entry, newName);
 	}
@@ -458,7 +469,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	/**
 	 * Renames the entry with the given name and sorts the list afterwards.
 	 * 
-	 * @param entry the entry to rename
+	 * @param entry   the entry to rename
 	 * @param newName the new name
 	 */
 	private void renameEntry(SaveListEntry entry, String newName)
@@ -471,7 +482,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	/**
 	 * Validates the new name given to an entry.
 	 * 
-	 * @param entry the savefile
+	 * @param entry   the savefile
 	 * @param newName the new name
 	 * @return whether the new name is valid
 	 */
@@ -484,8 +495,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			return false;
 		if (OrganizerManager.containsIllegals(newName))
 		{
-			JOptionPane.showMessageDialog(getParent(), "Illegal characters (" + OrganizerManager.ILLEGAL_CHARACTERS + ") are not allowed!",
-					"Warning", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(getParent(), "Illegal characters (" + OrganizerManager.ILLEGAL_CHARACTERS + ") are not allowed!", "Warning",
+					JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		// if the name exists and the renaming is not a re-capitalization then don't allow renaming
@@ -498,10 +509,10 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		return true;
 	}
 
-	
+
 	/**
-	 * Own selection implementation due to the Darklaf implementation throwing an exception without swingx library.
-	 * This function also allows removing any selection by clicking on empty space within the list.
+	 * Own selection implementation due to the Darklaf implementation throwing an exception without swingx library. This function also allows removing
+	 * any selection by clicking on empty space within the list.
 	 * 
 	 * @param event the click event
 	 */
@@ -513,17 +524,17 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			clearSelection();
 			return;
 		}
-		if(!event.isShiftDown())
+		if (!event.isShiftDown())
 		{
-			if(!event.isControlDown())
+			if (!event.isControlDown())
 			{
-				if(SwingUtilities.isRightMouseButton(event))
+				if (SwingUtilities.isRightMouseButton(event))
 					return;
 				clearSelection();
 				addSelectionInterval(index, index);
 				return;
 			}
-			if(isSelectedIndex(index))
+			if (isSelectedIndex(index))
 			{
 				removeSelectionInterval(index, index);
 				return;
@@ -531,7 +542,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			addSelectionInterval(index, index);
 			return;
 		}
-		
+
 		int anchorIndex = getAnchorSelectionIndex();
 		if (anchorIndex == -1)
 		{
@@ -568,7 +579,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		if (profile.getRoot() != null)
 			profile.getRoot().sort();
 		fillWith(profile, null);
-		for (SaveListEntry entry : copiedEntries) {
+		for (SaveListEntry entry : copiedEntries)
+		{
 			entry.setMarkedForCut(false);
 		}
 		copiedEntries = new ArrayList<>();
@@ -637,7 +649,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	@Override
 	public void searchRequested(String input)
 	{
-		SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable()
+		{
 
 			@Override
 			public void run()
@@ -656,7 +669,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	@Override
 	public void sortingChanged(SortingCategory category)
 	{
-		SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable()
+		{
 
 			@Override
 			public void run()
@@ -681,9 +695,10 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 				openDirectory(entry);
 			else
 				closeDirectory(entry);
-		} else if(entry instanceof Save)
+		}
+		else if (entry instanceof Save)
 		{
-			if(OrganizerManager.isDoubleClickLoadEnabled())
+			if (OrganizerManager.isDoubleClickLoadEnabled())
 				OrganizerManager.loadSave((Save) entry);
 		}
 
@@ -723,13 +738,13 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		if(e.getKeyCode() == KeyEvent.VK_C && e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK)
+		if (e.getKeyCode() == KeyEvent.VK_C && e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK)
 			copyEntries(false);
-		else if(e.getKeyCode() == KeyEvent.VK_X && e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK)
+		else if (e.getKeyCode() == KeyEvent.VK_X && e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK)
 			copyEntries(true);
-		else if(e.getKeyCode() == KeyEvent.VK_V && e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK)
+		else if (e.getKeyCode() == KeyEvent.VK_V && e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK)
 			pasteEntries();
-		
+
 	}
 
 
@@ -748,13 +763,17 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	{
 	}
 
+
 	@Override
-	public void navigatedToPrevious() {
+	public void navigatedToPrevious()
+	{
 		setSelectedIndex(Math.max(0, getSelectedIndex() - 1));
 	}
 
+
 	@Override
-	public void navigatedToNext() {
+	public void navigatedToNext()
+	{
 		setSelectedIndex(Math.min(getModel().getSize(), getSelectedIndex() + 1));
 	}
 
