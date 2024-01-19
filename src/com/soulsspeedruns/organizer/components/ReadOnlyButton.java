@@ -4,9 +4,15 @@ package com.soulsspeedruns.organizer.components;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.HashMap;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.theme.Theme;
+import com.github.weisj.darklaf.theme.event.ThemeChangeEvent;
+import com.github.weisj.darklaf.theme.event.ThemeChangeListener;
 import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
@@ -29,6 +35,13 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 {
 
 	private File file;
+	
+	private HashMap<String, ImageIcon> icons = new HashMap<>();
+	
+	private static final String READ_ONLY_ICON = "readOnly";
+	private static final String WRITABLE_ICON = "writable";
+	private static final String DARKMODE_ICON = "DarkMode";
+	private static final String HOVER_ICON = "Hover";
 
 	/**
 	 * Creates a new read only button with the given file and image.
@@ -38,13 +51,28 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	 */
 	public ReadOnlyButton(File file)
 	{
-		super(OrganizerManager.writableIcon22);
-
 		setFile(file);
+		
 		addMouseListener(this);
 		OrganizerManager.addProfileListener(this);
 		OrganizerManager.addSaveListener(this);
 		OrganizerManager.addSettingsListener(this);
+		
+		LafManager.addThemeChangeListener(new ThemeChangeListener()
+		{
+			
+			@Override
+			public void themeInstalled(ThemeChangeEvent e)
+			{
+				refreshAppearance(false);
+			}
+			
+			
+			@Override
+			public void themeChanged(ThemeChangeEvent e)
+			{
+			}
+		});
 		
 		setVisible(true);
 	}
@@ -105,16 +133,40 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		if(isWritable)
 		{			
 			setText(!isCompact && !OrganizerManager.isVersionOutdated() ? "Writable" : null);
-			setIcon(isHovering ? OrganizerManager.writableIcon22Hover : OrganizerManager.writableIcon22);
+			setIcon(getIcon(WRITABLE_ICON, isHovering));
 			setToolTipText("Click to turn on read-only for the game's savefile.");
 		}
 		else
 		{
 			setText(!isCompact && !OrganizerManager.isVersionOutdated() ? "Read-Only" : null);
-			setIcon(isHovering ? OrganizerManager.readOnlyIcon22Hover : OrganizerManager.readOnlyIcon22);
+			setIcon(getIcon(READ_ONLY_ICON, isHovering));
 			setToolTipText("Click to turn off read-only for the game's savefile.");
 		}
 		
+	}
+	
+	
+	private ImageIcon getIcon(String key, boolean isHovering)
+	{
+		if(icons.isEmpty())
+		{
+			icons.put(READ_ONLY_ICON, OrganizerManager.readOnlyIcon22);
+			icons.put(READ_ONLY_ICON + HOVER_ICON, OrganizerManager.readOnlyIconHover22);
+			icons.put(READ_ONLY_ICON + DARKMODE_ICON, OrganizerManager.readOnlyIconDarkMode22);
+			icons.put(READ_ONLY_ICON + DARKMODE_ICON + HOVER_ICON, OrganizerManager.readOnlyIconDarkModeHover22);
+			
+			icons.put(WRITABLE_ICON, OrganizerManager.writableIcon22);
+			icons.put(WRITABLE_ICON + HOVER_ICON, OrganizerManager.writableIconHover22);
+			icons.put(WRITABLE_ICON + DARKMODE_ICON, OrganizerManager.writableIconDarkMode22);
+			icons.put(WRITABLE_ICON + DARKMODE_ICON + HOVER_ICON, OrganizerManager.writableIconDarkModeHover22);
+		}
+		
+		if(Theme.isDark(LafManager.getInstalledTheme()))
+			key += DARKMODE_ICON;
+		if(isHovering)
+			key += HOVER_ICON;
+		
+		return icons.get(key);
 	}
 	
 	

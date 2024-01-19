@@ -88,9 +88,11 @@ public class OrganizerManager
 	/**
 	 * Constants for paths to preferences and resources.
 	 */
-	private static final String RESOURCE_PATH = "/com/soulsspeedruns/organizer/resources/";
 	private static final String PREFERENCES_PATH = "/com/soulsspeedruns/organizer/prefs";
 	private static final String PREFERENCES_PATH_LEGACY = "/com/speedsouls";
+	
+	private static final String RESOURCE_PATH = "/com/soulsspeedruns/organizer/resources/";
+	private static final String RESOURCE_READONLY_PATH = RESOURCE_PATH + "readonlyicon/";
 
 	/**
 	 * Constants for the keys used to access preferences.
@@ -147,16 +149,30 @@ public class OrganizerManager
 	public static Image soulsspeedrunsIcon;
 	public static Image soulsspeedrunsIconSmall;
 	public static Image soulsspeedrunsIconMedium;
+	
+	public static Image settingsIcon;
+	
 	public static ImageIcon readOnlyIcon14;
 	public static ImageIcon readOnlyIcon22;
+	public static ImageIcon readOnlyIconHover22;
+	
+	public static ImageIcon readOnlyIconDarkMode14;
+	public static ImageIcon readOnlyIconDarkMode22;
+	public static ImageIcon readOnlyIconDarkModeHover22;
+	
+	public static ImageIcon writableIcon14;
 	public static ImageIcon writableIcon22;
-	public static ImageIcon readOnlyIcon22Hover;
-	public static ImageIcon writableIcon22Hover;
+	public static ImageIcon writableIconHover22;
+	
+	public static ImageIcon writableIconDarkMode14;
+	public static ImageIcon writableIconDarkMode22;
+	public static ImageIcon writableIconDarkModeHover22;
+	
 	public static ImageIcon discordIcon;
 	public static ImageIcon frankerZIcon;
 	public static ImageIcon importIcon;
 	public static ImageIcon importIcon24;
-	public static Image settingsIcon;
+
 
 	private static List<ProfileListener> profileListeners;
 	private static List<GameListener> gameListeners;
@@ -224,12 +240,25 @@ public class OrganizerManager
 		soulsspeedrunsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo32.png"));
 		soulsspeedrunsIconSmall = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo16.png"));
 		soulsspeedrunsIconMedium = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SoulsSpeedrunsLogo100.png"));
+		
 		settingsIcon = ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "SettingsIcon.png"));
-		readOnlyIcon14 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon14.png")));
-		readOnlyIcon22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon22.png")));
-		writableIcon22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon22.png")));
-		readOnlyIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ReadOnlyIcon22Hover.png")));
-		writableIcon22Hover = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "WritableIcon22Hover.png")));
+		
+		readOnlyIcon14 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIcon14.png")));
+		readOnlyIcon22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIcon22.png")));
+		readOnlyIconHover22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIconHover22.png")));
+		
+		readOnlyIconDarkMode14 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIconDarkMode14.png")));
+		readOnlyIconDarkMode22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIconDarkMode22.png")));
+		readOnlyIconDarkModeHover22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "ReadOnlyIconDarkModeHover22.png")));
+		
+		writableIcon14 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIcon14.png")));
+		writableIcon22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIcon22.png")));
+		writableIconHover22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIconHover22.png")));
+		
+		writableIconDarkMode14 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIconDarkMode14.png")));
+		writableIconDarkMode22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIconDarkMode22.png")));
+		writableIconDarkModeHover22 = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIconDarkModeHover22.png")));
+		
 		discordIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "DiscordLogo.png")));
 		frankerZIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "FrankerZ.png")));
 		importIcon = new ImageIcon(ImageIO.read(OrganizerManager.class.getResourceAsStream(RESOURCE_PATH + "ImportIcon.png")));
