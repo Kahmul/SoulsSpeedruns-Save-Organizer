@@ -13,8 +13,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

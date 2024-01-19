@@ -15,8 +15,8 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
 
-import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

@@ -19,7 +19,7 @@ import javax.swing.border.TitledBorder;
 
 import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.Theme;
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

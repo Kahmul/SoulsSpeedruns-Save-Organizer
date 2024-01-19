@@ -12,7 +12,7 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JDialog;
 
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

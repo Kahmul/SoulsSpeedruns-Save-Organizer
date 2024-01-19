@@ -10,7 +10,7 @@ import javax.swing.event.DocumentListener;
 
 import com.github.weisj.darklaf.ui.text.DarkTextFieldUI;
 import com.github.weisj.darklaf.ui.text.DarkTextUI;
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

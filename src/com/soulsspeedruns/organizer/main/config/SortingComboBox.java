@@ -5,7 +5,7 @@ import java.awt.event.ItemEvent;
 
 import javax.swing.JComboBox;
 
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

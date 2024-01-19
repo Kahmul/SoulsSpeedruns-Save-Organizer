@@ -14,8 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import com.github.weisj.darklaf.ui.text.DarkTextUI;
-import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

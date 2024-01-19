@@ -17,7 +17,7 @@ import java.util.Objects;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

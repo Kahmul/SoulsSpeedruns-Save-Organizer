@@ -17,7 +17,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;

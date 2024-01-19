@@ -12,8 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 import jiconfont.icons.Iconic;
 import jiconfont.swing.IconFontSwing;

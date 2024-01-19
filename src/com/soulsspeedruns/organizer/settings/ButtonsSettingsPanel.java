@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.soulsspeedruns.organizer.about.AboutWindow;
-import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
+import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 
 
 /**

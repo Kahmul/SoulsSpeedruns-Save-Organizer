@@ -10,13 +10,13 @@ import javax.swing.JLabel;
 import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.event.ThemeChangeEvent;
 import com.github.weisj.darklaf.theme.event.ThemeChangeListener;
-import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
+import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 

@@ -10,8 +10,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
-import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

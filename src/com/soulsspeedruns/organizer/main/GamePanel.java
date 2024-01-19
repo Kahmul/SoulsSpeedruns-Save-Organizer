@@ -9,10 +9,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.config.GamesConfigurationWindow;
 import com.soulsspeedruns.organizer.main.config.GamesComboBox;
 import com.soulsspeedruns.organizer.main.config.ProfilesComboBox;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

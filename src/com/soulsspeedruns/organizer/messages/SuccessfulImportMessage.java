@@ -5,7 +5,7 @@ import java.awt.Color;
 
 import javax.swing.Icon;
 
-import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
+import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 
 
 /**

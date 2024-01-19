@@ -8,10 +8,10 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 import com.github.weisj.darklaf.components.OverlayScrollPane;
-import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;

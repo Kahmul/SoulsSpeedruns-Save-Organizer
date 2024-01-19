@@ -7,7 +7,7 @@ import java.nio.file.Files;
 
 import javax.swing.JOptionPane;
 
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

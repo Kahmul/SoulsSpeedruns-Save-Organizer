@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 
-import com.soulsspeedruns.organizer.data.OrganizerManager;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.listeners.GameListener;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

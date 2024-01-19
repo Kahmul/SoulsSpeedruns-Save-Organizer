@@ -11,8 +11,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
 import com.soulsspeedruns.organizer.about.AboutWindow;
-import com.soulsspeedruns.organizer.data.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;

@@ -10,7 +10,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.TransferHandler;
 
-import com.soulsspeedruns.organizer.data.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
 /**

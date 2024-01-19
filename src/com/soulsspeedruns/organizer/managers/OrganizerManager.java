@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.data;
+package com.soulsspeedruns.organizer.managers;
 
 
 import java.awt.Desktop;
