@@ -46,7 +46,9 @@ public class GamePanel extends JPanel
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGroup(layout.createParallelGroup().addComponent(gamesComboBox).addComponent(gamesLabel));
+		hGroup.addGroup(layout.createParallelGroup()
+				.addComponent(gamesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(gamesLabel));
 		hGroup.addGroup(layout.createParallelGroup().addComponent(profilesComboBox).addComponent(profilesLabel));
 
 		hGroup.addGroup(layout.createParallelGroup().addComponent(editButton));
@@ -57,8 +59,9 @@ public class GamePanel extends JPanel
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(gamesLabel).addComponent(profilesLabel));
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(gamesComboBox).addComponent(profilesComboBox)
-				.addComponent(editButton));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+				.addComponent(gamesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(profilesComboBox).addComponent(editButton));
 		vGroup.addGap(10);
 
 		layout.setVerticalGroup(vGroup);
@@ -76,7 +79,6 @@ public class GamePanel extends JPanel
 	private GamesComboBox createGameComboBox(ProfilesComboBox profilesComboBox)
 	{
 		GamesComboBox gamesComboBox = new GamesComboBox(profilesComboBox);
-		gamesComboBox.setMaximumSize(new Dimension(80, 20));
 		return gamesComboBox;
 	}
 

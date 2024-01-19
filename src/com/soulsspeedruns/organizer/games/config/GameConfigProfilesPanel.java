@@ -46,7 +46,6 @@ public class GameConfigProfilesPanel extends JPanel
 		ProfileList profileList = createProfileList(game);
 		OverlayScrollPane listPane = new OverlayScrollPane(profileList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		listPane.setMinimumSize(new Dimension(100, 130));
 
 		JPanel optionsPanel = createOptionsPanel(profileList);
 

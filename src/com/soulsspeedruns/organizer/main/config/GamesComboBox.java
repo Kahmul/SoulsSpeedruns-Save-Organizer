@@ -4,7 +4,6 @@ package com.soulsspeedruns.organizer.main.config;
 import java.awt.event.ItemEvent;
 import java.util.List;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 
 import com.soulsspeedruns.organizer.data.OrganizerManager;
@@ -22,8 +21,6 @@ import com.soulsspeedruns.organizer.listeners.GameListener;
  */
 public class GamesComboBox extends JComboBox<Game> implements GameListener
 {
-
-	protected final DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 
 	private boolean updateProfileComboBox = true;
 
