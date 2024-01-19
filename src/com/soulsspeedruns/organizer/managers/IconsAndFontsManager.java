@@ -46,34 +46,34 @@ public class IconsAndFontsManager
 	public static final String ICON_SIZE_MEDIUM = "Medium";
 	public static final String ICON_SIZE_LARGE = "Large";
 
-	public static Image soulsspeedrunsIconMedium;
-	public static Image soulsspeedrunsIconSmall;
-	public static Image soulsspeedrunsIconLarge;
+	private static Image soulsspeedrunsIconMedium;
+	private static Image soulsspeedrunsIconSmall;
+	private static Image soulsspeedrunsIconLarge;
 
-	public static ImageIcon readOnlyIcon14;
-	public static ImageIcon readOnlyIcon16;
-	public static ImageIcon readOnlyIcon22;
-	public static ImageIcon readOnlyIconHover22;
+	private static ImageIcon readOnlyIcon14;
+	private static ImageIcon readOnlyIcon16;
+	private static ImageIcon readOnlyIcon22;
+	private static ImageIcon readOnlyIconHover22;
 
-	public static ImageIcon readOnlyIconDarkMode14;
-	public static ImageIcon readOnlyIconDarkMode16;
-	public static ImageIcon readOnlyIconDarkMode22;
-	public static ImageIcon readOnlyIconDarkModeHover22;
+	private static ImageIcon readOnlyIconDarkMode14;
+	private static ImageIcon readOnlyIconDarkMode16;
+	private static ImageIcon readOnlyIconDarkMode22;
+	private static ImageIcon readOnlyIconDarkModeHover22;
 
-	public static ImageIcon writableIcon14;
-	public static ImageIcon writableIcon16;
-	public static ImageIcon writableIcon22;
-	public static ImageIcon writableIconHover22;
+	private static ImageIcon writableIcon14;
+	private static ImageIcon writableIcon16;
+	private static ImageIcon writableIcon22;
+	private static ImageIcon writableIconHover22;
 
-	public static ImageIcon writableIconDarkMode14;
-	public static ImageIcon writableIconDarkMode16;
-	public static ImageIcon writableIconDarkMode22;
-	public static ImageIcon writableIconDarkModeHover22;
+	private static ImageIcon writableIconDarkMode14;
+	private static ImageIcon writableIconDarkMode16;
+	private static ImageIcon writableIconDarkMode22;
+	private static ImageIcon writableIconDarkModeHover22;
 
-	public static ImageIcon discordIcon;
-	public static ImageIcon frankerZIcon;
-	public static ImageIcon importIcon;
-	public static ImageIcon importIcon24;
+	private static ImageIcon discordIcon;
+	private static ImageIcon frankerZIcon;
+	private static ImageIcon importIcon;
+	private static ImageIcon importIcon24;
 
 	private static HashMap<String, ImageIcon> icons;
 	private static HashMap<String, Image> images;
