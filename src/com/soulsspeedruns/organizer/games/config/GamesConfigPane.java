@@ -150,6 +150,7 @@ public class GamesConfigPane extends JPanel implements GameListListener
 	{
 		editButton.setEnabled(entry.getGame().isCustomGame());
 		deleteButton.setEnabled(entry.getGame().isCustomGame());
+		settingsLabel.setText(entry.getGame().getCaption());
 	}
 
 
@@ -183,7 +184,6 @@ public class GamesConfigPane extends JPanel implements GameListListener
 		if (prevEntry != null)
 			gameSelectionLayout.replace(prevEntry.getConfigPanel(), newEntry.getConfigPanel());
 
-		settingsLabel.setText(newEntry.getGame().getCaption());
 		updateButtonState(newEntry);
 
 		revalidate();
