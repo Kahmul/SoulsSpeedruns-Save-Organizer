@@ -31,8 +31,8 @@ import jiconfont.swing.IconFontSwing;
 public class IconsAndFontsManager
 {
 
-	private static final String RESOURCE_PATH = "/com/soulsspeedruns/organizer/resources/";
-	private static final String RESOURCE_READONLY_PATH = RESOURCE_PATH + "readonlyicon/";
+	private static final String RESOURCE_PATH = "/com/soulsspeedruns/organizer/images/";
+	private static final String RESOURCE_READONLY_PATH = RESOURCE_PATH + "readonly/";
 
 	private static final String SOULSSPEEDRUNS_ICON = "soulsspeedruns";
 	private static final String READ_ONLY_ICON = "readOnly";

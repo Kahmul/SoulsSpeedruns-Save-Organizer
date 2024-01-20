@@ -127,7 +127,7 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<outfile>target/${project.name}.exe</outfile>
-							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo64.ico</icon>
+							<icon>src/com/soulsspeedruns/organizer/images/SoulsSpeedrunsLogo64.ico</icon>
 							<jar>target/soulsspeedrunssaveorganizer-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
 							<classPath>
@@ -138,7 +138,7 @@
 								<minVersion>1.8</minVersion>
 							</jre>
 							<splash>
-							    <file>src/com/soulsspeedruns/organizer/resources/Splash_Screen.bmp</file>
+							    <file>src/com/soulsspeedruns/organizer/images/Splash_Screen.bmp</file>
 								<waitForWindow>true</waitForWindow>
 							    <timeout>10</timeout>
 								<timeoutErr>true</timeoutErr>
@@ -163,7 +163,7 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<outfile>target/${project.name} - Bundled.exe</outfile>
-							<icon>src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo64.ico</icon>
+							<icon>src/com/soulsspeedruns/organizer/images/SoulsSpeedrunsLogo64.ico</icon>
 							<jar>target/soulsspeedrunssaveorganizer-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
 							<classPath>
@@ -173,7 +173,7 @@
 								<path>./jre</path>
 							</jre>
 							<splash>
-							    <file>src/com/soulsspeedruns/organizer/resources/Splash_Screen.bmp</file>
+							    <file>src/com/soulsspeedruns/organizer/images/Splash_Screen.bmp</file>
 								<waitForWindow>true</waitForWindow>
 							    <timeout>10</timeout>
 								<timeoutErr>true</timeoutErr>
