@@ -101,7 +101,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>com.soulsspeedruns.organizer.main.OrganizerWindow</mainClass>
+							<mainClass>com.soulsspeedruns.organizer.managers.OrganizerManager</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -131,7 +131,7 @@
 							<jar>target/soulsspeedrunssaveorganizer-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
 							<classPath>
-								<mainClass>com.soulsspeedruns.organizer.main.OrganizerWindow</mainClass>
+								<mainClass>com.soulsspeedruns.organizer.managers.OrganizerManager</mainClass>
 							</classPath>
 							<jre>
 								<path>JRE path (%VAR%)</path>
@@ -167,7 +167,7 @@
 							<jar>target/soulsspeedrunssaveorganizer-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>${project.name}</errTitle>
 							<classPath>
-								<mainClass>com.soulsspeedruns.organizer.main.OrganizerWindow</mainClass>
+								<mainClass>com.soulsspeedruns.organizer.managers.OrganizerManager</mainClass>
 							</classPath>
 							<jre>
 								<path>./jre</path>

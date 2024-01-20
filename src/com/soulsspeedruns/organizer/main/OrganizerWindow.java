@@ -35,25 +35,12 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	private static final int MIN_HEIGHT_COMPACT = 400;
 
 	private static final boolean IS_RESIZABLE = true;
-	
-
-	public static void main(String[] args)
-	{
-		SwingUtilities.invokeLater(() -> {
-			new OrganizerWindow();
-		});
-
-	}
 
 
 	public OrganizerWindow()
 	{
 		super("SoulsSpeedruns - Save Organizer");
 
-		while (!OrganizerManager.isApplicationReady())
-		{
-		}
-		
 		initProperties();
 		initLayout();
 		initListeners();

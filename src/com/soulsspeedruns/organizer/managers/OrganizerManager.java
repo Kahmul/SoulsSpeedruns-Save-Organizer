@@ -17,6 +17,7 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 
 import org.jnativehook.NativeHookException;
@@ -133,19 +134,16 @@ public class OrganizerManager
 
 	private static OrganizerWindow mainWindow;
 
-	private static boolean isReady;
-
 //	private static native NativeLong SetCurrentProcessExplicitAppUserModelID(WString appID);
 
-	static
+
+	public static void main(String[] args)
 	{
 		try
 		{
 			VersionManager.initialize();
 			IconsAndFontsManager.initialize();
 			initialize();
-			
-			isReady = true;
 		}
 		catch (IOException e)
 		{
@@ -153,6 +151,10 @@ public class OrganizerManager
 					"Error occurred", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		}
+
+		SwingUtilities.invokeLater(() -> {
+			new OrganizerWindow();
+		});
 	}
 
 
@@ -361,17 +363,6 @@ public class OrganizerManager
 		if (PREFS_ERROR_ON_RETRIEVE.equals(gameDirectoryPath))
 			return;
 		game.setDirectory(new File(gameDirectoryPath));
-	}
-
-
-	/**
-	 * Returns whether the OrganizerManager has finished initializations and loading up all preferences.
-	 * 
-	 * @return whether the application is ready for use
-	 */
-	public static boolean isApplicationReady()
-	{
-		return isReady;
 	}
 
 
