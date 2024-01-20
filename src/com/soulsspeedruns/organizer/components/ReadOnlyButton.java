@@ -17,6 +17,7 @@ import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.VersionManager;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
 
@@ -124,13 +125,13 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		boolean isCompact = OrganizerManager.isCompactModeEnabled();
 		if (isWritable)
 		{
-			setText(!isCompact && !OrganizerManager.isVersionOutdated() ? "Writable" : null);
+			setText(!isCompact && !VersionManager.isVersionOutdated() ? "Writable" : null);
 			setIcon(IconsAndFontsManager.getWritableIcon(IconsAndFontsManager.ICON_SIZE_LARGE, isHovering));
 			setToolTipText("Click to turn on read-only for the game's savefile.");
 		}
 		else
 		{
-			setText(!isCompact && !OrganizerManager.isVersionOutdated() ? "Read-Only" : null);
+			setText(!isCompact && !VersionManager.isVersionOutdated() ? "Read-Only" : null);
 			setIcon(IconsAndFontsManager.getReadOnlyIcon(IconsAndFontsManager.ICON_SIZE_LARGE, isHovering));
 			setToolTipText("Click to turn off read-only for the game's savefile.");
 		}

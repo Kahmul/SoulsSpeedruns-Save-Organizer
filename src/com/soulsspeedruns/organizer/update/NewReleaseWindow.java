@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.VersionManager;
 
 
 /**
@@ -88,7 +89,7 @@ public class NewReleaseWindow extends JDialog
 			OrganizerManager.openLatestReleasePage();
 			setVisible(false);
 		});
-		downloadButton.setToolTipText(OrganizerManager.LATEST_RELEASE_URL);
+		downloadButton.setToolTipText(VersionManager.getLatestReleaseURL());
 		return downloadButton;
 	}
 }

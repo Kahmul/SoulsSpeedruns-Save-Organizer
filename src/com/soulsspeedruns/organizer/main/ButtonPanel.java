@@ -25,6 +25,7 @@ import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.VersionManager;
 import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
@@ -214,9 +215,9 @@ public class ButtonPanel extends JPanel
 
 	private HyperLink createUpdateLink()
 	{
-		HyperLink updateLink = new HyperLink("Update Available", OrganizerManager.LATEST_RELEASE_URL);
+		HyperLink updateLink = new HyperLink("Update Available", VersionManager.getLatestReleaseURL());
 		updateLink.setHorizontalAlignment(SwingConstants.RIGHT);
-		updateLink.setVisible(OrganizerManager.isVersionOutdated());
+		updateLink.setVisible(VersionManager.isVersionOutdated());
 
 		return updateLink;
 	}
@@ -347,7 +348,7 @@ public class ButtonPanel extends JPanel
 			public void settingChanged(String prefsKey)
 			{
 				if (prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
-					updateLink.setVisible(OrganizerManager.isVersionOutdated());
+					updateLink.setVisible(VersionManager.isVersionOutdated());
 				else if (prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE))
 					refreshButtons();
 			}

@@ -5,11 +5,10 @@ import java.awt.Font;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.soulsspeedruns.organizer.managers.VersionManager;
 
 
 /**
@@ -33,10 +32,10 @@ public class NewReleasePanel extends JPanel
 		layout.setAutoCreateContainerGaps(true);
 
 		JLabel newReleaseLabel = new JLabel("New Release Version:");
-		JLabel versionLabel = new JLabel(OrganizerManager.getLatestReleaseVersion());
+		JLabel versionLabel = new JLabel(VersionManager.getLatestReleaseVersion());
 		JLabel changelogLabel = new JLabel("Changelog:");
 
-		String description = OrganizerManager.getLatestReleaseDescription().replaceAll("\\R", "<br>");
+		String description = VersionManager.getLatestReleaseDescription().replaceAll("\\R", "<br>");
 
 		JLabel newReleaseDescriptionLabel = new JLabel(String.format("<html><div WIDTH=%d>%s</div></html>", 200, description));
 

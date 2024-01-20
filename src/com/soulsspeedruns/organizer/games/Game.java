@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.VersionManager;
 
 
 /**
@@ -304,7 +305,7 @@ public class Game implements Comparable<Game>
 		if (suggestedPath == null || suggestedPath.equals(""))
 			return "";
 
-		if (OrganizerManager.isRunningOnWindows())
+		if (VersionManager.isRunningOnWindows())
 		{
 			String appdataPath = System.getenv("appdata");
 			String userprofilePath = System.getenv("userprofile");
@@ -319,7 +320,7 @@ public class Game implements Comparable<Game>
 			return suggestedPath;
 		}
 
-		if (OrganizerManager.isRunningOnLinux())
+		if (VersionManager.isRunningOnLinux())
 		{
 			String prefix = "~\\.local\\share\\Steam\\steamapps\\compatdata\\" + steamAppID + "\\pfx\\drive_c\\users\\steamuser\\";
 

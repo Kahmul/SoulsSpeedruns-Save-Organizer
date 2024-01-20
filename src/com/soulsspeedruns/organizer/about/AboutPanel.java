@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import com.soulsspeedruns.organizer.components.HyperLink;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.VersionManager;
 
 import jiconfont.icons.Elusive;
 import jiconfont.swing.IconFontSwing;
@@ -39,7 +40,7 @@ public class AboutPanel extends JPanel
 
 		JLabel versionLabel = new JLabel("<html><b>Version:</b></html>");
 		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		JLabel versionNumberLabel = new JLabel(OrganizerManager.VERSION);
+		JLabel versionNumberLabel = new JLabel(VersionManager.getVersion());
 
 		JLabel developerLabel = new JLabel("<html><b>Developed by:</b></html>");
 		developerLabel.setHorizontalAlignment(SwingConstants.RIGHT);
