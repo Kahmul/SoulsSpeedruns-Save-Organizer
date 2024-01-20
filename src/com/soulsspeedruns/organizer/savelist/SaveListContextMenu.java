@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Point;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JMenuItem;
@@ -71,6 +70,9 @@ public class SaveListContextMenu extends JPopupMenu
 	}
 
 
+	/**
+	 * Adds all the menu items to the context menu.
+	 */
 	private void initMenuItems()
 	{
 		itemAdd = createAddItem(saveList);
@@ -98,6 +100,9 @@ public class SaveListContextMenu extends JPopupMenu
 	}
 
 
+	/**
+	 * Handles enabling/disabling the menu items according to the current environment and list selection.
+	 */
 	private void initMenuItemStates()
 	{
 		itemReadOnly.setEnabled(false);
@@ -134,6 +139,11 @@ public class SaveListContextMenu extends JPopupMenu
 	}
 
 
+	/**
+	 * Handles the readonly item state.
+	 * 
+	 * @param selectedEntries the entries selected in the savelist
+	 */
 	private void initReadOnlyItemState(List<SaveListEntry> selectedEntries)
 	{
 		for (SaveListEntry entry : selectedEntries)
