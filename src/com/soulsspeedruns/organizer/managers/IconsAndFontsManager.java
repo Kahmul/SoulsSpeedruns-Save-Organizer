@@ -79,7 +79,7 @@ public class IconsAndFontsManager
 	private static HashMap<String, Image> images;
 
 
-	public static void initialize() throws IOException
+	protected static void initialize() throws IOException
 	{
 		loadIcons();
 		loadMappings();

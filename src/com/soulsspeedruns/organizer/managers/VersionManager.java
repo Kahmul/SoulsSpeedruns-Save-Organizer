@@ -36,7 +36,7 @@ public class VersionManager
 	private static String operatingSystem;
 
 
-	public static void initialize()
+	protected static void initialize()
 	{
 		determineOS();
 	}
