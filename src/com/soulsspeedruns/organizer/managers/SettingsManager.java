@@ -92,7 +92,7 @@ public class SettingsManager
 	private static List<SettingsListener> settingsListeners;
 
 
-	public static void initialize()
+	protected static void initialize()
 	{
 		initPreferenceData();
 		initKeyboardHook();
