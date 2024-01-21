@@ -1,4 +1,4 @@
-# <img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/src/com/soulsspeedruns/organizer/resources/SoulsSpeedrunsLogo32.png" width="28px"/> SoulsSpeedruns - Save Organizer
+# <img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/src/com/soulsspeedruns/organizer/images/SoulsSpeedrunsLogo32.png" width="28px"/> SoulsSpeedruns - Save Organizer
 
 <p align="center">
     <b>Click the banner below to join the SoulsSpeedruns Discord!</b><br><br>
