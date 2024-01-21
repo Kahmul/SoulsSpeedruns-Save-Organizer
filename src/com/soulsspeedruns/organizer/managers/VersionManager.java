@@ -26,7 +26,7 @@ import org.json.JSONObject;
 public class VersionManager
 {
 
-	private static final String VERSION = "1.5.1";
+	private static final String VERSION = "1.6.0";
 
 	private static final String LATEST_RELEASE_JSON_URL = "https://api.github.com/repos/Kahmul/SoulsSpeedruns-Save-Organizer/releases/latest";
 	private static final String LATEST_RELEASE_URL = "https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/releases/latest";
