@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import com.soulsspeedruns.organizer.games.config.GamesConfigurationWindow;
 import com.soulsspeedruns.organizer.main.config.GamesComboBox;
 import com.soulsspeedruns.organizer.main.config.ProfilesComboBox;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 
 
 /**
@@ -90,7 +90,7 @@ public class GamePanel extends JPanel
 	 */
 	private ProfilesComboBox createProfilesComboBox()
 	{
-		ProfilesComboBox profilesComboBox = new ProfilesComboBox(OrganizerManager.getSelectedGame());
+		ProfilesComboBox profilesComboBox = new ProfilesComboBox(GamesManager.getSelectedGame());
 		profilesComboBox.setMinimumSize(new Dimension(175, 20));
 		return profilesComboBox;
 	}

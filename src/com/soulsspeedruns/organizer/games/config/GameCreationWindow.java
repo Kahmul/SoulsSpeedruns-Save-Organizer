@@ -28,7 +28,7 @@ import javax.swing.text.DocumentFilter;
 import com.github.weisj.darklaf.ui.button.DarkButtonUI;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
@@ -68,7 +68,7 @@ public class GameCreationWindow extends JDialog
 		setResizable(false);
 		setLocationRelativeTo(SwingUtilities.windowForComponent(list));
 		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
-		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
+		setAlwaysOnTop(SettingsManager.isAlwaysOnTop());
 
 		addWindowListener(new WindowAdapter()
 		{

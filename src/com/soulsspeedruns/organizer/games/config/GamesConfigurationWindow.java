@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 
 
 /**
@@ -48,7 +49,7 @@ public class GamesConfigurationWindow extends JDialog
 		setResizable(false);
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
 		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
-		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
+		setAlwaysOnTop(SettingsManager.isAlwaysOnTop());
 
 		addWindowListener(new WindowAdapter()
 		{

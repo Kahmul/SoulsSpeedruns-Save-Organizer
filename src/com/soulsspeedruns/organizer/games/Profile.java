@@ -4,7 +4,7 @@ package com.soulsspeedruns.organizer.games;
 import java.io.File;
 import java.util.Collections;
 
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.RootFolder;
 
@@ -76,10 +76,10 @@ public class Profile implements Comparable<Profile>
 	 */
 	public void rename(String name)
 	{
-		boolean updateSelectedProfile = this.equals(OrganizerManager.getSelectedProfile());
+		boolean updateSelectedProfile = this.equals(GamesManager.getSelectedProfile());
 		root.rename(name);
 		if (updateSelectedProfile)
-			OrganizerManager.switchToProfile(this); // update the name of the stored selected profile
+			GamesManager.switchToProfile(this); // update the name of the stored selected profile
 		Collections.sort(game.getProfiles());
 	}
 

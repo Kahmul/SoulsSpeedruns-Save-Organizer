@@ -17,7 +17,7 @@ import java.util.Objects;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 
 
 /**
@@ -114,7 +114,7 @@ public abstract class SaveListEntry implements Comparable<SaveListEntry>, Transf
 	 */
 	protected int getIndent()
 	{
-		if (parent.equals(OrganizerManager.getSelectedProfile().getRoot()))
+		if (parent.equals(GamesManager.getSelectedProfile().getRoot()))
 			return 0;
 		return parent.getIndent() + 20;
 	}

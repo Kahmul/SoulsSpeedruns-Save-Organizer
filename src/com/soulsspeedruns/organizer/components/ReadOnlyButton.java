@@ -15,8 +15,10 @@ import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SavesManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 import com.soulsspeedruns.organizer.managers.VersionManager;
 import com.soulsspeedruns.organizer.savelist.Save;
 import com.soulsspeedruns.organizer.savelist.SaveListEntry;
@@ -47,9 +49,9 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 		setFile(file);
 
 		addMouseListener(this);
-		OrganizerManager.addProfileListener(this);
-		OrganizerManager.addSaveListener(this);
-		OrganizerManager.addSettingsListener(this);
+		GamesManager.addProfileListener(this);
+		SavesManager.addSaveListener(this);
+		SettingsManager.addSettingsListener(this);
 
 		LafManager.addThemeChangeListener(new ThemeChangeListener()
 		{
@@ -107,7 +109,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	 */
 	public void doClick()
 	{
-		if (file == null || !file.exists() || !OrganizerManager.getSelectedGame().supportsReadOnly())
+		if (file == null || !file.exists() || !GamesManager.getSelectedGame().supportsReadOnly())
 			return;
 		file.setWritable(!file.canWrite());
 		refreshAppearance(true);
@@ -122,7 +124,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	private void refreshAppearance(boolean isHovering)
 	{
 		boolean isWritable = file != null ? file.canWrite() : false;
-		boolean isCompact = OrganizerManager.isCompactModeEnabled();
+		boolean isCompact = SettingsManager.isCompactModeEnabled();
 		if (isWritable)
 		{
 			setText(!isCompact && !VersionManager.isVersionOutdated() ? "Writable" : null);
@@ -146,9 +148,9 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 
 		if (flag)
 		{
-			if (!OrganizerManager.getSelectedGame().supportsReadOnly())
+			if (!GamesManager.getSelectedGame().supportsReadOnly())
 				super.setVisible(false);
-			if (!OrganizerManager.isAProfileSelected())
+			if (!GamesManager.isAProfileSelected())
 				super.setVisible(false);
 		}
 
@@ -269,8 +271,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void settingChanged(String prefsKey)
 	{
-		if (prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE) || prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
-			refreshAppearance(false);
+		refreshAppearance(false);
 	}
 
 }

@@ -10,7 +10,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.TransferHandler;
 
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 
 
 /**
@@ -116,7 +116,7 @@ public class SaveListTransferHandler extends TransferHandler
 		SaveListEntry newParentFolder;
 		if (!saveList.getCellBounds(index, index).contains(dl.getDropPoint()))
 		{
-			newParentFolder = OrganizerManager.getSelectedProfile().getRoot();
+			newParentFolder = GamesManager.getSelectedProfile().getRoot();
 			saveList.setDropMode(DropMode.INSERT);
 		}
 		else

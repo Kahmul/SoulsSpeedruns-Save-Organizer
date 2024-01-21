@@ -23,8 +23,10 @@ import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SavesManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 import com.soulsspeedruns.organizer.managers.VersionManager;
 import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.Save;
@@ -47,7 +49,6 @@ import jiconfont.swing.IconFontSwing;
 public class ButtonPanel extends JPanel
 {
 
-
 	private JButton importButton;
 	private JButton loadButton;
 	private JButton replaceButton;
@@ -64,7 +65,7 @@ public class ButtonPanel extends JPanel
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		ReadOnlyButton readOnlyButton = new ReadOnlyButton(OrganizerManager.getSelectedGame().getSaveFileLocation());
+		ReadOnlyButton readOnlyButton = new ReadOnlyButton(GamesManager.getSelectedGame().getSaveFileLocation());
 
 		importButton = createImportButton();
 		loadButton = createLoadButton();
@@ -123,9 +124,9 @@ public class ButtonPanel extends JPanel
 //		importButton.setIcon(IconFontSwing.buildIcon(Iconic.CURVED_ARROW, 16, Color.decode("0x1d6fbe")));
 		importButton.setIcon(IconsAndFontsManager.getImportIcon(IconsAndFontsManager.ICON_SIZE_SMALL));
 		importButton.addActionListener(event -> {
-			if (OrganizerManager.isAProfileSelected())
+			if (GamesManager.isAProfileSelected())
 			{
-				OrganizerManager.importSavefile(null);
+				SavesManager.importSavefile(null);
 				return;
 			}
 			JOptionPane.showMessageDialog(null,
@@ -148,14 +149,13 @@ public class ButtonPanel extends JPanel
 		loadButton.setIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, Color.decode("0x2c9558")));
 		loadButton.setDisabledIcon(IconFontSwing.buildIcon(Elusive.REPEAT, 15, UIManager.getColor("disabledIconColor")));
 		loadButton.addActionListener(event -> {
-			SaveListEntry entry = OrganizerManager.getSelectedEntry();
+			SaveListEntry entry = SavesManager.getSelectedEntry();
 			if (entry instanceof Folder)
 				return;
-			OrganizerManager.loadSave((Save) entry);
+			SavesManager.loadSave((Save) entry);
 		});
 		LafManager.addThemeChangeListener(new ThemeChangeListener()
 		{
-
 
 			@Override
 			public void themeInstalled(ThemeChangeEvent e)
@@ -185,16 +185,15 @@ public class ButtonPanel extends JPanel
 		replaceButton.setIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, Color.decode("0xeb751c")));
 		replaceButton.setDisabledIcon(IconFontSwing.buildIcon(Elusive.REFRESH, 15, UIManager.getColor("disabledIconColor")));
 		replaceButton.addActionListener(event -> {
-			Save selectedSave = (Save) OrganizerManager.getSelectedEntry();
+			Save selectedSave = (Save) SavesManager.getSelectedEntry();
 			int confirm = JOptionPane.showConfirmDialog(getParent(), "Do you really want to replace '" + selectedSave.getName() + "'?",
 					"Replace " + selectedSave.getName(), JOptionPane.YES_NO_OPTION);
 			if (confirm != 0)
 				return;
-			OrganizerManager.importAndReplaceSavefile(selectedSave);
+			SavesManager.importAndReplaceSavefile(selectedSave);
 		});
 		LafManager.addThemeChangeListener(new ThemeChangeListener()
 		{
-
 
 			@Override
 			public void themeInstalled(ThemeChangeEvent e)
@@ -242,7 +241,7 @@ public class ButtonPanel extends JPanel
 	 */
 	private void refreshButtons()
 	{
-		boolean isCompact = OrganizerManager.isCompactModeEnabled();
+		boolean isCompact = SettingsManager.isCompactModeEnabled();
 		importButton.setText(isCompact ? "Import" : "Import Savestate");
 		loadButton.setText(isCompact ? "Load" : "Load Savestate");
 		replaceButton.setText(isCompact ? "Replace" : "Replace Savestate");
@@ -254,9 +253,8 @@ public class ButtonPanel extends JPanel
 	 */
 	private void addButtonListeners()
 	{
-		OrganizerManager.addSaveListener(new SaveListener()
+		SavesManager.addSaveListener(new SaveListener()
 		{
-
 
 			@Override
 			public void entrySelected(SaveListEntry entry)
@@ -303,9 +301,8 @@ public class ButtonPanel extends JPanel
 
 		});
 
-		OrganizerManager.addProfileListener(new ProfileListener()
+		GamesManager.addProfileListener(new ProfileListener()
 		{
-
 
 			@Override
 			public void profileDeleted(Profile profile)
@@ -340,17 +337,14 @@ public class ButtonPanel extends JPanel
 
 		});
 
-		OrganizerManager.addSettingsListener(new SettingsListener()
+		SettingsManager.addSettingsListener(new SettingsListener()
 		{
-
 
 			@Override
 			public void settingChanged(String prefsKey)
 			{
-				if (prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_CHECK_FOR_UPDATES))
-					updateLink.setVisible(VersionManager.isVersionOutdated());
-				else if (prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE))
-					refreshButtons();
+				updateLink.setVisible(VersionManager.isVersionOutdated());
+				refreshButtons();
 			}
 		});
 	}

@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 
 
 /**
@@ -53,10 +54,10 @@ public class SettingsWindow extends JDialog
 	{
 		pack();
 		setResizable(false);
-		OrganizerManager.getKeyboardHook().unregisterHook();
+		SettingsManager.getKeyboardHook().unregisterHook();
 		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
-		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
+		setAlwaysOnTop(SettingsManager.isAlwaysOnTop());
 		addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -80,7 +81,7 @@ public class SettingsWindow extends JDialog
 			public void windowClosing(WindowEvent e)
 			{
 				saveSettings();
-				OrganizerManager.getKeyboardHook().registerHook();
+				SettingsManager.getKeyboardHook().registerHook();
 			}
 		});
 	}

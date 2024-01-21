@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 
 
 /**
@@ -30,7 +31,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 
 	private static final int MIN_WIDTH = 650;
 	private static final int MIN_HEIGHT = 550;
-	
+
 	private static final int MIN_WIDTH_COMPACT = 500;
 	private static final int MIN_HEIGHT_COMPACT = 400;
 
@@ -44,7 +45,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 		initProperties();
 		initLayout();
 		initListeners();
-		
+
 		setVisible(true);
 	}
 
@@ -56,14 +57,14 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	{
 		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
 		setResizable(IS_RESIZABLE);
-		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
-		setMinSize(OrganizerManager.isCompactModeEnabled());
-		Dimension size = OrganizerManager.getStoredWindowSize();
+		setAlwaysOnTop(SettingsManager.isAlwaysOnTop());
+		setMinSize(SettingsManager.isCompactModeEnabled());
+		Dimension size = SettingsManager.getStoredWindowSize();
 		setSize(size);
 		setLocationRelativeTo(null);
-		setExtendedState(OrganizerManager.getStoredMaximizedWindowState());
+		setExtendedState(SettingsManager.getStoredMaximizedWindowState());
 		OrganizerManager.setMainWindow(this);
-		OrganizerManager.addSettingsListener(this);
+		SettingsManager.addSettingsListener(this);
 	}
 
 
@@ -74,21 +75,22 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	{
 		JPanel guiPanel = new JPanel();
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.PAGE_AXIS));
-		
+
 		guiPanel.add(new GamePanel());
 		guiPanel.add(new SortingPanel());
 		guiPanel.add(new ListPanel());
 		guiPanel.add(new ButtonPanel());
-		
-		guiPanel.addMouseListener(new MouseAdapter() {
-			
+
+		guiPanel.addMouseListener(new MouseAdapter()
+		{
+
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
 				requestFocusInWindow();
 			}
 		});
-		
+
 		add(guiPanel);
 	}
 
@@ -98,7 +100,8 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	 */
 	private void initListeners()
 	{
-		addWindowListener(new WindowAdapter() {
+		addWindowListener(new WindowAdapter()
+		{
 
 			@Override
 			public void windowOpened(WindowEvent e)
@@ -114,20 +117,20 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 			public void windowClosing(WindowEvent e)
 			{
 				int state = getExtendedState();
-				if(state != JFrame.MAXIMIZED_BOTH)
-					OrganizerManager.setStoredWindowSize(new Dimension(getSize()));
-				OrganizerManager.setStoredMaximizedWindowState(state);
-				OrganizerManager.getKeyboardHook().unregisterHook();
+				if (state != JFrame.MAXIMIZED_BOTH)
+					SettingsManager.setStoredWindowSize(new Dimension(getSize()));
+				SettingsManager.setStoredMaximizedWindowState(state);
+				SettingsManager.getKeyboardHook().unregisterHook();
 				e.getWindow().dispose();
 				System.exit(0);
 			}
 		});
 	}
-	
-	
+
+
 	private void setMinSize(boolean isCompact)
 	{
-		if(isCompact)
+		if (isCompact)
 		{
 			setMinimumSize(new Dimension(MIN_WIDTH_COMPACT, MIN_HEIGHT_COMPACT));
 			return;
@@ -139,10 +142,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	@Override
 	public void settingChanged(String prefsKey)
 	{
-		if(prefsKey.equals(OrganizerManager.PREFS_KEY_SETTING_COMPACT_MODE))
-		{
-			setMinSize(OrganizerManager.isCompactModeEnabled());
-		}
+		setMinSize(SettingsManager.isCompactModeEnabled());
 	}
 
 }

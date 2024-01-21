@@ -16,7 +16,8 @@ import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
 
 import com.soulsspeedruns.organizer.games.Game;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.GamesManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 
 
 /**
@@ -52,7 +53,7 @@ public class GameList extends JScrollPane
 		{
 			GameListEntry entry = new GameListEntry(game, this);
 
-			if (OrganizerManager.getSelectedGame().equals(game))
+			if (GamesManager.getSelectedGame().equals(game))
 				setSelectedEntry(entry);
 
 			entries.add(entry);
@@ -77,7 +78,7 @@ public class GameList extends JScrollPane
 	 */
 	protected void addEntry(String gameName, String saveName)
 	{
-		int gameID = OrganizerManager.getNewCustomGameID();
+		int gameID = GamesManager.getNewCustomGameID();
 		if (gameID == -1)
 		{
 			JOptionPane.showMessageDialog(SwingUtilities.windowForComponent(this), "Error when saving new custom game. Backing store unavailable.",
@@ -92,7 +93,7 @@ public class GameList extends JScrollPane
 
 		setSelectedEntry(newGameEntry);
 
-		OrganizerManager.saveToPreferences(newGame);
+		SettingsManager.storeGameProperties(newGame);
 
 		validate();
 		getVerticalScrollBar().setValue(newGameEntry.getLocation().y);
@@ -113,7 +114,7 @@ public class GameList extends JScrollPane
 
 		selectedEntry.setText(gameName);
 
-		OrganizerManager.saveToPreferences(selectedGame);
+		SettingsManager.storeGameProperties(selectedGame);
 
 		fireEntryUpdatedEvent(selectedEntry);
 

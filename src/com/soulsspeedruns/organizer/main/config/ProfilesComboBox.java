@@ -9,7 +9,7 @@ import javax.swing.JComboBox;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 
 
 /**
@@ -32,12 +32,12 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ProfileListe
 	{
 		fillWith(game);
 
-		OrganizerManager.addProfileListener(this);
+		GamesManager.addProfileListener(this);
 		setRenderer(new ProfilesComboBoxRenderer());
 		addItemListener(event -> {
 			if (event.getStateChange() == ItemEvent.SELECTED)
 			{
-				OrganizerManager.switchToProfile((Profile) event.getItem());
+				GamesManager.switchToProfile((Profile) event.getItem());
 			}
 		});
 	}
@@ -55,11 +55,11 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ProfileListe
 		for (Profile profile : profiles)
 		{
 			addItem(profile);
-			if (OrganizerManager.getSelectedProfile().equals(profile))
+			if (GamesManager.getSelectedProfile().equals(profile))
 				setSelectedItem(profile);
 		}
 		if (profiles.size() == 0)
-			OrganizerManager.switchToProfile(new Profile("", game));
+			GamesManager.switchToProfile(new Profile("", game));
 	}
 
 
@@ -78,12 +78,12 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ProfileListe
 	@Override
 	public void profileDeleted(Profile profile)
 	{
-		if (OrganizerManager.getSelectedGame().equals(profile.getGame()))
+		if (GamesManager.getSelectedGame().equals(profile.getGame()))
 		{
 			removeItem(profile);
 			// if the currently chosen profile is deleted, another one gets auto selected, without the Manager being updated. So
 			// switchToProfile() is called to update it. This also indirectly calls repaint().
-			OrganizerManager.switchToProfile((Profile) getSelectedItem());
+			GamesManager.switchToProfile((Profile) getSelectedItem());
 		}
 	}
 
@@ -91,16 +91,16 @@ public class ProfilesComboBox extends JComboBox<Profile> implements ProfileListe
 	@Override
 	public void profileCreated(Profile profile)
 	{
-		if (OrganizerManager.getSelectedGame().equals(profile.getGame()))
-			fillWith(OrganizerManager.getSelectedGame());
+		if (GamesManager.getSelectedGame().equals(profile.getGame()))
+			fillWith(GamesManager.getSelectedGame());
 	}
 
 
 	@Override
 	public void profileDirectoryChanged(Game game)
 	{
-		if (OrganizerManager.getSelectedGame().equals(game))
-			fillWith(OrganizerManager.getSelectedGame());
+		if (GamesManager.getSelectedGame().equals(game))
+			fillWith(GamesManager.getSelectedGame());
 	}
 
 

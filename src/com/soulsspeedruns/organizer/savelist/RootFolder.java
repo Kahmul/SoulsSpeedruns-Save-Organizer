@@ -7,6 +7,7 @@ import java.nio.file.Files;
 
 import javax.swing.JOptionPane;
 
+import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
 
@@ -35,7 +36,7 @@ public class RootFolder extends Folder
 	@Override
 	public boolean rename(String newName)
 	{
-		File newFile = new File(OrganizerManager.getSelectedGame().getDirectory() + File.separator + newName);
+		File newFile = new File(GamesManager.getSelectedGame().getDirectory() + File.separator + newName);
 		try
 		{
 			// if the same name is given, then only the file variable is supposed to be updated for a new parent

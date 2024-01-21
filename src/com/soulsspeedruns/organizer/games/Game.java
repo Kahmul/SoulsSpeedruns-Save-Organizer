@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.GamesManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 import com.soulsspeedruns.organizer.managers.VersionManager;
 
 
@@ -91,7 +92,7 @@ public class Game implements Comparable<Game>
 		GAMES.add(game);
 		game.setListIndex(GAMES.size() - 1);
 
-		OrganizerManager.fireGameCreatedEvent(game);
+		GamesManager.fireGameCreatedEvent(game);
 
 		return game;
 	}
@@ -108,9 +109,9 @@ public class Game implements Comparable<Game>
 			return;
 		GAMES.remove(game);
 
-		OrganizerManager.removeFromPreferences(game);
+		SettingsManager.deleteGameProperties(game);
 
-		OrganizerManager.fireGameDeletedEvent(game);
+		GamesManager.fireGameDeletedEvent(game);
 	}
 
 
@@ -128,10 +129,10 @@ public class Game implements Comparable<Game>
 		for (int i = 0; i < GAMES.size(); i++)
 		{
 			GAMES.get(i).setListIndex(i);
-			OrganizerManager.saveToPreferences(GAMES.get(i));
+			SettingsManager.storeGameProperties(GAMES.get(i));
 		}
 
-		OrganizerManager.fireGameMovedEvent(gameToMove, newIndex);
+		GamesManager.fireGameMovedEvent(gameToMove, newIndex);
 	}
 
 

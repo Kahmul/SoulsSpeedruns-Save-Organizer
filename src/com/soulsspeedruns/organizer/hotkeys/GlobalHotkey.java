@@ -3,7 +3,10 @@ package com.soulsspeedruns.organizer.hotkeys;
 
 import javax.swing.JOptionPane;
 
+import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SavesManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 import com.soulsspeedruns.organizer.savelist.Save;
 
 
@@ -24,15 +27,15 @@ public enum GlobalHotkey
 		@Override
 		public void action()
 		{
-			if (OrganizerManager.getSelectedEntry() instanceof Save)
-				OrganizerManager.loadSave((Save) OrganizerManager.getSelectedEntry());
+			if (SavesManager.getSelectedEntry() instanceof Save)
+				SavesManager.loadSave((Save) SavesManager.getSelectedEntry());
 		}
 
 
 		@Override
 		public String getPrefsKey()
 		{
-			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_LOAD;
+			return SettingsManager.PREFS_KEY_GLOBAL_HOTKEY_LOAD;
 		}
 	},
 	IMPORT_SAVE("Import Savestate:", "None")
@@ -41,9 +44,9 @@ public enum GlobalHotkey
 		@Override
 		public void action()
 		{
-			if (OrganizerManager.isAProfileSelected())
+			if (GamesManager.isAProfileSelected())
 			{
-				OrganizerManager.importSavefile(null);
+				SavesManager.importSavefile(null);
 				return;
 			}
 			JOptionPane.showMessageDialog(null,
@@ -55,7 +58,7 @@ public enum GlobalHotkey
 		@Override
 		public String getPrefsKey()
 		{
-			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_IMPORT_SAVE;
+			return SettingsManager.PREFS_KEY_GLOBAL_HOTKEY_IMPORT_SAVE;
 		}
 	},
 	READ_ONLY_TOGGLE("Switch Gamefile To Read-Only:", "None")
@@ -64,14 +67,14 @@ public enum GlobalHotkey
 		@Override
 		public void action()
 		{
-			OrganizerManager.switchCurrentGameFileWritableState();
+			SavesManager.switchCurrentGameFileWritableState();
 		}
 
 
 		@Override
 		public String getPrefsKey()
 		{
-			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY;
+			return SettingsManager.PREFS_KEY_GLOBAL_HOTKEY_READ_ONLY;
 		}
 	},
 	PREV_SAVE_TOGGLE("Highlight Previous Savestate:", "None")
@@ -87,7 +90,7 @@ public enum GlobalHotkey
 		@Override
 		public String getPrefsKey()
 		{
-			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_PREV_SAVE;
+			return SettingsManager.PREFS_KEY_GLOBAL_HOTKEY_PREV_SAVE;
 		}
 	},
 	NEXT_SAVE_TOGGLE("Highlight Next Savestate:", "None")
@@ -103,7 +106,7 @@ public enum GlobalHotkey
 		@Override
 		public String getPrefsKey()
 		{
-			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_NEXT_SAVE;
+			return SettingsManager.PREFS_KEY_GLOBAL_HOTKEY_NEXT_SAVE;
 		}
 	},
 	GLOBAL_HOTKEY_TOGGLE("Toggle Global Hotkeys:", "None")
@@ -112,14 +115,14 @@ public enum GlobalHotkey
 		@Override
 		public void action()
 		{
-			OrganizerManager.setGlobalHotkeysEnabled(!OrganizerManager.areGlobalHotkeysEnabled());
+			SettingsManager.setGlobalHotkeysEnabled(!SettingsManager.areGlobalHotkeysEnabled());
 		}
 
 
 		@Override
 		public String getPrefsKey()
 		{
-			return OrganizerManager.PREFS_KEY_GLOBAL_HOTKEY_TOGGLE;
+			return SettingsManager.PREFS_KEY_GLOBAL_HOTKEY_TOGGLE;
 		}
 	};
 
@@ -172,7 +175,7 @@ public enum GlobalHotkey
 	 */
 	public String getKeyCode()
 	{
-		String storedCode = OrganizerManager.getStoredHotkeyCode(this);
+		String storedCode = SettingsManager.getStoredHotkeyCode(this);
 		return "".equals(storedCode) ? keyCode : storedCode;
 
 	}
@@ -184,6 +187,6 @@ public enum GlobalHotkey
 	public void setKeyCode(String keyCode)
 	{
 		this.keyCode = keyCode;
-		OrganizerManager.setStoredHotkeyCode(this, keyCode);
+		SettingsManager.setStoredHotkeyCode(this, keyCode);
 	}
 }

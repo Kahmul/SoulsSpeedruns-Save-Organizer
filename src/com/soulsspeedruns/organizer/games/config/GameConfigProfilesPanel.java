@@ -6,17 +6,16 @@ import java.awt.GridLayout;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import com.github.weisj.darklaf.components.OverlayScrollPane;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 
 
 /**
@@ -112,7 +111,7 @@ public class GameConfigProfilesPanel extends JPanel
 		// TODO Auto-generated method stub
 		
 		
-		OrganizerManager.addProfileListener(new ProfileListener() {
+		GamesManager.addProfileListener(new ProfileListener() {
 
 			@Override
 			public void profileDeleted(Profile profile)

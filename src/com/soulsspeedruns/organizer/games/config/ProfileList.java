@@ -16,7 +16,9 @@ import javax.swing.SwingUtilities;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 
 
 /**
@@ -48,7 +50,7 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 		setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
 		addKeyListener(this);
-		OrganizerManager.addProfileListener(this);
+		GamesManager.addProfileListener(this);
 
 		setModel(new DefaultListModel<>());
 		fillWith(game.getProfiles());
@@ -113,7 +115,7 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 					OrganizerManager.copyDirectory(file, dest);
 					Profile newProfile = new Profile(file.getName(), game);
 					game.addProfile(newProfile);
-					OrganizerManager.fireProfileCreatedEvent(newProfile);
+					GamesManager.fireProfileCreatedEvent(newProfile);
 				}
 				catch (Exception e)
 				{
@@ -134,11 +136,11 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 	{
 		if (game.getDirectory() == null)
 			return;
-		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
+		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		String name = JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Profile name: ", "Create Profile", JOptionPane.QUESTION_MESSAGE);
 		boolean nameValidation = validateNameForNewProfile(name);
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 		if (nameValidation)
 		{
 			try
@@ -165,7 +167,7 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 		Profile newProfile = new Profile(name, game);
 		game.addProfile(newProfile);
 		fillWith(game.getProfiles());
-		OrganizerManager.fireProfileCreatedEvent(newProfile);
+		GamesManager.fireProfileCreatedEvent(newProfile);
 	}
 
 
@@ -208,8 +210,8 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 		if (profiles == null)
 			return;
 		int confirm = -1;
-		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
+		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		if (profiles.size() == 1)
 			confirm = JOptionPane.showConfirmDialog(getParent(),
 					"Do you really want to delete '" + profiles.get(0).getName() + "' and all of its contents?", "Delete",
@@ -219,7 +221,7 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 					JOptionPane.YES_NO_OPTION);
 		if (confirm == 0)
 			deleteProfiles(profiles);
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 	}
 
 
@@ -235,7 +237,7 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 		{
 			profile.delete();
 			model.removeElement(profile);
-			OrganizerManager.fireProfileDeletedEvent(profile);
+			GamesManager.fireProfileDeletedEvent(profile);
 		}
 		repaint();
 	}
@@ -250,12 +252,12 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 	{
 		if (profile == null)
 			return;
-		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
+		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		String newProfileName = (String) JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Profile name: ", "Edit " + profile.getName(),
 				JOptionPane.QUESTION_MESSAGE, null, null, profile.getName());
 		boolean nameValidation = validateNewName(profile, newProfileName);
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 		if (nameValidation)
 			renameProfile(profile, newProfileName);
 	}

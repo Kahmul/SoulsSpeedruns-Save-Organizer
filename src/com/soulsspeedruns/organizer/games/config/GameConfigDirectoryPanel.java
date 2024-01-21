@@ -15,7 +15,8 @@ import javax.swing.SwingUtilities;
 
 import com.github.weisj.darklaf.ui.text.DarkTextUI;
 import com.soulsspeedruns.organizer.games.Game;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.GamesManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 
 
 /**
@@ -125,11 +126,11 @@ public class GameConfigDirectoryPanel extends JPanel
 					{
 						directoryField.setText(selectedSavefile.getParentFile().getPath());
 						game.setDirectory(selectedSavefile.getParentFile());
-						OrganizerManager.saveToPreferences(game);
-						OrganizerManager.fireProfileDirectoryChangedEvent(game);
+						SettingsManager.storeGameProperties(game);
+						GamesManager.fireProfileDirectoryChangedEvent(game);
 						return;
 					}
-					OrganizerManager.saveToPreferences(game);
+					SettingsManager.storeGameProperties(game);
 					return;
 				}
 				JOptionPane.showMessageDialog(null, "Filename needs to be '" + game.getSaveName() + "'!", "Error occurred",
@@ -172,8 +173,8 @@ public class GameConfigDirectoryPanel extends JPanel
 				}
 				directoryField.setText(selectedDir.getPath());
 				game.setDirectory(selectedDir);
-				OrganizerManager.saveToPreferences(game);
-				OrganizerManager.fireProfileDirectoryChangedEvent(game);
+				SettingsManager.storeGameProperties(game);
+				GamesManager.fireProfileDirectoryChangedEvent(game);
 			}
 		});
 		return browseButton;

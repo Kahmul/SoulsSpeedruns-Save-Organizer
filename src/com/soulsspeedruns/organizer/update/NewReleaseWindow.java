@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 import com.soulsspeedruns.organizer.managers.VersionManager;
 
 
@@ -52,7 +53,7 @@ public class NewReleaseWindow extends JDialog
 		setResizable(false);
 		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
-		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
+		setAlwaysOnTop(SettingsManager.isAlwaysOnTop());
 	}
 
 

@@ -14,6 +14,7 @@ import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
 import com.soulsspeedruns.organizer.main.config.SortingCategory;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
 
@@ -92,7 +93,7 @@ public class SaveListContextMenu extends JPopupMenu
 		add(itemCopy);
 		add(itemCut);
 		add(itemPaste);
-		if (OrganizerManager.getSelectedGame().supportsReadOnly())
+		if (GamesManager.getSelectedGame().supportsReadOnly())
 			add(itemReadOnly);
 		add(new JSeparator());
 		add(itemRefresh);
@@ -107,7 +108,7 @@ public class SaveListContextMenu extends JPopupMenu
 	{
 		itemReadOnly.setEnabled(false);
 		itemPaste.setEnabled(saveList.hasCopiedEntries());
-		if (!OrganizerManager.isAProfileSelected())
+		if (!GamesManager.isAProfileSelected())
 		{
 			itemAdd.setEnabled(false);
 			itemRefresh.setEnabled(false);
@@ -301,7 +302,7 @@ public class SaveListContextMenu extends JPopupMenu
 //		itemOpenInExplorer.setIcon(IconFontSwing.buildIcon(Entypo.EXPORT, 15, new Color(30, 144, 255)));
 		itemOpenInExplorer.addActionListener(event -> {
 			SaveListEntry entry = saveList.getSelectedValue();
-			File dirToOpen = OrganizerManager.getSelectedProfile().getRoot().getFile(); // default folder to open
+			File dirToOpen = GamesManager.getSelectedProfile().getRoot().getFile(); // default folder to open
 			if (entry != null)
 			{
 				if (entry instanceof Folder)

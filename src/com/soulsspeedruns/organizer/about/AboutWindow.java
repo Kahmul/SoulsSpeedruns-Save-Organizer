@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 
 
 /**
@@ -54,7 +55,7 @@ public class AboutWindow extends JDialog
 		setResizable(false);
 		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
 		setLocationRelativeTo(OrganizerManager.getMainWindow());
-		setAlwaysOnTop(OrganizerManager.isAlwaysOnTop());
+		setAlwaysOnTop(SettingsManager.isAlwaysOnTop());
 		
 		addWindowListener(new WindowAdapter() {
 			

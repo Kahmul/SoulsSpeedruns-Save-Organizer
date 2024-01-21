@@ -19,7 +19,7 @@ import javax.swing.border.TitledBorder;
 
 import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.Theme;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 
 
 /**
@@ -57,23 +57,23 @@ public class GeneralSettingsPanel extends JPanel
 
 		JLabel alwaysOnTopLabel = new JLabel("Always On Top:");
 		alwaysOnTopLabel.setToolTipText("Forces the organizer to always stay visible over other windows.");
-		alwaysOnTopCheckbox = new JCheckBox("", OrganizerManager.isAlwaysOnTop());
+		alwaysOnTopCheckbox = new JCheckBox("", SettingsManager.isAlwaysOnTop());
 
 		JLabel hotkeysLabel = new JLabel("Global Hotkeys:");
 		hotkeysLabel.setToolTipText("Enables the global hotkeys below.");
-		hotkeysCheckbox = new JCheckBox("", OrganizerManager.areGlobalHotkeysEnabled());
+		hotkeysCheckbox = new JCheckBox("", SettingsManager.areGlobalHotkeysEnabled());
 		
 		JLabel doubleClickLoadLabel = new JLabel("Allow Double Click To Load Savestates:");
 		doubleClickLoadLabel.setToolTipText("Double clicking a savestate in the list will load it.");
-		doubleClickLoadCheckbox = new JCheckBox("", OrganizerManager.isDoubleClickLoadEnabled());
+		doubleClickLoadCheckbox = new JCheckBox("", SettingsManager.isDoubleClickLoadEnabled());
 		
 		JLabel checkForUpdatesLabel = new JLabel("Check For Updates:");
 		checkForUpdatesLabel.setToolTipText("Checks for updates to the organizer and notifies you in the bottom right about it.");
-		checkForUpdatesCheckbox = new JCheckBox("", OrganizerManager.isCheckForUpdatesEnabled());
+		checkForUpdatesCheckbox = new JCheckBox("", SettingsManager.isCheckForUpdatesEnabled());
 		
 		JLabel compactModeLabel = new JLabel("Compact Mode:");
 		compactModeLabel.setToolTipText("Reduces the size of buttons in the main window and allows a smaller window size.");
-		compactModeCheckbox = new JCheckBox("", OrganizerManager.isCompactModeEnabled());
+		compactModeCheckbox = new JCheckBox("", SettingsManager.isCompactModeEnabled());
 
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
@@ -118,7 +118,7 @@ public class GeneralSettingsPanel extends JPanel
 					SwingUtilities.invokeLater(() -> {
 						LafManager.install(selectedTheme);
 					});
-					OrganizerManager.setStoredTheme(selectedTheme);
+					SettingsManager.setStoredTheme(selectedTheme);
 				}
 
 			}
@@ -133,11 +133,11 @@ public class GeneralSettingsPanel extends JPanel
 	 */
 	protected void applyChanges()
 	{
-		OrganizerManager.setGlobalHotkeysEnabled(hotkeysCheckbox.isSelected());
-		OrganizerManager.setAlwaysOnTop(alwaysOnTopCheckbox.isSelected());
-		OrganizerManager.setDoubleClickLoadEnabled(doubleClickLoadCheckbox.isSelected());
-		OrganizerManager.setCheckForUpdatesEnabled(checkForUpdatesCheckbox.isSelected());
-		OrganizerManager.setCompactModeEnabled(compactModeCheckbox.isSelected());
+		SettingsManager.setGlobalHotkeysEnabled(hotkeysCheckbox.isSelected());
+		SettingsManager.setAlwaysOnTop(alwaysOnTopCheckbox.isSelected());
+		SettingsManager.setDoubleClickLoadEnabled(doubleClickLoadCheckbox.isSelected());
+		SettingsManager.setCheckForUpdatesEnabled(checkForUpdatesCheckbox.isSelected());
+		SettingsManager.setCompactModeEnabled(compactModeCheckbox.isSelected());
 	}
 
 }

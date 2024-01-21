@@ -8,7 +8,7 @@ import javax.swing.JComboBox;
 
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.listeners.GameListener;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 
 
 /**
@@ -39,12 +39,12 @@ public class GamesComboBox extends JComboBox<Game> implements GameListener
 			if (event.getStateChange() == ItemEvent.SELECTED && updateProfileComboBox)
 			{
 				Game game = (Game) event.getItem();
-				OrganizerManager.switchToGame(game);
+				GamesManager.switchToGame(game);
 				profilesCB.setGame(game);
 			}
 		});
 		
-		OrganizerManager.addGameListener(this);
+		GamesManager.addGameListener(this);
 	}
 
 
@@ -61,7 +61,7 @@ public class GamesComboBox extends JComboBox<Game> implements GameListener
 			for (int i = 0; i < games.size(); i++)
 			{
 				addItem(games.get(i));
-				if (OrganizerManager.getSelectedGame() == games.get(i))
+				if (GamesManager.getSelectedGame() == games.get(i))
 				{
 					setSelectedItem(games.get(i));
 				}
@@ -81,7 +81,7 @@ public class GamesComboBox extends JComboBox<Game> implements GameListener
 	public void gameDeleted(Game game)
 	{
 		removeItem(game);
-		if(OrganizerManager.getSelectedGame() == game)
+		if(GamesManager.getSelectedGame() == game)
 			setSelectedIndex(Math.max(0, getSelectedIndex() - 1));
 	}
 

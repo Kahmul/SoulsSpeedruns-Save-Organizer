@@ -130,7 +130,7 @@ public class VersionManager
 	 */
 	public static boolean isVersionOutdated()
 	{
-		if (!OrganizerManager.isCheckForUpdatesEnabled())
+		if (!SettingsManager.isCheckForUpdatesEnabled())
 			return false;
 
 		if (latestReleaseVersion == null)

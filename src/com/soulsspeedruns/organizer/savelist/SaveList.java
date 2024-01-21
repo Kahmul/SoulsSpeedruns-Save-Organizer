@@ -30,7 +30,10 @@ import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SearchListener;
 import com.soulsspeedruns.organizer.listeners.SortingListener;
 import com.soulsspeedruns.organizer.main.config.SortingCategory;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SavesManager;
+import com.soulsspeedruns.organizer.managers.SettingsManager;
 import com.soulsspeedruns.organizer.messages.AbstractMessage;
 
 
@@ -76,14 +79,14 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		addListSelectionListener(this);
 		addMouseListener(this);
 
-		OrganizerManager.addProfileListener(this);
-		OrganizerManager.addSaveListener(this);
+		GamesManager.addProfileListener(this);
+		SavesManager.addSaveListener(this);
 		OrganizerManager.addSearchListener(this);
 		OrganizerManager.addSortingListener(this);
 		OrganizerManager.addNavigationListener(this);
 
 		setModel(new DefaultListModel<>());
-		fillWith(OrganizerManager.getSelectedProfile(), null);
+		fillWith(GamesManager.getSelectedProfile(), null);
 	}
 
 
@@ -151,8 +154,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	{
 		try
 		{
-			OrganizerManager.refreshProfiles();
-			fillWith(OrganizerManager.getSelectedProfile(), null);
+			GamesManager.refreshProfiles();
+			fillWith(GamesManager.getSelectedProfile(), null);
 		}
 		catch (Exception e)
 		{
@@ -170,8 +173,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	 */
 	public void refreshList()
 	{
-		SaveListEntry selectedEntry = OrganizerManager.getSelectedEntry();
-		Profile currentProfile = OrganizerManager.getSelectedProfile();
+		SaveListEntry selectedEntry = SavesManager.getSelectedEntry();
+		Profile currentProfile = GamesManager.getSelectedProfile();
 		if (currentProfile.getRoot() == null)
 			return;
 		currentProfile.getRoot().sort();
@@ -225,7 +228,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		SaveListEntry selectedEntry = getSelectedValue();
 		if (selectedEntry == null)
 		{
-			Profile selectedProfile = OrganizerManager.getSelectedProfile();
+			Profile selectedProfile = GamesManager.getSelectedProfile();
 			if (selectedProfile.getRoot() == null)
 				return;
 			selectedEntry = selectedProfile.getRoot();
@@ -247,7 +250,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		{
 			try
 			{
-				OrganizerManager.copyEntry(entry, newParentFolder, false);
+				SavesManager.copyEntry(entry, newParentFolder, false);
 			}
 			catch (IOException e)
 			{
@@ -277,14 +280,14 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		if (entry instanceof Save)
 			return;
 		Folder folder = (Folder) entry;
-		if (!folder.isClosed() || folder.equals(OrganizerManager.getSelectedProfile().getRoot()))
+		if (!folder.isClosed() || folder.equals(GamesManager.getSelectedProfile().getRoot()))
 			return;
 		if (entry.getChildren().size() == 0)
 		{
-			boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
-			OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
+			boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+			SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 			JOptionPane.showMessageDialog(getParent(), "Cannot open an empty folder!", "Info", JOptionPane.INFORMATION_MESSAGE);
-			OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+			SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 			return;
 		}
 		DefaultListModel<SaveListEntry> model = (DefaultListModel<SaveListEntry>) getModel();
@@ -324,17 +327,17 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	 */
 	public void askToCreateFolder()
 	{
-		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
+		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		String name = JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Folder name: ", "Create Folder",
 				JOptionPane.QUESTION_MESSAGE);
 		boolean nameValidation = validateNameForNewFolder(name);
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 		if (nameValidation)
 		{
 			try
 			{
-				OrganizerManager.createFolder(name.trim());
+				SavesManager.createFolder(name.trim());
 			}
 			catch (Exception e)
 			{
@@ -366,7 +369,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		}
 		SaveListEntry parent = getSelectedValue();
 		if (parent == null)
-			parent = OrganizerManager.getSelectedProfile().getRoot();
+			parent = GamesManager.getSelectedProfile().getRoot();
 		if (parent instanceof Save)
 			parent = parent.getParent();
 		File newSaveDir = new File(parent.getFile() + File.separator + name);
@@ -389,8 +392,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		if (entries == null)
 			return;
 		int confirm = -1;
-		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
+		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		if (entries.size() == 1)
 			confirm = JOptionPane.showConfirmDialog(SwingUtilities.windowForComponent(this),
 					"Do you really want to delete '" + entries.get(0).getName() + "'"
@@ -414,7 +417,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			}
 			deleteEntries(entries, false);
 		}
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 	}
 
 
@@ -453,13 +456,13 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		boolean areHotkeysEnabled = OrganizerManager.getKeyboardHook().areHotkeysEnabled();
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(false);
+		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		String newName = (String) JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this),
 				(entry instanceof Folder ? "Folder name: " : "Save name: "), "Edit " + entry.getName(), JOptionPane.QUESTION_MESSAGE, null, null,
 				entry.getName());
 		boolean nameValidation = validateNewName(entry, newName);
-		OrganizerManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
 		if (!nameValidation)
 			return;
 		renameEntry(entry, newName);
@@ -475,7 +478,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	private void renameEntry(SaveListEntry entry, String newName)
 	{
 		if (entry.rename(newName))
-			OrganizerManager.fireEntryRenamedEvent(entry);
+			SavesManager.fireEntryRenamedEvent(entry);
 	}
 
 
@@ -557,7 +560,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	@Override
 	public void valueChanged(ListSelectionEvent e)
 	{
-		OrganizerManager.setSelectedEntry(getSelectedValue());
+		SavesManager.setSelectedEntry(getSelectedValue());
 	}
 
 
@@ -657,10 +660,10 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			{
 				if (input == null || input.equals("") || input.equals(SearchBar.DEFAULT_TEXT))
 				{
-					fillWith(OrganizerManager.getSelectedProfile(), null);
+					fillWith(GamesManager.getSelectedProfile(), null);
 					return;
 				}
-				fillWith(OrganizerManager.getSelectedProfile(), input);
+				fillWith(GamesManager.getSelectedProfile(), input);
 			}
 		});
 	}
@@ -698,8 +701,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		}
 		else if (entry instanceof Save)
 		{
-			if (OrganizerManager.isDoubleClickLoadEnabled())
-				OrganizerManager.loadSave((Save) entry);
+			if (SettingsManager.isDoubleClickLoadEnabled())
+				SavesManager.loadSave((Save) entry);
 		}
 
 	}
