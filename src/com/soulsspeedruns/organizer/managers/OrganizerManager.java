@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -16,11 +14,7 @@ import javax.swing.ToolTipManager;
 
 import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.IntelliJTheme;
-import com.soulsspeedruns.organizer.listeners.NavigationListener;
-import com.soulsspeedruns.organizer.listeners.SearchListener;
-import com.soulsspeedruns.organizer.listeners.SortingListener;
 import com.soulsspeedruns.organizer.main.OrganizerWindow;
-import com.soulsspeedruns.organizer.main.config.SortingCategory;
 import com.soulsspeedruns.organizer.theme.DefaultTheme;
 import com.soulsspeedruns.organizer.theme.GlobalThemeAdjustmentTask;
 import com.soulsspeedruns.organizer.theme.GlobalThemeInitTask;
@@ -30,8 +24,7 @@ import com.soulsspeedruns.organizer.theme.SoulsSpeedrunsTheme;
 /**
  * OrganizerManager.
  * <p>
- * Main class. Calls other managers to initialize for application use.
- * Handles main UI and utility methods.
+ * Main class. Calls other managers to initialize for application use. Handles L&F and utility methods.
  * 
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 27 Sep 2015
@@ -48,10 +41,6 @@ public class OrganizerManager
 
 	public static final String ILLEGAL_CHARACTERS = "~, @, *, {, }, <, >, [, ], |, \u201C, \u201D, \\, /, ^";
 	private static final String ILLEGAL_CHARACTERS_REGEX = "[~#@*{}<>\\[\\]|\"\\^\\\\\\/]";
-
-	private static List<SearchListener> searchListeners;
-	private static List<SortingListener> sortingListeners;
-	private static List<NavigationListener> navigationListeners;
 
 	private static OrganizerWindow mainWindow;
 
@@ -77,34 +66,22 @@ public class OrganizerManager
 		}
 
 		SwingUtilities.invokeLater(() -> {
-			new OrganizerWindow();
+			setMainWindow(new OrganizerWindow());
 		});
 	}
 
 
 	/**
-	 * Initializes the data. Required to be called before using any other methods of this class.
+	 * Initializes the L&F and other global values.
 	 * 
 	 * @throws IOException
 	 */
 	private static void initialize() throws IOException
 	{
-		initListeners();
 		initLookAndFeel();
 		initSharedValues();
 
 //		setAppUserModelID();
-	}
-
-
-	/**
-	 * Inits the listener lists.
-	 */
-	private static void initListeners()
-	{
-		searchListeners = new ArrayList<>();
-		sortingListeners = new ArrayList<>();
-		navigationListeners = new ArrayList<>();
 	}
 
 
@@ -145,38 +122,22 @@ public class OrganizerManager
 
 
 	/**
-	 * Adds a search listener to send events to.
+	 * Sets the main window for the manager.
 	 * 
-	 * @param listener the listener to add
+	 * @param window the main window
 	 */
-	public static void addSearchListener(SearchListener listener)
+	private static void setMainWindow(OrganizerWindow window)
 	{
-		if (listener != null)
-			searchListeners.add(listener);
+		mainWindow = window;
 	}
 
 
 	/**
-	 * Adds a sorting listener to send events to.
-	 * 
-	 * @param listener the listener to add
+	 * @return the main window
 	 */
-	public static void addSortingListener(SortingListener listener)
+	public static OrganizerWindow getMainWindow()
 	{
-		if (listener != null)
-			sortingListeners.add(listener);
-	}
-
-
-	/**
-	 * Adds a navigation listener to send events to.
-	 * 
-	 * @param listener the listener to add
-	 */
-	public static void addNavigationListener(NavigationListener listener)
-	{
-		if (listener != null)
-			navigationListeners.add(listener);
+		return mainWindow;
 	}
 
 
@@ -208,97 +169,6 @@ public class OrganizerManager
 		catch (Exception e)
 		{
 			JOptionPane.showMessageDialog(mainWindow, e.getMessage(), "Error occurred", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-
-	/**
-	 * Navigates upwards in the savefile list.
-	 */
-	public static void navigateToPrevious()
-	{
-		for (NavigationListener listener : navigationListeners)
-		{
-			listener.navigatedToPrevious();
-		}
-	}
-
-
-	/**
-	 * Navigates downwards in the savefile list.
-	 */
-	public static void navigateToNext()
-	{
-		for (NavigationListener listener : navigationListeners)
-		{
-			listener.navigatedToNext();
-		}
-	}
-
-
-	public static SortingCategory getSelectedSortingCategory()
-	{
-		String caption = SettingsManager.getStoredSelectedSortingCategoryName();
-		for (SortingCategory category : SortingCategory.values())
-		{
-			if (category.getCaption().equals(caption))
-				return category;
-		}
-		return SortingCategory.ALPHABET;
-	}
-
-
-	public static void setSelectedSortingCategory(SortingCategory category)
-	{
-		SettingsManager.setStoredSelectedSortingCategoryName(category.getCaption());
-		fireSortingChangedEvent(category);
-	}
-
-
-	/**
-	 * Sets the main window for the manager.
-	 * 
-	 * @param window the main window
-	 */
-	public static void setMainWindow(OrganizerWindow window)
-	{
-		mainWindow = window;
-	}
-
-
-	/**
-	 * @return the main window
-	 */
-	public static OrganizerWindow getMainWindow()
-	{
-		return mainWindow;
-	}
-
-
-	/**
-	 * Fires a searchRequested event.
-	 * 
-	 * @param input the search input
-	 */
-	public static void fireSearchRequestedEvent(String input)
-	{
-		for (SearchListener listener : searchListeners)
-		{
-			listener.searchRequested(input);
-		}
-	}
-
-
-	/**
-	 * Fires a sortingChanged event.
-	 * 
-	 * @param category the category that was changed to
-	 */
-	public static void fireSortingChangedEvent(SortingCategory category)
-	{
-		for (SortingListener listener : sortingListeners)
-		{
-			listener.sortingChanged(category);
 		}
 	}
 

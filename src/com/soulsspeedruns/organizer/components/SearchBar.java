@@ -10,7 +10,7 @@ import javax.swing.event.DocumentListener;
 
 import com.github.weisj.darklaf.ui.text.DarkTextFieldUI;
 import com.github.weisj.darklaf.ui.text.DarkTextUI;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SavesManager;
 
 
 /**
@@ -75,7 +75,7 @@ public class SearchBar extends JTextField
 			@Override
 			public void run()
 			{
-				OrganizerManager.fireSearchRequestedEvent(getText().trim());
+				SavesManager.fireSearchRequestedEvent(getText().trim());
 			}
 		};
 		searchDelayTimer.schedule(searchTask, SEARCH_DELAY);

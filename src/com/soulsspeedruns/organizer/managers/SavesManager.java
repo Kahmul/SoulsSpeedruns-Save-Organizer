@@ -14,7 +14,11 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.listeners.NavigationListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
+import com.soulsspeedruns.organizer.listeners.SearchListener;
+import com.soulsspeedruns.organizer.listeners.SortingListener;
+import com.soulsspeedruns.organizer.main.config.SortingCategory;
 import com.soulsspeedruns.organizer.messages.AbstractMessage;
 import com.soulsspeedruns.organizer.savelist.Folder;
 import com.soulsspeedruns.organizer.savelist.Save;
@@ -33,13 +37,19 @@ public class SavesManager
 {
 
 	private static List<SaveListener> saveListeners;
+	private static List<SearchListener> searchListeners;
+	private static List<SortingListener> sortingListeners;
+	private static List<NavigationListener> navigationListeners;
 
 	private static SaveListEntry selectedEntry;
-	
-	
+
+
 	protected static void initialize()
 	{
 		saveListeners = new ArrayList<>();
+		searchListeners = new ArrayList<>();
+		sortingListeners = new ArrayList<>();
+		navigationListeners = new ArrayList<>();
 	}
 
 
@@ -254,6 +264,25 @@ public class SavesManager
 	}
 
 
+	public static SortingCategory getSelectedSortingCategory()
+	{
+		String caption = SettingsManager.getStoredSelectedSortingCategoryName();
+		for (SortingCategory category : SortingCategory.values())
+		{
+			if (category.getCaption().equals(caption))
+				return category;
+		}
+		return SortingCategory.ALPHABET;
+	}
+
+
+	public static void setSelectedSortingCategory(SortingCategory category)
+	{
+		SettingsManager.setStoredSelectedSortingCategoryName(category.getCaption());
+		fireSortingChangedEvent(category);
+	}
+
+
 	/**
 	 * Adds a save listener to send events to.
 	 * 
@@ -263,6 +292,42 @@ public class SavesManager
 	{
 		if (listener != null)
 			saveListeners.add(listener);
+	}
+
+
+	/**
+	 * Adds a search listener to send events to.
+	 * 
+	 * @param listener the listener to add
+	 */
+	public static void addSearchListener(SearchListener listener)
+	{
+		if (listener != null)
+			searchListeners.add(listener);
+	}
+
+
+	/**
+	 * Adds a sorting listener to send events to.
+	 * 
+	 * @param listener the listener to add
+	 */
+	public static void addSortingListener(SortingListener listener)
+	{
+		if (listener != null)
+			sortingListeners.add(listener);
+	}
+
+
+	/**
+	 * Adds a navigation listener to send events to.
+	 * 
+	 * @param listener the listener to add
+	 */
+	public static void addNavigationListener(NavigationListener listener)
+	{
+		if (listener != null)
+			navigationListeners.add(listener);
 	}
 
 
@@ -346,6 +411,58 @@ public class SavesManager
 		for (SaveListener listener : saveListeners)
 		{
 			listener.gameFileWritableStateChanged(writeable);
+		}
+	}
+
+
+	/**
+	 * Fires a searchRequested event.
+	 * 
+	 * @param input the search input
+	 */
+	public static void fireSearchRequestedEvent(String input)
+	{
+		for (SearchListener listener : searchListeners)
+		{
+			listener.searchRequested(input);
+		}
+	}
+
+
+	/**
+	 * Fires a sortingChanged event.
+	 * 
+	 * @param category the category that was changed to
+	 */
+	public static void fireSortingChangedEvent(SortingCategory category)
+	{
+		for (SortingListener listener : sortingListeners)
+		{
+			listener.sortingChanged(category);
+		}
+	}
+
+
+	/**
+	 * Fires a navigatedToPrevious event.
+	 */
+	public static void fireNavigatedToPreviousEvent()
+	{
+		for (NavigationListener listener : navigationListeners)
+		{
+			listener.navigatedToPrevious();
+		}
+	}
+
+
+	/**
+	 * Fires a navigatedToNext event.
+	 */
+	public static void fireNavigatedToNextEvent()
+	{
+		for (NavigationListener listener : navigationListeners)
+		{
+			listener.navigatedToNext();
 		}
 	}
 

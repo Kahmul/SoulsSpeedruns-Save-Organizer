@@ -81,9 +81,9 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 
 		GamesManager.addProfileListener(this);
 		SavesManager.addSaveListener(this);
-		OrganizerManager.addSearchListener(this);
-		OrganizerManager.addSortingListener(this);
-		OrganizerManager.addNavigationListener(this);
+		SavesManager.addSearchListener(this);
+		SavesManager.addSortingListener(this);
+		SavesManager.addNavigationListener(this);
 
 		setModel(new DefaultListModel<>());
 		fillWith(GamesManager.getSelectedProfile(), null);
@@ -284,7 +284,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			return;
 		if (entry.getChildren().size() == 0)
 		{
-			boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+			boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
 			SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 			JOptionPane.showMessageDialog(getParent(), "Cannot open an empty folder!", "Info", JOptionPane.INFORMATION_MESSAGE);
 			SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
@@ -327,7 +327,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	 */
 	public void askToCreateFolder()
 	{
-		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
 		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		String name = JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Folder name: ", "Create Folder",
 				JOptionPane.QUESTION_MESSAGE);
@@ -392,7 +392,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		if (entries == null)
 			return;
 		int confirm = -1;
-		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
 		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		if (entries.size() == 1)
 			confirm = JOptionPane.showConfirmDialog(SwingUtilities.windowForComponent(this),
@@ -456,7 +456,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
 		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		String newName = (String) JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this),
 				(entry instanceof Folder ? "Folder name: " : "Save name: "), "Edit " + entry.getName(), JOptionPane.QUESTION_MESSAGE, null, null,

@@ -4,7 +4,6 @@ package com.soulsspeedruns.organizer.hotkeys;
 import javax.swing.JOptionPane;
 
 import com.soulsspeedruns.organizer.managers.GamesManager;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
 import com.soulsspeedruns.organizer.managers.SavesManager;
 import com.soulsspeedruns.organizer.managers.SettingsManager;
 import com.soulsspeedruns.organizer.savelist.Save;
@@ -83,7 +82,7 @@ public enum GlobalHotkey
 		@Override
 		public void action()
 		{
-			OrganizerManager.navigateToPrevious();
+			SavesManager.fireNavigatedToPreviousEvent();
 		}
 
 
@@ -99,7 +98,7 @@ public enum GlobalHotkey
 		@Override
 		public void action()
 		{
-			OrganizerManager.navigateToNext();
+			SavesManager.fireNavigatedToNextEvent();
 		}
 
 

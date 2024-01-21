@@ -5,7 +5,7 @@ import java.awt.event.ItemEvent;
 
 import javax.swing.JComboBox;
 
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SavesManager;
 
 
 /**
@@ -27,7 +27,7 @@ public class SortingComboBox extends JComboBox<SortingCategory>
 		for (SortingCategory category : SortingCategory.values())
 		{
 			addItem(category);
-			if (category == OrganizerManager.getSelectedSortingCategory())
+			if (category == SavesManager.getSelectedSortingCategory())
 				setSelectedItem(category);
 		}
 
@@ -35,7 +35,7 @@ public class SortingComboBox extends JComboBox<SortingCategory>
 		addItemListener(event -> {
 			if (event.getStateChange() == ItemEvent.SELECTED)
 			{
-				OrganizerManager.setSelectedSortingCategory((SortingCategory) event.getItem());
+				SavesManager.setSelectedSortingCategory((SortingCategory) event.getItem());
 			}
 		});
 	}

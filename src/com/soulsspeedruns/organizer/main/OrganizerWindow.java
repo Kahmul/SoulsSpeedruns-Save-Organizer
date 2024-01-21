@@ -14,7 +14,6 @@ import javax.swing.SwingUtilities;
 
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
 import com.soulsspeedruns.organizer.managers.SettingsManager;
 
 
@@ -63,7 +62,6 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 		setSize(size);
 		setLocationRelativeTo(null);
 		setExtendedState(SettingsManager.getStoredMaximizedWindowState());
-		OrganizerManager.setMainWindow(this);
 		SettingsManager.addSettingsListener(this);
 	}
 

@@ -17,7 +17,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SavesManager;
 
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
@@ -189,7 +189,7 @@ public class Folder extends SaveListEntry
 	{
 		if (entry instanceof Save)
 			return -1;
-		return OrganizerManager.getSelectedSortingCategory().compare(this, entry);
+		return SavesManager.getSelectedSortingCategory().compare(this, entry);
 	}
 
 }

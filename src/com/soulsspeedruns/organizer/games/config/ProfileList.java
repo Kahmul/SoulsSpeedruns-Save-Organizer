@@ -136,7 +136,7 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 	{
 		if (game.getDirectory() == null)
 			return;
-		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
 		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		String name = JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Profile name: ", "Create Profile", JOptionPane.QUESTION_MESSAGE);
 		boolean nameValidation = validateNameForNewProfile(name);
@@ -210,7 +210,7 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 		if (profiles == null)
 			return;
 		int confirm = -1;
-		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
 		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		if (profiles.size() == 1)
 			confirm = JOptionPane.showConfirmDialog(getParent(),
@@ -252,7 +252,7 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 	{
 		if (profile == null)
 			return;
-		boolean areHotkeysEnabled = SettingsManager.getKeyboardHook().areHotkeysEnabled();
+		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
 		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
 		String newProfileName = (String) JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Profile name: ", "Edit " + profile.getName(),
 				JOptionPane.QUESTION_MESSAGE, null, null, profile.getName());

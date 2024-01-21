@@ -16,7 +16,7 @@ import javax.swing.KeyStroke;
 import com.soulsspeedruns.organizer.main.config.SortingCategory;
 import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SavesManager;
 
 import jiconfont.icons.Elusive;
 import jiconfont.icons.FontAwesome;
@@ -274,7 +274,7 @@ public class SaveListContextMenu extends JPopupMenu
 				File file = entry.getFile();
 				file.setWritable(!isSelectionWritable);
 			}
-			if (OrganizerManager.getSelectedSortingCategory() == SortingCategory.READ_ONLY)
+			if (SavesManager.getSelectedSortingCategory() == SortingCategory.READ_ONLY)
 				saveList.refreshList();
 			saveList.repaint();
 		});

@@ -13,7 +13,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
+import com.soulsspeedruns.organizer.managers.SavesManager;
 
 import jiconfont.icons.Iconic;
 import jiconfont.swing.IconFontSwing;
@@ -49,7 +49,7 @@ public class Save extends SaveListEntry
 	{
 		if (entry instanceof Folder)
 			return 1;
-		return OrganizerManager.getSelectedSortingCategory().compare(this, entry);
+		return SavesManager.getSelectedSortingCategory().compare(this, entry);
 	}
 
 
