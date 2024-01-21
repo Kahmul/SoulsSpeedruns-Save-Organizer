@@ -24,25 +24,25 @@ public class Game implements Comparable<Game>
 
 	public static final List<Game> GAMES = new ArrayList<>();
 
-	public static final Game DARK_SOULS = createGame("Dark Souls", "DS1", "DRAKS0005.sl2", "211420", "%UserProfile%\\Documents\\NBGI\\DarkSouls",
+	public static final Game DARK_SOULS = createGame("Dark Souls", "DS1", "DRAKS0005.sl2", "211420", "%UserProfile%" + File.separator + "Documents" + File.separator + "NBGI" + File.separator + "DarkSouls",
 			true, false);
 
 	public static final Game DARK_SOULS_REMASTERED = createGame("Dark Souls Remastered", "DSR", "DRAKS0005.sl2", "570940",
-			"%UserProfile%\\Documents\\NBGI\\DARK SOULS REMASTERED", false, false);
+			"%UserProfile%" + File.separator + "Documents" + File.separator + "NBGI" + File.separator + "DARK SOULS REMASTERED", false, false);
 
-	public static final Game DARK_SOULS_II = createGame("Dark Souls II", "DS2", "DARKSII0000.sl2", "236430", "%AppData%\\DarkSoulsII\\<SteamID>",
+	public static final Game DARK_SOULS_II = createGame("Dark Souls II", "DS2", "DARKSII0000.sl2", "236430", "%AppData%" + File.separator + "DarkSoulsII" + File.separator + "<SteamID>",
 			true, false);
 
 	public static final Game DARK_SOULS_II_SOTFS = createGame("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2", "335300",
-			"%AppData%\\DarkSoulsII\\<SteamID>", true, false);
+			"%AppData%" + File.separator + "DarkSoulsII" + File.separator + "<SteamID>", true, false);
 
-	public static final Game DARK_SOULS_III = createGame("Dark Souls III", "DS3", "DS30000.sl2", "374320", "%AppData%\\DarkSoulsIII\\<SteamID>", true,
+	public static final Game DARK_SOULS_III = createGame("Dark Souls III", "DS3", "DS30000.sl2", "374320", "%AppData%" + File.separator + "DarkSoulsIII" + File.separator + "<SteamID>", true,
 			false);
 
-	public static final Game SEKIRO_SHADOWS_DIE_TWICE = createGame("Sekiro", "SSDT", "S0000.sl2", "814380", "%AppData%\\Sekiro\\<SteamID>", true,
+	public static final Game SEKIRO_SHADOWS_DIE_TWICE = createGame("Sekiro", "SSDT", "S0000.sl2", "814380", "%AppData%" + File.separator + "Sekiro" + File.separator + "<SteamID>", true,
 			false);
 
-	public static final Game ELDEN_RING = createGame("Elden Ring", "ER", "ER0000.sl2", "1245620", "%AppData%\\EldenRing\\<SteamID>", true, false);
+	public static final Game ELDEN_RING = createGame("Elden Ring", "ER", "ER0000.sl2", "1245620", "%AppData%" + File.separator + "EldenRing" + File.separator + "<SteamID>", true, false);
 
 	private static final String STEAM_ID_PREFIX = "76561";
 
@@ -305,7 +305,7 @@ public class Game implements Comparable<Game>
 		String suggestedPath = getSuggestedSaveLocation();
 		if (suggestedPath == null || suggestedPath.equals(""))
 			return "";
-
+		
 		if (VersionManager.isRunningOnWindows())
 		{
 			String appdataPath = System.getenv("appdata");
@@ -314,22 +314,22 @@ public class Game implements Comparable<Game>
 			suggestedPath = suggestedPath.replace("%AppData%", appdataPath);
 			suggestedPath = suggestedPath.replace("%UserProfile%", userprofilePath);
 
-			suggestedPath = suggestedPath.replace("\\<SteamID>", "");
+			suggestedPath = suggestedPath.replace(File.separator + "<SteamID>", "");
 
 			suggestedPath += getSteamIDFolderName(suggestedPath);
-
+			
 			return suggestedPath;
 		}
 
 		if (VersionManager.isRunningOnLinux())
 		{
-			String prefix = "~\\.local\\share\\Steam\\steamapps\\compatdata\\" + steamAppID + "\\pfx\\drive_c\\users\\steamuser\\";
+			String prefix = System.getProperty("user.home") + File.separator + ".local" + File.separator + "share" + File.separator + "Steam" + File.separator + "steamapps" + File.separator + "compatdata" + File.separator + steamAppID + "" + File.separator + "pfx" + File.separator + "drive_c" + File.separator + "users" + File.separator + "steamuser";
 
-			suggestedPath = suggestedPath.replace("%AppData%", prefix);
+			suggestedPath = suggestedPath.replace("%AppData%", prefix + File.separator + "AppData" + File.separator + "Roaming");
 			suggestedPath = suggestedPath.replace("%UserProfile%", prefix);
 
-			suggestedPath = suggestedPath.replace("\\<SteamID>", "");
-
+			suggestedPath = suggestedPath.replace(File.separator + "<SteamID>", "");
+			
 			suggestedPath += getSteamIDFolderName(suggestedPath);
 		}
 
@@ -353,7 +353,7 @@ public class Game implements Comparable<Game>
 		for (File file : files)
 		{
 			if (file.isDirectory() && file.getName().startsWith(STEAM_ID_PREFIX))
-				return "\\" + file.getName();
+				return File.separator + file.getName();
 		}
 		
 		return "";
