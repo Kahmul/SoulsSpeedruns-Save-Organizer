@@ -238,6 +238,13 @@ public class OrganizerManager
 	}
 
 
+	/**
+	 * Returns whether the given possibleChild is a file below the possibleParent in the file tree.
+	 * 
+	 * @param possibleParent the possible parent file to check
+	 * @param possibleChild the possible child file to check
+	 * @return whether the child can be found somewhere below the parent in the file tree.
+	 */
 	public static boolean isDirectoryAParentOfChild(File possibleParent, File possibleChild)
 	{
 		File parent = possibleChild.getParentFile();
