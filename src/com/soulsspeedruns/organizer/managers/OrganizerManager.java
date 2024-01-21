@@ -66,7 +66,7 @@ public class OrganizerManager
 		}
 
 		SwingUtilities.invokeLater(() -> {
-			setMainWindow(new OrganizerWindow());
+			new OrganizerWindow();
 		});
 	}
 
@@ -126,7 +126,7 @@ public class OrganizerManager
 	 * 
 	 * @param window the main window
 	 */
-	private static void setMainWindow(OrganizerWindow window)
+	public static void setMainWindow(OrganizerWindow window)
 	{
 		mainWindow = window;
 	}

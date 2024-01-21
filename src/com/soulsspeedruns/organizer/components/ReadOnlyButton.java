@@ -1,6 +1,8 @@
 package com.soulsspeedruns.organizer.components;
 
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -17,6 +19,7 @@ import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 import com.soulsspeedruns.organizer.managers.SavesManager;
 import com.soulsspeedruns.organizer.managers.SettingsManager;
 import com.soulsspeedruns.organizer.managers.VersionManager;
@@ -66,6 +69,15 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 			@Override
 			public void themeChanged(ThemeChangeEvent e)
 			{
+			}
+		});
+
+		OrganizerManager.getMainWindow().addComponentListener(new ComponentAdapter()
+		{
+
+			public void componentResized(ComponentEvent e)
+			{
+				refreshAppearance(false);
 			}
 		});
 
@@ -124,16 +136,17 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	private void refreshAppearance(boolean isHovering)
 	{
 		boolean isWritable = file != null ? file.canWrite() : false;
-		boolean isCompact = SettingsManager.isCompactModeEnabled();
+		boolean showText = !SettingsManager.isCompactModeEnabled()
+				&& (!VersionManager.isVersionOutdated() || OrganizerManager.getMainWindow().getWidth() > 700);
 		if (isWritable)
 		{
-			setText(!isCompact && !VersionManager.isVersionOutdated() ? "Writable" : null);
+			setText(showText ? "Writable" : null);
 			setIcon(IconsAndFontsManager.getWritableIcon(IconsAndFontsManager.ICON_SIZE_LARGE, isHovering));
 			setToolTipText("Click to turn on read-only for the game's savefile.");
 		}
 		else
 		{
-			setText(!isCompact && !VersionManager.isVersionOutdated() ? "Read-Only" : null);
+			setText(showText ? "Read-Only" : null);
 			setIcon(IconsAndFontsManager.getReadOnlyIcon(IconsAndFontsManager.ICON_SIZE_LARGE, isHovering));
 			setToolTipText("Click to turn off read-only for the game's savefile.");
 		}
