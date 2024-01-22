@@ -35,10 +35,10 @@ public class GlobalKeyboardHook implements NativeKeyListener
 	 */
 	public GlobalKeyboardHook() throws NativeHookException
 	{
-		GlobalScreen.registerNativeHook();
-		GlobalScreen.addNativeKeyListener(this);
 		Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
 		logger.setLevel(Level.OFF);
+		GlobalScreen.registerNativeHook();
+		GlobalScreen.addNativeKeyListener(this);
 	}
 
 
