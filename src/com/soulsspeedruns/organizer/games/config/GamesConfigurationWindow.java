@@ -57,6 +57,7 @@ public class GamesConfigurationWindow extends JDialog
 			@Override
 			public void windowActivated(WindowEvent e)
 			{
+				requestFocusInWindow();
 				SwingUtilities.invokeLater(() -> {
 					SwingUtilities.updateComponentTreeUI(GamesConfigurationWindow.this);
 				});
