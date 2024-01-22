@@ -2,15 +2,12 @@ package com.soulsspeedruns.organizer.games.config;
 
 
 import java.awt.Dialog;
-import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
@@ -144,7 +141,7 @@ public class GameCreationWindow extends JDialog
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
 		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(explanationLabel));
-		vGroup.addGap(20);
+		vGroup.addGap(15);
 		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(gameNameLabel));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER)
 				.addComponent(gameNameField, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE).addComponent(gameNameHelpButton));
@@ -163,15 +160,15 @@ public class GameCreationWindow extends JDialog
 	private JLabel createHeaderLabel(String text)
 	{
 		JLabel label = new JLabel(text);
-		label.addPropertyChangeListener(new PropertyChangeListener()
-		{
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt)
-			{
-				label.setFont(label.getFont().deriveFont(Font.BOLD));
-			}
-		});
+//		label.addPropertyChangeListener(new PropertyChangeListener()
+//		{
+//
+//			@Override
+//			public void propertyChange(PropertyChangeEvent evt)
+//			{
+//				label.setFont(label.getFont().deriveFont(Font.BOLD));
+//			}
+//		});
 
 		return label;
 	}

@@ -1,7 +1,6 @@
 package com.soulsspeedruns.organizer.games.config;
 
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.GroupLayout;
@@ -52,7 +51,8 @@ public class GameConfigProfilesPanel extends JPanel
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
 		hGroup.addGroup(layout.createParallelGroup().addComponent(profileLabel).addComponent(listPane));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(optionsPanel));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(optionsPanel, GroupLayout.PREFERRED_SIZE, new JButton("Browse").getPreferredSize().width,
+				GroupLayout.PREFERRED_SIZE));
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -60,7 +60,8 @@ public class GameConfigProfilesPanel extends JPanel
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(profileLabel));
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(listPane).addComponent(optionsPanel));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(listPane).addComponent(optionsPanel, GroupLayout.PREFERRED_SIZE,
+				GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
 
 		layout.setVerticalGroup(vGroup);
 
@@ -89,7 +90,6 @@ public class GameConfigProfilesPanel extends JPanel
 	{
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(4, 1));
-		buttonPanel.setMaximumSize(new Dimension(66, 50));
 
 		JButton newButton = createNewButton(profileList);
 		JButton importButton = createImportButton(profileList);
@@ -100,18 +100,19 @@ public class GameConfigProfilesPanel extends JPanel
 		buttonPanel.add(editButton);
 		buttonPanel.add(importButton);
 		buttonPanel.add(deleteButton);
-		
+
 		addButtonListeners(newButton, editButton, importButton, deleteButton);
 
 		return buttonPanel;
 	}
 
 
-	private void addButtonListeners(JButton newButton, JButton editButton, JButton importButton, JButton deleteButton) {
+	private void addButtonListeners(JButton newButton, JButton editButton, JButton importButton, JButton deleteButton)
+	{
 		// TODO Auto-generated method stub
-		
-		
-		GamesManager.addProfileListener(new ProfileListener() {
+
+		GamesManager.addProfileListener(new ProfileListener()
+		{
 
 			@Override
 			public void profileDeleted(Profile profile)

@@ -61,7 +61,9 @@ public class GameConfigDirectoryPanel extends JPanel
 
 		hGroup.addGroup(layout.createParallelGroup().addComponent(saveFileLabel).addComponent(saveFileField).addComponent(directoryLabel)
 				.addComponent(directoryField));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(saveFileBrowseButton).addComponent(directoryBrowseButton));
+		hGroup.addGroup(layout.createParallelGroup()
+				.addComponent(saveFileBrowseButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(directoryBrowseButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
 
 		layout.setHorizontalGroup(hGroup);
 
@@ -86,7 +88,7 @@ public class GameConfigDirectoryPanel extends JPanel
 	{
 		JTextField saveFileField = new JTextField(saveFile != null ? saveFile.getPath() : "");
 		saveFileField.putClientProperty(DarkTextUI.KEY_DEFAULT_TEXT, game.getSuggestedSaveLocation());
-		
+
 		return saveFileField;
 	}
 

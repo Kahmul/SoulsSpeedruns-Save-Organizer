@@ -2,7 +2,6 @@ package com.soulsspeedruns.organizer.settings;
 
 
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.event.ItemEvent;
 
 import javax.swing.BorderFactory;
@@ -99,7 +98,6 @@ public class GeneralSettingsPanel extends JPanel
 
 		setLayout(layout);
 		TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "General");
-		border.setTitleFont(border.getTitleFont().deriveFont(Font.BOLD));
 		setBorder(border);
 	}
 
