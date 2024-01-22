@@ -2,12 +2,15 @@ package com.soulsspeedruns.organizer.games.config;
 
 
 import java.awt.Dialog;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
@@ -18,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.text.AbstractDocument;
@@ -113,11 +117,17 @@ public class GameCreationWindow extends JDialog
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		JLabel gameNameLabel = new JLabel("Name of your custom game:");
-		JLabel saveNameLabel = new JLabel("Name of the game's savefile:");
+		JLabel explanationLabel = new JLabel("<html>Here you can add support for other games to the organizer.<br>"
+				+ "Please enter the name of the game you would like to add as well as<br>" + "the file name of the savefile the game uses.<html>");
+
+		JLabel gameNameLabel = createHeaderLabel("Name of the game:");
+		JLabel saveNameLabel = createHeaderLabel("Name of the game's savefile:");
 
 		gameNameField = createTextField(game == null ? "" : game.getCaption());
 		saveNameField = createTextField(game == null ? "" : game.getSaveName());
+
+		layout.linkSize(SwingConstants.HORIZONTAL, explanationLabel, gameNameField);
+		layout.linkSize(SwingConstants.HORIZONTAL, explanationLabel, saveNameField);
 
 		JButton gameNameHelpButton = createHelpButton("Enter the name of the game you would like to add.");
 		JButton saveNameHelpButton = createHelpButton(
@@ -125,13 +135,15 @@ public class GameCreationWindow extends JDialog
 
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGroup(layout.createParallelGroup().addComponent(gameNameLabel)
+		hGroup.addGroup(layout.createParallelGroup().addComponent(explanationLabel).addComponent(gameNameLabel)
 				.addComponent(gameNameField, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE).addComponent(saveNameLabel)
 				.addComponent(saveNameField, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE));
 		hGroup.addGroup(layout.createParallelGroup().addComponent(gameNameHelpButton).addComponent(saveNameHelpButton));
 
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
+		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(explanationLabel));
+		vGroup.addGap(20);
 		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(gameNameLabel));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.CENTER)
 				.addComponent(gameNameField, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE).addComponent(gameNameHelpButton));
@@ -144,6 +156,23 @@ public class GameCreationWindow extends JDialog
 
 		settingsPanel.setLayout(layout);
 		return settingsPanel;
+	}
+
+
+	private JLabel createHeaderLabel(String text)
+	{
+		JLabel label = new JLabel(text);
+		label.addPropertyChangeListener(new PropertyChangeListener()
+		{
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt)
+			{
+				label.setFont(label.getFont().deriveFont(Font.BOLD));
+			}
+		});
+
+		return label;
 	}
 
 
