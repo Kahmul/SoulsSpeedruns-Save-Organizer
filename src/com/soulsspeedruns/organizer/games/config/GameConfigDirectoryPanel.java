@@ -102,6 +102,7 @@ public class GameConfigDirectoryPanel extends JPanel
 
 		browseButton.addActionListener(event -> {
 			JFileChooser fc = new JFileChooser(game.getSaveFilePathOrSuggested());
+			fc.setSelectedFile(new File(game.getSaveFilePathOrSuggested() + File.separator + game.getSaveName()));
 			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			int val = fc.showOpenDialog(SwingUtilities.windowForComponent(this));
 			if (val == JFileChooser.APPROVE_OPTION)
