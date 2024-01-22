@@ -36,9 +36,9 @@ public class ListPanel extends JPanel
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGap(10);
+		hGroup.addGap(12);
 		hGroup.addGroup(layout.createParallelGroup().addComponent(savePane));
-		hGroup.addGap(10);
+		hGroup.addGap(12);
 
 		layout.setHorizontalGroup(hGroup);
 

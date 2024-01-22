@@ -32,10 +32,10 @@ public class SortingPanel extends JPanel
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGap(10);
+		hGroup.addGap(12);
 		hGroup.addGroup(layout.createParallelGroup().addComponent(sortByLabel));
 		hGroup.addGap(5);
-		hGroup.addGroup(layout.createParallelGroup().addComponent(sortingComboBox, GroupLayout.PREFERRED_SIZE, sortingComboBox.getPreferredSize().width + 2,
+		hGroup.addGroup(layout.createParallelGroup().addComponent(sortingComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE,
 				GroupLayout.PREFERRED_SIZE));
 		hGroup.addGap(6);
 		hGroup.addGroup(layout.createParallelGroup().addComponent(searchBar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,

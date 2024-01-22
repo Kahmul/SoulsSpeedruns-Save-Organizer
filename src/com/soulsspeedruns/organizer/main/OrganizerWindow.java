@@ -47,6 +47,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 		initListeners();
 
 		setVisible(true);
+		setExtendedState(SettingsManager.getStoredMaximizedWindowState());
 	}
 
 
@@ -63,7 +64,6 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 		setSize(size);
 		setLocationRelativeTo(null);
 		OrganizerManager.setMainWindow(this);
-		setExtendedState(SettingsManager.getStoredMaximizedWindowState());
 		SettingsManager.addSettingsListener(this);
 	}
 
@@ -76,8 +76,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 		JPanel guiPanel = new JPanel();
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.PAGE_AXIS));
 
-		guiPanel.add(new GamePanel());
-		guiPanel.add(new SortingPanel());
+		guiPanel.add(new TopPanel());
 		guiPanel.add(new ListPanel());
 		guiPanel.add(new ButtonPanel());
 
