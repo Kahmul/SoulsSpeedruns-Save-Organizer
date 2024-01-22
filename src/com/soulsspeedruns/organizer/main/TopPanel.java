@@ -112,7 +112,6 @@ public class TopPanel extends JPanel
 	 */
 	private JPanel createProfilesPanel(ProfilesComboBox profilesComboBox)
 	{
-		profilesComboBox = new ProfilesComboBox(GamesManager.getSelectedGame());
 		JButton editButton = createEditProfilesButton();
 
 		JPanel profilesPanel = new JPanel();
