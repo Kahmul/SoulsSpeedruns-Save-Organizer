@@ -289,7 +289,7 @@ public class SettingsManager
 	}
 
 
-	public static String getStoredSelectedGameName()
+	public static String getStoredSelectedGameID()
 	{
 		return prefs.get(PREFS_KEY_SELECTED_GAME, "");
 	}
@@ -301,9 +301,9 @@ public class SettingsManager
 	}
 
 
-	public static void setStoredSelectedGameName(String name)
+	public static void setStoredSelectedGameID(String gameID)
 	{
-		prefs.put(PREFS_KEY_SELECTED_GAME, name);
+		prefs.put(PREFS_KEY_SELECTED_GAME, gameID);
 	}
 
 

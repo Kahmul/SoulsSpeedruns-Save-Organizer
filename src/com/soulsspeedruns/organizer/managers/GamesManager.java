@@ -151,11 +151,11 @@ public class GamesManager
 	 */
 	public static Game getSelectedGame()
 	{
-		String gameName = SettingsManager.getStoredSelectedGameName();
+		String gameID = SettingsManager.getStoredSelectedGameID();
 		List<Game> games = Game.GAMES;
 		for (Game game : games)
 		{
-			if (game.getCaption().equals(gameName))
+			if (game.getGameID().equals(gameID))
 			{
 				return game;
 			}
@@ -203,7 +203,7 @@ public class GamesManager
 	 */
 	public static void switchToGame(Game game)
 	{
-		SettingsManager.setStoredSelectedGameName(game.getCaption());
+		SettingsManager.setStoredSelectedGameID(game.getGameID());
 		fireChangedToGameEvent(game);
 	}
 
