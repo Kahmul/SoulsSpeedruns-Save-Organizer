@@ -352,7 +352,7 @@ public class Game implements Comparable<Game>
 		File[] files = dir.listFiles();
 		for (File file : files)
 		{
-			if (file.isDirectory() && file.getName().startsWith(STEAM_ID_PREFIX))
+			if (file.isDirectory() && file.getName().startsWith(STEAM_ID_PREFIX) && file.getName().matches("[0-9]+"))
 				return File.separator + file.getName();
 		}
 		
