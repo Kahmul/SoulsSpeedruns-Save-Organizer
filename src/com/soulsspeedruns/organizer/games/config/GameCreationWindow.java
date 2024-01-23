@@ -152,7 +152,7 @@ public class GameCreationWindow extends JDialog
 		layout.linkSize(SwingConstants.HORIZONTAL, explanationLabel, saveNameField);
 
 		JButton gameNameHelpButton = createHelpButton(
-				"<html>Enter the name of the game you would like to add.<br>You cannot add the same game twice.</html>");
+				"<html>Enter the name of the game you would like to add.<br>Another game cannot already have the same name.</html>");
 		JButton saveNameHelpButton = createHelpButton(
 				"<html>Enter the name of the game's savefile. <br> For Dark Souls this is e.g. 'DRAKS0005.sl2'. Not case-sensitive. <br> Games that use two or more files to store their save data are not supported.</html>");
 
