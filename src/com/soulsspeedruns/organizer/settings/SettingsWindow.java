@@ -69,7 +69,7 @@ public class SettingsWindow extends JDialog
 		addWindowListener(new WindowAdapter() {
 			
 			@Override
-			public void windowActivated(WindowEvent e)
+			public void windowOpened(WindowEvent e)
 			{
 				requestFocusInWindow();
 				SwingUtilities.invokeLater(() -> {

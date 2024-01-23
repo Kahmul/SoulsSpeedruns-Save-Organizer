@@ -83,7 +83,7 @@ public class GameCreationWindow extends JDialog
 		{
 
 			@Override
-			public void windowActivated(WindowEvent e)
+			public void windowOpened(WindowEvent e)
 			{
 				requestFocusInWindow();
 				SwingUtilities.invokeLater(() -> {

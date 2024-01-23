@@ -154,6 +154,15 @@ public class GamesConfigPane extends JPanel implements GameListListener
 	}
 
 
+	/**
+	 * Called when the games configuration window is opened to init values.
+	 */
+	protected void loadConfigPane()
+	{
+		gameList.updateScrollbar();
+	}
+
+
 	@Override
 	public void entryCreated(GameListEntry entry)
 	{

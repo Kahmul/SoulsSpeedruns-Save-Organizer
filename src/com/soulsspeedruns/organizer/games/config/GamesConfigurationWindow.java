@@ -26,6 +26,9 @@ import com.soulsspeedruns.organizer.managers.SettingsManager;
 public class GamesConfigurationWindow extends JDialog
 {
 
+	private GamesConfigPane gamesPane;
+
+
 	/**
 	 * Creates a new configuration window.
 	 */
@@ -55,12 +58,13 @@ public class GamesConfigurationWindow extends JDialog
 		{
 
 			@Override
-			public void windowActivated(WindowEvent e)
+			public void windowOpened(WindowEvent e)
 			{
 				requestFocusInWindow();
 				SwingUtilities.invokeLater(() -> {
 					SwingUtilities.updateComponentTreeUI(GamesConfigurationWindow.this);
 				});
+				gamesPane.loadConfigPane();
 			}
 		});
 	}
@@ -71,7 +75,7 @@ public class GamesConfigurationWindow extends JDialog
 	 */
 	private void initLayout()
 	{
-		GamesConfigPane gamesPane = new GamesConfigPane();
+		gamesPane = new GamesConfigPane();
 
 		gamesPane.addMouseListener(new MouseAdapter()
 		{

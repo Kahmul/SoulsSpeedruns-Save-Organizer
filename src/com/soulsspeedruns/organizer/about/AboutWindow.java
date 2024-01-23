@@ -60,7 +60,7 @@ public class AboutWindow extends JDialog
 		addWindowListener(new WindowAdapter() {
 			
 			@Override
-			public void windowActivated(WindowEvent e)
+			public void windowOpened(WindowEvent e)
 			{
 				SwingUtilities.invokeLater(() -> {
 					SwingUtilities.updateComponentTreeUI(AboutWindow.this);

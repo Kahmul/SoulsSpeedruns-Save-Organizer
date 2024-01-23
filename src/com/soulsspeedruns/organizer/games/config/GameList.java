@@ -71,6 +71,15 @@ public class GameList extends JScrollPane
 
 
 	/**
+	 * Updates the scrollbar to the currently selected entry. Used to move the scrollbar to the selected entry when the window opens.
+	 */
+	protected void updateScrollbar()
+	{
+		getVerticalScrollBar().setValue(selectedEntry.getLocation().y);
+	}
+
+
+	/**
 	 * Creates a new game along with an entry in the list with the given game name and savefile name
 	 * 
 	 * @param gameName the name of the game to add
