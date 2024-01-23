@@ -19,10 +19,10 @@
 
 ## Description
 
-The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring.
+The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring. Support for other games can be added by the user.
 
 <p align="center">
-    <img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/docs/images/OrganizerOverview.png"/>
+    <img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/docs/images/OrganizerOverview1_6.png"/>
 </p>
 
 ## Features
@@ -31,7 +31,9 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 - Create profiles for each game to group your savefiles for e.g. speedrun categories. You only see the savefiles assigned to the current profile at any given time.
 - Switch the game's savefile to read-only and back with the click of a button for convenient practice without having to manually reload (not supported by DS1R).
 - Support for global hotkeys.
-- Support for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring.
+- Support out of the box for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring.
+- Support for other games can be added by the user (for games that use a single file to store their save data like the Souls games).
+- Multiple UI themes, including a SoulsSpeedruns theme in the style of the [SoulsSpeedruns wiki](https://soulsspeedruns.com/) dark mode.
 
 ⚠️ **This application is primarily intended for speedrunners or challenge runners. There is little to no safeguarding for keeping your savefiles if you modify or delete them. If you wish to use this program for backing up your first playthrough or similar, make sure you know what you are doing and ideally make a separate backup of your savefiles elsewhere in case you mess up!** ⚠️
 
@@ -43,23 +45,24 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 
 [Latest Release](https://github.com/Kahmul/SpeedSouls-Save-Organizer/releases)
 
-- **Standard version:** Runnable .exe file. Requires Java JRE 8+ to be installed on your system.
-- **Bundled version:** Runnable .exe file. Bundled with JRE 8.
+- **Windows version:** Runnable .exe file. Requires Java JRE 8+ to be installed on your system.
+- **Bundled Windows version:** Runnable .exe file. Bundled with JRE 8.
 - **Linux version:** Runnable .jar file. Run it via CLI <code>java -jar "SoulsSpeedruns - Save Organizer.jar"</code> or similar.
 
 ## Getting Started
 
 To get started using the save organizer, follow these steps:
 
-1. Start the application, press **Edit Profiles** in the top right.
-2. In the **Profile Configuration** window choose the game you wish to create savefiles for at the top.
-3. Click **Browse** under 'Location of Savefile' and navigate to the game's savefile (e.g. for Dark Souls this would be under "<User>/Documents/NBGI/DarkSouls/DRAKS0005.sl2").
+1. Start the application, press **Edit Games** in the top right.
+2. In the **Games Configuration** window choose the game you wish to create savefiles for on the side.
+3. Click **Browse** under 'Savefile Location' to choose the file the game uses to store its savedata. If you are choosing the savefile for a Souls game, the organizer will try to automatically find the savefile in its usual default location, so most users will just need to confirm the suggested selection. If you already tinkered with savefiles manually, make sure that you select the correct savefile the game uses. This can usually be verified by checking the date it was last modified.
 4. The application will ask you if you wish to store your savefiles in the same directory where the game's savefile is stored. You can either agree or choose a different one under 'Profiles Directory'. If you already have existing profiles on your PC, you should point the organizer to that directory in this step.
 5. Press **New** to create a new profile for your game. Name it whatever you'd like, e.g. the name of the category you wish to run.
-6. Once you are done creating your profiles you can close the **Profile Configuration** window.
+6. Once you are done creating your profiles you can close the **Games Configuration** window.
 7. Back in the main window you can now choose the game and your profile(s) at the top.
 8. Start creating savefiles by pressing **Import Savestate**, or **Rightclick > Add Folder** to create folders within your profiles. Savefiles will be imported into the selected folder.
-9. *(Optional)* Click the cog button in the bottom right to access settings. You can enable global hotkeys there to conveniently work with the organizer during practice.
+9. *(Optional)* Click the cog button in the bottom right to access settings. You can enable global hotkeys there to conveniently work with the organizer during practice, as well as change the UI theme of the organizer.
+10. *(Optional)* If you wish to add support for other games besides the Souls games, click the + in the top left of the **Games Configuration** window. There you can create a custom game by giving it a name and telling the organizer what file name to expect for the savefile. Once created, the game functions like any other game in the organizer. You can adjust the order of the games via drag and drop if you wish to have your custom games higher up the list.
 
 ## Creating/Loading Savefiles
 
@@ -70,11 +73,21 @@ Due to the how the different FROMSoftware games work, there is a few things to c
 - Loading savefiles only works in the main menu. Loading a savefile in the middle of gameplay will do nothing as the game will simply overwrite it again the next time it saves.
 - When loading a savefile in the main menu and looking at your characters, you may notice that nothing has changed. This is normal, the game only updates that info when the main menu is reloaded. If you choose a character slot, the corresponding character from the loaded savefile will be nonetheless correctly loaded.
 
+## Savefile Locations
+
+The organizer should automatically find your savefile when you open the respective file browser as outlined in [Getting Started](#getting-started), so you should not need to search for it.
+If you tinkered with your savefiles manually in advance however, or are otherwise curious where the savefiles can be found, here are their default locations on Windows:
+
+- Dark Souls: <code>C:\Users\\<User\>\Documents\NBGI\DarkSouls</code>
+- Dark Souls Remastered: <code>C:\User\s\\<User>\Documents\NBGI\DARK SOULS REMASTERED</code>
+- Dark Souls II: <code>C:\Users\\<User\>\AppData\Roaming\DarkSoulsII\\<YourSteamID\></code>
+- Dark Souls III: <code>C:\Users\\<User\>\AppData\Roaming\DarkSoulsIII\\<YourSteamID\></code>
+- Sekiro: <code>C:\Users\\<User\>\AppData\Roaming\Sekiro\\<YourSteamID\></code>
+- Elden Ring: <code>C:\Users\\<User\>\AppData\Roaming\EldenRing\\<YourSteamID\></code>
+
 ## Planned Features
 
 - Editing savefiles to adjust stats/items for characters (likely only for DS1)
-- Allowing users to add support for other games to the organizer themselves
-- Dark Mode
 
 ## Troubleshooting
 
