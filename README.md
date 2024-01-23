@@ -13,9 +13,10 @@
 4. [Download](#download)
 5. [Getting Started](#getting-started) 
 6. [Creating/Loading Savefiles](#creatingloading-savefiles)
-7. [Planned Features](#planned-features)
-8. [Troubleshooting](#troubleshooting)  
-9. [Credits](#credits)
+7. [Savefile Locations](#savefile-locations)
+8. [Planned Features](#planned-features)
+9. [Troubleshooting](#troubleshooting)  
+10. [Credits](#credits)
 
 ## Description
 
