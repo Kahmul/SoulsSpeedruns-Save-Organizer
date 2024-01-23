@@ -81,6 +81,13 @@ public class GameCreationWindow extends JDialog
 				SwingUtilities.invokeLater(() -> {
 					SwingUtilities.updateComponentTreeUI(GameCreationWindow.this);
 				});
+				SettingsManager.getKeyboardHook().unregisterHook();
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				SettingsManager.getKeyboardHook().registerHook();
 			}
 		});
 	}
@@ -127,7 +134,8 @@ public class GameCreationWindow extends JDialog
 		layout.linkSize(SwingConstants.HORIZONTAL, explanationLabel, gameNameField);
 		layout.linkSize(SwingConstants.HORIZONTAL, explanationLabel, saveNameField);
 
-		JButton gameNameHelpButton = createHelpButton("Enter the name of the game you would like to add.");
+		JButton gameNameHelpButton = createHelpButton(
+				"<html>Enter the name of the game you would like to add.<br>You cannot add the same game twice.</html>");
 		JButton saveNameHelpButton = createHelpButton(
 				"<html>Enter the name of the game's savefile. <br> For Dark Souls this is e.g. 'DRAKS0005.sl2'. Not case-sensitive. <br> Games that use two or more files to store their save data are not supported.</html>");
 
@@ -261,7 +269,7 @@ public class GameCreationWindow extends JDialog
 		String saveName = saveNameField.getText().trim();
 		if (gameName.length() <= 0 || saveName.length() <= 0)
 		{
-			JOptionPane.showMessageDialog(GameCreationWindow.this, "Please enter a game name and a savefile name!", "Invalid Input",
+			JOptionPane.showMessageDialog(GameCreationWindow.this, "Please enter a game name and a savefile name!", "Missing Input",
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
@@ -270,7 +278,7 @@ public class GameCreationWindow extends JDialog
 		{
 			if (game.getCaption().equalsIgnoreCase(gameName) && !game.equals(this.game))
 			{
-				JOptionPane.showMessageDialog(GameCreationWindow.this, "A name with the given name already exists!", "Name Already Exists",
+				JOptionPane.showMessageDialog(GameCreationWindow.this, "A game with the given name already exists!", "Game Already Exists",
 						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
