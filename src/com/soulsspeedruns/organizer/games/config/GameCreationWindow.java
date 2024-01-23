@@ -2,8 +2,8 @@ package com.soulsspeedruns.organizer.games.config;
 
 
 import java.awt.Dialog;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -35,6 +35,14 @@ import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
 
+/**
+ * GameCreationWindow.
+ * <p>
+ * Window to allow the user to create new custom games or edit existing custom games.
+ * 
+ * @author Kahmul (www.twitch.tv/kahmul78)
+ * @date 13 Jan 2024
+ */
 public class GameCreationWindow extends JDialog
 {
 
@@ -84,6 +92,7 @@ public class GameCreationWindow extends JDialog
 				SettingsManager.getKeyboardHook().unregisterHook();
 			}
 
+
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
@@ -93,6 +102,9 @@ public class GameCreationWindow extends JDialog
 	}
 
 
+	/**
+	 * Creates the layout for the window.
+	 */
 	private void initLayout()
 	{
 		JPanel guiPanel = new JPanel();
@@ -115,6 +127,11 @@ public class GameCreationWindow extends JDialog
 	}
 
 
+	/**
+	 * Creates the panel with the info text, textfields and help buttons.
+	 * 
+	 * @return the settings panel
+	 */
 	private JPanel createSettingsPanel()
 	{
 		JPanel settingsPanel = new JPanel();
@@ -125,8 +142,8 @@ public class GameCreationWindow extends JDialog
 		JLabel explanationLabel = new JLabel("<html>Here you can add support for other games to the organizer.<br>"
 				+ "Please enter the name of the game you would like to add as well as<br>" + "the file name of the savefile the game uses.<html>");
 
-		JLabel gameNameLabel = createHeaderLabel("Name of the game:");
-		JLabel saveNameLabel = createHeaderLabel("Name of the game's savefile:");
+		JLabel gameNameLabel = new JLabel("Name of the game:");
+		JLabel saveNameLabel = new JLabel("Name of the game's savefile:");
 
 		gameNameField = createTextField(game == null ? "" : game.getCaption());
 		saveNameField = createTextField(game == null ? "" : game.getSaveName());
@@ -165,35 +182,18 @@ public class GameCreationWindow extends JDialog
 	}
 
 
-	private JLabel createHeaderLabel(String text)
-	{
-		JLabel label = new JLabel(text);
-//		label.addPropertyChangeListener(new PropertyChangeListener()
-//		{
-//
-//			@Override
-//			public void propertyChange(PropertyChangeEvent evt)
-//			{
-//				label.setFont(label.getFont().deriveFont(Font.BOLD));
-//			}
-//		});
-
-		return label;
-	}
-
-
+	/**
+	 * Creates the two textfields to enter the game name and save name.
+	 * 
+	 * @param text set if editing an existing game
+	 * @return the text field
+	 */
 	private JTextField createTextField(String text)
 	{
 		JTextField textField = new JTextField(text);
 
-		textField.addKeyListener(new KeyListener()
+		textField.addKeyListener(new KeyAdapter()
 		{
-
-			@Override
-			public void keyTyped(KeyEvent e)
-			{
-			}
-
 
 			@Override
 			public void keyReleased(KeyEvent e)
@@ -202,11 +202,6 @@ public class GameCreationWindow extends JDialog
 					createOrUpdateGame();
 			}
 
-
-			@Override
-			public void keyPressed(KeyEvent e)
-			{
-			}
 		});
 
 		AbstractDocument document = (AbstractDocument) textField.getDocument();
@@ -236,6 +231,12 @@ public class GameCreationWindow extends JDialog
 	}
 
 
+	/**
+	 * The help buttons next to the text fields.
+	 * 
+	 * @param tooltip the tooltip to show when hovering over the help buttons
+	 * @return the help buttons
+	 */
 	private JButton createHelpButton(String tooltip)
 	{
 		JButton helpButton = new JButton(IconFontSwing.buildIcon(FontAwesome.QUESTION, 20, UIManager.getColor("gameConfigButtonColors")));
@@ -250,6 +251,11 @@ public class GameCreationWindow extends JDialog
 	}
 
 
+	/**
+	 * Creates the "Create"/"Update" button to finish creating/editing a game.
+	 * 
+	 * @return the button
+	 */
 	private JPanel createButtonPanel()
 	{
 		JButton createButton = new JButton(game == null ? "Create" : "Update");
@@ -263,6 +269,9 @@ public class GameCreationWindow extends JDialog
 	}
 
 
+	/**
+	 * Takes the strings from the input fields and attempts to create/update the game. Shows messages if there is errors, closes the window if not.
+	 */
 	private void createOrUpdateGame()
 	{
 		String gameName = gameNameField.getText().trim();
