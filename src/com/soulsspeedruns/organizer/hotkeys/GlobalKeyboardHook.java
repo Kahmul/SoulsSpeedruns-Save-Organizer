@@ -1,6 +1,7 @@
 package com.soulsspeedruns.organizer.hotkeys;
 
 
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -159,29 +160,37 @@ public class GlobalKeyboardHook implements NativeKeyListener
 	private String getKeyText(NativeKeyEvent e)
 	{
 		String modifiers = NativeKeyEvent.getModifiersText(e.getModifiers());
-		modifiers = modifiers.replaceAll("\\+", " \\+ ");
-		modifiers = modifiers.length() > 0 ? modifiers + " + " : modifiers;
+		if (modifiers.length() > 0)
+		{
+			modifiers = modifiers.replaceAll("\\+", " \\+ ");
+			// replace "Shift + Ctrl/Alt" with "Ctrl/Alt + Shift" for compatibility between global hotkeys and base Java hotkeys
+			modifiers = modifiers.replaceAll(Toolkit.getProperty("AWT.shift", "Shift") + " \\+ " + Toolkit.getProperty("AWT.control", "Ctrl"),
+					Toolkit.getProperty("AWT.control", "Ctrl") + " \\+ " + Toolkit.getProperty("AWT.shift", "Shift"));
+			modifiers = modifiers.replaceAll(Toolkit.getProperty("AWT.shift", "Shift") + " \\+ " + Toolkit.getProperty("AWT.alt", "Alt"),
+					Toolkit.getProperty("AWT.alt", "alt") + " \\+ " + Toolkit.getProperty("AWT.shift", "Shift"));
+			modifiers += " + ";
+		}
 
 		String keyText = "";
 
 		// NativeKeyEvent has different keytexts than Java for modifiers, so need to standardize them
 		switch (e.getKeyCode())
 		{
-		case NativeKeyEvent.VC_SHIFT_L:
-		case NativeKeyEvent.VC_SHIFT_R:
-			keyText = KeyEvent.getKeyText(KeyEvent.VK_SHIFT);
-			break;
-		case NativeKeyEvent.VC_CONTROL_L:
-		case NativeKeyEvent.VC_CONTROL_R:
-			keyText = KeyEvent.getKeyText(KeyEvent.VK_CONTROL);
-			break;
-		case NativeKeyEvent.VC_ALT_L:
-		case NativeKeyEvent.VC_ALT_R:
-			keyText = KeyEvent.getKeyText(KeyEvent.VK_ALT);
-			break;
-		default:
-			keyText = NativeKeyEvent.getKeyText(e.getKeyCode());
-			break;
+			case NativeKeyEvent.VC_CONTROL_L:
+			case NativeKeyEvent.VC_CONTROL_R:
+				keyText = KeyEvent.getKeyText(KeyEvent.VK_CONTROL);
+				break;
+			case NativeKeyEvent.VC_SHIFT_L:
+			case NativeKeyEvent.VC_SHIFT_R:
+				keyText = KeyEvent.getKeyText(KeyEvent.VK_SHIFT);
+				break;
+			case NativeKeyEvent.VC_ALT_L:
+			case NativeKeyEvent.VC_ALT_R:
+				keyText = KeyEvent.getKeyText(KeyEvent.VK_ALT);
+				break;
+			default:
+				keyText = NativeKeyEvent.getKeyText(e.getKeyCode());
+				break;
 		}
 
 		return modifiers + keyText;
