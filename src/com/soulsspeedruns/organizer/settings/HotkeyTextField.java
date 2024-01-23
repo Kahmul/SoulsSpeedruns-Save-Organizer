@@ -1,7 +1,6 @@
 package com.soulsspeedruns.organizer.settings;
 
 
-import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -127,11 +126,6 @@ public class HotkeyTextField extends JTextField implements FocusListener, KeyLis
 		String modifiers = KeyEvent.getModifiersExText(e.getModifiersEx());
 		modifiers = modifiers.replaceAll("\\+", " \\+ ");
 		modifiers = modifiers.length() > 0 ? modifiers + " + " : modifiers;
-		// replace "Shift + Ctrl/Alt" with "Ctrl/Alt + Shift" for compatibility between global hotkeys and base Java hotkeys
-		modifiers = modifiers.replaceAll(Toolkit.getProperty("AWT.shift", "Shift") + " \\+ " + Toolkit.getProperty("AWT.control", "Ctrl"),
-				Toolkit.getProperty("AWT.control", "Ctrl") + " \\+ " + Toolkit.getProperty("AWT.shift", "Shift"));
-		modifiers = modifiers.replaceAll(Toolkit.getProperty("AWT.shift", "Shift") + " \\+ " + Toolkit.getProperty("AWT.alt", "Alt"),
-				Toolkit.getProperty("AWT.alt", "alt") + " \\+ " + Toolkit.getProperty("AWT.shift", "Shift"));
 
 		String keyText = KeyEvent.getKeyText(e.getKeyCode());
 		keyText = keyText.replaceAll("NumPad-", "NumPad ");
