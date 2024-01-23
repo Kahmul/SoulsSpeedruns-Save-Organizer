@@ -62,8 +62,9 @@ To get started using the save organizer, follow these steps:
 6. Once you are done creating your profiles you can close the **Games Configuration** window.
 7. Back in the main window you can now choose the game and your profile(s) at the top.
 8. Start creating savefiles by pressing **Import Savestate**, or **Rightclick > Add Folder** to create folders within your profiles. Savefiles will be imported into the selected folder.
-9. *(Optional)* Click the cog button in the bottom right to access settings. You can enable global hotkeys there to conveniently work with the organizer during practice, as well as change the UI theme of the organizer.
-10. *(Optional)* If you wish to add support for other games besides the Souls games, click the + in the top left of the **Games Configuration** window. There you can create a custom game by giving it a name and telling the organizer what file name to expect for the savefile. Once created, the game functions like any other game in the organizer. You can adjust the order of the games via drag and drop if you wish to have your custom games higher up the list.
+9. Load your created savefiles by pressing **Load Savestate**. Check the next section [Creating/Loading Savefiles](#creatingloading-savefiles) for more information.
+10. *(Optional)* Click the cog button in the bottom right to access settings. You can enable global hotkeys there to conveniently work with the organizer during practice, as well as change the UI theme of the organizer.
+11. *(Optional)* If you wish to add support for other games besides the Souls games, click the + in the top left of the **Games Configuration** window. There you can create a custom game by giving it a name and telling the organizer what file name to expect for the savefile. Once created, the game functions like any other game in the organizer. You can adjust the order of the games via drag and drop if you wish to have your custom games higher up the list.
 
 ## Creating/Loading Savefiles
 
