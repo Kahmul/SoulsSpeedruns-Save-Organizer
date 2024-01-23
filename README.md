@@ -79,12 +79,13 @@ Due to the how the different FROMSoftware games work, there is a few things to c
 The organizer should automatically find your savefile when you open the respective file browser as outlined in [Getting Started](#getting-started), so you should not need to search for it.
 If you tinkered with your savefiles manually in advance however, or are otherwise curious where the savefiles can be found, here are their default locations on Windows:
 
-- Dark Souls: <code>C:\Users\\<User\>\Documents\NBGI\DarkSouls</code>
-- Dark Souls Remastered: <code>C:\User\s\\<User>\Documents\NBGI\DARK SOULS REMASTERED</code>
-- Dark Souls II: <code>C:\Users\\<User\>\AppData\Roaming\DarkSoulsII\\<YourSteamID\></code>
-- Dark Souls III: <code>C:\Users\\<User\>\AppData\Roaming\DarkSoulsIII\\<YourSteamID\></code>
-- Sekiro: <code>C:\Users\\<User\>\AppData\Roaming\Sekiro\\<YourSteamID\></code>
-- Elden Ring: <code>C:\Users\\<User\>\AppData\Roaming\EldenRing\\<YourSteamID\></code>
+- Dark Souls: <code>C:\Users\\<User\>\Documents\NBGI\DarkSouls\DRAKS0005.sl2</code>
+- Dark Souls Remastered: <code>C:\User\s\\<User>\Documents\NBGI\DARK SOULS REMASTERED\DRAKS0005.sl2</code>
+- Dark Souls II: <code>C:\Users\\<User\>\AppData\Roaming\DarkSoulsII\\<YourSteamID\>\DARKSII0000.sl2</code>
+- Dark Souls II: SotFS: <code>C:\Users\\<User\>\AppData\Roaming\DarkSoulsII\\<YourSteamID\>\DS2SOFS0000.sl2</code>
+- Dark Souls III: <code>C:\Users\\<User\>\AppData\Roaming\DarkSoulsIII\\<YourSteamID\>\DS30000.sl2</code>
+- Sekiro: <code>C:\Users\\<User\>\AppData\Roaming\Sekiro\\<YourSteamID\>\S0000.sl2</code>
+- Elden Ring: <code>C:\Users\\<User\>\AppData\Roaming\EldenRing\\<YourSteamID\>\ER0000.sl2</code>
 
 ## Planned Features
 
