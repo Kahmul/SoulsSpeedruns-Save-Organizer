@@ -96,6 +96,7 @@ If you tinkered with your savefiles manually in advance however, or are otherwis
 
 - You can join the [SoulsSpeedruns Discord](https://discord.soulsspeedruns.com) for troubleshooting help.
 - Make sure you use Java JRE 8. You can use the bundled version for this.
+- If you're on Steam Deck and there is no visible UI on the organizer, you may need to set the <code>_JAVA_AWT_WM_NONREPARENTING=1</code> environment variable.
 - If you have problems starting up the program after you've already been using it there might be conflicting data between the registry entries and the actual data. In this case it might help to remove the registry entries of the Save Organizer (the following steps are for Windows):
 
         1. Press Windows + R.
