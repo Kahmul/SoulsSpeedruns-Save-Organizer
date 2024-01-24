@@ -20,8 +20,9 @@
 
 ## Description
 
-The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring. Support for other games can be added by the user.
+The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring. Support for more games can be added by the user.
 
+<br>
 <p align="center">
     <img src="https://github.com/Kahmul/SoulsSpeedruns-Save-Organizer/blob/develop/docs/images/OrganizerOverview1_6.png"/>
 </p>
@@ -33,7 +34,7 @@ The SoulsSpeedruns - Save Organizer is a tool designed to manage savefiles for D
 - Switch the game's savefile to read-only and back with the click of a button for convenient practice without having to manually reload (not supported by DS1R).
 - Support for global hotkeys.
 - Support out of the box for Dark Souls, Dark Souls Remastered, Dark Souls II, Dark Souls II: Scholar of the First Sin, Dark Souls III, Sekiro and Elden Ring.
-- Support for other games can be added by the user (for games that use a single file to store their save data like the Souls games).
+- Support for more games can be added by the user (for games that use a single file to store their save data).
 - Multiple UI themes, including a SoulsSpeedruns theme in the style of the [SoulsSpeedruns wiki](https://soulsspeedruns.com/) dark mode.
 
 ⚠️ **This application is primarily intended for speedrunners or challenge runners. There is little to no safeguarding for keeping your savefiles if you modify or delete them. If you wish to use this program for backing up your first playthrough or similar, make sure you know what you are doing and ideally make a separate backup of your savefiles elsewhere in case you mess up!** ⚠️
