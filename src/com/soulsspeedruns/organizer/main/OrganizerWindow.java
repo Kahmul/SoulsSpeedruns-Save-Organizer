@@ -32,7 +32,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	private static final int MIN_WIDTH = 650;
 	private static final int MIN_HEIGHT = 550;
 
-	private static final int MIN_WIDTH_COMPACT = 500;
+	private static final int MIN_WIDTH_COMPACT = 490;
 	private static final int MIN_HEIGHT_COMPACT = 400;
 
 	private static final boolean IS_RESIZABLE = true;
