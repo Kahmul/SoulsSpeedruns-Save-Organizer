@@ -435,6 +435,8 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			model.removeElement(entry);
 			entry.delete();
 		}
+		copiedEntries.removeAll(entries);
+		
 		if (!silent)
 			AbstractMessage.display(AbstractMessage.SUCCESSFUL_DELETE);
 	}
