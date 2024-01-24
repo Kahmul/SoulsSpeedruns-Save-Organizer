@@ -130,7 +130,7 @@ public class ButtonPanel extends JPanel
 				return;
 			}
 			JOptionPane.showMessageDialog(null,
-					"Create a profile before trying to import a savefile! You can do this in the profile configuration settings.", "Warning",
+					"You need to set up your game and create a profile before you can import a savefile. You can do this in the game configuration settings in the top right.", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 		});
 		return importButton;
