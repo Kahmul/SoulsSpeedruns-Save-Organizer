@@ -25,6 +25,7 @@ import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SettingsListener;
 import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
+import com.soulsspeedruns.organizer.managers.OrganizerManager;
 import com.soulsspeedruns.organizer.managers.SavesManager;
 import com.soulsspeedruns.organizer.managers.SettingsManager;
 import com.soulsspeedruns.organizer.managers.VersionManager;
@@ -129,7 +130,7 @@ public class ButtonPanel extends JPanel
 				SavesManager.importSavefile(null);
 				return;
 			}
-			JOptionPane.showMessageDialog(null,
+			JOptionPane.showMessageDialog(OrganizerManager.getMainWindow(),
 					"You need to set up your game and create a profile before you can import a savefile. You can do this in the game configuration settings in the top right.", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 		});
