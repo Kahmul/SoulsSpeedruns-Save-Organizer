@@ -285,9 +285,9 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 		if (entry.getChildren().size() == 0)
 		{
 			boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
-			SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
+			SettingsManager.setGlobalHotkeysEnabled(false, false);
 			JOptionPane.showMessageDialog(getParent(), "Cannot open an empty folder!", "Info", JOptionPane.INFORMATION_MESSAGE);
-			SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+			SettingsManager.setGlobalHotkeysEnabled(areHotkeysEnabled, false);
 			return;
 		}
 		DefaultListModel<SaveListEntry> model = (DefaultListModel<SaveListEntry>) getModel();
@@ -328,11 +328,11 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 	public void askToCreateFolder()
 	{
 		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
+		SettingsManager.setGlobalHotkeysEnabled(false, false);
 		String name = JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Folder name: ", "Create Folder",
 				JOptionPane.QUESTION_MESSAGE);
 		boolean nameValidation = validateNameForNewFolder(name);
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.setGlobalHotkeysEnabled(areHotkeysEnabled, false);
 		if (nameValidation)
 		{
 			try
@@ -393,7 +393,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			return;
 		int confirm = -1;
 		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
+		SettingsManager.setGlobalHotkeysEnabled(false, false);
 		if (entries.size() == 1)
 			confirm = JOptionPane.showConfirmDialog(SwingUtilities.windowForComponent(this),
 					"Do you really want to delete '" + entries.get(0).getName() + "'"
@@ -417,7 +417,7 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			}
 			deleteEntries(entries, false);
 		}
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.setGlobalHotkeysEnabled(areHotkeysEnabled, false);
 	}
 
 
@@ -459,12 +459,12 @@ public class SaveList extends JList<SaveListEntry> implements ListSelectionListe
 			return;
 		}
 		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
+		SettingsManager.setGlobalHotkeysEnabled(false, false);
 		String newName = (String) JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this),
 				(entry instanceof Folder ? "Folder name: " : "Save name: "), "Edit " + entry.getName(), JOptionPane.QUESTION_MESSAGE, null, null,
 				entry.getName());
 		boolean nameValidation = validateNewName(entry, newName);
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.setGlobalHotkeysEnabled(areHotkeysEnabled, false);
 		if (!nameValidation)
 			return;
 		renameEntry(entry, newName);

@@ -131,7 +131,7 @@ public class GeneralSettingsPanel extends JPanel
 	 */
 	protected void applyChanges()
 	{
-		SettingsManager.setGlobalHotkeysEnabled(hotkeysCheckbox.isSelected());
+		SettingsManager.setGlobalHotkeysEnabled(hotkeysCheckbox.isSelected(), true);
 		SettingsManager.setAlwaysOnTop(alwaysOnTopCheckbox.isSelected());
 		SettingsManager.setDoubleClickLoadEnabled(doubleClickLoadCheckbox.isSelected());
 		SettingsManager.setCheckForUpdatesEnabled(checkForUpdatesCheckbox.isSelected());

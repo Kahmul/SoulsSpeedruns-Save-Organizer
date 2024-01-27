@@ -378,13 +378,18 @@ public class SettingsManager
 	 * Enables/disables global hotkeys.
 	 * 
 	 * @param flag True to enable, false to disable
+	 * @param isPermanent whether to save the setting to the backstore or just temporarily disable hotkeys
 	 */
-	public static void setGlobalHotkeysEnabled(boolean flag)
+	public static void setGlobalHotkeysEnabled(boolean flag, boolean isPermanent)
 	{
 		if (areGlobalHotkeysEnabled() == flag)
 			return;
-		prefs.putBoolean(PREFS_KEY_SETTING_GLOBAL_HOTKEYS, flag);
+		
 		keyboardHook.setHotkeysEnabled(flag);
+		
+		if(!isPermanent)
+			return;
+		prefs.putBoolean(PREFS_KEY_SETTING_GLOBAL_HOTKEYS, flag);
 		fireSettingChangedEvent(PREFS_KEY_SETTING_GLOBAL_HOTKEYS);
 	}
 

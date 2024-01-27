@@ -137,10 +137,10 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 		if (game.getDirectory() == null)
 			return;
 		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
+		SettingsManager.setGlobalHotkeysEnabled(false, false);
 		String name = JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Profile name: ", "Create Profile", JOptionPane.QUESTION_MESSAGE);
 		boolean nameValidation = validateNameForNewProfile(name);
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.setGlobalHotkeysEnabled(areHotkeysEnabled, false);
 		if (nameValidation)
 		{
 			try
@@ -211,7 +211,7 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 			return;
 		int confirm = -1;
 		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
+		SettingsManager.setGlobalHotkeysEnabled(false, false);
 		if (profiles.size() == 1)
 			confirm = JOptionPane.showConfirmDialog(getParent(),
 					"Do you really want to delete '" + profiles.get(0).getName() + "' and all of its contents?", "Delete",
@@ -221,7 +221,7 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 					JOptionPane.YES_NO_OPTION);
 		if (confirm == 0)
 			deleteProfiles(profiles);
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.setGlobalHotkeysEnabled(areHotkeysEnabled, false);
 	}
 
 
@@ -253,11 +253,11 @@ public class ProfileList extends JList<Profile> implements ProfileListener, KeyL
 		if (profile == null)
 			return;
 		boolean areHotkeysEnabled = SettingsManager.areGlobalHotkeysEnabled();
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(false);
+		SettingsManager.setGlobalHotkeysEnabled(false, false);
 		String newProfileName = (String) JOptionPane.showInputDialog(SwingUtilities.windowForComponent(this), "Profile name: ", "Edit " + profile.getName(),
 				JOptionPane.QUESTION_MESSAGE, null, null, profile.getName());
 		boolean nameValidation = validateNewName(profile, newProfileName);
-		SettingsManager.getKeyboardHook().setHotkeysEnabled(areHotkeysEnabled);
+		SettingsManager.setGlobalHotkeysEnabled(areHotkeysEnabled, false);
 		if (nameValidation)
 			renameProfile(profile, newProfileName);
 	}

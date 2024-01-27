@@ -89,14 +89,14 @@ public class GameCreationWindow extends JDialog
 				SwingUtilities.invokeLater(() -> {
 					SwingUtilities.updateComponentTreeUI(GameCreationWindow.this);
 				});
-				SettingsManager.getKeyboardHook().unregisterHook();
+				SettingsManager.setGlobalHotkeysEnabled(false, false);
 			}
 
 
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
-				SettingsManager.getKeyboardHook().registerHook();
+				SettingsManager.setGlobalHotkeysEnabled(true, false);
 			}
 		});
 	}

@@ -119,7 +119,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 				if (state != JFrame.MAXIMIZED_BOTH)
 					SettingsManager.setStoredWindowSize(new Dimension(getSize()));
 				SettingsManager.setStoredMaximizedWindowState(state);
-				SettingsManager.getKeyboardHook().unregisterHook();
+				SettingsManager.setGlobalHotkeysEnabled(false, false);
 				e.getWindow().dispose();
 				System.exit(0);
 			}

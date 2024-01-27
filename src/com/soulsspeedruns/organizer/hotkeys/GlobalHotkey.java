@@ -114,7 +114,7 @@ public enum GlobalHotkey
 		@Override
 		public void action()
 		{
-			SettingsManager.setGlobalHotkeysEnabled(!SettingsManager.areGlobalHotkeysEnabled());
+			SettingsManager.setGlobalHotkeysEnabled(!SettingsManager.areGlobalHotkeysEnabled(), true);
 		}
 
 
