@@ -1,13 +1,16 @@
 package com.soulsspeedruns.organizer.components;
 
 
+import java.awt.Color;
+import java.awt.Insets;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
-import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.UIManager;
 
 import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.event.ThemeChangeEvent;
@@ -35,7 +38,7 @@ import com.soulsspeedruns.organizer.savelist.SaveListEntry;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 26 Sep 2015
  */
-public class ReadOnlyButton extends JLabel implements MouseListener, ProfileListener, SaveListener, SettingsListener
+public class ReadOnlyButton extends JButton implements MouseListener, ProfileListener, SaveListener, SettingsListener
 {
 
 	private File file;
@@ -50,11 +53,21 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	public ReadOnlyButton(File file)
 	{
 		setFile(file);
+		
+		setForeground(new Color(UIManager.getColor("textForeground").getRGB()));
+		setContentAreaFilled(false);
+		setBorderPainted(false);
+		setFocusPainted(false);
+		setMargin(new Insets(0, 0, 0, 0));
 
 		addMouseListener(this);
 		GamesManager.addProfileListener(this);
 		SavesManager.addSaveListener(this);
 		SettingsManager.addSettingsListener(this);
+		
+		addActionListener(e -> {
+			doClick();
+		});
 
 		LafManager.addThemeChangeListener(new ThemeChangeListener()
 		{
@@ -63,6 +76,7 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 			public void themeInstalled(ThemeChangeEvent e)
 			{
 				refreshAppearance(false);
+				setForeground(new Color(UIManager.getColor("textForeground").getRGB()));
 			}
 
 
@@ -173,7 +187,6 @@ public class ReadOnlyButton extends JLabel implements MouseListener, ProfileList
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		doClick();
 	}
 
 
