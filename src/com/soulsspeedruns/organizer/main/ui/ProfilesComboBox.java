@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.main.config;
+package com.soulsspeedruns.organizer.main.ui;
 
 
 import java.awt.event.ItemEvent;

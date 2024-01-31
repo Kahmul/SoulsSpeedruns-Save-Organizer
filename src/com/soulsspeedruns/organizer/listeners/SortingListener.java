@@ -1,7 +1,7 @@
 package com.soulsspeedruns.organizer.listeners;
 
 
-import com.soulsspeedruns.organizer.main.config.SortingCategory;
+import com.soulsspeedruns.organizer.main.ui.SortingCategory;
 
 
 /**

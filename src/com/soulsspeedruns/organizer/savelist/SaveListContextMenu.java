@@ -13,7 +13,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
-import com.soulsspeedruns.organizer.main.config.SortingCategory;
+import com.soulsspeedruns.organizer.main.ui.SortingCategory;
 import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.SavesManager;

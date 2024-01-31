@@ -12,10 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.soulsspeedruns.organizer.components.SearchBar;
-import com.soulsspeedruns.organizer.games.config.GamesConfigurationWindow;
-import com.soulsspeedruns.organizer.main.config.GamesComboBox;
-import com.soulsspeedruns.organizer.main.config.ProfilesComboBox;
-import com.soulsspeedruns.organizer.main.config.SortingComboBox;
+import com.soulsspeedruns.organizer.games.ui.GamesConfigurationWindow;
+import com.soulsspeedruns.organizer.main.ui.GamesComboBox;
+import com.soulsspeedruns.organizer.main.ui.ProfilesComboBox;
+import com.soulsspeedruns.organizer.main.ui.SortingComboBox;
 import com.soulsspeedruns.organizer.managers.GamesManager;
 
 

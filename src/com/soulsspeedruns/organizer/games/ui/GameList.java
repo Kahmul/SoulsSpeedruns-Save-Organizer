@@ -1,4 +1,4 @@
-package com.soulsspeedruns.organizer.games.config;
+package com.soulsspeedruns.organizer.games.ui;
 
 
 import java.awt.Point;

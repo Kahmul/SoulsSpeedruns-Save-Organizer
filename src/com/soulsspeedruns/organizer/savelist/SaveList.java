@@ -29,7 +29,7 @@ import com.soulsspeedruns.organizer.listeners.ProfileListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SearchListener;
 import com.soulsspeedruns.organizer.listeners.SortingListener;
-import com.soulsspeedruns.organizer.main.config.SortingCategory;
+import com.soulsspeedruns.organizer.main.ui.SortingCategory;
 import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.OrganizerManager;
 import com.soulsspeedruns.organizer.managers.SavesManager;
