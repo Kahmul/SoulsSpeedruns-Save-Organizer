@@ -11,9 +11,9 @@ import com.sun.jna.win32.W32APIOptions;
 
 
 /**
- * <ShortDescription>
+ * User32.
  * <p>
- * <LongDescription>
+ * Interface using JNA to implement native methods for finding game processes.
  * 
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 31 Jan 2024
