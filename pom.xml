@@ -8,11 +8,11 @@
 	<description>SoulsSpeedruns - Save Organizer</description>
 
 	<dependencies>
-<!--	<dependency>
+		<dependency>
 		    <groupId>net.java.dev.jna</groupId>
 		    <artifactId>jna</artifactId>
 		    <version>5.14.0</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>com.1stleg</groupId>
 			<artifactId>jnativehook</artifactId>
