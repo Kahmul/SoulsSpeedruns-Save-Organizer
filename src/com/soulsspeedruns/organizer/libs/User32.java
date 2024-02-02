@@ -4,6 +4,7 @@
 package com.soulsspeedruns.organizer.libs;
 
 
+import com.soulsspeedruns.organizer.managers.VersionManager;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
@@ -21,7 +22,7 @@ import com.sun.jna.win32.W32APIOptions;
 public interface User32 extends W32APIOptions
 {
 
-	User32 INSTANCE = Native.load("user32", User32.class);
+	User32 INSTANCE = VersionManager.isRunningOnWindows() ? Native.load("user32", User32.class) : null;
 
 
 	Pointer FindWindowA(String winClass, String title);
