@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
+import com.soulsspeedruns.organizer.games.ds1.DS1ProcessHandler;
 import com.soulsspeedruns.organizer.listeners.GameListener;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
 
@@ -28,6 +29,14 @@ public class GamesManager
 	private static List<GameListener> gameListeners;
 	private static List<ProfileListener> profileListeners;
 
+	private static Game darkSouls;
+	private static Game darkSoulsRemastered;
+	private static Game darkSouls2;
+	private static Game darkSouls2SotFS;
+	private static Game darkSouls3;
+	private static Game sekiro;
+	private static Game eldenRing;
+
 
 	protected static void initialize()
 	{
@@ -44,10 +53,40 @@ public class GamesManager
 	 */
 	private static void loadGames()
 	{
+		createNativeGames();
 		createCustomGames();
 		for (Game game : Game.GAMES)
 			loadGame(game);
 		Game.GAMES.sort(null);
+	}
+
+
+	/**
+	 * Creates the natively supported Souls games
+	 */
+	private static void createNativeGames()
+	{
+		darkSouls = Game.createGame("Dark Souls", "DS1", "DRAKS0005.sl2", "211420",
+				"%UserProfile%" + File.separator + "Documents" + File.separator + "NBGI" + File.separator + "DarkSouls", true, false);
+		darkSouls.setProcessHandler(DS1ProcessHandler.INSTANCE);
+
+		darkSoulsRemastered = Game.createGame("Dark Souls Remastered", "DSR", "DRAKS0005.sl2", "570940",
+				"%UserProfile%" + File.separator + "Documents" + File.separator + "NBGI" + File.separator + "DARK SOULS REMASTERED", false, false);
+
+		darkSouls2 = Game.createGame("Dark Souls II", "DS2", "DARKSII0000.sl2", "236430",
+				"%AppData%" + File.separator + "DarkSoulsII" + File.separator + "<SteamID>", true, false);
+
+		darkSouls2SotFS = Game.createGame("Dark Souls II: SotFS", "DS2SOTFS", "DS2SOFS0000.sl2", "335300",
+				"%AppData%" + File.separator + "DarkSoulsII" + File.separator + "<SteamID>", true, false);
+
+		darkSouls3 = Game.createGame("Dark Souls III", "DS3", "DS30000.sl2", "374320",
+				"%AppData%" + File.separator + "DarkSoulsIII" + File.separator + "<SteamID>", true, false);
+
+		sekiro = Game.createGame("Sekiro", "SSDT", "S0000.sl2", "814380", "%AppData%" + File.separator + "Sekiro" + File.separator + "<SteamID>",
+				true, false);
+
+		eldenRing = Game.createGame("Elden Ring", "ER", "ER0000.sl2", "1245620",
+				"%AppData%" + File.separator + "EldenRing" + File.separator + "<SteamID>", true, false);
 	}
 
 
@@ -112,6 +151,48 @@ public class GamesManager
 	public static void refreshProfiles()
 	{
 		loadGames();
+	}
+
+
+	public static Game getEldenRing()
+	{
+		return eldenRing;
+	}
+
+
+	public static Game getSekiro()
+	{
+		return sekiro;
+	}
+
+
+	public static Game getDarkSouls3()
+	{
+		return darkSouls3;
+	}
+
+
+	public static Game getDarkSouls2SotFS()
+	{
+		return darkSouls2SotFS;
+	}
+
+
+	public static Game getDarkSouls2()
+	{
+		return darkSouls2;
+	}
+
+
+	public static Game getDarkSoulsRemastered()
+	{
+		return darkSoulsRemastered;
+	}
+
+
+	public static Game getDarkSouls()
+	{
+		return darkSouls;
 	}
 
 

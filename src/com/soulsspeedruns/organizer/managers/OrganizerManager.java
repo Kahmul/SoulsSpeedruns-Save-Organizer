@@ -14,6 +14,7 @@ import javax.swing.ToolTipManager;
 
 import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.IntelliJTheme;
+import com.soulsspeedruns.organizer.games.GameProcessHandler;
 import com.soulsspeedruns.organizer.main.OrganizerWindow;
 import com.soulsspeedruns.organizer.theme.DefaultTheme;
 import com.soulsspeedruns.organizer.theme.GlobalThemeAdjustmentTask;
@@ -57,6 +58,8 @@ public class OrganizerManager
 			GamesManager.initialize();
 			SavesManager.initialize();
 			initialize();
+			
+			GameProcessHandler.startHookThread();
 		}
 		catch (IOException e)
 		{

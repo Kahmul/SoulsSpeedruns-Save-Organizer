@@ -34,7 +34,7 @@ public class GamesComboBox extends JComboBox<Game> implements GameListener
 		fillWith(Game.GAMES);
 
 		setRenderer(new GamesComboBoxRenderer());
-		setPrototypeDisplayValue(Game.DARK_SOULS_II_SOTFS);
+		setPrototypeDisplayValue(GamesManager.getDarkSouls2SotFS());
 		addItemListener(event -> {
 			if (event.getStateChange() == ItemEvent.SELECTED && updateProfileComboBox)
 			{
