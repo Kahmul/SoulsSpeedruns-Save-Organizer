@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.Profile;
+import com.soulsspeedruns.organizer.games.ds1.DS1AppendageHandler;
 import com.soulsspeedruns.organizer.games.ds1.DS1ProcessHandler;
 import com.soulsspeedruns.organizer.listeners.GameListener;
 import com.soulsspeedruns.organizer.listeners.ProfileListener;
@@ -69,6 +70,7 @@ public class GamesManager
 		darkSouls = Game.createGame("Dark Souls", "DS1", "DRAKS0005.sl2", "211420",
 				"%UserProfile%" + File.separator + "Documents" + File.separator + "NBGI" + File.separator + "DarkSouls", true, false);
 		darkSouls.setProcessHandler(DS1ProcessHandler.INSTANCE);
+		darkSouls.setAppendageHandler(DS1AppendageHandler.INSTANCE);
 
 		darkSoulsRemastered = Game.createGame("Dark Souls Remastered", "DSR", "DRAKS0005.sl2", "570940",
 				"%UserProfile%" + File.separator + "Documents" + File.separator + "NBGI" + File.separator + "DARK SOULS REMASTERED", false, false);
@@ -193,6 +195,18 @@ public class GamesManager
 	public static Game getDarkSouls()
 	{
 		return darkSouls;
+	}
+
+
+	/**
+	 * Checks whether data appendage and process handling is supported by the currently selected game and the system environment.
+	 * 
+	 * @return true if yes
+	 */
+	public static boolean isDataAppendageAndProcessHandlingSupported()
+	{
+		Game selectedGame = getSelectedGame();
+		return VersionManager.isRunningOnWindows() && selectedGame.getAppendageHandler() != null && selectedGame.getProcessHandler() != null;
 	}
 
 

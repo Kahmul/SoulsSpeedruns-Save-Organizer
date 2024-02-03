@@ -5,9 +5,7 @@ package com.soulsspeedruns.organizer.managers;
 
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -16,6 +14,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import com.soulsspeedruns.organizer.games.Game;
+import com.soulsspeedruns.organizer.games.GameAppendageHandler;
 import com.soulsspeedruns.organizer.listeners.NavigationListener;
 import com.soulsspeedruns.organizer.listeners.SaveListener;
 import com.soulsspeedruns.organizer.listeners.SearchListener;
@@ -75,6 +74,7 @@ public class SavesManager
 		if (saveFile == null)
 			return null;
 		Save newSave = new Save((Folder) parent, saveFile);
+		newSave.saveAppendedDataFromGame();
 		parent.addChild(newSave);
 		AbstractMessage.display(AbstractMessage.SUCCESSFUL_IMPORT);
 		fireEntryCreatedEvent(newSave);
@@ -96,6 +96,7 @@ public class SavesManager
 		if (saveFile == null)
 			return;
 		Save newSave = new Save(parent, saveFile);
+		newSave.saveAppendedDataFromGame();
 		newSave.rename(name);
 		parent.addChild(newSave);
 		AbstractMessage.display(AbstractMessage.SUCCESSFUL_REPLACE);
@@ -135,7 +136,7 @@ public class SavesManager
 		if (GamesManager.getSelectedGame().getSaveFileLocation() == null)
 		{
 			JOptionPane.showMessageDialog(OrganizerManager.getMainWindow(),
-					"To import a savefile you need to set the savefile location in the profile configuration settings!", "Error occurred",
+					"To import a savefile you need to set the savefile location in the games configuration!", "Error occurred",
 					JOptionPane.WARNING_MESSAGE);
 			return null;
 		}
@@ -152,6 +153,7 @@ public class SavesManager
 		{
 			JOptionPane.showMessageDialog(OrganizerManager.getMainWindow(), "Error when trying to import the savefile!", "Error occurred",
 					JOptionPane.ERROR_MESSAGE);
+			return null;
 		}
 		return newFile;
 	}
@@ -216,7 +218,8 @@ public class SavesManager
 			gameFile.setWritable(true);
 			saveFile.setWritable(true);
 			Files.copy(saveFile.toPath(), gameFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-//			appendData(gameFile);
+			GameAppendageHandler.applyAppendedDataToGame(saveFile);
+			GameAppendageHandler.removeAppendedDataFromFile(gameFile);
 			gameFile.setWritable(canWriteSaveFile);
 			saveFile.setWritable(canWriteSaveFile);
 			AbstractMessage.display(AbstractMessage.SUCCESSFUL_LOAD);
@@ -228,44 +231,6 @@ public class SavesManager
 			AbstractMessage.display(AbstractMessage.FAILED_LOAD);
 		}
 		fireSaveLoadFinishedEvent(save);
-	}
-
-
-	private static void appendData(File file)
-	{
-		String appendage = "SoulsSpeedrunsOrganizerAppendedData: This is a test stringThis is a test stringThis is a test stringThis is a test stringThis is a test string";
-		byte[] appendageBytes = appendage.getBytes();
-		try (FileOutputStream output = new FileOutputStream(file.getPath(), true))
-		{
-			output.write(appendageBytes);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		try (RandomAccessFile accessFile = new RandomAccessFile(file, "rw"))
-		{
-			String appendedData = "";
-			long length = file.length();
-			long prefixLength = "SoulsSpeedrunsOrganizerAppendedData".getBytes().length;
-			for (int i = 1; !appendedData.contains("SoulsSpeedrunsOrganizerAppendedData"); i++)
-			{
-				long index = length - prefixLength * i;
-				if (index < 0)
-					index = 0;
-				accessFile.seek(index);
-				appendedData = accessFile.readLine();
-			}
-			appendedData = appendedData.substring(appendedData.indexOf("SoulsSpeedrunsOrganizerAppendedData"));
-			System.out.println(appendedData);
-			accessFile.setLength(length - appendedData.getBytes().length);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
 	}
 
 

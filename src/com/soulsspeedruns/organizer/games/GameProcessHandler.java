@@ -43,14 +43,14 @@ public abstract class GameProcessHandler
 	/**
 	 * Gets the process ID of the currently selected game.
 	 * 
-	 * @return the process ID if the game process is running. 0 if not or if the selected game does not support process handling.
+	 * @return the process ID if the game process is running. 0 if not or if process handling is not currently supported/possible.
 	 */
 	private static int getSelectedGameProcessID()
 	{
-		Game selectedGame = GamesManager.getSelectedGame();
-		GameProcessHandler handler = selectedGame.getProcessHandler();
-		if (handler == null)
+		if(!GamesManager.isDataAppendageAndProcessHandlingSupported())
 			return 0;
+		
+		GameProcessHandler handler = GamesManager.getSelectedGame().getProcessHandler();
 
 		IntByReference pid = new IntByReference(0);
 		User32.INSTANCE.GetWindowThreadProcessId(User32.INSTANCE.FindWindowA(null, handler.getWindowTitle()), pid);
@@ -88,10 +88,13 @@ public abstract class GameProcessHandler
 	 * 
 	 * @param address the base address
 	 * @param offsets the offsets from the base address
-	 * @return the int value that was read
+	 * @return the int value that was read, -1 if no process is hooked
 	 */
 	protected static int readInt(long address, int[] offsets)
 	{
+		if (!isHooked())
+			return -1;
+
 		return readMemory(address, offsets, 4).getInt(0);
 	}
 
@@ -102,11 +105,11 @@ public abstract class GameProcessHandler
 	 * @param address     the base address
 	 * @param offsets     the offsets from the base address
 	 * @param bytesToRead the number of bytes to read
-	 * @return a memory object containing the bytes that were read
+	 * @return a memory object containing the bytes that were read, null if no process is hooked
 	 */
 	protected static Memory readMemory(long address, int[] offsets, int bytesToRead)
 	{
-		if (process == null)
+		if (!isHooked())
 			return null;
 
 		if (offsets != null && offsets.length > 0)
@@ -125,10 +128,13 @@ public abstract class GameProcessHandler
 	 * @param address the base address
 	 * @param offsets the offsets from the base address
 	 * @param data    the int value to write
-	 * @return whether the write action was successful
+	 * @return whether the write action was successful. False if no process is hooked
 	 */
 	protected static boolean writeInt(long address, int[] offsets, int data)
 	{
+		if (!isHooked())
+			return false;
+		
 		byte[] array = new byte[] { (byte) (data >> 0), (byte) (data >> 8), (byte) (data >> 16), (byte) (data >> 24), };
 
 		return writeBytes(address, offsets, array);
@@ -141,11 +147,11 @@ public abstract class GameProcessHandler
 	 * @param address the base address
 	 * @param offsets the offsets from the base address
 	 * @param data    the bytes to write
-	 * @return whether the write action was successful
+	 * @return whether the write action was successful. False if no process is hooked
 	 */
 	protected static boolean writeBytes(long address, int[] offsets, byte[] data)
 	{
-		if (process == null)
+		if (!isHooked())
 			return false;
 
 		if (offsets != null && offsets.length > 0)
@@ -191,9 +197,9 @@ public abstract class GameProcessHandler
 	 */
 	public static void startHookThread()
 	{
-		if(!VersionManager.isRunningOnWindows())
+		if (!VersionManager.isRunningOnWindows())
 			return;
-		
+
 		Timer timer = new Timer(true);
 		timer.scheduleAtFixedRate(new TimerTask()
 		{
@@ -245,12 +251,12 @@ public abstract class GameProcessHandler
 	 */
 	private static void unhook()
 	{
-		if (process == null)
+		if (!isHooked())
 			return;
 
 		closeGameProcess(process);
 		process = null;
-		
+
 		hookedGame.getProcessHandler().close();
 		hookedGame = null;
 	}

@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
+import com.soulsspeedruns.organizer.games.GameAppendageHandler;
+import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
 import com.soulsspeedruns.organizer.managers.SavesManager;
 
@@ -29,18 +31,71 @@ import jiconfont.swing.IconFontSwing;
  */
 public class Save extends SaveListEntry
 {
-	
+
 	private static final Icon ICON_FILE_DOES_NOT_EXIST = IconFontSwing.buildIcon(Iconic.CHECK, 13, Color.RED);
+
+	private boolean hasAppendedData = false;
+	private boolean appendedDataChecked = false;
+
 
 	/**
 	 * Creates a new Save instance.
 	 * 
 	 * @param parent the parent folder
-	 * @param file the associated file
+	 * @param file   the associated file
 	 */
 	public Save(Folder parent, File file)
 	{
 		super(parent, file);
+	}
+
+
+	/**
+	 * Returns whether this save has appended data attached
+	 * 
+	 * @return true if appended data can be found at the end of the file
+	 */
+	public boolean hasAppendedData()
+	{
+		if (!appendedDataChecked)
+		{
+			if (GamesManager.getSelectedGame().getAppendageHandler() != null)
+				hasAppendedData = GameAppendageHandler.hasAppendedData(getFile());
+
+			appendedDataChecked = true;
+		}
+
+		return hasAppendedData;
+	}
+
+
+	/**
+	 * Appends extra data retrieved from the game process to the end of the file, if possible.
+	 */
+	public void saveAppendedDataFromGame()
+	{
+		if (GameAppendageHandler.saveAppendedDataToFile(getFile()))
+		{
+			hasAppendedData = true;
+			return;
+		}
+		hasAppendedData = false;
+	}
+
+
+	/**
+	 * Appends the given data to the end of the file.
+	 * 
+	 * @param data the data to append
+	 */
+	public void saveAppendedData(String data)
+	{
+		if (GameAppendageHandler.saveAppendedDataToFile(getFile(), data))
+		{
+			hasAppendedData = true;
+			return;
+		}
+		hasAppendedData = false;
 	}
 
 
@@ -65,9 +120,8 @@ public class Save extends SaveListEntry
 		}
 		catch (IOException e)
 		{
-			JOptionPane.showMessageDialog(null,
-					"Renaming the entries was not successful. They are possibly being accessed by another program.", "Warning",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Renaming the entries was not successful. They are possibly being accessed by another program.",
+					"Warning", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		setFile(newFile);
@@ -87,7 +141,7 @@ public class Save extends SaveListEntry
 	{
 		label.setText(getFile().getName());
 		label.setBorder(BorderFactory.createEmptyBorder(1, 3 + getIndent(), 0, 1));
-		if(isMarkedForCut())
+		if (isMarkedForCut())
 			label.setForeground(Color.GRAY);
 		if (!getFile().canWrite())
 			label.setIcon(IconsAndFontsManager.getReadOnlyIcon(IconsAndFontsManager.ICON_SIZE_SMALL, false));
@@ -96,7 +150,10 @@ public class Save extends SaveListEntry
 			label.setIcon(ICON_FILE_DOES_NOT_EXIST);
 			label.setForeground(Color.RED);
 			label.setToolTipText("File no longer exists!");
+			return;
 		}
+		if (hasAppendedData())
+			label.setText(label.getText() + "  (+)");
 	}
 
 

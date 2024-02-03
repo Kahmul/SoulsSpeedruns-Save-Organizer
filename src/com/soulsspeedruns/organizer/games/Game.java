@@ -42,6 +42,7 @@ public class Game implements Comparable<Game>
 	private final boolean isCustomGame;
 
 	private GameProcessHandler processHandler;
+	private GameAppendageHandler appendageHandler;
 
 
 	private Game(String caption, String gameID, String saveName, String steamAppID, String suggestedSaveLocation, boolean supportsReadOnly,
@@ -367,6 +368,18 @@ public class Game implements Comparable<Game>
 	public GameProcessHandler getProcessHandler()
 	{
 		return processHandler;
+	}
+
+
+	public void setAppendageHandler(GameAppendageHandler appendageHandler)
+	{
+		this.appendageHandler = appendageHandler;
+	}
+
+
+	public GameAppendageHandler getAppendageHandler()
+	{
+		return appendageHandler;
 	}
 
 
