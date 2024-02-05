@@ -5,6 +5,7 @@ package com.soulsspeedruns.organizer.games.ds1;
 
 
 import java.awt.Dialog;
+import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -124,6 +125,8 @@ public class DS1AppendageEditorWindow extends JDialog
 		guiPanel.add(createExplanationPanel());
 		guiPanel.add(createEditIndicesPanel());
 		guiPanel.add(createButtonPanel());
+		
+//		guiPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
 
 		add(guiPanel);
 	}
@@ -139,31 +142,41 @@ public class DS1AppendageEditorWindow extends JDialog
 			}
 		});
 		
-		JButton clearNegativesButton = new JButton("Clear Negatives");
-		clearNegativesButton.addActionListener(e -> {
+		JButton fillEmptyButton = new JButton("Fill Empty With 0");
+		fillEmptyButton.addActionListener(e -> {
 			for (JTextField field : equipSlotTextFieldMap.values())
 			{
-				if(field.getText().contains("-"))
+				if(field.getText().equals(""))
+					field.setText("0");
+			}
+		});
+		
+		JButton clearZeroButton = new JButton("Clear All 0s");
+		clearZeroButton.addActionListener(e -> {
+			for (JTextField field : equipSlotTextFieldMap.values())
+			{
+				if(field.getText().equals("0"))
 					field.setText("");
 			}
 		});
 
 		JPanel buttonPanel = new JPanel();
+		buttonPanel.add(fillEmptyButton);
+		buttonPanel.add(clearZeroButton);
 		buttonPanel.add(clearAllButton);
-		buttonPanel.add(clearNegativesButton);
 		return buttonPanel;
 	}
 
 
 	private JPanel createExplanationPanel()
 	{
-		JPanel guiPanel = new JPanel();
+		JPanel guiPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
 
 		JLabel label = new JLabel("<html>Here you can manually edit the default selection index of each equipment slot.<br>"
 				+ "The indices determine which item the equipment list will default to when opening each slot.<br>"
 				+ "When the save is loaded, the values for each slot will be loaded into the game's memory.<br>"
-				+ "0 is the first item in the list, 1 the second, and so on. A negative or a non-existent index will behave like 0.<br>"
-				+ "If no value is set, the value that's currently in the game's memory will be left intact.</html>");
+				+ "0 is the first item in the list, 1 the second, and so on. Indices that are too large will default to the last item.<br>"
+				+ "If no value is set, the value that is currently in the game's memory will be left intact.</html>");
 
 		guiPanel.add(label);
 
@@ -192,13 +205,13 @@ public class DS1AppendageEditorWindow extends JDialog
 		JTextField fieldRH1 = createEquipSlotTextField(DS1.getEquipSlots().get(1), 98, 47);
 		backgroundPanel.add(fieldRH1);
 
-		JTextField fieldRH2 = createEquipSlotTextField(DS1.getEquipSlots().get(2), 173, 47);
+		JTextField fieldRH2 = createEquipSlotTextField(DS1.getEquipSlots().get(3), 173, 47);
 		backgroundPanel.add(fieldRH2);
 
 		JTextField fieldLH1 = createEquipSlotTextField(DS1.getEquipSlots().get(0), 98, 144);
 		backgroundPanel.add(fieldLH1);
 
-		JTextField fieldLH2 = createEquipSlotTextField(DS1.getEquipSlots().get(3), 173, 144);
+		JTextField fieldLH2 = createEquipSlotTextField(DS1.getEquipSlots().get(2), 173, 144);
 		backgroundPanel.add(fieldLH2);
 	}
 
@@ -214,7 +227,7 @@ public class DS1AppendageEditorWindow extends JDialog
 		JTextField fieldBolt1 = createEquipSlotTextField(DS1.getEquipSlots().get(5), 464, 135);
 		backgroundPanel.add(fieldBolt1);
 
-		JTextField fieldBolt2 = createEquipSlotTextField(DS1.getEquipSlots().get(7), 522, 135);
+		JTextField fieldBolt2 = createEquipSlotTextField(DS1.getEquipSlots().get(7), 521, 135);
 		backgroundPanel.add(fieldBolt2);
 	}
 
@@ -240,7 +253,7 @@ public class DS1AppendageEditorWindow extends JDialog
 		JTextField fieldRing1 = createEquipSlotTextField(DS1.getEquipSlots().get(13), 464, 236);
 		backgroundPanel.add(fieldRing1);
 
-		JTextField fieldRing2 = createEquipSlotTextField(DS1.getEquipSlots().get(14), 522, 236);
+		JTextField fieldRing2 = createEquipSlotTextField(DS1.getEquipSlots().get(14), 521, 236);
 		backgroundPanel.add(fieldRing2);
 	}
 
@@ -259,7 +272,7 @@ public class DS1AppendageEditorWindow extends JDialog
 		JTextField fieldHotbar4 = createEquipSlotTextField(DS1.getEquipSlots().get(18), 464, 38);
 		backgroundPanel.add(fieldHotbar4);
 
-		JTextField fieldHotbar5 = createEquipSlotTextField(DS1.getEquipSlots().get(19), 522, 38);
+		JTextField fieldHotbar5 = createEquipSlotTextField(DS1.getEquipSlots().get(19), 521, 38);
 		backgroundPanel.add(fieldHotbar5);
 	}
 
@@ -286,14 +299,14 @@ public class DS1AppendageEditorWindow extends JDialog
 		{
 
 			private int limit = 4;
-			Pattern regEx = Pattern.compile("\\d?");
+			Pattern numbersOnlyRegex = Pattern.compile("[0-9]*");
 
 
 			@Override
 			public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException
 			{
-				Matcher matcher = regEx.matcher(text);
-				if (!matcher.matches() && !text.startsWith("-"))
+				Matcher matcher = numbersOnlyRegex.matcher(text);
+				if (!matcher.matches())
 					return;
 
 				int currentLength = fb.getDocument().getLength();
@@ -320,10 +333,13 @@ public class DS1AppendageEditorWindow extends JDialog
 		for (Map.Entry<String, JTextField> entry : equipSlotTextFieldMap.entrySet())
 		{
 			String text = entry.getValue().getText();
-			if (text.length() == 0 || (text.length() == 1 && text.contains("-")))
+			if (text.length() == 0)
 				continue;
+			
+			if(text.contains("-"))
+				text = "-1";
 
-			data += GameAppendageHandler.createNewKeyValuePair(entry.getKey(), entry.getValue().getText());
+			data += GameAppendageHandler.createNewKeyValuePair(entry.getKey(), text);
 		}
 
 		return data;

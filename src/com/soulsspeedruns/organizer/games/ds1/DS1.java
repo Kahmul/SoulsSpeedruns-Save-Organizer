@@ -29,7 +29,7 @@ public abstract class DS1
 	private static final long VERSION_ADDRESS = 0x400080;
 
 	public static final int EQUIP_SLOT_SIZE = 0x4;
-
+	
 	public static final int LH1 = 0x0;
 	public static final int RH1 = 0x4;
 	public static final int LH2 = 0x8;
