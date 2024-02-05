@@ -4,12 +4,9 @@
 package com.soulsspeedruns.organizer.games.ds1;
 
 
-import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -17,98 +14,47 @@ import java.util.regex.Pattern;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 import com.soulsspeedruns.organizer.components.ImageBackgroundPanel;
+import com.soulsspeedruns.organizer.games.GameAppendageEditorWindow;
 import com.soulsspeedruns.organizer.games.GameAppendageHandler;
 import com.soulsspeedruns.organizer.managers.IconsAndFontsManager;
-import com.soulsspeedruns.organizer.managers.OrganizerManager;
-import com.soulsspeedruns.organizer.managers.SettingsManager;
 import com.soulsspeedruns.organizer.savelist.Save;
 
 
 /**
- * <ShortDescription>
+ * DS1AppendageEditorWindow.
  * <p>
- * <LongDescription>
+ * Allows manually editing the DS1 default equip slot indices for a given savefile.
  * 
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 4 Feb 2024
  */
-public class DS1AppendageEditorWindow extends JDialog
+public class DS1AppendageEditorWindow extends GameAppendageEditorWindow
 {
 
 	private Map<String, JTextField> equipSlotTextFieldMap;
-	private Map<String, String> saveValuesMap;
-
-	private Save save;
 
 
 	public DS1AppendageEditorWindow(Save save)
 	{
-		super(OrganizerManager.getMainWindow(), save.hasAppendedData() ? "Edit Appended Data" : "Add Appended Data",
-				Dialog.ModalityType.APPLICATION_MODAL);
+		super(save);
+	}
 
-		this.save = save;
 
-		saveValuesMap = GameAppendageHandler.getValuesMapFromAppendedData(save.getAppendedData());
+	@Override
+	protected void initLayout()
+	{
 		equipSlotTextFieldMap = new HashMap<>();
 
-		initLayout();
-		initProperties();
-	}
-
-
-	/**
-	 * Sets the properties of the window.
-	 */
-	private void initProperties()
-	{
-		pack();
-		setResizable(false);
-		setLocationRelativeTo(OrganizerManager.getMainWindow());
-		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
-		setAlwaysOnTop(SettingsManager.isAlwaysOnTop());
-
-		addWindowListener(new WindowAdapter()
-		{
-
-			@Override
-			public void windowOpened(WindowEvent e)
-			{
-				requestFocusInWindow();
-				SwingUtilities.invokeLater(() -> {
-					SwingUtilities.updateComponentTreeUI(DS1AppendageEditorWindow.this);
-				});
-				SettingsManager.setGlobalHotkeysEnabled(false, false);
-			}
-
-
-			@Override
-			public void windowClosing(WindowEvent e)
-			{
-				save.saveAppendedData(getDataFromTextFields());
-
-				SettingsManager.setGlobalHotkeysEnabled(true, false);
-			}
-		});
-	}
-
-
-	/**
-	 * Creates the layout for the window.
-	 */
-	private void initLayout()
-	{
 		JPanel guiPanel = new JPanel();
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.PAGE_AXIS));
 
@@ -125,8 +71,6 @@ public class DS1AppendageEditorWindow extends JDialog
 		guiPanel.add(createExplanationPanel());
 		guiPanel.add(createEditIndicesPanel());
 		guiPanel.add(createButtonPanel());
-		
-//		guiPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
 
 		add(guiPanel);
 	}
@@ -141,21 +85,21 @@ public class DS1AppendageEditorWindow extends JDialog
 				field.setText("");
 			}
 		});
-		
+
 		JButton fillEmptyButton = new JButton("Fill Empty With 0");
 		fillEmptyButton.addActionListener(e -> {
 			for (JTextField field : equipSlotTextFieldMap.values())
 			{
-				if(field.getText().equals(""))
+				if (field.getText().equals(""))
 					field.setText("0");
 			}
 		});
-		
+
 		JButton clearZeroButton = new JButton("Clear All 0s");
 		clearZeroButton.addActionListener(e -> {
 			for (JTextField field : equipSlotTextFieldMap.values())
 			{
-				if(field.getText().equals("0"))
+				if (field.getText().equals("0"))
 					field.setText("");
 			}
 		});
@@ -243,7 +187,7 @@ public class DS1AppendageEditorWindow extends JDialog
 		JTextField fieldArms = createEquipSlotTextField(DS1.getEquipSlots().get(10), 250, 238);
 		backgroundPanel.add(fieldArms);
 
-		JTextField fieldLegs = createEquipSlotTextField(DS1.getEquipSlots().get(11), 325, 238);
+		JTextField fieldLegs = createEquipSlotTextField(DS1.getEquipSlots().get(11), 324, 238);
 		backgroundPanel.add(fieldLegs);
 	}
 
@@ -281,18 +225,18 @@ public class DS1AppendageEditorWindow extends JDialog
 	 * Creates a new textfield for the given slot.
 	 * 
 	 * @param slotName the name of the equip slot
-	 * @param x the x coordinate at the center of the textfield
-	 * @param y the y coordinate at the center of the textfield
+	 * @param x        the x coordinate at the center of the textfield
+	 * @param y        the y coordinate at the center of the textfield
 	 * @return the textfield
 	 */
 	private JTextField createEquipSlotTextField(String slotName, int x, int y)
 	{
-		JTextField field = new JTextField(saveValuesMap.get(slotName), 2);
+		JTextField field = new JTextField(getKeysValuesMapForSave().get(slotName), 2);
 		field.setHorizontalAlignment(SwingConstants.CENTER);
-		
+
 		int width = field.getPreferredSize().width;
 		int height = field.getPreferredSize().height;
-		field.setBounds(x - width/2, y - height/2, width, height);
+		field.setBounds(x - width / 2, y - height / 2, width, height);
 
 		AbstractDocument document = (AbstractDocument) field.getDocument();
 		document.setDocumentFilter(new DocumentFilter()
@@ -326,7 +270,8 @@ public class DS1AppendageEditorWindow extends JDialog
 	}
 
 
-	private String getDataFromTextFields()
+	@Override
+	protected String getDataFromComponents()
 	{
 		String data = "";
 
@@ -335,8 +280,8 @@ public class DS1AppendageEditorWindow extends JDialog
 			String text = entry.getValue().getText();
 			if (text.length() == 0)
 				continue;
-			
-			if(text.contains("-"))
+
+			if (text.contains("-"))
 				text = "-1";
 
 			data += GameAppendageHandler.createNewKeyValuePair(entry.getKey(), text);

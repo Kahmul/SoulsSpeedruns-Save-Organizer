@@ -7,8 +7,7 @@ package com.soulsspeedruns.organizer.games.ds1;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JDialog;
-
+import com.soulsspeedruns.organizer.games.GameAppendageEditorWindow;
 import com.soulsspeedruns.organizer.games.GameAppendageHandler;
 import com.soulsspeedruns.organizer.savelist.Save;
 
@@ -73,7 +72,7 @@ public class DS1AppendageHandler extends GameAppendageHandler
 
 
 	@Override
-	public JDialog getEditorWindow(Save save)
+	public GameAppendageEditorWindow getEditorWindow(Save save)
 	{
 		return new DS1AppendageEditorWindow(save);
 	}

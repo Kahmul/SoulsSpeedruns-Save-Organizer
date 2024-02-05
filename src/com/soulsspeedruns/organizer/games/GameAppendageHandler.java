@@ -11,8 +11,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JDialog;
-
 import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.savelist.Save;
 
@@ -285,6 +283,6 @@ public abstract class GameAppendageHandler
 	 * @param save the savefile to create the editor window for
 	 * @return the editor window as a JFrame
 	 */
-	public abstract JDialog getEditorWindow(Save save);
+	public abstract GameAppendageEditorWindow getEditorWindow(Save save);
 
 }
