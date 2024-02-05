@@ -47,9 +47,9 @@ public abstract class GameProcessHandler
 	 */
 	private static int getSelectedGameProcessID()
 	{
-		if(!GamesManager.isDataAppendageAndProcessHandlingSupported())
+		if (!GamesManager.isDataAppendageAndProcessHandlingSupported())
 			return 0;
-		
+
 		GameProcessHandler handler = GamesManager.getSelectedGame().getProcessHandler();
 
 		IntByReference pid = new IntByReference(0);
@@ -80,6 +80,38 @@ public abstract class GameProcessHandler
 	private static boolean closeGameProcess(Pointer process)
 	{
 		return Kernel32.INSTANCE.CloseHandle(process);
+	}
+
+
+	/**
+	 * Reads the byte at the given address and offsets for the currently hooked process.
+	 * 
+	 * @param address the base address
+	 * @param offsets the offsets from the base address
+	 * @return the byte that was read, -1 if no process is hooked
+	 */
+	protected static byte readByte(long address, int[] offsets)
+	{
+		if (!isHooked())
+			return -1;
+
+		return readMemory(address, offsets, 2).getByte(0);
+	}
+
+
+	/**
+	 * Reads the short value at the given address and offsets for the currently hooked process.
+	 * 
+	 * @param address the base address
+	 * @param offsets the offsets from the base address
+	 * @return the short value that was read, -1 if no process is hooked
+	 */
+	protected static short readShort(long address, int[] offsets)
+	{
+		if (!isHooked())
+			return -1;
+
+		return readMemory(address, offsets, 2).getShort(0);
 	}
 
 
@@ -123,6 +155,44 @@ public abstract class GameProcessHandler
 
 
 	/**
+	 * Writes the given byte at the given address and offsets.
+	 * 
+	 * @param address the base address
+	 * @param offsets the offsets from the base address
+	 * @param data    the byte to write
+	 * @return whether the write action was successful. False if no process is hooked
+	 */
+	protected static boolean writeByte(long address, int[] offsets, byte data)
+	{
+		if (!isHooked())
+			return false;
+
+		byte[] array = new byte[] { data };
+
+		return writeBytes(address, offsets, array);
+	}
+
+
+	/**
+	 * Writes the given short value at the given address and offsets.
+	 * 
+	 * @param address the base address
+	 * @param offsets the offsets from the base address
+	 * @param data    the short value to write
+	 * @return whether the write action was successful. False if no process is hooked
+	 */
+	protected static boolean writeShort(long address, int[] offsets, short data)
+	{
+		if (!isHooked())
+			return false;
+
+		byte[] array = new byte[] { (byte) (data >> 0), (byte) (data >> 8) };
+
+		return writeBytes(address, offsets, array);
+	}
+
+
+	/**
 	 * Writes the given int value at the given address and offsets.
 	 * 
 	 * @param address the base address
@@ -134,8 +204,8 @@ public abstract class GameProcessHandler
 	{
 		if (!isHooked())
 			return false;
-		
-		byte[] array = new byte[] { (byte) (data >> 0), (byte) (data >> 8), (byte) (data >> 16), (byte) (data >> 24), };
+
+		byte[] array = new byte[] { (byte) (data >> 0), (byte) (data >> 8), (byte) (data >> 16), (byte) (data >> 24) };
 
 		return writeBytes(address, offsets, array);
 	}
