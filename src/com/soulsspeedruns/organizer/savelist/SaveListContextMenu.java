@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.io.File;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
@@ -44,6 +45,7 @@ public class SaveListContextMenu extends JPopupMenu
 	private JMenuItem itemCut;
 	private JMenuItem itemPaste;
 	private JMenuItem itemReadOnly;
+	private JMenuItem itemEditAppendedData;
 	private JMenuItem itemRefresh;
 	private JMenuItem itemOpenInExplorer;
 
@@ -83,6 +85,7 @@ public class SaveListContextMenu extends JPopupMenu
 		itemCut = createCutItem(saveList);
 		itemPaste = createPasteItem(saveList);
 		itemReadOnly = createReadOnlyItem(saveList);
+		itemEditAppendedData = createEditAppendedDataItem(saveList);
 		itemRefresh = createRefreshItem(saveList);
 		itemOpenInExplorer = createOpenInExplorerItem(saveList);
 
@@ -95,6 +98,8 @@ public class SaveListContextMenu extends JPopupMenu
 		add(itemPaste);
 		if (GamesManager.getSelectedGame().supportsReadOnly())
 			add(itemReadOnly);
+		if(GamesManager.isDataAppendageAndProcessHandlingSupported())
+			add(itemEditAppendedData);
 		add(new JSeparator());
 		add(itemRefresh);
 		add(itemOpenInExplorer);
@@ -106,6 +111,7 @@ public class SaveListContextMenu extends JPopupMenu
 	 */
 	private void initMenuItemStates()
 	{
+		itemEditAppendedData.setEnabled(false);
 		itemReadOnly.setEnabled(false);
 		itemPaste.setEnabled(saveList.hasCopiedEntries());
 		if (!GamesManager.isAProfileSelected())
@@ -129,6 +135,13 @@ public class SaveListContextMenu extends JPopupMenu
 
 			itemEdit.setEnabled(true);
 			itemRemove.setEnabled(true);
+			
+			if(saveList.getSelectedValue() instanceof Save && selectedEntries.size() == 1)
+			{
+				itemEditAppendedData.setEnabled(true);
+				if(!((Save) saveList.getSelectedValue()).hasAppendedData())
+					itemEditAppendedData.setText("Add Appended Data");
+			}
 
 			initReadOnlyItemState(selectedEntries);
 			return;
@@ -160,7 +173,7 @@ public class SaveListContextMenu extends JPopupMenu
 			}
 		}
 
-		if(itemReadOnly.isEnabled())
+		if (itemReadOnly.isEnabled())
 		{
 			itemReadOnly.setIcon(IconsAndFontsManager.getWritableIcon(IconsAndFontsManager.ICON_SIZE_MEDIUM, false));
 			itemReadOnly.setText("Disable 'Read-Only'");
@@ -279,6 +292,21 @@ public class SaveListContextMenu extends JPopupMenu
 			saveList.repaint();
 		});
 		return itemReadOnly;
+	}
+
+
+	private JMenuItem createEditAppendedDataItem(SaveList saveList)
+	{
+		JMenuItem editAppendedDataItem = new JMenuItem("Edit Appended Data");
+		editAppendedDataItem.addActionListener(event -> {
+			SaveListEntry entry = saveList.getSelectedValue();
+			if(!(entry instanceof Save))
+				return;
+			JDialog editorWindow = GamesManager.getSelectedGame().getAppendageHandler().getEditorWindow((Save) entry);
+			editorWindow.setVisible(true);
+		});
+		
+		return editAppendedDataItem;
 	}
 
 

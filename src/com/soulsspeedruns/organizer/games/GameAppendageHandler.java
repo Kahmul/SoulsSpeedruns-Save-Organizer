@@ -8,10 +8,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 
 import com.soulsspeedruns.organizer.managers.GamesManager;
+import com.soulsspeedruns.organizer.savelist.Save;
 
 
 /**
@@ -25,11 +28,14 @@ import com.soulsspeedruns.organizer.managers.GamesManager;
 public abstract class GameAppendageHandler
 {
 
-	private static final String PREFIX = "SSOData--";
-	private static final String SUFFIX = "--SSOData";
+	private static final String PREFIX = "SSO--";
+	private static final String SUFFIX = "--SSO";
 	private static final byte[] SUFFIX_BYTES = SUFFIX.getBytes();
 	private static final int SUFFIX_LENGTH = SUFFIX_BYTES.length;
 	private static final int BYTES_SEARCH_STEP = 150;
+
+	protected static final String SEPARATOR = "|";
+	protected static final String EQUALITY = "=";
 
 
 	protected GameAppendageHandler()
@@ -45,7 +51,7 @@ public abstract class GameAppendageHandler
 	 */
 	public static boolean saveAppendedDataToFile(File file)
 	{
-		if(!GamesManager.isDataAppendageAndProcessHandlingSupported())
+		if (!GamesManager.isDataAppendageAndProcessHandlingSupported())
 			return false;
 
 		if (!GameProcessHandler.isHooked())
@@ -61,7 +67,7 @@ public abstract class GameAppendageHandler
 
 
 	/**
-	 * Appends the given string data to the end of the given file.
+	 * Appends the given string data to the end of the given file. An empty string clears the appended data.
 	 * 
 	 * @param file the file to append to
 	 * @param data the string to append
@@ -69,9 +75,13 @@ public abstract class GameAppendageHandler
 	 */
 	public static boolean saveAppendedDataToFile(File file, String data)
 	{
+		removeAppendedDataFromFile(file);
+
+		if (data == null || data.length() == 0)
+			return true;
+
 		data = PREFIX + data + SUFFIX;
 
-		removeAppendedDataFromFile(file);
 		byte[] appendageBytes = data.getBytes();
 		try (FileOutputStream output = new FileOutputStream(file.getPath(), true))
 		{
@@ -94,7 +104,7 @@ public abstract class GameAppendageHandler
 	 */
 	public static boolean applyAppendedDataToGame(File file)
 	{
-		if(!GamesManager.isDataAppendageAndProcessHandlingSupported())
+		if (!GamesManager.isDataAppendageAndProcessHandlingSupported())
 			return false;
 
 		if (!GameProcessHandler.isHooked())
@@ -107,7 +117,7 @@ public abstract class GameAppendageHandler
 
 		appendedData = appendedData.replaceFirst(PREFIX, "");
 		appendedData = appendedData.replaceFirst(SUFFIX, "");
-		
+
 		GameAppendageHandler appendageHandler = GamesManager.getSelectedGame().getAppendageHandler();
 		return appendageHandler.writeAppendedDataToProcess(appendedData);
 	}
@@ -212,6 +222,50 @@ public abstract class GameAppendageHandler
 
 
 	/**
+	 * Returns a map object containing the key-value pairs of the given appended data string
+	 * 
+	 * @param data the appended data string containing the key-value pairs
+	 * @return the map of key-value pairs contained in the appended data string
+	 */
+	public static Map<String, String> getValuesMapFromAppendedData(String data)
+	{
+		if (data == null || data.length() == 0)
+			return new HashMap<>();
+
+		Map<String, String> map = new HashMap<>((int) data.chars().filter(ch -> ch == EQUALITY.charAt(0)).count());
+
+		data = data.replaceFirst(PREFIX, "");
+		data = data.replaceFirst(SUFFIX, "");
+
+		String[] keyValuePairs = data.split("\\" + SEPARATOR);
+
+		for (String keyValuePair : keyValuePairs)
+		{
+			String[] keyValue = keyValuePair.split(EQUALITY);
+			map.put(keyValue[0].trim(), keyValue[1].trim());
+		}
+
+		return map;
+	}
+
+
+	/**
+	 * Creates a new key-value pair as string to use for an appended data string
+	 * 
+	 * @param key   the key of the pair
+	 * @param value the value of the pair
+	 * @return the concatenated key value pair
+	 */
+	public static String createNewKeyValuePair(String key, String value)
+	{
+		if (key.contains(SEPARATOR) || key.contains(EQUALITY) || value.contains(SEPARATOR) || value.contains(EQUALITY))
+			throw new IllegalArgumentException("Neither the key nor value may contain '" + SEPARATOR + "' or '" + EQUALITY + "'");
+
+		return key + EQUALITY + value + SEPARATOR;
+	}
+
+
+	/**
 	 * Formats the values read from memory into a single string to append to a file.
 	 * 
 	 * @return the appended data as string
@@ -228,8 +282,9 @@ public abstract class GameAppendageHandler
 	/**
 	 * Gets an instance of the window that allows editing the appended data of a savefile.
 	 * 
+	 * @param save the savefile to create the editor window for
 	 * @return the editor window as a JFrame
 	 */
-	public abstract JFrame getEditorWindow();
+	public abstract JDialog getEditorWindow(Save save);
 
 }

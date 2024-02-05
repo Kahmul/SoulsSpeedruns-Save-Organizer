@@ -70,6 +70,8 @@ public class IconsAndFontsManager
 	private static ImageIcon writableIconDarkMode22;
 	private static ImageIcon writableIconDarkModeHover22;
 
+	private static Image ds1EquipMenuBackground;
+
 	private static ImageIcon discordIcon;
 	private static ImageIcon frankerZIcon;
 	private static ImageIcon importIcon;
@@ -123,6 +125,8 @@ public class IconsAndFontsManager
 		writableIconDarkModeHover22 = new ImageIcon(
 				ImageIO.read(IconsAndFontsManager.class.getResourceAsStream(RESOURCE_READONLY_PATH + "WritableIconDarkModeHover22.png")));
 
+		ds1EquipMenuBackground = ImageIO.read(IconsAndFontsManager.class.getResourceAsStream(RESOURCE_PATH + "DS1EquipmentMenu.png"));
+
 		discordIcon = new ImageIcon(ImageIO.read(IconsAndFontsManager.class.getResourceAsStream(RESOURCE_PATH + "DiscordLogo.png")));
 		frankerZIcon = new ImageIcon(ImageIO.read(IconsAndFontsManager.class.getResourceAsStream(RESOURCE_PATH + "FrankerZ.png")));
 		importIcon = new ImageIcon(ImageIO.read(IconsAndFontsManager.class.getResourceAsStream(RESOURCE_PATH + "ImportIcon.png")));
@@ -147,7 +151,7 @@ public class IconsAndFontsManager
 
 		icons.put(READ_ONLY_ICON + ICON_SIZE_SMALL, readOnlyIcon14);
 		icons.put(READ_ONLY_ICON + ICON_SIZE_SMALL + DARKMODE_ICON, readOnlyIconDarkMode14);
-		
+
 		icons.put(READ_ONLY_ICON + ICON_SIZE_MEDIUM, readOnlyIcon16);
 		icons.put(READ_ONLY_ICON + ICON_SIZE_MEDIUM + DARKMODE_ICON, readOnlyIconDarkMode16);
 
@@ -158,7 +162,7 @@ public class IconsAndFontsManager
 
 		icons.put(WRITABLE_ICON + ICON_SIZE_SMALL, writableIcon14);
 		icons.put(WRITABLE_ICON + ICON_SIZE_SMALL + DARKMODE_ICON, writableIconDarkMode14);
-		
+
 		icons.put(WRITABLE_ICON + ICON_SIZE_MEDIUM, writableIcon16);
 		icons.put(WRITABLE_ICON + ICON_SIZE_MEDIUM + DARKMODE_ICON, writableIconDarkMode16);
 
@@ -197,8 +201,14 @@ public class IconsAndFontsManager
 			iconName += DARKMODE_ICON;
 		if (isHovering)
 			iconName += HOVER_ICON;
-		
+
 		return icons.get(iconName);
+	}
+
+
+	public static Image getDS1EquipMenuBackground()
+	{
+		return ds1EquipMenuBackground;
 	}
 
 

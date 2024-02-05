@@ -90,12 +90,33 @@ public class Save extends SaveListEntry
 	 */
 	public void saveAppendedData(String data)
 	{
-		if (GameAppendageHandler.saveAppendedDataToFile(getFile(), data))
+		if (GameAppendageHandler.saveAppendedDataToFile(getFile(), data) && data != null && data.length() > 0)
 		{
 			hasAppendedData = true;
 			return;
 		}
 		hasAppendedData = false;
+	}
+
+
+	/**
+	 * Gets the appended data from this save, if any.
+	 * 
+	 * @return the appended data as string, null if there is no appended data
+	 */
+	public String getAppendedData()
+	{
+		return GameAppendageHandler.getAppendedDataFromFile(getFile());
+	}
+
+
+	/**
+	 * Removes appended data from this save, if any.
+	 */
+	public void removeAppendedData()
+	{
+		if (GameAppendageHandler.removeAppendedDataFromFile(getFile()))
+			hasAppendedData = false;
 	}
 
 

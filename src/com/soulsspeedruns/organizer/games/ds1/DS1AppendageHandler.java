@@ -5,10 +5,12 @@ package com.soulsspeedruns.organizer.games.ds1;
 
 
 import java.util.List;
+import java.util.Map;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 
 import com.soulsspeedruns.organizer.games.GameAppendageHandler;
+import com.soulsspeedruns.organizer.savelist.Save;
 
 
 /**
@@ -24,8 +26,6 @@ public class DS1AppendageHandler extends GameAppendageHandler
 
 	public static final DS1AppendageHandler INSTANCE = new DS1AppendageHandler();
 
-	private static final String SEPARATOR = "|";
-
 
 	@Override
 	protected String retrieveAppendedDataFromProcess()
@@ -33,14 +33,14 @@ public class DS1AppendageHandler extends GameAppendageHandler
 		DS1ProcessHandler handler = DS1ProcessHandler.INSTANCE;
 
 		String data = "";
-		List<String> equipSlots = handler.getEquipSlots();
+		List<String> equipSlots = DS1.getEquipSlots();
 
 		for (int i = 0; i < equipSlots.size(); i++)
 		{
-			int slot = DS1ProcessHandler.EQUIP_SLOT_SIZE * i;
+			int slot = DS1.EQUIP_SLOT_SIZE * i;
 			int index = handler.getEquipSlotIndex(slot);
 
-			data += equipSlots.get(i) + "=" + index + SEPARATOR;
+			data += createNewKeyValuePair(equipSlots.get(i), String.valueOf(index));
 		}
 
 		return data;
@@ -52,27 +52,28 @@ public class DS1AppendageHandler extends GameAppendageHandler
 	{
 		DS1ProcessHandler handler = DS1ProcessHandler.INSTANCE;
 
-		List<String> equipSlots = handler.getEquipSlots();
+		List<String> equipSlots = DS1.getEquipSlots();
+		Map<String, String> valuesMap = getValuesMapFromAppendedData(data);
 
 		for (int i = 0; i < equipSlots.size(); i++)
 		{
-			int indexOfSlot = data.indexOf(equipSlots.get(i));
-			String keyValuePair = data.substring(indexOfSlot, data.indexOf(SEPARATOR, indexOfSlot));
-			String index = keyValuePair.substring(equipSlots.get(i).length() + 1);
+			String index = valuesMap.get(equipSlots.get(i));
+			if (index == null)
+				continue;
 
-			boolean successful = handler.setEquipSlotIndex(DS1ProcessHandler.EQUIP_SLOT_SIZE * i, Integer.valueOf(index));
-			if(!successful)
+			boolean successful = handler.setEquipSlotIndex(DS1.EQUIP_SLOT_SIZE * i, Integer.valueOf(index));
+			if (!successful)
 				return false;
 		}
-		
+
 		return true;
 	}
 
 
 	@Override
-	public JFrame getEditorWindow()
+	public JDialog getEditorWindow(Save save)
 	{
-		return null;
+		return new DS1AppendageEditorWindow(save);
 	}
 
 }
