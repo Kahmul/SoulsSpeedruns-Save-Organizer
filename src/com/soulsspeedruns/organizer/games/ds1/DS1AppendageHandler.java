@@ -38,7 +38,9 @@ public class DS1AppendageHandler extends GameAppendageHandler
 		for (int i = 0; i < equipSlots.size(); i++)
 		{
 			int slot = DS1.EQUIP_SLOT_SIZE * i;
-			int index = handler.getEquipSlotIndex(slot);
+			short index = handler.getEquipSlotIndex(slot);
+			if(index == -1)
+				continue;
 
 			data += createNewKeyValuePair(equipSlots.get(i), String.valueOf(index));
 		}
@@ -61,7 +63,7 @@ public class DS1AppendageHandler extends GameAppendageHandler
 			if (index == null)
 				continue;
 
-			boolean successful = handler.setEquipSlotIndex(DS1.EQUIP_SLOT_SIZE * i, Integer.valueOf(index));
+			boolean successful = handler.setEquipSlotIndex(DS1.EQUIP_SLOT_SIZE * i, Short.valueOf(index));
 			if (!successful)
 				return false;
 		}

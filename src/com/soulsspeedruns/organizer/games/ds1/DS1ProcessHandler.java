@@ -64,9 +64,12 @@ public class DS1ProcessHandler extends GameProcessHandler
 	 * @param index the index to set the slot to
 	 * @return whether the memory write action was successful
 	 */
-	public boolean setEquipSlotIndex(int slot, int index)
+	public boolean setEquipSlotIndex(int slot, short index)
 	{
-		return writeInt(version.getEquipSlotIndicesBaseAddress() + slot, null, index);
+		short scrollbarValue = (short) Math.max(0, index - 4);
+		int combined = (index - scrollbarValue) | (scrollbarValue << 16);
+
+		return writeInt(version.getEquipSlotIndicesBaseAddress() + slot, null, combined);
 	}
 
 
@@ -76,10 +79,16 @@ public class DS1ProcessHandler extends GameProcessHandler
 	 * @param slot the equip slot. Use the static slot variables in DS1ProcessHandler
 	 * @return the last selected index for the given equip slot, -1 if none is set or no process is available
 	 */
-	public int getEquipSlotIndex(int slot)
+	public short getEquipSlotIndex(int slot)
 	{
-		return readInt(version.getEquipSlotIndicesBaseAddress() + slot, null);
-	}
+		int combined = readInt(version.getEquipSlotIndicesBaseAddress() + slot, null);
+		if (combined == -1)
+			return -1;
 
+		short scrollBarValue = (short) (combined >> 16);
+		short relativeIndex = (short) combined;
+
+		return (short) (scrollBarValue + relativeIndex);
+	}
 
 }
