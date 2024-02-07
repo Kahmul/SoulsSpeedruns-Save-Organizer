@@ -2,6 +2,7 @@ package com.soulsspeedruns.organizer.main;
 
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -56,14 +57,15 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 	 */
 	private void initProperties()
 	{
+		OrganizerManager.setMainWindow(this);
 		setIconImage(IconsAndFontsManager.getSoulsSpeedrunsImage(IconsAndFontsManager.ICON_SIZE_MEDIUM));
 		setResizable(IS_RESIZABLE);
+		
 		setAlwaysOnTop(SettingsManager.isAlwaysOnTop());
 		setMinSize(SettingsManager.isCompactModeEnabled());
-		Dimension size = SettingsManager.getStoredWindowSize();
-		setSize(size);
-		setLocationRelativeTo(null);
-		OrganizerManager.setMainWindow(this);
+		setSize(SettingsManager.getStoredWindowSize());
+		setLocation(SettingsManager.getStoredWindowPosition());
+		
 		SettingsManager.addSettingsListener(this);
 	}
 
@@ -119,6 +121,7 @@ public class OrganizerWindow extends JFrame implements SettingsListener
 				if (state != JFrame.MAXIMIZED_BOTH)
 					SettingsManager.setStoredWindowSize(new Dimension(getSize()));
 				SettingsManager.setStoredMaximizedWindowState(state);
+				SettingsManager.setStoredWindowPosition(getLocation());
 				SettingsManager.setGlobalHotkeysEnabled(false, false);
 				e.getWindow().dispose();
 				System.exit(0);

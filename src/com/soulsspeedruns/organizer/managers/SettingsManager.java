@@ -5,6 +5,9 @@ package com.soulsspeedruns.organizer.managers;
 
 
 import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -54,6 +57,9 @@ public class SettingsManager
 	private static final String PREFS_KEY_VERSION = "Version";
 
 	private static final String PREFS_KEY_THEME = "Theme";
+
+	private static final String PREF_KEY_WIN_POS_X = "WindowPosX";
+	private static final String PREF_KEY_WIN_POS_Y = "WindowPosY";
 
 	private static final String PREFS_KEY_WIN_WIDTH = "WindowWidth";
 	private static final String PREFS_KEY_WIN_HEIGHT = "WindowHeight";
@@ -370,7 +376,8 @@ public class SettingsManager
 
 		boolean dark = LafManager.getPreferredThemeStyle().getColorToneRule() == ColorToneRule.DARK;
 		boolean highContrast = LafManager.getPreferredThemeStyle().getContrastRule() == ContrastRule.HIGH_CONTRAST;
-		Theme theme = dark ? highContrast ? new HighContrastDarkTheme() : new SoulsSpeedrunsTheme() : highContrast ? new HighContrastLightTheme() : new DefaultTheme();
+		Theme theme = dark ? highContrast ? new HighContrastDarkTheme() : new SoulsSpeedrunsTheme()
+				: highContrast ? new HighContrastLightTheme() : new DefaultTheme();
 
 		setStoredTheme(theme);
 
@@ -381,17 +388,17 @@ public class SettingsManager
 	/**
 	 * Enables/disables global hotkeys.
 	 * 
-	 * @param flag True to enable, false to disable
+	 * @param flag        True to enable, false to disable
 	 * @param isPermanent whether to save the setting to the backstore or just temporarily disable hotkeys
 	 */
 	public static void setGlobalHotkeysEnabled(boolean flag, boolean isPermanent)
 	{
 		if (areGlobalHotkeysEnabled() == flag)
 			return;
-		
+
 		keyboardHook.setHotkeysEnabled(flag);
-		
-		if(!isPermanent)
+
+		if (!isPermanent)
 			return;
 		prefs.putBoolean(PREFS_KEY_SETTING_GLOBAL_HOTKEYS, flag);
 		fireSettingChangedEvent(PREFS_KEY_SETTING_GLOBAL_HOTKEYS);
@@ -507,6 +514,29 @@ public class SettingsManager
 	public static boolean isCompactModeEnabled()
 	{
 		return prefs.getBoolean(PREFS_KEY_SETTING_COMPACT_MODE, false);
+	}
+
+
+	public static Point getStoredWindowPosition()
+	{
+		Dimension windowSize = OrganizerManager.getMainWindow().getSize();
+
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Point centerPoint = ge.getCenterPoint();
+		int defaultX = centerPoint.x - windowSize.width / 2;
+		int defaultY = centerPoint.y - windowSize.height / 2;
+
+		int x = prefs.getInt(PREF_KEY_WIN_POS_X, defaultX);
+		int y = prefs.getInt(PREF_KEY_WIN_POS_Y, defaultY);
+
+		return new Point(x, y);
+	}
+
+
+	public static void setStoredWindowPosition(Point p)
+	{
+		prefs.putInt(PREF_KEY_WIN_POS_X, p.x);
+		prefs.putInt(PREF_KEY_WIN_POS_Y, p.y);
 	}
 
 
