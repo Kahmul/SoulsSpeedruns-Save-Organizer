@@ -1,10 +1,18 @@
 package com.soulsspeedruns.organizer.games;
 
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.soulsspeedruns.organizer.libs.Kernel32;
+import com.soulsspeedruns.organizer.libs.Kernel32.MEMORY_BASIC_INFORMATION;
+import com.soulsspeedruns.organizer.libs.SYSTEM_INFO;
 import com.soulsspeedruns.organizer.libs.User32;
 import com.soulsspeedruns.organizer.managers.GamesManager;
 import com.soulsspeedruns.organizer.managers.VersionManager;
@@ -27,10 +35,14 @@ public abstract class GameProcessHandler
 	private static final int PROCESS_VM_READ = 0x0010;
 	private static final int PROCESS_VM_WRITE = 0x0020;
 	private static final int PROCESS_VM_OPERATION = 0x0008;
+	private static final int PROCESS_QUERY_INFORMATION = 0x0400;
 
 	private static final int HOOK_THREAD_INTERVAL = 1000;
 
-	// static to prevent multiple game processes from being hooked at any given time
+	protected static final int MIN_PROCESS_LIFETIME = 3000;
+
+	private static HashMap<Pointer, byte[]> mappedMemory;
+
 	private static Pointer process = null;
 	private static Game hookedGame = null;
 
@@ -65,9 +77,9 @@ public abstract class GameProcessHandler
 	 * @param pid the process ID
 	 * @return the pointer to the opened game process
 	 */
-	private static Pointer openGameProcess(int pid)
+	private static Pointer openGameProcessHandle(int pid)
 	{
-		return Kernel32.INSTANCE.OpenProcess(PROCESS_VM_READ | PROCESS_VM_WRITE | PROCESS_VM_OPERATION, true, pid);
+		return Kernel32.INSTANCE.OpenProcess(PROCESS_VM_READ | PROCESS_VM_WRITE | PROCESS_VM_OPERATION | PROCESS_QUERY_INFORMATION, true, pid);
 	}
 
 
@@ -77,9 +89,148 @@ public abstract class GameProcessHandler
 	 * @param process the process handle to close
 	 * @return whether the close operation was successful
 	 */
-	private static boolean closeGameProcess(Pointer process)
+	private static boolean closeGameProcessHandle(Pointer process)
 	{
 		return Kernel32.INSTANCE.CloseHandle(process);
+	}
+
+
+	/**
+	 * Scans the given CE-style AoB string in the games memory and returns the address where the AoB begins.
+	 * 
+	 * @param aob the CE-style AoB string
+	 * @return the address of the AoB. 0 if the AoB is not found
+	 */
+	protected static long scanForAOB(String aob)
+	{
+		int[] pattern = getPatternFromAOB(aob);
+
+		return scanForAOB(pattern);
+	}
+
+
+	/**
+	 * Scans the given pattern of bytes as an int array in the games memory and returns the address where the pattern begins.
+	 * 
+	 * @param pattern the pattern of bytes as int array
+	 * @return the address of the AoB. 0 if the AoB is not found
+	 */
+	protected static long scanForAOB(int[] pattern)
+	{
+		long address = 0;
+
+		for (Pointer baseAddress : mappedMemory.keySet())
+		{
+			byte[] text = mappedMemory.get(baseAddress);
+			int index = scan(text, pattern);
+			if (index != -1)
+			{
+				address = Pointer.nativeValue(baseAddress.share(index));
+				return address;
+			}
+		}
+
+		return address;
+	}
+
+
+	/**
+	 * Searches for the given int array pattern in the given byte array text and returns the index at which the pattern starts, if it's there.
+	 * 
+	 * @param text    the text to search within
+	 * @param pattern the pattern to search for
+	 * @return the index at which the pattern begins within the text
+	 */
+	private static int scan(byte[] text, int[] pattern)
+	{
+		for (int i = 0; i < text.length - pattern.length; i++)
+		{
+			for (int j = 0; j < pattern.length; j++)
+			{
+				if (pattern[j] != -1 && pattern[j] != text[i + j])
+					break;
+
+				else if (j == pattern.length - 1)
+					return i;
+			}
+		}
+
+		return -1;
+	}
+
+
+	/**
+	 * Returns an int array pattern from the given string CE-style AoB. Used for AoB scans.
+	 * 
+	 * @param aob the CE-style AoB as string
+	 * @return the corresponding int array pattern
+	 */
+	protected static int[] getPatternFromAOB(String aob)
+	{
+		String[] bytes = aob.split("\\s");
+		int[] pattern = new int[bytes.length];
+		for (int i = 0; i < bytes.length; i++)
+		{
+			if (bytes[i].equals("?"))
+			{
+				pattern[i] = -1;
+				continue;
+			}
+			int firstDigit = Character.digit(bytes[i].charAt(0), 16);
+			int secondDigit = Character.digit(bytes[i].charAt(1), 16);
+			Byte boxedByte = (byte) ((firstDigit << 4) + secondDigit);
+			pattern[i] = boxedByte.intValue();
+		}
+
+		return pattern;
+	}
+
+
+	/**
+	 * Returns a boxed Byte array from the given CE-style AoB string.
+	 * 
+	 * @param aob the CE-style AoB as string
+	 * @return the boxed Byte array representing the CE-style AoB string
+	 */
+	protected static Byte[] getByteArrayFromAOB(String aob)
+	{
+		String[] bytes = aob.split("\\s");
+		Byte[] byteArray = new Byte[bytes.length];
+		for (int i = 0; i < bytes.length; i++)
+		{
+			if (bytes[i].equals("?"))
+			{
+				byteArray[i] = null;
+				continue;
+			}
+			int firstDigit = Character.digit(bytes[i].charAt(0), 16);
+			int secondDigit = Character.digit(bytes[i].charAt(1), 16);
+			byteArray[i] = (byte) ((firstDigit << 4) + secondDigit);
+		}
+
+		return byteArray;
+	}
+
+
+	/**
+	 * Unboxes a given boxed Byte array and returns an int array pattern to use for AoB scans.
+	 * 
+	 * @param aob the boxed Byte array
+	 * @return the int array pattern
+	 */
+	protected static int[] unboxByteArrayAOB(Byte[] aob)
+	{
+		int[] pattern = new int[aob.length];
+		for (int i = 0; i < aob.length; i++)
+		{
+			if (aob[i] != null)
+			{
+				pattern[i] = aob[i].intValue();
+				continue;
+			}
+			pattern[i] = -1;
+		}
+		return pattern;
 	}
 
 
@@ -305,12 +456,108 @@ public abstract class GameProcessHandler
 		int pid = getSelectedGameProcessID();
 		if (pid == 0)
 			return;
-		process = openGameProcess(pid);
+		process = openGameProcessHandle(pid);
+		if (process == null)
+			return;
 
-		if (isHooked())
+		long startTime = getProcessStartTime(pid);
+
+		if (System.currentTimeMillis() - startTime < GamesManager.getSelectedGame().getProcessHandler().getMinimumProcessLifeTime())
 		{
-			hookedGame = GamesManager.getSelectedGame();
-			hookedGame.getProcessHandler().init();
+			System.out.println("too young, closing process");
+			closeGameProcessHandle(process);
+			return;
+		}
+
+		readMemoryRegions();
+
+		hookedGame = GamesManager.getSelectedGame();
+		hookedGame.getProcessHandler().processHandleOpened();
+	}
+
+
+	/**
+	 * Gets the UNIX epoch time for when the process with the given pid was created/started. Java 8 does not natively support getting process
+	 * information like this yet, so this implementation uses a WMI command to retrieve it.
+	 * 
+	 * @param pid the ID of the process
+	 * @return the start time of the process
+	 */
+	private static long getProcessStartTime(int pid)
+	{
+		String pidString = String.valueOf(pid);
+		try
+		{
+			Process process = new ProcessBuilder(new String[] { "wmic", "process", "get", "processid,creationdate" }).start();
+
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream())))
+			{
+				String line = "";
+				while ((line = reader.readLine()) != null)
+				{
+					line = line.trim();
+					if (line.endsWith(pidString))
+					{
+						SimpleDateFormat parser = new SimpleDateFormat("yyyyMMddHHmmss");
+						return parser.parse(line.substring(0, 14)).getTime();
+
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
+
+	/**
+	 * Reads all memory regions of the currently opened process handle and puts the byte array contents in a HashMap for quick AoB scans.
+	 */
+	private static void readMemoryRegions()
+	{
+		List<MEMORY_BASIC_INFORMATION> memRegions = new ArrayList<>();
+
+		SYSTEM_INFO info = new SYSTEM_INFO();
+
+		Kernel32.INSTANCE.GetSystemInfo(info);
+
+		Pointer memRegionPtr = info.lpMinimumApplicationAddress;
+		Pointer maxAddressPtr = info.lpMaximumApplicationAddress;
+
+		long maxAddress = Pointer.nativeValue(maxAddressPtr);
+
+		int queryResult = 0;
+
+		// get a list of base addresses
+		do
+		{
+			MEMORY_BASIC_INFORMATION memInfo = new MEMORY_BASIC_INFORMATION();
+			queryResult = Kernel32.INSTANCE.VirtualQueryEx(process, memRegionPtr, memInfo, memInfo.size());
+			if (queryResult != 0)
+			{
+				if ((memInfo.state & Kernel32.MEM_COMMIT) != 0 && (memInfo.protect & Kernel32.PAGE_GUARD) == 0
+						&& (memInfo.protect & Kernel32.PAGE_READWRITE) != 0)
+					memRegions.add(memInfo);
+				memRegionPtr = memRegionPtr.share(memInfo.regionSize.longValue());
+			}
+
+		}
+		while (queryResult != 0 && Pointer.nativeValue(memRegionPtr) < maxAddress);
+
+		mappedMemory = new HashMap<>(memRegions.size());
+		Memory mem = null;
+		// Read out all bytes between base addresses and put them in the HashMap
+		for (MEMORY_BASIC_INFORMATION memRegion : memRegions)
+		{
+			long address = Pointer.nativeValue(memRegion.baseAddress);
+			int size = memRegion.regionSize.intValue();
+			mem = new Memory(size);
+			Kernel32.INSTANCE.ReadProcessMemory(process, address, mem, size, null);
+			mappedMemory.put(memRegion.baseAddress, mem.getByteArray(0, size));
 		}
 
 	}
@@ -324,10 +571,10 @@ public abstract class GameProcessHandler
 		if (!isHooked())
 			return;
 
-		closeGameProcess(process);
+		closeGameProcessHandle(process);
 		process = null;
 
-		hookedGame.getProcessHandler().close();
+		hookedGame.getProcessHandler().processHandleClosed();
 		hookedGame = null;
 	}
 
@@ -335,23 +582,32 @@ public abstract class GameProcessHandler
 	/**
 	 * Returns whether any game process is currently hooked into.
 	 * 
-	 * @return whether a hook is currently active
+	 * @return true if a hook is active
 	 */
 	public static boolean isHooked()
 	{
-		return process != null;
+		return hookedGame != null && process != null;
 	}
 
 
 	/**
+	 * The amount of time in ms that the game process must have been alive for the organizer to hook into it. A default value is given with the static
+	 * field MIN_PROCESS_LIFETIME which may be used as a return value. If the organizer hooks too early, memory regions might not have been
+	 * initialized properly yet and AoB scans might fail.
+	 * 
+	 * @return the minimum life time of the game process
+	 */
+	protected abstract int getMinimumProcessLifeTime();
+
+	/**
 	 * Called whenever a game process is hooked.
 	 */
-	protected abstract void init();
+	protected abstract void processHandleOpened();
 
 	/**
 	 * Called whenever a game process is unhooked.
 	 */
-	protected abstract void close();
+	protected abstract void processHandleClosed();
 
 	/**
 	 * The window name of the game process that will be tried to hook into.

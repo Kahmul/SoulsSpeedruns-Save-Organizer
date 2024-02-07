@@ -22,7 +22,7 @@ public class DS1ProcessHandler extends GameProcessHandler
 
 	private static final String WINDOW_TITLE = "DARK SOULS";
 
-	private static DS1 version;
+	private static long equipIndicesStartAddress = -1;
 
 
 	private DS1ProcessHandler()
@@ -31,22 +31,24 @@ public class DS1ProcessHandler extends GameProcessHandler
 
 
 	@Override
-	protected void init()
+	protected int getMinimumProcessLifeTime()
 	{
-		int versionFlag = readInt(DS1.getVersionAddress(), null);
-
-		for (DS1 version : DS1.VERSIONS)
-		{
-			if (version.getVersionFlag() == versionFlag)
-				DS1ProcessHandler.version = version;
-		}
+		return MIN_PROCESS_LIFETIME;
 	}
 
 
 	@Override
-	protected void close()
+	protected void processHandleOpened()
 	{
-		version = null;
+		int[] pattern = getPatternFromAOB("24 13 00 00 FF FF FF FF FF FF FF FF 00 00 C0 3F 33 33 13 40");
+		equipIndicesStartAddress = scanForAOB(pattern);
+	}
+
+
+	@Override
+	protected void processHandleClosed()
+	{
+		equipIndicesStartAddress = -1;
 	}
 
 
@@ -69,7 +71,7 @@ public class DS1ProcessHandler extends GameProcessHandler
 		short scrollbarValue = (short) Math.max(0, index - 4);
 		int combined = (index - scrollbarValue) | (scrollbarValue << 16);
 
-		return writeInt(version.getEquipSlotIndicesBaseAddress() + slot, null, combined);
+		return writeInt(equipIndicesStartAddress + slot, null, combined);
 	}
 
 
@@ -81,7 +83,7 @@ public class DS1ProcessHandler extends GameProcessHandler
 	 */
 	public short getEquipSlotIndex(int slot)
 	{
-		int combined = readInt(version.getEquipSlotIndicesBaseAddress() + slot, null);
+		int combined = readInt(equipIndicesStartAddress + slot, null);
 		if (combined == -1)
 			return -1;
 
