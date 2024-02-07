@@ -98,7 +98,7 @@ public class SaveListContextMenu extends JPopupMenu
 		add(itemPaste);
 		if (GamesManager.getSelectedGame().supportsReadOnly())
 			add(itemReadOnly);
-		if(GamesManager.isDataAppendageAndProcessHandlingSupported())
+		if(GamesManager.isDataAppendageAndProcessHandlingSupported() && GamesManager.isManualDataAppendageEditingAllowed())
 			add(itemEditAppendedData);
 		add(new JSeparator());
 		add(itemRefresh);
