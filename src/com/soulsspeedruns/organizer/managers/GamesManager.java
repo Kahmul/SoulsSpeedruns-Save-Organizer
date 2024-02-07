@@ -473,4 +473,32 @@ public class GamesManager
 		}
 	}
 
+
+	/**
+	 * Fires a gameProcessHookedEvent.
+	 * 
+	 * @param game the game for which the process was hooked
+	 */
+	public static void fireGameProcessHookedEvent(Game game)
+	{
+		for (GameListener listener : gameListeners)
+		{
+			listener.gameProcessHooked(game);
+		}
+	}
+
+
+	/**
+	 * Fires a gameProcessUnhookedEvent.
+	 * 
+	 * @param game the game for which the process was unhooked
+	 */
+	public static void fireGameProcessUnhookedEvent(Game game)
+	{
+		for (GameListener listener : gameListeners)
+		{
+			listener.gameProcessUnhooked(game);
+		}
+	}
+
 }

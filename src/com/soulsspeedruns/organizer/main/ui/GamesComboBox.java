@@ -89,7 +89,6 @@ public class GamesComboBox extends JComboBox<Game> implements GameListener
 	@Override
 	public void gameEdited(Game game)
 	{
-		
 	}
 	
 	@Override
@@ -105,6 +104,18 @@ public class GamesComboBox extends JComboBox<Game> implements GameListener
 		setSelectedItem(selectedGame);
 		
 		updateProfileComboBox = true;
+	}
+
+
+	@Override
+	public void gameProcessHooked(Game game)
+	{
+	}
+
+
+	@Override
+	public void gameProcessUnhooked(Game game)
+	{
 	}
 
 }

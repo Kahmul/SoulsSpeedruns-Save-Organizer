@@ -96,6 +96,93 @@ public abstract class GameProcessHandler
 
 
 	/**
+	 * Gets the UNIX epoch time for when the process with the given pid was created/started. Java 8 does not natively support getting process
+	 * information like this yet, so this implementation uses a WMI command to retrieve it.
+	 * 
+	 * @param pid the ID of the process
+	 * @return the start time of the process
+	 */
+	private static long getProcessStartTime(int pid)
+	{
+		String pidString = String.valueOf(pid);
+		try
+		{
+			Process process = new ProcessBuilder(new String[] { "wmic", "process", "get", "processid,creationdate" }).start();
+
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream())))
+			{
+				String line = "";
+				while ((line = reader.readLine()) != null)
+				{
+					line = line.trim();
+					if (line.endsWith(pidString))
+					{
+						SimpleDateFormat parser = new SimpleDateFormat("yyyyMMddHHmmss");
+						return parser.parse(line.substring(0, 14)).getTime();
+
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
+
+	/**
+	 * Reads all memory regions of the currently opened process handle and puts the byte array contents in a HashMap for quick AoB scans.
+	 */
+	private static void readMemoryRegions()
+	{
+		List<MEMORY_BASIC_INFORMATION> memRegions = new ArrayList<>();
+
+		SYSTEM_INFO info = new SYSTEM_INFO();
+
+		Kernel32.INSTANCE.GetSystemInfo(info);
+
+		Pointer memRegionPtr = info.lpMinimumApplicationAddress;
+		Pointer maxAddressPtr = info.lpMaximumApplicationAddress;
+
+		long maxAddress = Pointer.nativeValue(maxAddressPtr);
+
+		int queryResult = 0;
+
+		// get a list of base addresses
+		do
+		{
+			MEMORY_BASIC_INFORMATION memInfo = new MEMORY_BASIC_INFORMATION();
+			queryResult = Kernel32.INSTANCE.VirtualQueryEx(process, memRegionPtr, memInfo, memInfo.size());
+			if (queryResult != 0)
+			{
+				if ((memInfo.state & Kernel32.MEM_COMMIT) != 0 && (memInfo.protect & Kernel32.PAGE_GUARD) == 0
+						&& (memInfo.protect & Kernel32.PAGE_READWRITE) != 0)
+					memRegions.add(memInfo);
+				memRegionPtr = memRegionPtr.share(memInfo.regionSize.longValue());
+			}
+
+		}
+		while (queryResult != 0 && Pointer.nativeValue(memRegionPtr) < maxAddress);
+
+		mappedMemory = new HashMap<>(memRegions.size());
+		Memory mem = null;
+		// Read out all bytes between base addresses and put them in the HashMap
+		for (MEMORY_BASIC_INFORMATION memRegion : memRegions)
+		{
+			long address = Pointer.nativeValue(memRegion.baseAddress);
+			int size = memRegion.regionSize.intValue();
+			mem = new Memory(size);
+			Kernel32.INSTANCE.ReadProcessMemory(process, address, mem, size, null);
+			mappedMemory.put(memRegion.baseAddress, mem.getByteArray(0, size));
+		}
+
+	}
+
+
+	/**
 	 * Scans the given CE-style AoB string in the games memory and returns the address where the AoB begins.
 	 * 
 	 * @param aob the CE-style AoB string
@@ -464,7 +551,6 @@ public abstract class GameProcessHandler
 
 		if (System.currentTimeMillis() - startTime < GamesManager.getSelectedGame().getProcessHandler().getMinimumProcessLifeTime())
 		{
-			System.out.println("too young, closing process");
 			closeGameProcessHandle(process);
 			return;
 		}
@@ -473,93 +559,8 @@ public abstract class GameProcessHandler
 
 		hookedGame = GamesManager.getSelectedGame();
 		hookedGame.getProcessHandler().processHandleOpened();
-	}
-
-
-	/**
-	 * Gets the UNIX epoch time for when the process with the given pid was created/started. Java 8 does not natively support getting process
-	 * information like this yet, so this implementation uses a WMI command to retrieve it.
-	 * 
-	 * @param pid the ID of the process
-	 * @return the start time of the process
-	 */
-	private static long getProcessStartTime(int pid)
-	{
-		String pidString = String.valueOf(pid);
-		try
-		{
-			Process process = new ProcessBuilder(new String[] { "wmic", "process", "get", "processid,creationdate" }).start();
-
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream())))
-			{
-				String line = "";
-				while ((line = reader.readLine()) != null)
-				{
-					line = line.trim();
-					if (line.endsWith(pidString))
-					{
-						SimpleDateFormat parser = new SimpleDateFormat("yyyyMMddHHmmss");
-						return parser.parse(line.substring(0, 14)).getTime();
-
-					}
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		return -1;
-	}
-
-
-	/**
-	 * Reads all memory regions of the currently opened process handle and puts the byte array contents in a HashMap for quick AoB scans.
-	 */
-	private static void readMemoryRegions()
-	{
-		List<MEMORY_BASIC_INFORMATION> memRegions = new ArrayList<>();
-
-		SYSTEM_INFO info = new SYSTEM_INFO();
-
-		Kernel32.INSTANCE.GetSystemInfo(info);
-
-		Pointer memRegionPtr = info.lpMinimumApplicationAddress;
-		Pointer maxAddressPtr = info.lpMaximumApplicationAddress;
-
-		long maxAddress = Pointer.nativeValue(maxAddressPtr);
-
-		int queryResult = 0;
-
-		// get a list of base addresses
-		do
-		{
-			MEMORY_BASIC_INFORMATION memInfo = new MEMORY_BASIC_INFORMATION();
-			queryResult = Kernel32.INSTANCE.VirtualQueryEx(process, memRegionPtr, memInfo, memInfo.size());
-			if (queryResult != 0)
-			{
-				if ((memInfo.state & Kernel32.MEM_COMMIT) != 0 && (memInfo.protect & Kernel32.PAGE_GUARD) == 0
-						&& (memInfo.protect & Kernel32.PAGE_READWRITE) != 0)
-					memRegions.add(memInfo);
-				memRegionPtr = memRegionPtr.share(memInfo.regionSize.longValue());
-			}
-
-		}
-		while (queryResult != 0 && Pointer.nativeValue(memRegionPtr) < maxAddress);
-
-		mappedMemory = new HashMap<>(memRegions.size());
-		Memory mem = null;
-		// Read out all bytes between base addresses and put them in the HashMap
-		for (MEMORY_BASIC_INFORMATION memRegion : memRegions)
-		{
-			long address = Pointer.nativeValue(memRegion.baseAddress);
-			int size = memRegion.regionSize.intValue();
-			mem = new Memory(size);
-			Kernel32.INSTANCE.ReadProcessMemory(process, address, mem, size, null);
-			mappedMemory.put(memRegion.baseAddress, mem.getByteArray(0, size));
-		}
-
+		
+		GamesManager.fireGameProcessHookedEvent(hookedGame);
 	}
 
 
@@ -575,6 +576,8 @@ public abstract class GameProcessHandler
 		process = null;
 
 		hookedGame.getProcessHandler().processHandleClosed();
+		GamesManager.fireGameProcessUnhookedEvent(hookedGame);
+		
 		hookedGame = null;
 	}
 

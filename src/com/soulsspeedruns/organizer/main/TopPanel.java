@@ -4,19 +4,27 @@
 package com.soulsspeedruns.organizer.main;
 
 
+import java.awt.Color;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import com.soulsspeedruns.organizer.components.SearchBar;
+import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.games.ui.GamesConfigurationWindow;
+import com.soulsspeedruns.organizer.listeners.GameListener;
 import com.soulsspeedruns.organizer.main.ui.GamesComboBox;
 import com.soulsspeedruns.organizer.main.ui.ProfilesComboBox;
 import com.soulsspeedruns.organizer.main.ui.SortingComboBox;
 import com.soulsspeedruns.organizer.managers.GamesManager;
+
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 
 /**
@@ -39,7 +47,9 @@ public class TopPanel extends JPanel
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		JLabel gamesLabel = new JLabel("Game:");
+//		JLabel gamesLabel = new JLabel("Game:");
+
+		JPanel gameLabelPanel = createGameLabelPanel();
 		JLabel profilesLabel = new JLabel("Profile:");
 
 		SearchBar searchBar = new SearchBar();
@@ -55,7 +65,7 @@ public class TopPanel extends JPanel
 		// Horizontal
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		hGroup.addGroup(layout.createParallelGroup().addComponent(gamesLabel)
+		hGroup.addGroup(layout.createParallelGroup().addComponent(gameLabelPanel)
 				.addComponent(gamesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addComponent(sortingPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
 		hGroup.addGroup(
@@ -67,7 +77,7 @@ public class TopPanel extends JPanel
 		// Vertical
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(gamesLabel).addComponent(profilesLabel));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(gameLabelPanel).addComponent(profilesLabel));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 				.addComponent(gamesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addComponent(profilesPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
@@ -79,6 +89,73 @@ public class TopPanel extends JPanel
 		layout.setVerticalGroup(vGroup);
 
 		setLayout(layout);
+	}
+
+
+	/**
+	 * Creates the panel with the Game label and the icon signifying the game process was hooked.
+	 * 
+	 * @return the game label panel
+	 */
+	private JPanel createGameLabelPanel()
+	{
+		JLabel gameLabel = new JLabel("Game:");
+
+		JLabel hookedIcon = new JLabel(IconFontSwing.buildIcon(FontAwesome.LINK, 14, Color.GRAY));
+		hookedIcon.setToolTipText("The organizer has successfully hooked into the game process.");
+		hookedIcon.setBorder(new EmptyBorder(0, 0, 0, 3));
+		hookedIcon.setVisible(false);
+
+		GamesManager.addGameListener(new GameListener()
+		{
+
+			@Override
+			public void gameProcessUnhooked(Game game)
+			{
+				hookedIcon.setVisible(false);
+			}
+
+
+			@Override
+			public void gameProcessHooked(Game game)
+			{
+				hookedIcon.setVisible(true);
+			}
+
+
+			@Override
+			public void gameMoved(Game game, int newIndex)
+			{
+			}
+
+
+			@Override
+			public void gameEdited(Game game)
+			{
+			}
+
+
+			@Override
+			public void gameDeleted(Game game)
+			{
+			}
+
+
+			@Override
+			public void gameCreated(Game game)
+			{
+			}
+		});
+
+		JPanel sortingPanel = new JPanel();
+		GroupLayout panelLayout = new GroupLayout(sortingPanel);
+
+		panelLayout.setHorizontalGroup(panelLayout.createSequentialGroup().addComponent(hookedIcon).addComponent(gameLabel));
+		panelLayout.setVerticalGroup(panelLayout.createParallelGroup(Alignment.CENTER).addComponent(gameLabel).addComponent(hookedIcon));
+
+		sortingPanel.setLayout(panelLayout);
+
+		return sortingPanel;
 	}
 
 
