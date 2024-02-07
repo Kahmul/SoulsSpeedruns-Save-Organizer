@@ -211,6 +211,17 @@ public class GamesManager
 
 
 	/**
+	 * Returns whether the currently selected game allows for appended data of savefiles to be manually edited via an editor window.
+	 * 
+	 * @return true if yes
+	 */
+	public static boolean isManualDataAppendageEditingAllowed()
+	{
+		return getSelectedGame().getAppendageHandler().supportsManualEditing();
+	}
+
+
+	/**
 	 * Gets the first available incremental ID to use for a new custom game.
 	 * 
 	 * @return first available ID as int
