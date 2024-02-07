@@ -17,8 +17,11 @@ import javax.swing.JOptionPane;
 import org.jnativehook.NativeHookException;
 
 import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.theme.HighContrastDarkTheme;
+import com.github.weisj.darklaf.theme.HighContrastLightTheme;
 import com.github.weisj.darklaf.theme.Theme;
 import com.github.weisj.darklaf.theme.spec.ColorToneRule;
+import com.github.weisj.darklaf.theme.spec.ContrastRule;
 import com.soulsspeedruns.organizer.games.Game;
 import com.soulsspeedruns.organizer.hotkeys.GlobalHotkey;
 import com.soulsspeedruns.organizer.hotkeys.GlobalKeyboardHook;
@@ -366,7 +369,8 @@ public class SettingsManager
 		}
 
 		boolean dark = LafManager.getPreferredThemeStyle().getColorToneRule() == ColorToneRule.DARK;
-		Theme theme = dark ? new SoulsSpeedrunsTheme() : new DefaultTheme();
+		boolean highContrast = LafManager.getPreferredThemeStyle().getContrastRule() == ContrastRule.HIGH_CONTRAST;
+		Theme theme = dark ? highContrast ? new HighContrastDarkTheme() : new SoulsSpeedrunsTheme() : highContrast ? new HighContrastLightTheme() : new DefaultTheme();
 
 		setStoredTheme(theme);
 
