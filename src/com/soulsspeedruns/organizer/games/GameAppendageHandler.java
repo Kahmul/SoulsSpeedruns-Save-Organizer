@@ -278,6 +278,13 @@ public abstract class GameAppendageHandler
 	protected abstract boolean writeAppendedDataToProcess(String data);
 
 	/**
+	 * Returns whether this game allows for manual editing via an editor window.
+	 * 
+	 * @return true or false
+	 */
+	public abstract boolean supportsManualEditing();
+
+	/**
 	 * Gets an instance of the window that allows editing the appended data of a savefile.
 	 * 
 	 * @param save the savefile to create the editor window for

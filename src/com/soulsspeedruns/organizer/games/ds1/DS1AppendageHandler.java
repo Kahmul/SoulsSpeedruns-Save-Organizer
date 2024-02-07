@@ -38,7 +38,7 @@ public class DS1AppendageHandler extends GameAppendageHandler
 		{
 			int slot = DS1.EQUIP_SLOT_SIZE * i;
 			short index = handler.getEquipSlotIndex(slot);
-			if(index == -1)
+			if (index == -1)
 				continue;
 
 			data += createNewKeyValuePair(equipSlots.get(i), String.valueOf(index));
@@ -67,6 +67,13 @@ public class DS1AppendageHandler extends GameAppendageHandler
 				return false;
 		}
 
+		return true;
+	}
+
+
+	@Override
+	public boolean supportsManualEditing()
+	{
 		return true;
 	}
 
