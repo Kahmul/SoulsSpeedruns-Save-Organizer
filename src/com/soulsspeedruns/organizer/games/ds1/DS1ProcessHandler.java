@@ -41,7 +41,7 @@ public class DS1ProcessHandler extends GameProcessHandler
 	protected void processHandleOpened()
 	{
 		int[] pattern = getPatternFromAOB("24 13 00 00 FF FF FF FF FF FF FF FF 00 00 C0 3F 33 33 13 40");
-		equipIndicesStartAddress = scanForAOB(pattern);
+		equipIndicesStartAddress = scanForAOB(pattern) + pattern.length;
 	}
 
 
