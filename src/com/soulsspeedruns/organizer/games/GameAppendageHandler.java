@@ -73,6 +73,9 @@ public abstract class GameAppendageHandler
 	 */
 	public static boolean saveAppendedDataToFile(File file, String data)
 	{
+		boolean writeable = file.canWrite();
+		file.setWritable(true);
+		
 		removeAppendedDataFromFile(file);
 
 		if (data == null || data.length() == 0)
@@ -83,12 +86,14 @@ public abstract class GameAppendageHandler
 		try (FileWriter output = new FileWriter(file.getPath(), true))
 		{
 			output.write(data);
+			file.setWritable(writeable);
 			return true;
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
+		file.setWritable(writeable);
 		return false;
 	}
 
