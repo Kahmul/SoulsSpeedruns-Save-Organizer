@@ -75,7 +75,7 @@ public abstract class GameAppendageHandler
 	{
 		boolean writeable = file.canWrite();
 		file.setWritable(true);
-		
+
 		removeAppendedDataFromFile(file);
 
 		if (data == null || data.length() == 0)
@@ -113,7 +113,6 @@ public abstract class GameAppendageHandler
 			return false;
 
 		String appendedData = getAppendedDataFromFile(file);
-		System.out.println(appendedData);
 		if (appendedData == null)
 			return false;
 
@@ -260,8 +259,10 @@ public abstract class GameAppendageHandler
 	 */
 	public static String createNewKeyValuePair(String key, String value)
 	{
-		if (key.contains(SEPARATOR) || key.contains(EQUALITY) || value.contains(SEPARATOR) || value.contains(EQUALITY))
-			throw new IllegalArgumentException("Neither the key nor value may contain '" + SEPARATOR + "' or '" + EQUALITY + "'");
+		if (key.contains(SEPARATOR) || key.contains(EQUALITY) || key.contains(PREFIX) || key.contains(SUFFIX) || value.contains(SEPARATOR)
+				|| value.contains(EQUALITY) || value.contains(PREFIX) || value.contains(SUFFIX))
+			throw new IllegalArgumentException(
+					"Neither key nor value may contain '" + SEPARATOR + "', '" + EQUALITY + "', '" + PREFIX + "' or '" + SUFFIX + "'.");
 
 		return key + EQUALITY + value + SEPARATOR;
 	}
