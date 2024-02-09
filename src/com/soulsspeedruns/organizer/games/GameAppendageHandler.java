@@ -5,7 +5,7 @@ package com.soulsspeedruns.organizer.games;
 
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -80,10 +80,9 @@ public abstract class GameAppendageHandler
 
 		data = PREFIX + data + SUFFIX;
 
-		byte[] appendageBytes = data.getBytes();
-		try (FileOutputStream output = new FileOutputStream(file.getPath(), true))
+		try (FileWriter output = new FileWriter(file.getPath(), true))
 		{
-			output.write(appendageBytes);
+			output.write(data);
 			return true;
 		}
 		catch (Exception e)

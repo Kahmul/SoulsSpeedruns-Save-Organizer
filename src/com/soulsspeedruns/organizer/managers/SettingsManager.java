@@ -5,7 +5,6 @@ package com.soulsspeedruns.organizer.managers;
 
 
 import java.awt.Dimension;
-import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.io.ByteArrayInputStream;
