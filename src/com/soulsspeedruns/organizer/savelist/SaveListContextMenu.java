@@ -91,6 +91,11 @@ public class SaveListContextMenu extends JPopupMenu
 
 		add(itemAdd);
 		add(new JSeparator());
+		if (GamesManager.isDataAppendageAndProcessHandlingSupported() && GamesManager.isManualDataAppendageEditingAllowed())
+		{
+			add(itemEditAppendedData);
+			add(new JSeparator());
+		}
 		add(itemRemove);
 		add(itemEdit);
 		add(itemCopy);
@@ -98,8 +103,6 @@ public class SaveListContextMenu extends JPopupMenu
 		add(itemPaste);
 		if (GamesManager.getSelectedGame().supportsReadOnly())
 			add(itemReadOnly);
-		if(GamesManager.isDataAppendageAndProcessHandlingSupported() && GamesManager.isManualDataAppendageEditingAllowed())
-			add(itemEditAppendedData);
 		add(new JSeparator());
 		add(itemRefresh);
 		add(itemOpenInExplorer);
@@ -135,13 +138,9 @@ public class SaveListContextMenu extends JPopupMenu
 
 			itemEdit.setEnabled(true);
 			itemRemove.setEnabled(true);
-			
-			if(saveList.getSelectedValue() instanceof Save && selectedEntries.size() == 1)
-			{
+
+			if (saveList.getSelectedValue() instanceof Save && selectedEntries.size() == 1)
 				itemEditAppendedData.setEnabled(true);
-				if(!((Save) saveList.getSelectedValue()).hasAppendedData())
-					itemEditAppendedData.setText("Add Appended Data");
-			}
 
 			initReadOnlyItemState(selectedEntries);
 			return;
@@ -297,15 +296,15 @@ public class SaveListContextMenu extends JPopupMenu
 
 	private JMenuItem createEditAppendedDataItem(SaveList saveList)
 	{
-		JMenuItem editAppendedDataItem = new JMenuItem("Edit Appended Data");
+		JMenuItem editAppendedDataItem = new JMenuItem(GamesManager.getCurrentAppendageHandlerWindowName());
 		editAppendedDataItem.addActionListener(event -> {
 			SaveListEntry entry = saveList.getSelectedValue();
-			if(!(entry instanceof Save))
+			if (!(entry instanceof Save))
 				return;
 			JDialog editorWindow = GamesManager.getSelectedGame().getAppendageHandler().getEditorWindow((Save) entry);
 			editorWindow.setVisible(true);
 		});
-		
+
 		return editAppendedDataItem;
 	}
 

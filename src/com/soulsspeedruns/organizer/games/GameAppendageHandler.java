@@ -297,4 +297,11 @@ public abstract class GameAppendageHandler
 	 */
 	public abstract GameAppendageEditorWindow getEditorWindow(Save save);
 
+	/**
+	 * The name of the editor window displayed in the title bar and the context menu of the save list.
+	 * 
+	 * @return the name of the window
+	 */
+	public abstract String getEditorWindowName();
+
 }

@@ -24,6 +24,22 @@ import com.soulsspeedruns.organizer.listeners.ProfileListener;
  * @author Kahmul (www.twitch.tv/kahmul78)
  * @date 20 Jan 2024
  */
+/**
+ * <ShortDescription>
+ * <p>
+ * <LongDescription>
+ * 
+ * @author Kahmul (www.twitch.tv/kahmul78)
+ * @date 9 Feb 2024
+ */
+/**
+ * <ShortDescription>
+ * <p>
+ * <LongDescription>
+ * 
+ * @author Kahmul (www.twitch.tv/kahmul78)
+ * @date 9 Feb 2024
+ */
 public class GamesManager
 {
 
@@ -217,7 +233,21 @@ public class GamesManager
 	 */
 	public static boolean isManualDataAppendageEditingAllowed()
 	{
-		return getSelectedGame().getAppendageHandler().supportsManualEditing();
+		return getSelectedGame().getAppendageHandler() != null && getSelectedGame().getAppendageHandler().supportsManualEditing();
+	}
+
+
+	/**
+	 * Returns the name of the editor window set for the current appendage handler. Returns a default string if none is set.
+	 * 
+	 * @return the name of the editor window for the current game
+	 */
+	public static String getCurrentAppendageHandlerWindowName()
+	{
+		if (getSelectedGame().getAppendageHandler() != null)
+			return getSelectedGame().getAppendageHandler().getEditorWindowName();
+
+		return "Edit Appended Data";
 	}
 
 

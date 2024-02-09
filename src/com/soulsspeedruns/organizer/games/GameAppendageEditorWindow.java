@@ -34,9 +34,9 @@ public abstract class GameAppendageEditorWindow extends JDialog
 	private Save save;
 
 
-	protected GameAppendageEditorWindow(Save save)
+	protected GameAppendageEditorWindow(GameAppendageHandler handler, Save save)
 	{
-		super(OrganizerManager.getMainWindow(), save.hasAppendedData() ? "Edit Appended Data" : "Add Appended Data",
+		super(OrganizerManager.getMainWindow(), handler.getEditorWindowName(),
 				Dialog.ModalityType.APPLICATION_MODAL);
 
 		this.save = save;

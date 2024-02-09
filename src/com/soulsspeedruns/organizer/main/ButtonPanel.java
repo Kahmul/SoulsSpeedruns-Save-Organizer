@@ -131,8 +131,8 @@ public class ButtonPanel extends JPanel
 				return;
 			}
 			JOptionPane.showMessageDialog(OrganizerManager.getMainWindow(),
-					"You need to set up your game and create a profile before you can import a savefile. You can do this in the game configuration settings in the top right.", "Warning",
-					JOptionPane.WARNING_MESSAGE);
+					"You need to set up your game and create a profile before you can import a savefile. You can do this in the game configuration settings in the top right.", "Information",
+					JOptionPane.INFORMATION_MESSAGE);
 		});
 		return importButton;
 	}

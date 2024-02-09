@@ -81,7 +81,14 @@ public class DS1AppendageHandler extends GameAppendageHandler
 	@Override
 	public GameAppendageEditorWindow getEditorWindow(Save save)
 	{
-		return new DS1AppendageEditorWindow(save);
+		return new DS1AppendageEditorWindow(this, save);
+	}
+
+
+	@Override
+	public String getEditorWindowName()
+	{
+		return "Edit Equipment Slot Indices";
 	}
 
 }

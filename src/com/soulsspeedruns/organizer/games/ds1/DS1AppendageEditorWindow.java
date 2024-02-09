@@ -44,9 +44,9 @@ public class DS1AppendageEditorWindow extends GameAppendageEditorWindow
 	private Map<String, JTextField> equipSlotTextFieldMap;
 
 
-	public DS1AppendageEditorWindow(Save save)
+	public DS1AppendageEditorWindow(GameAppendageHandler handler, Save save)
 	{
-		super(save);
+		super(handler, save);
 	}
 
 
