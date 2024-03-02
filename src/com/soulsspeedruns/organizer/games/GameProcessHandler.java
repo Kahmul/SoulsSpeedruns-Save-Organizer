@@ -543,23 +543,21 @@ public abstract class GameProcessHandler
 		int pid = getSelectedGameProcessID();
 		if (pid == 0)
 			return;
-		process = openGameProcessHandle(pid);
-		if (process == null)
-			return;
 
 		long startTime = getProcessStartTime(pid);
 
 		if (System.currentTimeMillis() - startTime < GamesManager.getSelectedGame().getProcessHandler().getMinimumProcessLifeTime())
-		{
-			closeGameProcessHandle(process);
 			return;
-		}
+
+		process = openGameProcessHandle(pid);
+		if (process == null)
+			return;
 
 		readMemoryRegions();
 
 		hookedGame = GamesManager.getSelectedGame();
 		hookedGame.getProcessHandler().processHandleOpened();
-		
+
 		GamesManager.fireGameProcessHookedEvent(hookedGame);
 	}
 
@@ -577,7 +575,7 @@ public abstract class GameProcessHandler
 
 		hookedGame.getProcessHandler().processHandleClosed();
 		GamesManager.fireGameProcessUnhookedEvent(hookedGame);
-		
+
 		hookedGame = null;
 	}
 
