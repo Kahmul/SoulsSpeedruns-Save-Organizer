@@ -44,6 +44,7 @@ public class Game implements Comparable<Game>
 
 	public static final Game ELDEN_RING = createGame("Elden Ring", "ER", "ER0000.sl2", "1245620", "%AppData%" + File.separator + "EldenRing" + File.separator + "<SteamID>", true, false);
 
+	public static final Game ELDEN_RING_SEAMLESS_COOP = createGame("Elden Ring Seamless Coop", "ER_SC", "ER0000.co2", "1245620", "%AppData%" + File.separator + "EldenRing" + File.separator + "<SteamID>", true, false);
 	private static final String STEAM_ID_PREFIX = "76561";
 
 	private String caption;
